@@ -1,0 +1,2 @@
+# Unnatural's Cross Device Configs
+Core set of configs for Arch. In theory cleaner than [Chaos-DotFiles](https://github.com/UnnaturalTwilight/Chaos-DotFiles) but we all know how well statements like that translate to practice.
