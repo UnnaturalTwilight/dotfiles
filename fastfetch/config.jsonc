@@ -1,0 +1,66 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "display": {
+        "size": {
+            "maxPrefix": "GB",
+            "ndigits": 1
+        }
+    },
+    "modules": [
+        "break",
+        "title",
+        {
+            "type": "custom",
+            "format": "{#35}┄╼━━━━━━━━━╾┄{#}"
+        },
+        "os",  
+        {
+            "type": "host",
+            "format": "{5} {/2}{-}{/}{2}"
+        },
+        {
+            "type": "kernel",
+            "format": "{release}"
+        },
+        "uptime",
+        "packages",
+        "shell",
+        {
+            "type": "display",
+            "compactType": "original",
+            "key": "Resolution"
+        },
+        "de",
+        "wm",
+        "wmtheme",
+        "theme",
+        "icons",
+        "terminal",
+        {
+            "type": "terminalfont",
+            "format": "{/name}{-}{/}{name}{?size} ({size}pt){?}"
+        },
+        {
+            "type": "cpu",
+            "format": "{1}",
+            "key": "CPU"
+        },
+        {
+            "type": "gpu",
+            "format": "{2} {3} [{6}]",
+            "key": "GPU"
+        },
+        {
+            "type": "memory",
+            "format": "{} / {} {3}",
+            "key": "RAM"
+        },
+        {
+            "type": "battery",
+            "format": "{/4}{-}{/}{4}{?5} [{5}]{?}",
+            "key": "Battery"
+        },
+        "break",
+        "colors"
+    ]
+}

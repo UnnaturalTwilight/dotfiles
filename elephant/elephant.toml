@@ -1,0 +1,3 @@
+argument_delimited = "#"
+auto_detect_launch_prefix = true
+ignored_providers = ["archlinuxpkgs", "bluetooth", "snippets", "1password"]

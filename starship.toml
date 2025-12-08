@@ -1,0 +1,259 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+[](fg:zero)\
+$os\
+$shell\
+$sudo\
+$username\
+$hostname\
+$container\
+[ ](bg:zero)\
+[](fg:zero bg:one)\
+$directory\
+[](fg:one bg:two)\
+$git_branch\
+$git_status\
+$git_commit\
+[](fg:two bg:four)\
+[(\
+$c\
+$cmake\
+$elixir\
+$elm\
+$golang\
+$python\
+$lua\
+$gradle\
+$haskell\
+$java\
+$julia\
+$nodejs\
+$nim\
+$rust\
+$perl\
+$scala )](bg:four)\
+[](fg:four bg:five)\
+$docker_context\
+$package\ 
+[ ](fg:five)$all\
+"""
+
+# Disable the blank line at the start of the prompt
+# add_newline = false
+
+# colours, why isn't this a part of the preset
+palette = 'default'
+
+[palettes.default]
+zero      = '#9A348E'
+one       = '#DA627D'
+two       = '#FCA17D'
+three     = '#86BBD8'
+four      = '#06969A'
+five      = '#33658A'
+bright    = '#e5e5e5'
+dark      = 'bright-black'
+
+[palettes.test]
+zero      = '#ff0000'
+one       = '#00ff00'
+two       = '#0000ff'
+three     = '#ffff00'
+four      = '#00ffff'
+five      = '#ff00ff'
+bright    = '#e5e5e5'
+dark      = 'bright-black'
+
+# You can also replace your username with a neat symbol like   or disable this
+# and use the os module below
+[username]
+show_always = true
+style_user = "bg:zero"
+style_root = "bg:zero italic"
+format = '[$user]($style)'
+disabled = false
+
+[hostname]
+ssh_only = true
+ssh_symbol = "@"
+format = '([$ssh_symbol]($style))[$hostname]($style)'
+style = "bg:zero fg:textlight"
+
+[sudo]
+format = '[$symbol ]($style)'
+symbol = ""
+style = "bg:zero"
+disabled = false
+
+[os]
+format = '[$symbol ]($style)'
+style = "bg:zero"
+disabled = false
+
+[os.symbols]
+Android = ""
+Arch = "󰣇"
+Debian = ""
+Linux = ""
+NixOS = ""
+Raspbian = ""
+Windows = "󰍲"
+
+[shell]
+format = '[$indicator]($style)'
+style = "bg:zero"
+disabled = true
+zsh_indicator = ""
+bash_indicator = ""
+powershell_indicator = "󰨊"
+pwsh_indicator = ""
+
+[directory]
+style = "bg:one"
+format = "[ $path ]($style)([$read_only ]($style))"
+read_only = ""
+truncation_length = 3
+truncation_symbol = "…/"
+
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+[directory.substitutions]
+"Documents" = "󰈙"
+"Downloads" = ""
+"Music" = ""
+"Pictures" = ""
+"Images" = ""
+"Videos" = ""
+"/mnt/c" = "C:"
+# Keep in mind that the order matters. For example:
+# "Important Documents" = " 󰈙 "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important 󰈙 " = " 󰈙 "
+
+[git_branch]
+symbol = ""
+style = "bg:two fg:bright"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:two fg:bright"
+format = '([$all_status$ahead_behind ]($style))'
+
+[git_commit]
+tag_symbol = '  '
+style = "bg:two fg:bright"
+
+[c]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[cpp]
+symbol = "󰙲"
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[cmake]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[elixir]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[elm]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[python]
+symbol = "󰌠"
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[lua]
+symbol = "󰢱"
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[gradle]
+symbol = "🅶"
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[haskell]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[java]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[julia]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[nim]
+symbol = "󰆥"
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[scala]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[perl]
+symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[docker_context]
+symbol = ""
+style = "bg:five"
+format = '[ $symbol $context ]($style)'
+
+[package]
+symbol = ""
+style = "bg:five"
+format = '([ $symbol $version ]($style))'
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "bold yellow"
+
+[time]
+disabled = true
+time_format = "%l:%M %P" 
+style = "fg:dark"
+format = '[ $time ]($style)'
+
+[character]
+success_symbol = "[➤ ](fg:dark bold)"
+error_symbol = "[➤ ](fg:dark bold)"
+disabled = true
+
+[line_break]
+disabled = true

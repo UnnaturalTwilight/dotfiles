@@ -1,0 +1,7 @@
+history_when_empty = true
+show_actions = true
+window_integration = true
+window_integration_ignore_actions = true
+
+[[aliases]]
+code = "code.desktop"

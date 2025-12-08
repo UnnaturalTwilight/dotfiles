@@ -1,0 +1,21 @@
+
+# smart open
+[[mgr.prepend_keymap]]
+on   = "<Enter>"
+run  = "plugin smart-enter"
+desc = "Enter the child directory, or open the file"
+
+[[input.prepend_keymap]]
+on   = "<Esc>"
+run  = "close"
+desc = "Cancel input"
+
+[[mgr.prepend_keymap]]
+on   = "<C-q>"
+run  = "quit --no-cwd-file"
+desc = "Quit without outputting cwd-file"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "w" ]
+run  = "cd /mnt/c"
+desc = "Cd to Windows C: drive"

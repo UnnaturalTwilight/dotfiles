@@ -1,0 +1,117 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "source": "~/.face.icon",
+        "type": "kitty",
+        "width": 40,
+        "padding": {
+            "top": 0
+        }
+    },
+    "display": {
+        "separator": " ",
+        "size": {
+            "maxPrefix": "GB",
+            "ndigits": 1
+        }
+    },
+    "modules": [
+        "break",
+        "break",
+        {
+            "type": "title",
+            "keyWidth": 10
+        },
+        {
+            "type": "custom",
+            "format": "{#35}┄╼━━━━━━━━━╾┄{#}"
+        },
+        {
+            "type": "os",
+            "key": " ",
+            "keyColor": "34", // = color4
+        },
+        {
+            "type": "host",
+            "key": "󰌢 ",
+            "keyColor": "34",
+            "format": "{5} {/2}{-}{/}{2}"
+        },
+        {
+            "type": "uptime",
+            "key": " ",
+            "keyColor": "34",
+        },
+        {
+            "type": "kernel",
+            "key": " ",
+            "keyColor": "34",
+        },
+        {
+            "type": "packages",
+            "format": "{} (pacman)",
+            "key": " ",
+            "keyColor": "34",
+        },
+        {
+            "type": "shell",
+            "key": " ",
+            "keyColor": "34",
+        },
+        {
+            "type": "terminal",
+            "key": " ",
+            "keyColor": "34",
+        },
+        {
+            "type": "wm",
+            "key": " ",
+            "keyColor": "34",
+        },
+        {
+            "type": "terminalfont",
+            "key": " ",
+            "keyColor": "34",
+        },
+        "break",
+        {
+            "type": "cpu",
+            "key": " ",
+            "keyColor": "34",
+            "format": "{1}",
+        },
+        {
+            "type": "gpu",
+            "key": " ",
+            "keyColor": "34",
+            "format": "{2} {3} [{6}]",
+        },
+        {
+            "type": "memory",
+            "key": " ",
+            "keyColor": "34",
+            "format": "{} / {} {3}",
+        },
+        {
+            "type": "display",
+            "key": "🖵 ",
+            "keyColor": "34",
+            "compactType": "original",
+        },
+        {
+            "type": "battery",
+            "key": " ",
+            "keyColor": "34",
+            "format": "{/4}{-}{/}{4}{?5} [{5}]{?}",
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": "\u001b[1;30m  \u001b[1;31m  \u001b[1;32m  \u001b[1;33m  \u001b[1;34m  \u001b[1;35m  \u001b[1;36m  \u001b[1;37m "
+        },
+        {
+            "type": "custom",
+            "format": "\u001b[1;90m  \u001b[1;91m  \u001b[1;92m  \u001b[1;93m  \u001b[1;94m  \u001b[1;95m  \u001b[1;96m  \u001b[1;97m "
+        },
+    ]
+}

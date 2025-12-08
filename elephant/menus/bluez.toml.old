@@ -1,0 +1,10 @@
+name = "bzmenu"
+name_pretty = "Bzmenu"
+icon = "bluetooth"
+global_search = true
+
+[[entries]]
+text = "Bluetooth"
+keywords = ["bluetooth", "bzmenu", "bt"]
+icon = "bluetooth"
+submenu = "dmenu:bzmenu --launcher walker"

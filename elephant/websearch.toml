@@ -1,0 +1,6 @@
+max_global_items_to_display = 5
+
+[[entries]]
+default = true
+name = "Google Search"
+url = "https://www.google.com/search?q=%TERM%"
