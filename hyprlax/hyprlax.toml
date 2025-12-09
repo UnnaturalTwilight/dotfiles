@@ -4,17 +4,17 @@
 [global]
 fps = 60                # Lower FPS for battery saving
 debug = true
-duration = 0.1          # 1 second workspace animation
+duration = 1.0          # 1 second workspace animation
 shift_percent = 1.5     # 1.5% of screen width per workspace (works on any screen size)
 vsync = true
 easing = "expo"
 
 # Single background image example
 [[global.layers]]
-path = "../assets/hyprlax-wallpaper.jpg"
-shift_multiplier = 0.2
+path = "../assets/niri-wallpaper.jpg"
+shift_multiplier = 1.0
 opacity = 1.0
-scale = 1.5
+scale = 1.0
 
 # Two-layer parallax example
 # [[global.layers]]

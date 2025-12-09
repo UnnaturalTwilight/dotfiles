@@ -242,7 +242,7 @@ layout {
 // See the binds section below for more spawn examples.
 
 spawn-sh-at-startup "kitty --hold hyfetch"
-spawn-sh-at-startup "wbg -s ~/.config/assets/niri-wallpaper"
+spawn-sh-at-startup "wbg -s ~/.config/assets/niri-wallpaper.jpg"
 spawn-sh-at-startup "walker --gapplication-service"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:

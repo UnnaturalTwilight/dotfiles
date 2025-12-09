@@ -78,7 +78,7 @@ disabled = false
 ssh_only = true
 ssh_symbol = "@"
 format = '([$ssh_symbol]($style))[$hostname]($style)'
-style = "bg:zero fg:textlight"
+style = "bg:zero"
 
 [sudo]
 format = '[$symbol ]($style)'

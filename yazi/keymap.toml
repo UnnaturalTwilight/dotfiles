@@ -19,3 +19,8 @@ desc = "Quit without outputting cwd-file"
 on   = [ "g", "w" ]
 run  = "cd /mnt/c"
 desc = "Cd to Windows C: drive"
+
+[[mgr.prepend_keymap]]
+on   = [ "g", "r" ]
+run  = "cd /"
+desc = "Cd to root dir"
