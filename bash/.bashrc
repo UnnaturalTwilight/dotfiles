@@ -11,12 +11,19 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 HISTSIZE=1000
 HISTFILESIZE=1000
+HISTFILE=$HOME/.local/state/bash/histfile
 shopt -s checkwinsize
 shopt -s autocd
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
+
+# kitty integration
+if test -n "$KITTY_INSTALLATION_DIR"; then
+    # export KITTY_SHELL_INTEGRATION="enabled" # using no-rc mode so that it is possible to disable integration
+    source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"
+fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
@@ -29,6 +36,7 @@ esac
 
 if [ "$TERM" = "xterm-kitty" ] && [ -n "$SSH_TTY" ]; then
     alias edit='kitten edit-in-kitty'
+    alias copycat='kitten clipboard'
 else
     alias edit='nano'
 fi

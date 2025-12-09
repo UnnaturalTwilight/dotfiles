@@ -6,18 +6,21 @@ search_name = true
 
 [[entries]]
 text = "Start Docker"
+subtext = "systemctl start docker.service"
 keywords = ["docker", "immich"]
 icon = "docker"
 actions = { "start" = "systemctl start docker.service" }
 
 [[entries]]
 text = "Stop Docker"
+subtext = "systemctl stop docker.service docker.socket"
 keywords = ["docker", "immich"]
 icon = "stop"
 actions = { "stop" = "systemctl stop docker.service docker.socket" }
 
 [[entries]]
 text = "Restart Elephant"
+subtext = "systemctl --user restart elephant.service"
 keywords = ["elephant"]
 icon = "reload"
 terminal = true

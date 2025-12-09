@@ -36,7 +36,23 @@ function yazi-cwd() {
 	rm -f -- "$tmp"
 }
 
-# Aliases
+## Binds
+WORDCHARS=''
+# I should up keybinds properly at some point but for now using the raw escape codes will do
+# C-Left and C-Right for word jumping -- kitty sets these to alt-left and alt-right by default, this is just a copy of that code with the keycodes changed
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+# Ctrl-Backspace to delete word backwards
+bindkey '^H' backward-kill-word
+bindkey '^[[1;5H' backward-kill-line
+# Home and End keys
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+# delete deletes forward
+bindkey '^[[3~' delete-char
+bindkey '^[[3;5~' kill-word
+
+## Aliases
 alias cd='z'
 alias ls='eza -x --hyperlink --group-directories-first --icons=auto'
 alias ll='eza -l --hyperlink --group-directories-first --icons=auto'
@@ -50,7 +66,7 @@ alias soft-reboot='systemctl soft-reboot'
 alias yazi='yazi-cwd'
 
 alias colour-ls='for i in {0..15}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%8)):#7}:+"\n"}; done;
-		   echo; for i in {16..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+"\n"}; done'
+			echo; for i in {16..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+"\n"}; done'
 alias path-ls='printenv PATH | sed "s/:/\n/g" | bat --style grid,numbers'
 
 # Prompt setup
@@ -60,27 +76,10 @@ promptinit
 PROMPT='%n@%m %~ %F{white}%B%#%b%f '
 RPROMPT='[%F{yellow}%?%f]'
 
-autoload -Uz add-zsh-hook
-
-function xterm_title_precmd () {
-	print -Pn -- '\e]2;%n: %~\a'
-}
-
-function xterm_title_preexec () {
-	print -Pn -- '\e]2;' && print -n -- "${(q)1}\a"
-}
-
-if [[ "$TERM" == (Eterm*|alacritty*|aterm*|foot*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|wezterm*|tmux*|xterm*) ]]; then
-	add-zsh-hook -Uz precmd xterm_title_precmd
-	add-zsh-hook -Uz preexec xterm_title_preexec
-fi
-
 # load starship if truecolor terminal
 if [[ "$COLORTERM" == "truecolor" ]]; then
   colourterm=yes
-elif [[ "$TERM" == "*-256color" ]]; then
-  colourterm=yes
-elif [[ "$TERM" == "xterm-color" ]]; then
+elif [[ "$TERM" == (*-256color|xterm-color) ]]; then
   colourterm=yes
 fi
 
@@ -107,6 +106,7 @@ ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=037'
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=209'
 ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=209'
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=209'
+ZSH_HIGHLIGHT_STYLES[comment]='fg=008,italic'
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

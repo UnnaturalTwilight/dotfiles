@@ -3,9 +3,17 @@
 @define-color theme_fg_color #d6d6d6;
 @define-color error_bg_color #3b0509;
 @define-color error_fg_color #dc626d;
+@define-color selection_highlight #264f78;
 
 * {
   all: unset;
+}
+
+popover {
+  background: @window_bg_color;
+  border: 2px solid @accent_bg_color;
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .normal-icons {
@@ -48,6 +56,10 @@ scrollbar {
 
 .input placeholder {
   opacity: 0.5;
+}
+
+.input selection {
+  background: @selection_highlight;
 }
 
 .input {
@@ -95,7 +107,7 @@ child {
   padding: 10px;
 }
 
-child:hover .item-box,
+/* child:hover .item-box, */
 child:selected .item-box {
   background: alpha(@accent_bg_color, 0.5);
 }
@@ -114,6 +126,11 @@ child:selected .item-box {
 .item-image,
 .item-image-text {
   margin-right: 10px;
+}
+
+.providerlist .item-subtext {
+  font-size: unset;
+  opacity: 0.75;
 }
 
 .item-image-text {
@@ -213,4 +230,12 @@ child:selected .item-box {
   padding: 10px;
   background: @error_bg_color;
   color: @error_fg_color;
+}
+
+:not(.calc).current {
+  font-style: italic;
+}
+
+.preview-content.archlinuxpkgs {
+  font-family: monospace;
 }

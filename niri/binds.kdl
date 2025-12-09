@@ -237,6 +237,8 @@ binds {
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Ctrl+Shift+Escape { spawn-sh "kitty btop"; }
 
+    Mod+Backslash { spawn "bash" "-c" "wl-copy \"$(niri msg --json focused-window | jq)\""; }
+
     // The quit action will show a confirmation dialog to avoid accidental exits.
     // Mod+Shift+L { quit; }
     Ctrl+Alt+Delete { quit; }

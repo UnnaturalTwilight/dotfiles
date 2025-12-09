@@ -1,6 +1,29 @@
 max_global_items_to_display = 5
+always_show_default = true
 
 [[entries]]
 default = true
 name = "Google Search"
 url = "https://www.google.com/search?q=%TERM%"
+prefix = "g "
+
+[[entries]]
+default = false
+name = "Arch Wiki"
+url = "https://wiki.archlinux.org/index.php?search=%TERM%"
+prefix = "a "
+icon = "stock_addressbook"
+
+[[entries]]
+default = false
+name = "GitHub"
+url = "https://github.com/search?q=%TERM%&type=repositories"
+prefix = "gh "
+icon = "github-desktop"
+
+[[entries]]
+default = false
+name = "Wikipedia"
+url = "https://en.wikipedia.org/w/index.php?search=%TERM%"
+prefix = "w "
+icon = "preferences-desktop-search"

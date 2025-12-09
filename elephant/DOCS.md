@@ -93,7 +93,7 @@ command = "chromium"
 
 [[browsers]]
 name = "Chromium App"
-command = "chromium --app %VALUE%"
+command = "chromium --app=%VALUE%"
 ```
 
 
@@ -109,6 +109,8 @@ command = "chromium --app %VALUE%"
 |categories|[]main.Category||categories|
 |browsers|[]main.Browser||browsers for opening bookmarks|
 |set_browser_on_import|bool|false|set browser name on imported bookmarks|
+|history|bool|true|make use of history for sorting|
+|history_when_empty|bool|false|consider history when query is empty|
 #### Category
 | Field | Type | Default | Description |
 | --- | ---- | ---- | --- |
@@ -156,6 +158,7 @@ Refer to the official [libqalculate docs](https://github.com/Qalculate/libqalcul
 |min_chars|int|3|don't perform if query is shorter than min_chars|
 |command|string|wl-copy -n %VALUE%|default command to be executed. supports %VALUE%.|
 |async|bool|true|calculation will be send async|
+|autosave|bool|false|automatically save results|
 
 ### Elephant Clipboard
 
@@ -166,6 +169,7 @@ Store clipboard history.
 - saves images and text history
 - filter to show images only
 - edit saved content
+- localsend support
 
 #### Requirements
 
@@ -221,6 +225,7 @@ Run installed desktop applications.
 |aliases|map[string]string||setup aliases for applications. Matched aliases will always be placed on top of the list. Example: 'ffp' => '<identifier>'. Check elephant log output when activating an item to get its identifier.|
 |blacklist|[]string|<empty>|blacklist desktop files from being parsed. Regexp.|
 |window_integration|bool|false|will enable window integration, meaning focusing an open app instead of opening a new instance|
+|ignore_pin_with_window|bool|true|will ignore pinned apps that have an opened window|
 |window_integration_ignore_actions|bool|true|will ignore the window integration for actions|
 |wm_integration|bool|false|Moves apps to the workspace where they were launched at automatically. Currently Niri only.|
 |score_open_windows|bool|true|Apps that have open windows, get their score halved. Requires window_integration.|
@@ -236,6 +241,7 @@ Find files/folders.
 - open files, folders
 - drag&drop files into other programs
 - copy file/path
+- support for localsend
 
 #### Example `ignored_dirs`
 
@@ -261,7 +267,10 @@ ignored_dirs = ["/home/andrej/Documents/", "/home/andrej/Videos"]
 |ignore_previews|[]main.IgnoredPreview||paths will not have a preview|
 |ignore_watching|[]string||paths will not be watched|
 |search_dirs|[]string|$HOME|directories to search for files|
-|fd_flags|string|--ignore-vcs --type file --type directory|flags for fd|
+|fd_flags|[]string|['--ignore-vcs', '--type,' ,'file', '--type,' 'directory']|flags for fd|
+|watch_buffer|int|2000|time in millisecnds elephant will gather changed paths before processing them|
+|watch_dirs|[]string|[]|watch these dirs, even if watch = false|
+|watch|bool|true|watch indexed directories|
 #### IgnoredPreview
 | Field | Type | Default | Description |
 | --- | ---- | ---- | --- |
@@ -469,9 +478,10 @@ Actions = {
     test = "lua:Test",
 }
 
-function Test(value, args)
+function Test(value, args, query)
     os.execute("notify-send '" .. value .. "'")
     os.execute("notify-send '" .. args .. "'")
+    os.execute("notify-send '" .. query .. "'")
 end
 ```
 
@@ -500,6 +510,7 @@ end
 |async_actions|[]string||set which actions should update the item on the client asynchronously|
 |search_name|bool|false|wether to search for the menu name as well when searching globally|
 |cache|bool||will cache the results of the lua script on startup|
+|refresh_on_change|[]string||will enable cache and auto-refresh the cache if there's file changes on the specified files/folders|
 |entries|[]common.Entry||menu items|
 |terminal|bool||execute action in terminal or not|
 |keywords|[]string||searchable keywords|
@@ -525,6 +536,104 @@ end
 |preview_type|string||type of the preview: text, file [default], command|
 |keywords|[]string||searchable keywords|
 |state|[]string||state of an item, can be used to f.e. mark it as current|
+
+
+### Elephant Niri Sessions
+
+Create predefined session layouts and open them.
+
+#### Features
+
+- run custom commands to open windows
+- position windows according to definition
+
+#### Requirements
+
+- `niri`
+
+#### Example Sessions
+
+```toml
+[[sessions]]
+name = "Work"
+
+[[sessions.workspaces]]
+windows = [
+  { command = "uwsm-app -- footclient", app_id = "footclient" },
+  { command = "uwsm-app -- firefox-developer-edition", app_id = "firefox-developer-edition" },
+]
+
+[[sessions.workspaces]]
+windows = [
+  { command = "uwsm-app -- teams-for-linux", app_id = "teams-for-linux" },
+  { command = "uwsm-app -- discord", app_id = "discord" },
+]
+
+[[sessions.workspaces]]
+windows = [{ command = "uwsm-app -- tidal-hifi", app_id = "tidal-hifi" }]
+
+[[sessions]]
+name = "Private"
+
+[[sessions.workspaces]]
+windows = [
+  { command = "uwsm-app -- firefox-developer-edition", app_id = "firefox-developer-edition" },
+  { command = "uwsm-app -- discord", app_id = "discord" },
+]
+
+[[sessions.workspaces]]
+windows = [{ command = "uwsm-app -- tidal-hifi", app_id = "tidal-hifi" }]
+
+[[sessions]]
+name = "Walker"
+
+[[sessions.workspaces]]
+windows = [
+  { command = "uwsm-app -- footclient -D /home/andrej/Documents/walker -e nvim", app_id = "footclient" },
+  { command = "uwsm-app -- footclient -D /home/andrej/Documents/walker", app_id = "footclient" },
+]
+
+[[sessions]]
+name = "Elephant"
+
+[[sessions.workspaces]]
+windows = [
+  { command = "uwsm-app -- footclient -D /home/andrej/Documents/elephant -e nvim", app_id = "footclient", after = [
+    "niri msg action focus-window --id %ID%",
+    "niri msg action fullscreen-window",
+  ] },
+  { command = "uwsm-app -- footclient -D /home/andrej/Documents/elephant", app_id = "footclient" },
+]
+```
+
+
+`~/.config/elephant/nirisessions.toml`
+#### Config
+| Field | Type | Default | Description |
+| --- | ---- | ---- | --- |
+|icon|string|depends on provider|icon for provider|
+|name_pretty|string|depends on provider|displayed name for the provider|
+|min_score|int32|depends on provider|minimum score for items to be displayed|
+|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
+|sessions|[]main.Session||define the sessions|
+#### Session
+| Field | Type | Default | Description |
+| --- | ---- | ---- | --- |
+|name|string||name for the session|
+|workspaces|[]main.Workspace||set of workspaces|
+#### Workspace
+| Field | Type | Default | Description |
+| --- | ---- | ---- | --- |
+|windows|[]main.Window||windows in this workspace group|
+|after|[]string||commands to run after the workspace has been processed|
+#### Window
+| Field | Type | Default | Description |
+| --- | ---- | ---- | --- |
+|command|string||command to run|
+|app_id|string||app_id to identify the window|
+|after|[]string||commands to run after the window has been spawned|
+
+
 
 
 ### Elephant Providerlist
@@ -628,17 +737,15 @@ This will automatically try to clone/pull the repo. It will also automatically c
 
 ##### Creating a new item
 
-By default, you can create a new item whenever no items matches the configured `min_score` threshold. If you want to, you can also configure `create_prefix`, f.e. `add`. In that case you can do `add:new item`.
-
 If you want to create a scheduled task, you can prefix your item with f.e.:
 
 ```
-+5d my task
-in 10m my task
-in 5d at 15:00 my task
-jan 1 at 13:00 my task
-january 1 at 13:00 my task
-1 jan at 13:00 my task
++5d > my task
+in 10m > my task
+in 5d at 15:00 > my task
+jan 1 at 13:00 > my task
+january 1 at 13:00 > my task
+1 jan at 13:00 > my task
 ```
 
 Adding a `!` suffix will mark an item as urgent.
@@ -718,6 +825,7 @@ url = "https://www.google.com/search?q=%TERM%"
 |history|bool|true|make use of history for sorting|
 |history_when_empty|bool|false|consider history when query is empty|
 |engines_as_actions|bool|true|run engines as actions|
+|always_show_default|bool|true|always show the default search engine when queried|
 |text_prefix|string|Search: |prefix for the entry text|
 |command|string|xdg-open|default command to be executed. supports %VALUE%.|
 #### Engine

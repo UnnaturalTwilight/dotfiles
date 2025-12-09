@@ -1,5 +1,13 @@
 # local zsh configurations
 
+# kitty shell integration
+if test -n "$KITTY_INSTALLATION_DIR"; then
+    # export KITTY_SHELL_INTEGRATION="enabled" # using no-rc mode so that it is possible to disable integration
+    autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+    kitty-integration
+    unfunction kitty-integration
+fi
+
 export EDITOR=edit
 
 source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
@@ -27,6 +35,7 @@ case $XDG_CURRENT_DESKTOP in
   niri)
     alias logout='niri msg action quit'
     alias run='systemd-run --user --'
+    alias lock='hyprlock'
     ;;
   *)
     alias run='systemd-run --user --'
@@ -43,10 +52,19 @@ case $USER in
     ;;
 esac
 
+# Kitty-specific aliases and functions, dependent shell integration // kittens
+# Making the assumption that if we're in kitty, the shell integration is loaded
 if [[ "$TERM" == "xterm-kitty" ]]; then
   alias ssh='kitten ssh'
+  alias copycat='kitten clipboard'
   alias uni-copy='kitten unicode-input | wl-copy -n'
+
+  # Save the screen to scrollback when clearing
+  cleartoscrollback() { builtin print -rn -- $'\r\e[0J\e[H\e[22J' >"$TTY"; }
+  alias clear='cleartoscrollback'
+
 fi
+
 
 
 # plugin: zsh-autosuggestions, causes issues if loaded on remote hosts
