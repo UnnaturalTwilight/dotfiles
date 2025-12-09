@@ -21,4 +21,4 @@ text = "Restart Elephant"
 keywords = ["elephant"]
 icon = "reload"
 terminal = true
-actions = { "restart" = "hyprctl dispatch exec -- 'pkill elephant && elephant'" }
+actions = { "restart" = "systemctl --user restart elephant.service" }

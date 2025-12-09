@@ -28,8 +28,6 @@ TRAPUSR1() {
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
-
 function yazi-cwd() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
@@ -40,7 +38,6 @@ function yazi-cwd() {
 
 # Aliases
 alias cd='z'
-# alias ls='ls --color=auto --hyperlink=auto --group-directories-first --format=horizontal'
 alias ls='eza -x --hyperlink --group-directories-first --icons=auto'
 alias ll='eza -l --hyperlink --group-directories-first --icons=auto'
 alias la='eza -la --hyperlink --group-directories-first --icons=auto'
@@ -54,12 +51,9 @@ alias yazi='yazi-cwd'
 
 alias colour-ls='for i in {0..15}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%8)):#7}:+"\n"}; done;
 		   echo; for i in {16..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+"\n"}; done'
+alias path-ls='printenv PATH | sed "s/:/\n/g" | bat --style grid,numbers'
 
-# Kitten aliases
-if [[ "$TERM" == "xterm-kitty" ]]; then
-	alias ssh='kitten ssh'
-fi
-
+# Prompt setup
 autoload -Uz promptinit
 promptinit
 

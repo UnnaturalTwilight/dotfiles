@@ -1,0 +1,10 @@
+
+[Unit]
+Description=Solaar
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+ExecStart=solaar -b solaar -w hide
+Restart=on-failure

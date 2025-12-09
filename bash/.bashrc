@@ -28,8 +28,8 @@ case "$COLORTERM" in
     truecolor) color_prompt=yes;;
 esac
 
-if [ $KITTY_WINDOW_ID ]; then
-    alias edit='edit-in-kitty'
+if [ "$TERM" = "xterm-kitty" ] && [ -n "$SSH_TTY" ]; then
+    alias edit='kitten edit-in-kitty'
 else
     alias edit='nano'
 fi

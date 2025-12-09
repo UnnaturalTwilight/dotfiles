@@ -1,5 +1,5 @@
 typeset -U path PATH
-path=(. ~/.local/bin ~/.cargo/bin ~/.cargo/env $path)
+path=(. ~/.local/bin $path)
 export PATH
 
 # XDG Base Directories
@@ -11,7 +11,11 @@ export XDG_STATE_HOME=$HOME/.local/state
 
 # Applications
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc":"$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine"
-export GNUPGHOME="$XDG_DATA_HOME"/gnupg # Needs manual editing to systemd user sockets. see arch wiki.
+
+# Needs manual editing to systemd user sockets. see arch wiki.
+# script for auto setting it up is in scripts folder.
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg 
+
 # Go
 export GOPATH="$XDG_DATA_HOME"/go
 # .NET
