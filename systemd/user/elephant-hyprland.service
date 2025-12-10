@@ -1,0 +1,8 @@
+
+[Unit]
+Description=Elephant
+After=xdg-desktop-autostart.target
+
+[Service]
+ExecStart=elephant
+Restart=on-failure

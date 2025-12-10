@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Bzmenu
+Icon=bluetooth
+Exec=bzmenu --launcher walker
+Terminal=false
+Categories=Utility;Bluetooth;Menu;
+Keywords=bluetooth;bt;

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Rusty Music Player Client
+GenericName=Music Player
+Comment=Terminal based Music Player Daemon client
+Icon=mpd
+Exec=rmpc
+Terminal=true
+Categories=Utility;Music;
+Keywords=rmpc,music,mpd
