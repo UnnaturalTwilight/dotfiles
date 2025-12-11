@@ -1,0 +1,11 @@
+
+[Unit]
+Description=Eww daemon with config dir $XDG_CONFIG_HOME/eww/%i/
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+AssertPathExists=%E/eww/%i/eww.yuck
+
+[Service]
+ExecStart=eww --restart --config=%E/eww/%i/ daemon 
+Restart=on-failure

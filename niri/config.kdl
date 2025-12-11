@@ -365,7 +365,7 @@ window-rule {
 }
 
 // remove backdrop from windows using client-side decorations that are otherwise well behaved.
-window-rule {
+/-window-rule {
     match app-id="zen"
     match app-id="code"
 
