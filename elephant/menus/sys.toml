@@ -5,9 +5,16 @@ global_search = true
 search_name = true
 
 [[entries]]
+text = "Start Immich"
+subtext = "systemctl start immich-compose.service"
+keywords = ["docker", "immich"]
+icon = "photos"
+actions = { "start" = "systemctl start immich-compose.service" }
+
+[[entries]]
 text = "Start Docker"
 subtext = "systemctl start docker.service"
-keywords = ["docker", "immich"]
+keywords = ["docker"]
 icon = "docker"
 actions = { "start" = "systemctl start docker.service" }
 
