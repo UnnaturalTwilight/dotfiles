@@ -31,10 +31,3 @@ subtext = "systemctl hybrid-sleep"
 keywords = ["suspend", "hibernate", "power"]
 icon = "system-suspend"
 actions = { "sleep" = "systemctl hybrid-sleep" }
-
-[[entries]]
-text = "Logout"
-subtext = "systemctl exit"
-keywords = ["lock", "exit", "power"]
-icon = "system-log-out"
-actions = { "logout" = "systemctl exit" }
