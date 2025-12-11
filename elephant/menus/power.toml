@@ -1,0 +1,40 @@
+name = "power"
+name_pretty = "Power"
+icon = "cs-power"
+global_search = true
+search_name = true
+
+[[entries]]
+text = "Shutdown"
+subtext = "systemctl poweroff"
+keywords = ["poweroff", "power"]
+icon = "system-shutdown"
+actions = { "poweroff" = "systemctl poweroff", "force" = "systemctl poweroff -i" }
+
+[[entries]]
+text = "Reboot"
+subtext = "systemctl reboot"
+keywords = ["restart", "power"]
+icon = "system-reboot"
+actions = { "reboot" = "systemctl reboot" }
+
+[[entries]]
+text = "Lock"
+subtext = "hyprlock"
+keywords = ["hyprlock", "power"]
+icon = "system-lock-screen"
+actions = { "lock" = "hyprlock" }
+
+[[entries]]
+text = "Sleep"
+subtext = "systemctl hybrid-sleep"
+keywords = ["suspend", "hibernate", "power"]
+icon = "system-suspend"
+actions = { "sleep" = "systemctl hybrid-sleep" }
+
+[[entries]]
+text = "Logout"
+subtext = "systemctl exit"
+keywords = ["lock", "exit", "power"]
+icon = "system-log-out"
+actions = { "logout" = "systemctl exit" }

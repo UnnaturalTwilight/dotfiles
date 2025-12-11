@@ -30,5 +30,4 @@ text = "Restart Elephant"
 subtext = "systemctl --user restart elephant.service"
 keywords = ["elephant"]
 icon = "reload"
-terminal = true
 actions = { "restart" = "systemctl --user restart elephant.service" }
