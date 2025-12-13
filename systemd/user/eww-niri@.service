@@ -1,0 +1,10 @@
+
+[Unit]
+Description=Open eww window with config dir $XDG_CONFIG_HOME/eww/%J/
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=eww --config=%E/eww/%J/ open %i --no-daemonize
+ExecStop=eww --config=%E/eww/%J/ close %i 
+Restart=never
