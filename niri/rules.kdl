@@ -1,0 +1,97 @@
+
+prefer-no-csd
+
+// Dynamic rules
+// -------------
+// https://yalter.github.io/niri/Configuration:-Window-Rules#dynamic-properties
+
+// Example: enable rounded corners for all windows.
+window-rule {
+    geometry-corner-radius 10
+    clip-to-geometry true
+    opacity 0.9999999 // jank to make the toggle opacity hotkey work
+
+    min-height 30 // prevent windows from being 1px tall, 30px is one row of text in kitty
+}
+
+// Make inactive windows semitransparent.
+window-rule {
+    match is-focused=false
+    opacity 0.8
+}
+
+// This may be a mistake, but "urgent is float"
+window-rule {
+    match is-urgent=true
+    baba-is-float true
+}
+
+window-rule {
+    match is-floating=true
+    tiled-state false
+
+    border {
+        active-color "#007ACCee"
+        inactive-color "#007ACCaa"
+    }
+}
+
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    opacity 1.0
+}
+
+// Example: block out two password managers from screen capture.
+window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+
+    block-out-from "screen-capture"
+
+    // Use this instead if you want them visible on third-party screenshot tools.
+    // block-out-from "screencast"
+}
+
+// remove backdrop from windows using client-side decorations that are otherwise well behaved.
+/-window-rule {
+    match app-id="zen"
+    match app-id="code"
+
+    draw-border-with-background false
+}
+
+window-rule {
+    match app-id="^Windscribe"
+    max-width 350
+    max-height 350
+}
+
+// Static rules
+// ------------
+// https://yalter.github.io/niri/Configuration:-Window-Rules#window-opening-properties
+
+// Make some app allways open full width
+window-rule {
+    // GIMP app ID contains the version like "gimp-2.99",
+    // so we only match the beginning (with ^) and not the end.
+    // match app-id="^gimp"
+
+    match app-id="^zen"
+
+    // default-column-width { proportion 1.0; }
+    open-maximized true
+}
+
+// Layer rules
+// -----------
+// https://yalter.github.io/niri/Configuration:-Layer-Rules
+
+// Make the wallpaper stationary, rather than moving with workspaces.
+layer-rule {
+    // This is for swaybg; change for other wallpaper tools.
+    // Find the right namespace by running niri msg layers.
+    match namespace="^wallpaper$"
+    match namespace="^hyprlax$"
+    place-within-backdrop true
+}

@@ -126,6 +126,9 @@ layout {
     // Set gaps around windows in logical pixels.
     gaps 20
 
+    // empty-workspace-above-first
+
+    // tints the background of workspaces to make them visible on the overview when the wallpaper is in the backdrop
     background-color "#00000066"
 
     // When to center a column when changing focus, options are:
@@ -145,31 +148,25 @@ layout {
         proportion 0.3
         proportion 0.5
         proportion 0.7
+        proportion 1.0
 
         // Fixed sets the width in logical pixels exactly.
         // fixed 1920
     }
 
     // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
-    // preset-window-heights { }
+    preset-window-heights {
+        proportion 0.25
+        proportion 0.5
+        proportion 0.75
+        proportion 1.0 // if in a column with other windows, this sets all other windows to minimum height
+    }
 
     // You can change the default width of the new windows.
     // default-column-width { proportion 1.0; }
     // If you leave the brackets empty, the windows themselves will decide their initial width.
     default-column-width {}
 
-    // By default focus ring and border are rendered as a solid background rectangle
-    // behind windows. That is, they will show up through semitransparent windows.
-    // This is because windows using client-side decorations can have an arbitrary shape.
-    //
-    // If you don't like that, you should uncomment `prefer-no-csd` below.
-    // Niri will draw focus ring and border *around* windows that agree to omit their
-    // client-side decorations.
-    //
-    // Alternatively, you can override it with a window rule called
-    // `draw-border-with-background`.
-
-    // You can change how the focus ring looks.
     focus-ring {
         off
     }
@@ -229,10 +226,10 @@ layout {
     // Top and bottom struts will simply add outer gaps in addition to the area occupied by
     // layer-shell panels and regular gaps.
     struts {
-        // left 20
-        // right 20
-        // top 20
-        // bottom 20
+        // left 10
+        // right 10
+        // top 10
+        // bottom 10
     }
 }
 
@@ -252,13 +249,6 @@ hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
 }
-
-// Uncomment this line to ask the clients to omit their client-side decorations if possible.
-// If the client will specifically ask for CSD, the request will be honored.
-// Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
-// This option will also fix border/focus ring drawing behind some semitransparent windows.
-// After enabling or disabling this, you need to restart the apps for this to take effect.
-prefer-no-csd
 
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
@@ -327,60 +317,7 @@ animations {
     }
 }
 
-// Example: enable rounded corners for all windows.
-// (This example rule is commented out with a "/-" in front.)
-window-rule {
-    geometry-corner-radius 10
-    clip-to-geometry true
-    opacity 0.9999999 // jank to make the toggle opacity hotkey work
-}
-
-// Make inactive windows semitransparent.
-window-rule {
-    match is-active=false
-    opacity 0.8
-}
-
-// Window rules let you adjust behavior for individual windows.
-// Find more information on the wiki:
-// https://yalter.github.io/niri/Configuration:-Window-Rules
-
-
-window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    match app-id=r#"zen$"# title="^Picture-in-Picture$"
-    opacity 1.0
-}
-
-// Example: block out two password managers from screen capture.
-// (This example rule is commented out with a "/-" in front.)
-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
-
-    block-out-from "screen-capture"
-
-    // Use this instead if you want them visible on third-party screenshot tools.
-    // block-out-from "screencast"
-}
-
-// remove backdrop from windows using client-side decorations that are otherwise well behaved.
-/-window-rule {
-    match app-id="zen"
-    match app-id="code"
-
-    draw-border-with-background false
-}
-
-// Make the wallpaper stationary, rather than moving with workspaces.
-layer-rule {
-    // This is for swaybg; change for other wallpaper tools.
-    // Find the right namespace by running niri msg layers.
-    match namespace="^wallpaper$"
-    match namespace="^hyprlax$"
-    place-within-backdrop true
-}
-
+include "rules.kdl"
 
 overview {
     zoom 0.5

@@ -7,5 +7,5 @@ Requisite=graphical-session.target
 AssertPathExists=%E/eww/%i/eww.yuck
 
 [Service]
-ExecStart=eww --restart --config=%E/eww/%i/ daemon 
+ExecStart=eww --restart --config=%E/eww/%i/ daemon --no-daemonize
 Restart=on-failure
