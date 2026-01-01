@@ -12,6 +12,7 @@ source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
 
 # local aliases
 alias mnt-win='sudo ntfs-3g -o windows_names /dev/nvme0n1p3 /mnt/c'
+alias reboot-win='systemctl reboot --boot-loader-entry=auto-windows'
 
 alias mini-fetch='hyfetch --distro arch_small --args="-c $HOME/.config/fastfetch/mini.jsonc"'
 alias fetch='fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
