@@ -1,4 +1,15 @@
+// workspaces
 
+// workspace "thunderbird" {
+//     open-on-output "eDP-1"
+// }
+
+// window-rule {
+//     match app-id=r#"^org\.mozilla\.Thunderbird$"#
+//     open-on-workspace "thunderbird"
+// }
+
+// request clients use server-side decorations
 prefer-no-csd
 
 // Dynamic rules
@@ -10,6 +21,7 @@ window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
     draw-border-with-background false
+    open-maximized-to-edges false
     opacity 0.9999999 // jank to make the toggle opacity hotkey work
 
     min-height 30 // prevent windows from being 1px tall, 30px is one row of text in kitty
@@ -54,14 +66,6 @@ window-rule {
     // block-out-from "screencast"
 }
 
-// remove backdrop from windows using client-side decorations that are otherwise well behaved.
-/-window-rule {
-    match app-id="zen"
-    match app-id="code"
-
-    draw-border-with-background false
-}
-
 window-rule {
     match app-id="^Windscribe"
     max-width 350
@@ -85,20 +89,21 @@ window-rule {
     open-maximized true
 }
 
+window-rule {
+    match app-id=r#"^org\.mozilla\.Thunderbird$"#
+    min-width 800 // still kinda small for the main window but fine
+}
+
 // Layer rules
 // -----------
 // https://yalter.github.io/niri/Configuration:-Layer-Rules
 
 // Make the wallpaper stationary, rather than moving with workspaces.
 layer-rule {
-    // This is for swaybg; change for other wallpaper tools.
     // Find the right namespace by running niri msg layers.
     match namespace="^wallpaper$"
-    place-within-backdrop true
-}
-
-layer-rule {
+    // eww windows
     match namespace="^backdrop"
+
     place-within-backdrop true
-    // baba-is-float true
 }

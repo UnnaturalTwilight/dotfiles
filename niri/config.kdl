@@ -239,10 +239,19 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-spawn-sh-at-startup "eww o bg-clock -c ~/.config/eww/niri"
-spawn-sh-at-startup "wbg -s ~/.config/assets/niri-wallpaper.jpg"
+spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
+spawn-sh-at-startup "wbg -s $HOME/.config/assets/niri-wallpaper.jpg"
 spawn-sh-at-startup "walker --gapplication-service"
+
+spawn-at-startup "thunderbird"
 spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
+
+// clipboard history
+spawn-sh-at-startup "wl-paste --type=text --watch cliphist store"
+spawn-sh-at-startup "wl-paste --type=image --watch cliphist store"
+
+// bootstatechecker
+spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"

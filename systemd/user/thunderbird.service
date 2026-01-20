@@ -1,0 +1,16 @@
+[Unit]
+Description=Thunderbird
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+
+[Service]
+Type=simple
+ExecStart=thunderbird --headless
+Restart=always
+RestartSec=30s
+
+
+[Install]
+WantedBy=graphical-session.target

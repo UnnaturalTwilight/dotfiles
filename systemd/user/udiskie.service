@@ -1,0 +1,11 @@
+
+# from: https://github.com/coldfix/udiskie/blob/master/example/udiskie.service
+[Unit]
+Description=Automounter for removable media
+
+[Service]
+ExecStart=/usr/bin/udiskie
+Type=simple
+
+[Install]
+WantedBy=graphical-session.target
