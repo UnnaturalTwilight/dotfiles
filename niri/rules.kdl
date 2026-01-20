@@ -9,6 +9,7 @@ prefer-no-csd
 window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
+    draw-border-with-background false
     opacity 0.9999999 // jank to make the toggle opacity hotkey work
 
     min-height 30 // prevent windows from being 1px tall, 30px is one row of text in kitty
@@ -65,6 +66,7 @@ window-rule {
     match app-id="^Windscribe"
     max-width 350
     max-height 350
+    draw-border-with-background true
 }
 
 // Static rules

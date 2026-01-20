@@ -16,6 +16,7 @@ alias reboot-win='systemctl reboot --boot-loader-entry=auto-windows'
 
 alias mini-fetch='hyfetch --distro arch_small --args="-c $HOME/.config/fastfetch/mini.jsonc"'
 alias fetch='fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
+alias clf='clear; fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
 
 alias compose='docker compose'
 
