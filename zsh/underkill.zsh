@@ -29,13 +29,12 @@ case $XDG_CURRENT_DESKTOP in
     alias logout='hyprctl dispatch exit'
     alias run='hyprctl dispatch exec --'
     alias lock='hyprlock'
-    # Eww test alias
-    alias eww-test='eww -c ~/.config/eww_test'
     ;;
   niri)
     alias logout='niri msg action quit'
     alias run='systemd-run --user --'
     alias lock='hyprlock'
+    alias eww-bg='eww --config $HOME/.config/eww_niri/'
     ;;
   *)
     alias run='systemd-run --user --'
