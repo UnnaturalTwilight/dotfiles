@@ -111,6 +111,11 @@ output "eDP-1" {
     // automatically.
     
     position x=0 y=0
+
+    layout {
+        // override the default from the top-level layout block
+        default-column-width { proportion 1.0; }
+    }
 }
 
 output "ASUSTek COMPUTER INC XG27ACG T6LMQS029175" {
@@ -243,7 +248,6 @@ spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
 spawn-sh-at-startup "wbg -s $HOME/.config/assets/niri-wallpaper.jpg"
 spawn-sh-at-startup "walker --gapplication-service"
 
-spawn-at-startup "thunderbird"
 spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
 
 // clipboard history
@@ -253,8 +257,7 @@ spawn-sh-at-startup "wl-paste --type=image --watch cliphist store"
 // bootstatechecker
 spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"
 
-// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
-// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+spawn-sh-at-startup "bluetoothctl connect 40:72:18:AD:77:86"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
@@ -265,7 +268,7 @@ hotkey-overlay {
 // A ~ at the front will be expanded to the home directory.
 // The path is formatted with strftime(3) to give you the screenshot date and time.
 // You can also set this to null to disable saving screenshots to disk.
-screenshot-path "~/Pictures/Screenshots/Screenshot %Y-%m-%d %H-%M-%S.png"
+screenshot-path "~/Images/Screenshots/Screenshot %Y-%m-%d %H-%M-%S.png"
 
 // Animation settings.
 // The wiki explains how to configure individual animations:

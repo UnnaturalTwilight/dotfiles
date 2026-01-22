@@ -1,31 +1,28 @@
-// workspaces
-
-// workspace "thunderbird" {
-//     open-on-output "eDP-1"
-// }
-
-// window-rule {
-//     match app-id=r#"^org\.mozilla\.Thunderbird$"#
-//     open-on-workspace "thunderbird"
-// }
 
 // request clients use server-side decorations
 prefer-no-csd
 
-// Dynamic rules
-// -------------
-// https://yalter.github.io/niri/Configuration:-Window-Rules#dynamic-properties
-
-// Example: enable rounded corners for all windows.
+// Catch all rule
 window-rule {
     geometry-corner-radius 10
     clip-to-geometry true
     draw-border-with-background false
+    
+    // dosn't always work ???
     open-maximized-to-edges false
-    opacity 0.9999999 // jank to make the toggle opacity hotkey work
+    open-fullscreen false
+    
+    // jank to make the toggle opacity hotkey work
+    opacity 0.999999
 
-    min-height 30 // prevent windows from being 1px tall, 30px is one row of text in kitty
+    // prevent windows from being 1px tall, 30px is one row of text in kitty
+    min-height 30 
+    min-width 30
 }
+
+// Dynamic rules
+// -------------
+// https://yalter.github.io/niri/Configuration:-Window-Rules#dynamic-properties
 
 // Make inactive windows semitransparent.
 window-rule {
@@ -66,13 +63,6 @@ window-rule {
     // block-out-from "screencast"
 }
 
-window-rule {
-    match app-id="^Windscribe"
-    max-width 350
-    max-height 350
-    draw-border-with-background true
-}
-
 // Static rules
 // ------------
 // https://yalter.github.io/niri/Configuration:-Window-Rules#window-opening-properties
@@ -83,15 +73,38 @@ window-rule {
     // so we only match the beginning (with ^) and not the end.
     // match app-id="^gimp"
 
-    match app-id="^zen"
+    match app-id="^zen$"
+    match app-id="^factorio$"
 
-    // default-column-width { proportion 1.0; }
+    // open at full width but switch to 70% with Mod+F
     open-maximized true
+    default-column-width { proportion 0.7; }
+}
+
+window-rule {
+    match app-id="^firefox$"
+    default-column-width { proportion 0.7; }
 }
 
 window-rule {
     match app-id=r#"^org\.mozilla\.Thunderbird$"#
     min-width 800 // still kinda small for the main window but fine
+}
+
+// Windows trust to open at a reasonable size
+window-rule {
+    match app-id="^kitty$"
+
+    // freedp dose some funky things if it doesn't have control over its size
+    match app-id="^xfreerdp$"
+    default-column-width { };
+}
+
+window-rule {
+    match app-id="^Windscribe"
+    max-width 350
+    max-height 350
+    draw-border-with-background true
 }
 
 // Layer rules
