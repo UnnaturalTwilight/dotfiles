@@ -23,6 +23,9 @@ alias compose='docker compose'
 alias bzmenu='bzmenu --launcher walker'
 alias vlc='env -u DISPLAY vlc' # run vlc in wayland
 
+# Suffix Alias to auto bat .md files with just the filename
+alias -s md='bat'
+
 case $XDG_CURRENT_DESKTOP in
   Hyprland)
     # Hyprland aliases
@@ -51,7 +54,18 @@ case $USER in
     ;;
 esac
 
+function copy-buffer-to-clipboard() {
+  echo -n "$BUFFER" | wl-copy
+}
+zle -N copy-buffer-to-clipboard
+bindkey '^[[99;6u' copy-buffer-to-clipboard
 
+function cut-buffer-to-clipboard() {
+  echo -n "$BUFFER" | wl-copy
+  zle kill-buffer
+}
+zle -N cut-buffer-to-clipboard
+bindkey '^[[120;6u' cut-buffer-to-clipboard
 
 # plugin: zsh-autosuggestions, causes issues if loaded on remote hosts
 if [[ -z "$SSH_TTY" ]]; then

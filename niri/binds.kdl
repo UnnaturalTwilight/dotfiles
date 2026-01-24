@@ -18,23 +18,23 @@ binds {
     // shows a list of important hotkeys.
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Grave hotkey-overlay-title="Open Kitty"         { spawn "kitty"; }
-    Mod+Space hotkey-overlay-title="Open Launcher"      { spawn "walker"; }
-    Mod+Z hotkey-overlay-title="Open Browser"           { spawn "zen-browser"; }
-    Mod+V hotkey-overlay-title="Open Clipboard History" { spawn-sh "walker -m clipboard"; }
+    // Suggested binds for running programs
+    Mod+Grave repeat=false hotkey-overlay-title="Open Kitty"   { spawn "kitty"; }
+    Mod+Z     repeat=false hotkey-overlay-title="Open Browser" { spawn "zen-browser"; }
+    Mod+E     repeat=false hotkey-overlay-title="Open Thunar"  { spawn "thunar"; }
+    // Laucher
+    Mod+Space repeat=false hotkey-overlay-title="Open Launcher"          { spawn "walker"; }
+    Mod+V     repeat=false hotkey-overlay-title="Open Clipboard History" { spawn "walker" "-m" "clipboard"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
     // Using spawn-sh allows to pass multiple arguments together with the command.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
-    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
     // Example brightness key mappings for brightnessctl.
-    // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
-    // but you need to manually put each argument in separate "" quotes.
     XF86MonBrightnessUp     allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
     XF86MonBrightnessDown   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-" "-n9600"; }
 
@@ -44,7 +44,7 @@ binds {
     XF86AudioPrev   allow-when-locked=true { spawn "playerctl" "previous"; }
 
     // Eww "start" menu
-    XF86AudioMedia { spawn-sh "$HOME/.config/eww/launch-start"; }
+    XF86AudioMedia repeat=false { spawn-sh "$HOME/.config/eww/launch-start"; }
 
     Mod+Q repeat=false { close-window; }
     
@@ -57,18 +57,16 @@ binds {
     Ctrl+Alt+Tab repeat=false { toggle-overview; }
 
     // Move focus
-    Mod+Left  hotkey-overlay-title="Move Focus Left"  { focus-column-left; }
-    Mod+Down  hotkey-overlay-title="Move Focus Down"  { focus-window-or-workspace-down; }
     Mod+Up    hotkey-overlay-title="Move Focus Up"    { focus-window-or-workspace-up; }
-    Mod+Right hotkey-overlay-title="Move Focus Right" { focus-column-right; }
+    Mod+Down  hotkey-overlay-title="Move Focus Down"  { focus-window-or-workspace-down; }
+    Mod+Left  hotkey-overlay-title="Move Focus Left"  { focus-column-or-monitor-left; }
+    Mod+Right hotkey-overlay-title="Move Focus Right" { focus-column-or-monitor-right; }
 
     // move windows or workspaces when on the overview
-    Mod+Shift+Left  hotkey-overlay-title="Move Column Left"  { move-column-left; }
-    Mod+Shift+Down  hotkey-overlay-title="Move Column Down"  { spawn-sh "$HOME/.config/scripts/niri_overview_bind.sh move-workspace-down move-window-down-or-to-workspace-down"; }
-    Mod+Shift+Up    hotkey-overlay-title="Move Column Up"    { spawn-sh "$HOME/.config/scripts/niri_overview_bind.sh move-workspace-up move-window-up-or-to-workspace-up"; }
-    Mod+Shift+Right hotkey-overlay-title="Move Column Right" { move-column-right; }
-    // Mod+Shift+Down  { move-window-down-or-to-workspace-down; }
-    // Mod+Shift+Up    { move-window-up-or-to-workspace-up; }
+    Mod+Shift+Up    hotkey-overlay-title="Move Column Up"    { move-window-up-or-to-workspace-up; }
+    Mod+Shift+Down  hotkey-overlay-title="Move Column Down"  { move-window-down-or-to-workspace-down; }
+    Mod+Shift+Left  hotkey-overlay-title="Move Column Left"  { move-column-left-or-to-monitor-left; }
+    Mod+Shift+Right hotkey-overlay-title="Move Column Right" { move-column-right-or-to-monitor-right; }
 
     // Jump / move to start / end
     Mod+Home       { focus-column-first; }
@@ -77,15 +75,15 @@ binds {
     Mod+Shift+End  { move-column-to-last; }
 
     // focus monitors
-    Mod+Ctrl+Left  { focus-monitor-left; }
-    Mod+Ctrl+Down  { focus-monitor-down; }
     Mod+Ctrl+Up    { focus-monitor-up; }
+    Mod+Ctrl+Down  { focus-monitor-down; }
+    Mod+Ctrl+Left  { focus-monitor-left; }
     Mod+Ctrl+Right { focus-monitor-right; }
 
     // move windows to monitors
+    Mod+Shift+Ctrl+Up    hotkey-overlay-title="Move to Monitor Up"    { spawn-sh "$HOME/.config/scripts/niri_overview_bind.sh move-workspace-up move-window-to-workspace-up"; }
+    Mod+Shift+Ctrl+Down  hotkey-overlay-title="Move to Monitor Down"  { spawn-sh "$HOME/.config/scripts/niri_overview_bind.sh move-workspace-down move-window-to-workspace-down"; }
     Mod+Shift+Ctrl+Left  hotkey-overlay-title="Move to Monitor Left"  { spawn-sh "$HOME/.config/scripts/niri_overview_bind.sh move-workspace-to-monitor-left move-window-to-monitor-left"; }
-    Mod+Shift+Ctrl+Down  hotkey-overlay-title="Move to Monitor Down"  { spawn-sh "$HOME/.config/scripts/niri_overview_bind.sh move-workspace-to-monitor-down move-window-to-monitor-down"; }
-    Mod+Shift+Ctrl+Up    hotkey-overlay-title="Move to Monitor Up"    { spawn-sh "$HOME/.config/scripts/niri_overview_bind.sh move-workspace-to-monitor-up move-window-to-monitor-up"; }
     Mod+Shift+Ctrl+Right hotkey-overlay-title="Move to Monitor Right" { spawn-sh "$HOME/.config/scripts/niri_overview_bind.sh move-workspace-to-monitor-right move-window-to-monitor-right"; }
 
     // Alternatively, there are commands to move a full column:
@@ -108,8 +106,6 @@ binds {
 
     // Mod+Ctrl+Page_Down { move-workspace-down; }
     // Mod+Ctrl+Page_Up   { move-workspace-up; }
-    // Mod+Ctrl+U         { move-workspace-down; }
-    // Mod+Ctrl+I         { move-workspace-up; }
 
     // You can bind mouse wheel scroll ticks using the following syntax.
     // These binds will change direction based on the natural-scroll setting.
@@ -193,8 +189,9 @@ binds {
     // fullscreen / maximize
     Mod+F { maximize-column; }
     Mod+Shift+F { maximize-window-to-edges; }
-    // Mod+Shift+F { fullscreen-window; }
+    Mod+Shift+Ctrl+F { fullscreen-window; }
     Mod+F11 { fullscreen-window; }
+    // Fake fullscreen state
     Mod+Ctrl+F11 { toggle-windowed-fullscreen; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
@@ -250,15 +247,20 @@ binds {
     // The allow-inhibiting=false property can be applied to other binds as well,
     // which ensures niri always processes them, even when an inhibitor is active.
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-    Ctrl+Shift+Escape { spawn-sh "kitty btop"; }
 
+    // Taskmgr
+    Ctrl+Shift+Escape repeat=false hotkey-overlay-title="Open Btop++" { spawn-sh "kitty btop"; }
+    
+    // Copy window info
     Mod+Backslash hotkey-overlay-title=null { spawn "bash" "-c" "wl-copy \"$(niri msg --json focused-window | jq)\""; }
-
+    
     // The quit action will show a confirmation dialog to avoid accidental exits.
-    // Mod+Shift+L { quit; }
     Ctrl+Alt+Delete { quit; }
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
+    
+    // Lock screen
+    Mod+Shift+L hotkey-overlay-title="Lock Screen" { spawn "hyprlock" "--grace" "3"; }
 }

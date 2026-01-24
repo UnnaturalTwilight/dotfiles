@@ -450,6 +450,12 @@
     set_category = "email"
     new_icon = thunderbird
 
+# don't put screenshot notifs in the history
+[history-ignore]
+    # This notification will not be saved in history
+    appname = "niri"
+    history_ignore = yes
+
 #[script-test]
 #    summary = "*script*"
 #    script = dunst_test.sh
@@ -458,11 +464,6 @@
 #    # This notification will not be displayed
 #    summary = "foobar"
 #    skip_display = true
-
-#[history-ignore]
-#    # This notification will not be saved in history
-#    summary = "foobar"
-#    history_ignore = yes
 
 #[skip-display]
 #    # This notification will not be displayed, but will be included in the history

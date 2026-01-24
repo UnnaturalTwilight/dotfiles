@@ -6,6 +6,9 @@ setopt autocd
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
+# Keybind
+# autoload zkbd
+
 # The following lines were added by compinstall
 zstyle :compinstall filename '$ZDOTDIR/.zshrc'
 
@@ -43,14 +46,22 @@ WORDCHARS=''
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 # Ctrl-Backspace to delete word backwards
-bindkey '^H' backward-kill-word
-bindkey '^[[1;5H' backward-kill-line
+bindkey '^H' backward-delete-word
+bindkey '^[[1;5H' backward-delete-line
 # Home and End keys
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 # delete deletes forward
 bindkey '^[[3~' delete-char
-bindkey '^[[3;5~' kill-word
+bindkey '^[[3;5~' delete-word
+# Undo on ctrl-z, redo on ctrl-shift-z
+bindkey '^Z' undo
+bindkey '^[[122;6u' redo
+
+# Edit cmd buffer on Ctrl-e
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^E' edit-command-line
 
 ## Aliases
 alias cd='z'
