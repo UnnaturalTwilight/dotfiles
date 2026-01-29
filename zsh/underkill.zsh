@@ -24,7 +24,7 @@ alias bzmenu='bzmenu --launcher walker'
 alias vlc='env -u DISPLAY vlc' # run vlc in wayland
 
 # Suffix Alias to auto bat .md files with just the filename
-alias -s md='bat'
+alias -s md='bat --italic-text=always'
 
 case $XDG_CURRENT_DESKTOP in
   Hyprland)

@@ -1,0 +1,1 @@
+- [] Fix thunderbird screaming in pain when running in headless mode

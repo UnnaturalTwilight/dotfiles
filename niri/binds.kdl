@@ -249,7 +249,7 @@ binds {
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     // Taskmgr
-    Ctrl+Shift+Escape repeat=false hotkey-overlay-title="Open Btop++" { spawn-sh "kitty btop"; }
+    Ctrl+Shift+Escape repeat=false hotkey-overlay-title="Open Btop++" { spawn "kitty" "--app-id=btop" "btop"; }
     
     // Copy window info
     Mod+Backslash hotkey-overlay-title=null { spawn "bash" "-c" "wl-copy \"$(niri msg --json focused-window | jq)\""; }

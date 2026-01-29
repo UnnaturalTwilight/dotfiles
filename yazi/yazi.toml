@@ -1,3 +1,20 @@
+
+[[plugin.prepend_preloaders]]
+mime = "{audio,video,image}/*" 
+run = "mediainfo"
+
+[[plugin.prepend_previewers]]
+mime = "{audio,video,image}/*"
+run = "mediainfo"
+
+[[opener.bulk-rename]]
+run   = "kitty kitten edit-in-kitty %s"
+block = true
+
+[[open.prepend_rules]]
+url = "bulk-rename.txt"
+use = "bulk-rename"
+
 [[plugin.prepend_fetchers]]
 id   = "git"
 url = "*"

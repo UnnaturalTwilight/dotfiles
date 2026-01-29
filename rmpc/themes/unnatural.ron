@@ -16,7 +16,8 @@
     current_item_style: (fg: "015", bg: "061", modifiers: "Bold"),
     borders_style: (fg: "008", modifiers: "Bold"),
     highlight_border_style: (fg: "015"),
-    symbols: (song: "󰝚 ", dir: " ", playlist: "󰲸", marker: "⯈", ellipsis: "..."),
+    symbols: (song: "󰝚 ", dir: " ", playlist: "󰲸", marker: "⯈", ellipsis: "...",
+        song_style: None, dir_style: (fg: "117"), playlist_style: (fg: "010")),
     progress_bar: (
         symbols: ["▐", "█", "┃", "█", "▌"],
         track_style: (fg: "000"),
