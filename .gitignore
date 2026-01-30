@@ -1,3 +1,4 @@
 /yazi/plugins
 /yazi/flavors
 /zsh/.zcompdump
+/quickshell/*/.qmlls.ini
