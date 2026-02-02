@@ -20,6 +20,24 @@ Run `elephant -h` to get an overview of the available commandline flags and acti
 
 
 ## Provider Configuration
+### Elephant Bluetooth
+
+Simple bluetooth management. Connect/Disconnect. Pair/Remove. Trust/Untrust.
+
+#### Requirements
+
+- `bluetoothctl`
+
+
+`~/.config/elephant/bluetooth.toml`
+#### Config
+| Field | Type | Default | Description |
+| --- | ---- | ---- | --- |
+|icon|string|depends on provider|icon for provider|
+|name_pretty|string|depends on provider|displayed name for the provider|
+|min_score|int32|depends on provider|minimum score for items to be displayed|
+|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
+
 ### Elephant Bookmarks
 
 URL bookmark manager
@@ -170,6 +188,7 @@ Store clipboard history.
 - filter to show images only
 - edit saved content
 - localsend support
+- pin items
 
 #### Requirements
 
@@ -538,6 +557,27 @@ end
 |state|[]string||state of an item, can be used to f.e. mark it as current|
 
 
+### Elephant Actions Dispatcher
+
+Search and execute Niri actions.
+
+#### Requirements
+
+- `niri`
+
+
+`~/.config/elephant/niriactions.toml`
+#### Config
+| Field | Type | Default | Description |
+| --- | ---- | ---- | --- |
+|icon|string|depends on provider|icon for provider|
+|name_pretty|string|depends on provider|displayed name for the provider|
+|min_score|int32|depends on provider|minimum score for items to be displayed|
+|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
+|action_delay|int|0|delay in ms before the action is dispatched|
+|history|bool|true|make use of history for sorting|
+|history_when_empty|bool|true|consider history when query is empty|
+
 ### Elephant Niri Sessions
 
 Create predefined session layouts and open them.
@@ -765,6 +805,7 @@ Similar to creating, you can simply search for like `today` to get all items for
 |hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
 |urgent_time_frame|int|10|items that have a due time within this period will be marked as urgent|
 |duck_player_volumes|bool|true|lowers volume of players when notifying, slowly raises volumes again|
+|show_creation_time|bool|true|displays the creatin time if no other time info is available|
 |categories|[]main.Category||categories|
 |location|string|elephant cache dir|location of the CSV file|
 |time_format|string|02-Jan 15:04|format of the time. Look at https://go.dev/src/time/format.go for the layout.|

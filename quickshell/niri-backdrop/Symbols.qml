@@ -44,7 +44,7 @@ PanelWindow {
             id: audioIcon
             Layout.alignment: Qt.AlignCenter
             text: Audio.icon
-            color: "#b0b4bc"
+            color: Colours.kindaGray
             opacity: Audio.muted ? 0.5 : 1.0
             font.family: "JetBrainsMonoNFM"
             font.pixelSize: Audio.styles[0]
@@ -57,7 +57,7 @@ PanelWindow {
             implicitHeight: 10
             implicitWidth: 60
             radius: 20
-            color: "#4e4e4e"
+            color: Colours.darkGray
 
             Rectangle {
                 anchors {
@@ -68,7 +68,7 @@ PanelWindow {
 
                 implicitWidth: parent.width * Audio.volume
                 radius: parent.radius
-                color: "#D35D6E"
+                color: Colours.pinkish
                 opacity: Audio.muted ? 0.5 : 1.0
             }
         }
@@ -77,7 +77,7 @@ PanelWindow {
             id: batteryIcon
             Layout.alignment: Qt.AlignCenter
             text: Battery.icon
-            color: "#b0b4bc"
+            color: Colours.kindaGray
             font.family: "JetBrainsMonoNFM"
             font.pixelSize: 88
             Layout.bottomMargin: -8
@@ -90,7 +90,7 @@ PanelWindow {
             implicitHeight: 10
             implicitWidth: 60
             radius: 20
-            color: "#4e4e4e"
+            color: Colours.darkGray
 
             Rectangle {
                 anchors {
@@ -101,7 +101,7 @@ PanelWindow {
 
                 implicitWidth: parent.width * Battery.value
                 radius: parent.radius
-                color: "#D35D6E"
+                color: Colours.pinkish
             }
         }
     }

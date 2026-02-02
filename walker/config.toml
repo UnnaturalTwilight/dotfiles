@@ -48,6 +48,7 @@ default = [
   "desktopapplications",
   "calc",
   "websearch",
+  "menus:meta"
 ] # providers to be queried by default
 empty = ["desktopapplications"] # providers to be queried when query is empty
 max_results = 50 # global max results
@@ -74,9 +75,9 @@ provider = "symbols"
 prefix = "\\"
 provider = "unicode"
 
-# [[providers.prefixes]]
-# prefix = "!"
-# provider = "todo"
+[[providers.prefixes]]
+prefix = "+"
+provider = "todo"
 
 [[providers.prefixes]]
 prefix = "="

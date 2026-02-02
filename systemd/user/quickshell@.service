@@ -7,5 +7,6 @@ Requisite=graphical-session.target
 AssertPathExists=%E/quickshell/%i/shell.qml
 
 [Service]
+Environment="QT_QPA_PLATFORM=wayland" "QT_QPA_PLATFORMTHEME=gtk3"
 ExecStart=qs --no-duplicate --config %i
 Restart=on-failure

@@ -9,7 +9,7 @@ PanelWindow {
     required property var modelData
     screen: modelData
     // I would prefer not to have an invisible window on other screens, but I can't figure out Loaders right now.
-    visible: modelData.name === "eDP-1"
+    // visible: modelData.name === "eDP-1"
 
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Background
@@ -35,13 +35,13 @@ PanelWindow {
     implicitHeight: clockLayout.implicitHeight
     ColumnLayout {
         id: clockLayout
-        spacing: -23
+        spacing: -24
 
         Text {
             id: timeText
             Layout.alignment: Qt.AlignCenter
             text: Time.time
-            color: "#b0b4bc"
+            color: Colours.kindaGray
             font.pixelSize: 128
             font.family: "JetBrainsMonoNFM"
         }
@@ -50,7 +50,7 @@ PanelWindow {
             id: dateText
             Layout.alignment: Qt.AlignCenter
             text: Time.date
-            color: "#b0b4bc"
+            color: Colours.kindaGray
             font.pixelSize: 24
             font.family: "Noto Sans"
         }

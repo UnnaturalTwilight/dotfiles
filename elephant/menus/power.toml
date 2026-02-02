@@ -3,6 +3,7 @@ name_pretty = "Power"
 icon = "cs-power"
 global_search = true
 search_name = true
+fixed_order = true
 
 [[entries]]
 text = "Shutdown"

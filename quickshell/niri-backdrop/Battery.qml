@@ -9,11 +9,11 @@ Singleton {
     id: root
 
     readonly property real value: {
-        return UPower.displayDevice.percentage;
+        return UPower.displayDevice.percentage ?? 0.0;
     }
 
-    readonly property UPowerDeviceState state: {
-        return UPower.displayDevice.state;
+    readonly property var state: {
+        return UPower.displayDevice.state ?? UPowerDeviceState.Unknown;
     }
 
     readonly property string icon: {
@@ -28,7 +28,7 @@ Singleton {
             value < 0.75 ? icons[3] :
             value < 0.85 ? icons[2] :
             value < 0.95 ? icons[1] :
-            icons[0]
+            icons[0];
     }
 
     readonly property list<string> icons: ["󰁹", "󰂂", "󰂁", "󰂀", "󰁿", "󰁾", "󰁽", "󰁼", "󰁻", "󰁺", "󰂎", "󰂄"]

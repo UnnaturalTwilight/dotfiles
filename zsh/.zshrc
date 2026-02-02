@@ -1,7 +1,7 @@
 # Lines configured by zsh-newuser-install
 HISTFILE=$XDG_STATE_HOME/zsh/histfile
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=3000
+SAVEHIST=3000
 setopt autocd
 bindkey -e
 # End of lines configured by zsh-newuser-install

@@ -31,3 +31,10 @@ subtext = "systemctl --user restart elephant.service"
 keywords = ["elephant"]
 icon = "reload"
 actions = { "restart" = "systemctl --user restart elephant.service" }
+
+[[entries]]
+text = "Color Picker"
+subtext = "hyprpicker"
+keywords = ["color", "picker", "hypr"]
+actions = { "use" = "sleep 0.5 && hyprpicker -a" }
+icon = "color-picker"

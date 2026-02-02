@@ -4,5 +4,23 @@ window_integration = true
 window_integration_ignore_actions = true
 wm_integration = true
 
+single_instance_apps = [
+  "discord"
+]
+
+blacklist = [
+  "^avahi",
+  "^designer$",
+  "^qdbusviewer$",
+  "^qv4l2$",
+  "^qvidcap$",
+  "^linguist$",
+  "^assistant$",
+  "^bvnc$",
+  "^bssh$",
+  "^lstopo$",
+  "-java-openjdk$"
+]
+
 [[aliases]]
 code = "code.desktop"

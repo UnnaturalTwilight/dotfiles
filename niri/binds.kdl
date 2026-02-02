@@ -214,6 +214,10 @@ binds {
     Mod+KP_Subtract { set-column-width "-10%"; }
     Mod+Equal { set-column-width "+10%"; }
     Mod+KP_Add { set-column-width "+10%"; }
+    Mod+Ctrl+Minus { set-column-width "-5%"; }
+    Mod+Ctrl+KP_Subtract { set-column-width "-5%"; }
+    Mod+Ctrl+Equal { set-column-width "+5%"; }
+    Mod+Ctrl+KP_Add { set-column-width "+5%"; }
 
     // Finer height adjustments when in column with other windows.
     Mod+Shift+Minus { set-window-height "-10%"; }

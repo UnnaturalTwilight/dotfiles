@@ -1,0 +1,19 @@
+name = "meta"
+name_pretty = "Menus"
+icon = "unknown"
+global_search = true
+search_name = true
+hide_from_providerlist = true
+
+[[entries]]
+text = "System Commands"
+icon = "laptop"
+submenu = "system"
+keywords = ["docker", "immich", "elephant"]
+
+[[entries]]
+text = "Power Options"
+subtext = "Shutdown, Reboot, Lock, Sleep"
+icon = "cs-power"
+submenu = "power"
+keywords = ["shutdown", "poweroff", "reboot", "restart", "lock", "sleep", "suspend", "hibernate"]
