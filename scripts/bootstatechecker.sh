@@ -10,8 +10,8 @@ else
     notify-send "C:/ is not mounted" "Apps that depend on data stored under windows will not work." --urgency=critical --app-name="Boot State Checker"
 fi
 
-if [[ "$1" == "debug" ]]; then
-    notify-send "Debug Mode" "This is a test notification from bootstatechecker.sh" --urgency=normal --app-name="Boot State Checker"
+if [[ "$1" == "debug-env" ]]; then
+    notify-send "Environment Debug Mode" "This is a test notification from bootstatechecker.sh" --urgency=normal --app-name="Boot State Checker"
     systemctl --user show-environment > ${HOME}/bsc_debug_sysd-user-env
     printenv > ${HOME}/bsc_debug_printenv
     zsh -c printenv > ${HOME}/bsc_debug_zsh-env
@@ -20,6 +20,14 @@ if [[ "$1" == "debug" ]]; then
     sort ${HOME}/bsc_debug_zsh-env > ${HOME}/bsc_debug_zsh-env-sorted
     kitty --execute --detach kitten diff ${HOME}/bsc_debug_sysd-user-env-sorted ${HOME}/bsc_debug_printenv-sorted
     kitty --execute --detach kitten diff ${HOME}/bsc_debug_sysd-user-env-sorted ${HOME}/bsc_debug_zsh-env-sorted
+fi
+
+if [[ -e "$XDG_DATA_HOME"/localappdata ]]; then
+    notify-send "LOCALAPPDATA exists" "WHAT AND WHY ARE APPS USING LOCALAPPDATA?" --urgency=normal --app-name="Boot State Checker"
+fi
+
+if [[ -e "$XDG_DATA_HOME"/appdata ]]; then
+    notify-send "APPDATA exists" "WHAT AND WHY ARE APPS USING APPDATA?" --urgency=normal --app-name="Boot State Checker"
 fi
 
 exit 0

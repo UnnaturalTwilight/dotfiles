@@ -4,6 +4,9 @@ import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 
+import ".."
+import "../Utils"
+
 PanelWindow {
     id: bgSysPanel
     required property var modelData

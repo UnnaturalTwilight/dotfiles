@@ -1,6 +1,8 @@
 // quickshell/niri-backdrop/shell.qml
 import Quickshell
 import QtQuick
+import "Backdrop"
+import "Overlay"
 
 Scope {
     id: root

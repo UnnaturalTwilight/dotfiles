@@ -20,6 +20,10 @@ export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 export GOPATH="$XDG_DATA_HOME"/go
 # .NET
 export DOTNET_CLI_HOME="$XDG_DATA_HOME"/dotnet
+# I be doing a silly to see if it works
+export APPDATA="$XDG_DATA_HOME"/appdata
+export LOCALAPPDATA="$XDG_DATA_HOME"/localappdata
+
 # Java
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 # Gradle
