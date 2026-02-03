@@ -34,10 +34,11 @@ case $XDG_CURRENT_DESKTOP in
     alias lock='hyprlock'
     ;;
   niri)
-    alias logout='niri msg action quit'
+    alias logout='niri msg action quit --skip-confirmation'
     alias run='systemd-run --user --'
     alias lock='hyprlock'
     alias eww-bg='eww --config $HOME/.config/eww_niri/'
+    alias qs-bg='qs --config niri-backdrop'
     ;;
   *)
     alias run='systemd-run --user --'

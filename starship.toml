@@ -81,38 +81,38 @@ format = '([$ssh_symbol]($style))[$hostname]($style)'
 style = "bg:zero"
 
 [sudo]
-format = '[$symbol ]($style)'
-symbol = ""
+format = '[$symbol]($style)'
+symbol = " "
 style = "bg:zero"
 disabled = false
 
 [os]
-format = '[$symbol ]($style)'
+format = '[$symbol]($style)'
 style = "bg:zero"
 disabled = false
 
 [os.symbols]
-Android = ""
-Arch = "󰣇"
-Debian = ""
-Linux = ""
-NixOS = ""
-Raspbian = ""
-Windows = "󰍲"
+Android = " "
+Arch = "󰣇 "
+Debian = " "
+Linux = " "
+NixOS = " "
+Raspbian = " "
+Windows = "󰍲 "
 
 [shell]
 format = '[$indicator]($style)'
 style = "bg:zero"
-disabled = true
+disabled = false
 zsh_indicator = ""
-bash_indicator = ""
-powershell_indicator = "󰨊"
-pwsh_indicator = ""
+bash_indicator = " "
+powershell_indicator = "󰨊 "
+pwsh_indicator = " "
 
 [directory]
 style = "bg:one"
-format = "[ $path ]($style)([$read_only ]($style))"
-read_only = ""
+format = "[ $path ]($style)([$read_only]($style))"
+read_only = " "
 truncation_length = 3
 truncation_symbol = "…/"
 
