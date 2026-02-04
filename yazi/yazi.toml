@@ -24,3 +24,20 @@ run  = "git"
 id   = "git"
 url = "*/"
 run  = "git"
+
+[opener]
+edit = [
+	{ run = "$EDITOR %s", desc = "Edit", block = true, for = "unix" },
+	{ run = "%EDITOR% %s", desc = "Edit", block = true, for = "windows" },
+]
+code = [
+    { run = "code %s", desc = "VSCode", for = "windows", orphan = true },
+]
+
+[open]
+prepend_rules = [
+	{ mime = "folder/", use = [ "reveal", "code" ] },
+]
+append_rules = [
+	{ url = "*", use = [ "open", "edit", "code", "reveal" ] },
+]
