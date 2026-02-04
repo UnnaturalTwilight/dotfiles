@@ -1,3 +1,4 @@
+"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
 # smart open
 [[mgr.prepend_keymap]]

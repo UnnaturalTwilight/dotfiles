@@ -1,3 +1,4 @@
+"$schema" = "https://yazi-rs.github.io/schemas/theme.json"
 
 [flavor]
 dark = "catppuccin-mocha"

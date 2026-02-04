@@ -1,3 +1,4 @@
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
 [[plugin.prepend_preloaders]]
 mime = "{audio,video,image}/*" 
@@ -6,14 +7,6 @@ run = "mediainfo"
 [[plugin.prepend_previewers]]
 mime = "{audio,video,image}/*"
 run = "mediainfo"
-
-[[opener.bulk-rename]]
-run   = "kitty kitten edit-in-kitty %s"
-block = true
-
-[[open.prepend_rules]]
-url = "bulk-rename.txt"
-use = "bulk-rename"
 
 [[plugin.prepend_fetchers]]
 id   = "git"
@@ -26,17 +19,27 @@ url = "*/"
 run  = "git"
 
 [opener]
+bulk-rename = [
+	{ run = "kitty kitten edit-in-kitty %s", block = true, for = "linux" },
+	{ run = "edit.exe %s", block = true, for = "windows" },
+]
 edit = [
-	{ run = "$EDITOR %s", desc = "Edit", block = true, for = "unix" },
+	{ run = "${EDITOR:-nano} %s", desc = "Edit", block = true, for = "unix" },
 	{ run = "%EDITOR% %s", desc = "Edit", block = true, for = "windows" },
 ]
 code = [
     { run = "code %s", desc = "VSCode", for = "windows", orphan = true },
+    { run = "code %s", desc = "VSCode", for = "linux", orphan = true },
+]
+view-image = [
+	{ run = "kitty kitten icat --hold -- %s", desc = "Preview (icat)", block = false, for = "linux" },
 ]
 
 [open]
 prepend_rules = [
-	{ mime = "folder/", use = [ "reveal", "code" ] },
+	{ url = "bulk-rename.txt", use = "bulk-rename" },
+	{ url = "*/", use = [ "reveal", "code" ] },
+	{ mime = "image/*", use = [ "view-image", "open", "reveal" ] },
 ]
 append_rules = [
 	{ url = "*", use = [ "open", "edit", "code", "reveal" ] },
