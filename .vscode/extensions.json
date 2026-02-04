@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "theqtcompany.qt-qml",
-        "kdl-org.kdl"
+        "kdl-org.kdl",
+        "a5huynh.vscode-ron"
     ]
 }

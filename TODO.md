@@ -1,2 +1,1 @@
-- [] starship toggle hacks? - ie swap between shell and os moduals
 - [] quickshell
