@@ -2,20 +2,22 @@
 #![enable(unwrap_newtypes)]
 #![enable(unwrap_variant_newtypes)]
 (
+    draw_borders: true,
     default_album_art_path: None,
-    show_song_table_header: false,
-    draw_borders: false,
+    format_tag_separator: " | ",
     browser_column_widths: [25, 45, 30],
+    background_color: None,
     text_color: "015",
-    tab_bar: (
-        enabled: true,
-        active_style: (fg: "015", bg: "061", modifiers: "Bold"),
-        inactive_style: (fg: "007", modifiers: ""),
-    ),
-    highlighted_item_style: (fg: "183", modifiers: "Bold"),
+    header_background_color: None,
+    modal_background_color: None,
+    modal_backdrop: false,
+    preview_label_style: (fg: "006"),
+    preview_metadata_group_style: (fg: "004", modifiers: "Bold"),
     current_item_style: (fg: "015", bg: "061", modifiers: "Bold"),
+    highlighted_item_style: (fg: "183", modifiers: "Bold"),
     borders_style: (fg: "008", modifiers: "Bold"),
-    highlight_border_style: (fg: "015"),
+    highlight_border_style: (fg: "008"),
+
     symbols: (song: "󰝚 ", dir: " ", playlist: "󰲸", marker: "⯈", ellipsis: "...",
         song_style: None, dir_style: (fg: "117"), playlist_style: (fg: "010")),
     progress_bar: (
@@ -23,6 +25,7 @@
         track_style: (fg: "000"),
         elapsed_style: (fg: "061"),
         thumb_style: (fg: "099"),
+        use_track_when_empty: false,
     ),
     scrollbar: (
         symbols: ["│", "█", "▲", "▼"],
@@ -30,6 +33,29 @@
         ends_style: (fg: "007"),
         thumb_style: (fg: "061"),
     ),
+    
+    tab_bar: (
+        active_style: (fg: "015", bg: "061", modifiers: "Bold"),
+        inactive_style: (fg: "007", modifiers: ""),
+    ),
+
+    browser_song_format: [
+        (
+            kind: Group([
+                (kind: Property(Track)),
+                (kind: Text(" ")),
+            ])
+        ),
+        (
+            kind: Group([
+                (kind: Property(Title)),
+                (kind: Text(" - ")),
+                (kind: Property(Artist)),
+            ]),
+            default: (kind: Property(Filename))
+        ),
+    ],
+    
     song_table_format: [
         (
             prop: (kind: Text("")),
@@ -50,46 +76,52 @@
         ),
         (
             prop: (kind: Property(Duration),
-                default: (kind: Text("-"))
+                default: (kind: Text("-:--"))
             ),
             width: "5",
             alignment: Right,
         ),
+        (
+            prop: (kind: Text("")),
+            width: "0",
+        ),
     ],
+
     layout: Split(
         direction: Vertical,
         panes: [
             (
-                size: "4",
-                borders: "ALL",
                 pane: Component("header"),
+                borders: "ALL",
+                border_symbols: Rounded,
+                size: "4",
             ),
             (
+                pane: Pane(Tabs),
+                borders: "RIGHT | LEFT | TOP",
+                border_symbols: Rounded,
+                size: "2",
+            ),
+            (
+                pane: Pane(TabContent),
                 size: "100%",
-                pane: Split(
-                    direction: Vertical,
-                    borders: "ALL",
-                    panes: [
-                        (
-                            size: "2",
-                            borders: "BOTTOM",
-                            pane: Pane(Tabs),
-                        ),
-                        (
-                            size: "100%",
-                            borders: "NONE",
-                            pane: Pane(TabContent),
-                        ),
-                    ]
-                ),
             ),
             (
                 size: "3",
                 borders: "ALL",
-                pane: Pane(ProgressBar),
+                border_symbols: Rounded,
+                border_title: [
+                    (kind: Text(" "),style: (fg: "008")),
+                    (kind: Property(Status(Elapsed)),style: (fg: "008")),
+                    (kind: Text("/"),style: (fg: "008")),
+                    (kind: Property(Status(Duration)),style: (fg: "008")),
+                    (kind: Text(" ─"),style: (fg: "008"))],
+                border_title_alignment: Right,
+                pane: Pane(ProgressBar)
             ),
         ],
     ),
+    
     components: {
         "_playpause1": Pane(Property(
             content: [
@@ -198,23 +230,7 @@
             ],
         ),
     },
-    header: (rows: []),
-    browser_song_format: [
-        (
-            kind: Group([
-                (kind: Property(Track)),
-                (kind: Text(" ")),
-            ])
-        ),
-        (
-            kind: Group([
-                (kind: Property(Title)),
-                (kind: Text(" - ")),
-                (kind: Property(Artist)),
-            ]),
-            default: (kind: Property(Filename))
-        ),
-    ],
+    
     cava: (
         // symbols that will be used to draw the bar in the visualiser, in ascending order of fill fraction
         bar_symbols: ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'],

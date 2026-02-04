@@ -6,6 +6,8 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
   source $ZDOTDIR/kitty.zsh
 fi
 
+KEYBOARD_HACK=\\
+
 export EDITOR=edit
 
 source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")

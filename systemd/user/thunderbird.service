@@ -8,6 +8,7 @@ StartLimitBurst=5
 [Service]
 Type=simple
 ExecStart=thunderbird --headless
+StandardError=null
 Restart=always
 RestartSec=30s
 
