@@ -34,7 +34,7 @@ PanelWindow {
         top: 0
         right: 0
         left: 40
-        bottom: 40
+        bottom: 80
     }
 
     implicitWidth: wrapper.implicitWidth + 32
@@ -128,7 +128,7 @@ PanelWindow {
                 id: windowRepeater
 
                 model: ScriptModel {
-                    values: workspaceItem.modelData.windows.length > 0 ? [...workspaceItem.modelData.windows] : [Niri.emptyWindow]
+                    values: workspaceItem.modelData.windows.length > 0 ? [...workspaceItem.modelData.windows].sort((a, b) => a.positionInWorkspace - b.positionInWorkspace) : [Niri.emptyWindow]
                 }
 
                 WindowItem {

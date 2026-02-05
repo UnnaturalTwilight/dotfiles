@@ -16,7 +16,7 @@ PanelWindow {
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Background
     WlrLayershell.namespace: "backdrop-qt-debug"
-    color: Qt.alpha("red", 0.3)
+    color: Qt.alpha("red", 0.5)
     surfaceFormat.opaque: false
 
     anchors {
@@ -33,8 +33,8 @@ PanelWindow {
         bottom: 0
     }
 
-    implicitWidth: debugLayout.implicitWidth
-    implicitHeight: debugLayout.implicitHeight
+    implicitWidth: Math.max(debugLayout.implicitWidth, debugLayout2.implicitWidth)
+    implicitHeight: debugLayout.implicitHeight + debugLayout2.implicitHeight + 40
     Grid {
         id: debugLayout
         spacing: -24
@@ -55,6 +55,29 @@ PanelWindow {
         }
     }
 
+    // Text {
+    //         id: debugLayout
+    //         Layout.alignment: Qt.AlignTop
+    //         text: JSON.stringify(Niri.workspaces) + "\n"
+    //         color: Colours.kindaGray
+    //         font.pixelSize: 16
+    //         font.family: "JetBrainsMonoNFM"
+    //         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+    //         width: 1500
+    //     }
+
+    Text {
+            id: debugLayout2
+            Layout.alignment: Qt.AlignBottom
+            text: [...Niri.windows].sort((a, b) => a.workspaceId - b.workspaceId).map(w => JSON.stringify([w.windowId,[w.workspaceId, w.positionInWorkspace]])).join("\n") + "\n"
+            color: Colours.kindaGray
+            font.pixelSize: 16
+            font.family: "JetBrainsMonoNFM"
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            width: 1500
+            y: debugLayout.implicitHeight + 20
+        }
+
     component DebugItem: Rectangle {
         id: debugRect
         required property var modelData
@@ -67,17 +90,12 @@ PanelWindow {
             id: debugText
             Layout.alignment: Qt.AlignCenter
             text: debugRect.modelData.workspaceId + 
-            " : " + [...debugRect.modelData?.windows].map(w => w.windowId).join(" ") +
-            " : " + [...debugRect.modelData?.windows].map(w => w.title).join(" ") +
-            " : " + [...debugRect.modelData?.windows].map(w => w.appId).join(" ") +
-            " : " + [...debugRect.modelData?.windows].map(w => w.pid).join(" ") +
-            " : " + [...debugRect.modelData?.windows].map(w => w.workspaceId).join(" ") +
-            " : " + [...debugRect.modelData?.windows].map(w => w.isFocused).join(" ") +
-            " : " + [...debugRect.modelData?.windows].map(w => w.isFloating).join(" ") +
-            " : " + [...debugRect.modelData?.windows].map(w => w.isUrgent).join(" ");
+            " : " + JSON.stringify([...debugRect.modelData.windows].map(w => [w.windowId, w.positionInWorkspace])) + "\n"
             color: Colours.kindaGray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"
+            wrapMode: Text.WrapAnywhere
+            width: 1000
         }
 
     }

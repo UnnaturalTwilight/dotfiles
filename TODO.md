@@ -1,1 +1,4 @@
 - [] quickshell
+  - [] idle inhibitor
+  - [] start panel
+  - [] 

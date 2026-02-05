@@ -133,10 +133,12 @@ Singleton {
         parser: SplitParser {
             onRead: line => {
                 const event = JSON.parse(line);
+                // console.log("NiriService: Event received: " + JSON.stringify(event));
 
                 if (event.OverviewOpenedOrClosed) {
                     root.overviewOpened = event.OverviewOpenedOrClosed.is_open;
                     return;
+
                 } else if (event.WorkspacesChanged) {
                     let newWorkspaces = [];
                     for (const workspace of event.WorkspacesChanged.workspaces) {
@@ -153,16 +155,22 @@ Singleton {
                         if (ws.isFocused) {
                             root.focusedWorkspace = ws;
                         }
+                        console.log("\nNiriService: WorkspacesChanged: workspace " + ws.workspaceId);
                         for (const win of root.windows) {
+                            // console.log("NiriService: WorkspacesChanged: window " + win.windowId + " on old workspace " + win.workspaceId);
                             if (win.workspaceId === ws.workspaceId) {
                                 ws.windows.push(win);
+                                console.log("NiriService: WorkspacesChanged: added window " + win.windowId + " to workspace " + ws.workspaceId);
                             }
                         }
                         newWorkspaces.push(ws);
                     }
                     newWorkspaces = newWorkspaces.sort((a, b) => a.idx - b.idx);
                     root.workspaces = newWorkspaces;
+                    console.log("\n");
+                    // console.log("NiriService: WorkspacesChanged: now " + JSON.stringify([...root.workspaces]));
                     return;
+
                 } else if (event.WorkspaceActivated) {
                     const ws = event.WorkspaceActivated;
                     if (root.focusedWorkspace) {
@@ -177,6 +185,7 @@ Singleton {
                     }
                     console.warn("NiriService: New focused workspace not found. This likely a bug in the IPC implementation.");
                     return;
+
                 } else if (event.WindowsChanged) {
                     for (let workspace of root.workspaces) {
                         workspace.windows = [];
@@ -207,9 +216,11 @@ Singleton {
                             }
                         }
                     }
-                    windows = windows.sort((a, b) => a.positionInWorkspace - b.positionInWorkspace);
+                    // windows = windows.sort((a, b) => a.positionInWorkspace - b.positionInWorkspace);
                     root.windows = windows;
+                    // console.log("NiriService: WorkspacesChanged: now " + JSON.stringify([...root.workspaces]));
                     return;
+
                 } else if (event.WindowOpenedOrChanged) {
                     const win = event.WindowOpenedOrChanged.window;
                     const winObj = windowComp.createObject(root, {
@@ -224,17 +235,32 @@ Singleton {
                         positionInWorkspace: win.layout?.pos_in_scrolling_layout ? win.layout.pos_in_scrolling_layout[0] : 0
                     });
                     var matched = false;
+                    var movedws = false;
                     for (let window of root.windows) {
                         if (window.windowId === winObj.windowId) {
-                            window = winObj;
+                            movedws = window.workspaceId !== winObj.workspaceId;
+                            console.log("NiriService: WindowOpenedOrChanged: " + winObj.windowId + (movedws ? " moved to workspace " + winObj.workspaceId : " changed"));
+                            // window = winObj;
+                            root.windows.splice(root.windows.indexOf(window), 1, winObj);
                             matched = true;
+                            console.log("NiriService: WindowOpenedOrChanged: Did it work? " + window.windowId + " : " + window.workspaceId);
                         }
                     }
                     if (!matched) {
-                        // console.log("NiriService: WindowOpened: " + winObj.windowId);
+                        console.log("NiriService: WindowOpened: " + winObj.windowId);
                         root.windows.push(winObj);
                     }
+                    console.log("NiriService: WindowOpenedOrChanged: now " + [...root.windows].sort((a, b) => a.workspaceId - b.workspaceId).map(w => JSON.stringify([w.windowId,[w.workspaceId, w.positionInWorkspace]])).join("\n"));
                     for (let ws of root.workspaces) {
+                        if (movedws) {
+                            for (let i = 0; i < ws.windows.length; i++) {
+                                if (ws.windows[i].windowId === winObj.windowId) {
+                                    ws.windows.splice(i, 1);
+                                    console.log("NiriService: WindowOpenedOrChanged: removed " + winObj.windowId + " from old workspace " + ws.workspaceId);
+                                    break;
+                                }
+                            }
+                        }
                         if (ws.workspaceId === winObj.workspaceId) {
                             for (let win of ws.windows) {
                                 if (win.windowId === winObj.windowId) {
@@ -247,6 +273,7 @@ Singleton {
                             return;
                         }
                     }
+
                 } else if (event.WindowClosed) {
                     const id = event.WindowClosed.id;
                     for (const win of root.windows) {
@@ -263,6 +290,7 @@ Singleton {
                             }
                         }
                     }
+
                 } else if (event.WindowFocusChanged) {
                     const id = event.WindowFocusChanged.id;
                     if (root.focusedWindow) {
@@ -276,6 +304,7 @@ Singleton {
                             return;
                         }
                     }
+
                 } else if (event.WindowUrgencyChanged) {
                     const id = event.WindowUrgencyChanged.id;
                     const urgent = event.WindowUrgencyChanged.urgent;
@@ -286,6 +315,7 @@ Singleton {
                             return;
                         }
                     }
+
                 } else if (event.WindowLayoutsChanged) {
                     const changes = event.WindowLayoutsChanged.changes;
                     for (const change of changes) {
@@ -320,11 +350,14 @@ Singleton {
                             ws.windows = ws.windows.sort((a, b) => a.positionInWorkspace - b.positionInWorkspace);
                         }
                     }
+
                 } else if (event.KeyboardLayoutsChanged) {
                     root.keyboardLayoutIndex = event.KeyboardLayoutsChanged.keyboard_layouts.current_idx;
                     root.keyboardLayouts = event.KeyboardLayoutsChanged.keyboard_layouts.names;
+
                 } else if (event.Ok) {
                     // Confirmation response of eventstream
+                    return;
                 } else {
                     // console.log("NiriService: Unhandled event received: " + JSON.stringify(event));
                 }
