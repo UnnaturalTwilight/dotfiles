@@ -1,7 +1,8 @@
 // quickshell/niri-backdrop/shell.qml
 import Quickshell
 import QtQuick
-import "Backdrop"
+
+import qs.backdrop
 
 Scope {
     id: root
@@ -16,4 +17,14 @@ Scope {
         model: Quickshell.screens
         Symbols {}
     }
+    Variants {
+
+        model: Quickshell.screens
+        Workspaces {}
+    }
+    // Variants {
+
+    //     model: Quickshell.screens
+    //     Debug {}
+    // }
 }

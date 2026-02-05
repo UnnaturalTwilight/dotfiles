@@ -4,8 +4,8 @@ import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 
-import ".."
-import "../Utils"
+import qs
+import qs.utils
 
 PanelWindow {
     id: bgClockPanel
