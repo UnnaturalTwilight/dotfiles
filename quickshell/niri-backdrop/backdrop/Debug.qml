@@ -69,7 +69,9 @@ PanelWindow {
     Text {
             id: debugLayout2
             Layout.alignment: Qt.AlignBottom
-            text: [...Niri.windows].sort((a, b) => a.workspaceId - b.workspaceId).map(w => JSON.stringify([w.windowId,[w.workspaceId, w.positionInWorkspace]])).join("\n") + "\n"
+            text: "Focused Window ID: " + (Niri?.focusedWindow?.windowId) + "\n" +
+                [...Niri.windows].sort((a, b) => a.workspaceId - b.workspaceId)
+                .map(w => JSON.stringify([w.windowId,{"ID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}])).join("\n") + "\n"
             color: Colours.kindaGray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"
@@ -90,7 +92,8 @@ PanelWindow {
             id: debugText
             Layout.alignment: Qt.AlignCenter
             text: debugRect.modelData.workspaceId + 
-            " : " + JSON.stringify([...debugRect.modelData.windows].map(w => [w.windowId, w.positionInWorkspace])) + "\n"
+                " : " + JSON.stringify([...debugRect.modelData.windows]
+                .map(w => [w.windowId, {"wsID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}])) + "\n"
             color: Colours.kindaGray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"

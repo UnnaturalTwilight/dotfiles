@@ -31,5 +31,6 @@ QtObject {
 	// Whether this window is currently requesting attention.
 	required property bool isUrgent
 
+	// column of the window in the workspace, starting from 1. Set to 0 if not applicable (eg. floating windows).
 	property int positionInWorkspace: 0
 }

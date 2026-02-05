@@ -74,6 +74,15 @@ Singleton {
         }
     }
 
+    // Quit niri
+    function quitNiri() {
+        send({
+            Action: {
+                Quit: {}
+            }
+        });
+    }
+
     // Activates the workspace with the given ID.
     function activateWorkspace(id: int) {
         send({
@@ -236,34 +245,24 @@ Singleton {
                         isUrgent: win.is_urgent,
                         positionInWorkspace: win.layout?.pos_in_scrolling_layout ? win.layout.pos_in_scrolling_layout[0] : 0
                     });
-                    var matched = false;
-                    var oldWorkspace = -1;
                     for (const window of root.windows) {
                         if (window.windowId === winObj.windowId) {
-                            matched = true;
-                            oldWorkspace = window.workspaceId;
-                            // console.log("NiriService: WindowOpenedOrChanged: " + winObj.windowId + " on workspace " + winObj.workspaceId + " old workspace: " + oldWorkspace);
-                            // window = winObj; // <-- Doesn't work for some reason
+                            // console.log("NiriService: WindowUpdated: " + winObj.windowId + " on workspace " + winObj.workspaceId + " old workspace: " + window.workspaceId);
                             root.windows.splice(root.windows.indexOf(window), 1, winObj);
+                            if (window.workspaceId !== winObj.workspaceId) {
+                                root.workspaces.find(ws => ws.workspaceId === window.workspaceId)?.windows.splice(root.workspaces.find(ws => ws.workspaceId === window.workspaceId)?.windows.findIndex(w => w.windowId === winObj.windowId), 1);
+                                root.workspaces.find(ws => ws.workspaceId === winObj.workspaceId)?.windows.push(winObj);
+                            } else {
+                                root.workspaces.find(ws => ws.workspaceId === winObj.workspaceId)?.windows.splice(root.workspaces.find(ws => ws.workspaceId === winObj.workspaceId)?.windows.findIndex(w => w.windowId === winObj.windowId), 1, winObj);
+                            }
+                            return;
                         }
                     }
-                    if (!matched) {
-                        // console.log("NiriService: WindowOpened: " + winObj.windowId);
-                        root.windows.push(winObj);
-                    }
-                    if (oldWorkspace !== winObj.workspaceId) {
-                        root.workspaces.find(ws => ws.workspaceId === oldWorkspace)?.windows.splice(root.workspaces.find(ws => ws.workspaceId === oldWorkspace)?.windows.findIndex(w => w.windowId === winObj.windowId), 1);
-                    }
-                    for (let ws of root.workspaces) {
-                        if (ws.workspaceId === winObj.workspaceId) {
-                            for (let win of ws.windows) {
-                                if (win.windowId === winObj.windowId) {
-                                    win = winObj;
-                                    // console.log("NiriService: WindowChanged: " + winObj.windowId + " on workspace " + winObj.workspaceId);
-                                    return;
-                                }
-                            }
-                            ws.windows.push(winObj);
+                    root.windows.push(winObj);
+                    for (let workspace of root.workspaces) {
+                        if (workspace.workspaceId === winObj.workspaceId) {
+                            workspace.windows.push(winObj);
+                            // console.log("NiriService: WindowOpened: " + winObj.windowId + " on workspace " + winObj.workspaceId);
                             return;
                         }
                     }
@@ -271,17 +270,13 @@ Singleton {
                     // {"WindowClosed":{"id": INT }}
                     // window with id is closed.
                     const id = event.WindowClosed.id;
-                    for (const win of root.windows) {
-                        if (win.windowId === id) {
-                            root.windows.splice(root.windows.indexOf(win), 1);
-                            break;
-                        }
-                    }
+                    root.windows.splice(root.windows.findIndex(w => w.windowId === id), 1);
                     for (const ws of root.workspaces) {
                         for (const win of ws.windows) {
                             if (win.windowId === id) {
                                 ws.windows.splice(ws.windows.indexOf(win), 1);
                                 // console.log("NiriService: WindowClosed: " + id + " on workspace " + ws.workspaceId);
+                                return;
                             }
                         }
                     }
@@ -303,8 +298,18 @@ Singleton {
                     const urgent = event.WindowUrgencyChanged.urgent;
                     for (let win of root.windows) {
                         if (win.windowId === id) {
-                            // console.log("NiriService: WindowUrgencyChanged: " + id + " urgent: " + urgent);
                             win.isUrgent = urgent;
+                            // console.log("NiriService: WindowUrgencyChanged: " + id + " urgent: " + urgent);
+                            return;
+                        }
+                    }
+                } else if (event.WorkspaceUrgencyChanged) {
+                    const id = event.WorkspaceUrgencyChanged.id;
+                    const urgent = event.WorkspaceUrgencyChanged.urgent;
+                    for (let ws of root.workspaces) {
+                        if (ws.workspaceId === id) {
+                            ws.isUrgent = urgent;
+                            // console.log("NiriService: WorkspaceUrgencyChanged: " + id + " urgent: " + urgent);
                             return;
                         }
                     }
@@ -312,32 +317,13 @@ Singleton {
                     const changes = event.WindowLayoutsChanged.changes;
                     for (const change of changes) {
                         const id = change[0];
-                        const newPos = change[1]?.pos_in_scrolling_layout ? change[1].pos_in_scrolling_layout[0] : -1;
+                        const newPos = change[1]?.pos_in_scrolling_layout ? change[1].pos_in_scrolling_layout[0] : 0;
                         // console.log("NiriService: WindowLayoutsChanged: " + id + " newPos: " + newPos);
                         for (let win of root.windows) {
                             if (win.windowId === id) {
-                                if (newPos >= 0) {
-                                    win.positionInWorkspace = newPos;
-                                    win.isFloating = false;
-                                } else {
-                                    win.positionInWorkspace = 0;
-                                    win.isFloating = true;
-                                }
+                                win.positionInWorkspace = newPos;
+                                win.isFloating = newPos < 1;
                                 break;
-                            }
-                        }
-                        for (let ws of root.workspaces) {
-                            for (let win of ws.windows) {
-                                if (win.windowId === id) {
-                                    if (newPos >= 0) {
-                                        win.positionInWorkspace = newPos;
-                                        win.isFloating = false;
-                                    } else {
-                                        win.positionInWorkspace = 0;
-                                        win.isFloating = true;
-                                    }
-                                    break;
-                                }
                             }
                         }
                     }

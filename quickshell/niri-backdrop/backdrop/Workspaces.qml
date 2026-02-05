@@ -33,7 +33,7 @@ PanelWindow {
         top: 0
         right: 0
         left: 40
-        bottom: 80
+        bottom: 40
     }
 
     implicitWidth: wrapper.implicitWidth + 32
@@ -70,15 +70,6 @@ PanelWindow {
             columnSpacing: 4
             rightPadding: -4
 
-            // add: Transition {
-            // 	M3NumberAnim {
-            // 		data: Anims.current.spatial.fast
-            // 		properties: "scale"
-            // 		from: 0
-            // 		to: 1
-            // 	}
-            // }
-
             Repeater {
                 id: repeater
 
@@ -111,7 +102,7 @@ PanelWindow {
 
         Behavior on color {
             ColorAnimation {
-                duration: 50
+                duration: 100
                 easing.type: Easing.Linear
             }
         }
@@ -176,16 +167,24 @@ PanelWindow {
 
         Behavior on color {
             ColorAnimation {
-                duration: 50
+                duration: 100
                 easing.type: Easing.Linear
             }
         }
+
+        // implicitWidth: focused ? 30 : 20
+        // Behavior on implicitWidth {
+        //     SmoothedAnimation {
+        //         duration: 500
+        //         easing.type: Easing.Linear
+        //     }
+        // }
 
         // implicitWidth: debugText.implicitWidth + 10
         // Text {
         //     id: debugText
         //     anchors.centerIn: parent
-        //     text: windowItem.modelData.windowId || "?"
+        //     text: windowItem.modelData.windowId + ":" + windowItem.modelData.positionInWorkspacez
         //     color: "white"
         //     font.family: "JetBrainsMonoNFM"
         //     font.pixelSize: 14
