@@ -22,9 +22,9 @@ Scope {
         model: Quickshell.screens
         Workspaces {}
     }
-    Variants {
+    // Variants {
 
-        model: Quickshell.screens
-        Debug {}
-    }
+    //     model: Quickshell.screens
+    //     Debug {}
+    // }
 }
