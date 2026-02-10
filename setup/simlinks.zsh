@@ -10,7 +10,9 @@ fi
 
 # on zsh the var is HOST but on bash it is HOSTNAME
 # but if all else fails just cat the file
-host=${HOST:=$(cat /etc/hostname)}
+host=${HOST:-$(cat /etc/hostname)}
+# same goes for user
+user=${USER:-$USERNAME}
 
 ## Create symlinks for bash
 ln -sfbr --suffix=.bak ./bash/.bashrc $HOME/.bashrc
@@ -28,14 +30,28 @@ source $ZDOTDIR/.zshenv
 # Make sure zsh reads $ZDOTDIR/.zshrc
 mv $HOME/.zshrc $HOME/.zshrc.bak 2>/dev/null
 
+# Starship
+ln -sfbr --suffix=.bak ./starship.toml $XDG_CONFIG_HOME/starship.toml
+
 # Fastfetch
 ln -sfbr --suffix=.bak ./fastfetch $XDG_CONFIG_HOME/fastfetch
-# assets (images, etc.)
+
+# Assets (images, etc.)
 ln -sfbr --suffix=.bak ./assets $XDG_CONFIG_HOME/assets
-ln -sfbr --suffix=.bak $XDG_CONFIG_HOME/assets/$USER_profilepic.png $XDG_CONFIG_HOME/profilepic.png
-echo "Manualy add profile pic to /usr/share/sddm/faces as $USER.face.icon to get it to show up in SDDM"
-echo "sudo ln -s $XDG_CONFIG_HOME/profilepic.png /usr/share/sddm/faces/$USER.face.icon"
-echo "sudo setfacl -m u:sddm:r /usr/share/sddm/faces/$USER.face.icon"
+ln -sfbr --suffix=.bak $XDG_CONFIG_HOME/assets/${user}_profilepic.png $XDG_CONFIG_HOME/profilepic.png
+
+# Yazi
+mkdir $XDG_CONFIG_HOME/yazi
+ln -sfbr --suffix=.bak ./yazi/* -t $XDG_CONFIG_HOME/yazi
+if (command -pv ya); then
+    echo
+    ya pkg upgrade
+    echo
+else 
+    echo
+    echo "run ya pkg upgrade to install yazi plugins"
+    echo
+fi
 
 echo
 echo "THIS SCRIPT IS WIP"
@@ -46,3 +62,10 @@ mkdir -p $XDG_STATE_HOME/bash
 mkdir -p $XDG_STATE_HOME/zsh
 mkdir -p $XDG_DATA_HOME/applications
 mkdir -p $HOME/.local/bin
+
+# SDDM
+echo
+echo "Manualy add profile pic to /usr/share/sddm/faces as ${user}.face.icon to get it to show up in SDDM"
+echo "sudo ln -s $XDG_CONFIG_HOME/profilepic.png /usr/share/sddm/faces/${user}.face.icon"
+echo "sudo setfacl -m u:sddm:r /usr/share/sddm/faces/${user}.face.icon"
+echo

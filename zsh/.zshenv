@@ -2,12 +2,14 @@ typeset -U path PATH
 path=(. ~/.local/bin $path)
 export PATH
 
+export NAME="${USERNAME:0:1:u}${USERNAME:1}"
+export PACKAGER="$NAME <$USERNAME@$HOST>"
+
 # XDG Base Directories
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
-
 
 # Applications
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc":"$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine"
