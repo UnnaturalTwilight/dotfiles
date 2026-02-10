@@ -35,5 +35,5 @@ export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 
 if [[ -e $XDG_RUNTIME_DIR/mpd/socket ]]; then
-    export MPD_HOST=$XDG_RUNTIME_DIR/mpd/socket
+  export MPD_HOST=$XDG_RUNTIME_DIR/mpd/socket
 fi

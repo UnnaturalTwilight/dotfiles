@@ -58,13 +58,13 @@ case $USER in
 esac
 
 function copy-buffer-to-clipboard() {
-  echo -n "$BUFFER" | wl-copy
+  print -Rn "$BUFFER" | wl-copy
 }
 zle -N copy-buffer-to-clipboard
 bindkey '^[[99;6u' copy-buffer-to-clipboard
 
 function cut-buffer-to-clipboard() {
-  echo -n "$BUFFER" | wl-copy
+  print -Rn "$BUFFER" | wl-copy
   zle kill-buffer
 }
 zle -N cut-buffer-to-clipboard

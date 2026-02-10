@@ -140,6 +140,9 @@ format = '[ $symbol $branch ]($style)'
 [git_status]
 style = "bg:two fg:bright"
 format = '([$all_status$ahead_behind ]($style))'
+conflicted = "≠"
+deleted = "✗"
+windows_starship = "/mnt/c/Program Files/starship/bin/starship.exe"
 
 [git_commit]
 tag_symbol = '  '

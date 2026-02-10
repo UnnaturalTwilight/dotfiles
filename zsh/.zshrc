@@ -37,11 +37,11 @@ TRAPUSR1() {
 source <(fzf --zsh)
 
 function yazi-cwd() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	IFS= read -r -d '' cwd < "$tmp"
-	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-	rm -f -- "$tmp"
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
 }
 
 ## Binds
@@ -83,7 +83,7 @@ alias yazi='yazi-cwd'
 
 # Dynamic PACKAGER based on if it is a custom pkg vs an AUR pkg
 if [[ -e "$(command -pv yay)" ]]; then
-	alias yay='PACKAGER="AUR <Built on $HOST>" yay'
+  alias yay='PACKAGER="AUR <Built on $HOST>" yay'
 fi
 
 # Prompt setup
@@ -101,7 +101,7 @@ elif [[ "$TERM" == (*-256color|xterm-color) ]]; then
 fi
 
 if [[ "$colourterm" == "yes" ]]; then
-	eval "$(starship init zsh)"
+  eval "$(starship init zsh)"
 fi
 
 # Load plugins
