@@ -22,8 +22,8 @@ alias clf='clear; fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
 
 alias compose='docker compose'
 
-alias bzmenu='bzmenu --launcher walker'
 alias vlc='env -u DISPLAY vlc' # run vlc in wayland
+alias fzf-view='fzf --style full --preview "fzf-preview {}" --bind "focus:transform-header:file --brief {}" -m'
 
 # Suffix Alias to auto bat .md files with just the filename
 alias -s md='bat --italic-text=always'
@@ -71,6 +71,6 @@ zle -N cut-buffer-to-clipboard
 bindkey '^[[120;6u' cut-buffer-to-clipboard
 
 # plugin: zsh-autosuggestions, causes issues if loaded on remote hosts
-if [[ -z "$SSH_TTY" ]]; then
+if [[ -z "$SSH_TTY" && "$colourterm" == "yes" ]]; then
   source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi

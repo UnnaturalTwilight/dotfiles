@@ -22,13 +22,5 @@ if [[ "$1" == "debug-env" ]]; then
     kitty --execute --detach kitten diff ${HOME}/bsc_debug_sysd-user-env-sorted ${HOME}/bsc_debug_zsh-env-sorted
 fi
 
-if [[ -e "$XDG_DATA_HOME"/localappdata ]]; then
-    notify-send "LOCALAPPDATA exists" "WHAT AND WHY ARE APPS USING LOCALAPPDATA?" --urgency=normal --app-name="Boot State Checker"
-fi
-
-if [[ -e "$XDG_DATA_HOME"/appdata ]]; then
-    notify-send "APPDATA exists" "WHAT AND WHY ARE APPS USING APPDATA?" --urgency=normal --app-name="Boot State Checker"
-fi
-
 exit 0
 # other checks

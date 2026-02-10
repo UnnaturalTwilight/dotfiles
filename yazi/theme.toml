@@ -6,3 +6,9 @@ dark = "catppuccin-mocha"
 [status]
 sep_left = { open = "", close = "" }
 sep_right = { open = "", close = "" }
+
+[icon]
+append_dirs = [
+    { name = "dotfiles", text = "", fg = "#89b4fa" },
+    { name = "Images", text = "", fg = "#94e2d5" },
+]

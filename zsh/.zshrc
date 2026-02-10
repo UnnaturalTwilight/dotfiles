@@ -1,10 +1,15 @@
-# Lines configured by zsh-newuser-install
+# .zshrc
+
 HISTFILE=$XDG_STATE_HOME/zsh/histfile
-HISTSIZE=5000
-SAVEHIST=5000
-setopt autocd
+HISTSIZE=10000
+SAVEHIST=8000
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+
+setopt AUTO_RESUME
+
+setopt AUTO_CD
 bindkey -e
-# End of lines configured by zsh-newuser-install
 
 # Keybind
 # autoload zkbd
@@ -76,10 +81,6 @@ alias soft-reboot='systemctl soft-reboot'
 
 alias yazi='yazi-cwd'
 
-alias colour-ls='for i in {0..15}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%8)):#7}:+"\n"}; done;
-			echo; for i in {16..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+"\n"}; done'
-alias path-ls='printenv PATH | sed "s/:/\n/g" | bat --style grid,numbers'
-
 # Prompt setup
 autoload -Uz promptinit
 promptinit
@@ -123,6 +124,8 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 # Load local configs if they exist
 source $ZDOTDIR/$HOST.zsh
+
+unset colourterm
 
 # zoxide initialization
 eval "$(zoxide init zsh)"

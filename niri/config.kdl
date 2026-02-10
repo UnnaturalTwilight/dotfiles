@@ -12,6 +12,26 @@ environment {
     _JAVA_AWT_WM_NONREPARENTING "1"
 }
 
+// Add lines like this to spawn processes at startup.
+// Note that running niri as a session supports xdg-desktop-autostart,
+// which may be more convenient to use.
+// See the binds section below for more spawn examples.
+
+spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
+spawn-sh-at-startup "wbg -s $HOME/.config/assets/niri-wallpaper.jpg"
+spawn-sh-at-startup "walker --gapplication-service"
+
+spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
+
+// clipboard history
+spawn-sh-at-startup "wl-paste --type=text --watch cliphist store"
+spawn-sh-at-startup "wl-paste --type=image --watch cliphist store"
+
+// bootstatechecker
+spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"
+
+spawn-sh-at-startup "bluetoothctl connect 40:72:18:AD:77:86"
+
 xwayland-satellite {
     // off
     path "xwayland-satellite"
@@ -240,26 +260,6 @@ layout {
     }
 }
 
-// Add lines like this to spawn processes at startup.
-// Note that running niri as a session supports xdg-desktop-autostart,
-// which may be more convenient to use.
-// See the binds section below for more spawn examples.
-
-spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
-spawn-sh-at-startup "wbg -s $HOME/.config/assets/niri-wallpaper.jpg"
-spawn-sh-at-startup "walker --gapplication-service"
-
-spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
-
-// clipboard history
-spawn-sh-at-startup "wl-paste --type=text --watch cliphist store"
-spawn-sh-at-startup "wl-paste --type=image --watch cliphist store"
-
-// bootstatechecker
-spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"
-
-spawn-sh-at-startup "bluetoothctl connect 40:72:18:AD:77:86"
-
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
@@ -344,13 +344,6 @@ overview {
         spread 20
         offset x=0 y=0
         color "#00000050"
-    }
-}
-
-// Disable the hot corners.
-gestures {
-    hot-corners {
-        off
     }
 }
 
