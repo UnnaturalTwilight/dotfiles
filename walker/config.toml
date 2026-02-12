@@ -44,12 +44,13 @@ page_up = ["Page_Up"]
 show_actions = ["alt Return"]
 
 [providers]
+# providers to be queried by default
 default = [
   "desktopapplications",
   "calc",
   "websearch",
   "menus:meta"
-] # providers to be queried by default
+] 
 empty = ["desktopapplications"] # providers to be queried when query is empty
 max_results = 50 # global max results
 

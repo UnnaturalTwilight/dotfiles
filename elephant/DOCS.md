@@ -8,6 +8,7 @@ Run `elephant -h` to get an overview of the available commandline flags and acti
 | Field | Type | Default | Description |
 | --- | ---- | ---- | --- |
 |auto_detect_launch_prefix|bool|true|automatically detects uwsm, app2unit or systemd-run|
+|launch_prefix|string||overrides the default app2unit or uwsm prefix, if set.|
 |overload_local_env|bool|false|overloads the local env|
 |ignored_providers|[]string|<empty>|providers to ignore|
 |git_on_demand|bool|true|sets up git repositories on first query instead of on start|
@@ -37,111 +38,6 @@ Simple bluetooth management. Connect/Disconnect. Pair/Remove. Trust/Untrust.
 |name_pretty|string|depends on provider|displayed name for the provider|
 |min_score|int32|depends on provider|minimum score for items to be displayed|
 |hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
-
-### Elephant Bookmarks
-
-URL bookmark manager
-
-#### Features
-
-- create / remove bookmarks
-- import bookmarks from installed browsers
-- cycle through categories
-- customize browsers and set per-bookmark browser
-- git integration (requires ssh access)
-
-#### Requirements
-
-- `jq` for importing from chromium based browsers
-- `sqlite3` for importing from firefox based browsers
-
-#### Git Integration
-
-You can set
-
-```toml
-location = "https://github.com/abenz1267/elephantbookmarks"
-```
-
-This will automatically try to clone/pull the repo. It will also automatically comimt and push on changes.
-
-#### Usage
-
-##### Adding a new bookmark
-
-By default, you can create a new bookmark whenever no items match the configured `min_score` threshold. If you want to, you can also configure `create_prefix`, f.e. `add`. In that case you can do `add:bookmark`.
-
-URLs without `http://` or `https://` will automatically get `https://` prepended.
-
-Examples:
-
-```
-example.com                       -> https://example.com
-github.com GitHub                 -> https://github.com (with title "Github")
-add reddit.com Reddit             -> https://reddit.com (with title "Reddit")
-w:work-site.com                   -> https://work-site.com (in "work" category)
-```
-
-##### Categories
-
-You can organize bookmarks into categories using prefixes:
-
-```toml
-[[categories]]
-name = "work"
-prefix = "w:"
-
-[[categories]]
-name = "personal"
-prefix = "p:"
-```
-
-##### Browsers
-
-You can customize browsers used for opening bookmarks like this:
-
-```toml
-[[browsers]]
-name = "Zen"
-command = "zen-browser"
-
-[[browsers]]
-name = "Chromium"
-command = "chromium"
-
-[[browsers]]
-name = "Chromium App"
-command = "chromium --app=%VALUE%"
-```
-
-
-`~/.config/elephant/bookmarks.toml`
-#### Config
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|icon|string|depends on provider|icon for provider|
-|name_pretty|string|depends on provider|displayed name for the provider|
-|min_score|int32|depends on provider|minimum score for items to be displayed|
-|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
-|location|string|elephant cache dir|location of the CSV file|
-|categories|[]main.Category||categories|
-|browsers|[]main.Browser||browsers for opening bookmarks|
-|set_browser_on_import|bool|false|set browser name on imported bookmarks|
-|history|bool|true|make use of history for sorting|
-|history_when_empty|bool|false|consider history when query is empty|
-#### Category
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|name|string||name for category|
-|prefix|string||prefix to store item in category|
-
-#### Browser
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|name|string||name of the browser|
-|command|string||command to launch the browser|
-|icon|string||icon to use|
-
 
 ### Elephant Calc
 
@@ -174,7 +70,7 @@ Refer to the official [libqalculate docs](https://github.com/Qalculate/libqalcul
 |placeholder|string|calculating...|placeholder to display for async update|
 |require_number|bool|true|don't perform if query does not contain a number|
 |min_chars|int|3|don't perform if query is shorter than min_chars|
-|command|string|wl-copy -n %VALUE%|default command to be executed. supports %VALUE%.|
+|command|string|wl-copy -n '%VALUE%'|default command to be executed. supports %VALUE%.|
 |async|bool|true|calculation will be send async|
 |autosave|bool|false|automatically save results|
 
@@ -231,7 +127,6 @@ Run installed desktop applications.
 |name_pretty|string|depends on provider|displayed name for the provider|
 |min_score|int32|depends on provider|minimum score for items to be displayed|
 |hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
-|launch_prefix|string||overrides the default app2unit or uwsm prefix, if set.|
 |locale|string||to override systems locale|
 |action_min_score|int|20|min score for actions to be shown|
 |show_actions|bool|false|include application actions, f.e. 'New Private Window' for Firefox|
@@ -249,53 +144,6 @@ Run installed desktop applications.
 |wm_integration|bool|false|Moves apps to the workspace where they were launched at automatically. Currently Niri only.|
 |score_open_windows|bool|true|Apps that have open windows, get their score halved. Requires window_integration.|
 |single_instance_apps|[]string|["discord"]|application IDs that don't ever spawn a new window. |
-
-### Elephant Files
-
-Find files/folders.
-
-#### Features
-
-- preview text/images/pdf
-- open files, folders
-- drag&drop files into other programs
-- copy file/path
-- support for localsend
-
-#### Example `ignored_dirs`
-
-```toml
-ignored_dirs = ["/home/andrej/Documents/", "/home/andrej/Videos"]
-```
-
-#### Requirements
-
-- `fd`
-
-
-`~/.config/elephant/files.toml`
-#### Config
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|icon|string|depends on provider|icon for provider|
-|name_pretty|string|depends on provider|displayed name for the provider|
-|min_score|int32|depends on provider|minimum score for items to be displayed|
-|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
-|launch_prefix|string||overrides the default app2unit or uwsm prefix, if set.|
-|ignored_dirs|[]string||ignore these directories. regexp based.|
-|ignore_previews|[]main.IgnoredPreview||paths will not have a preview|
-|ignore_watching|[]string||paths will not be watched|
-|search_dirs|[]string|$HOME|directories to search for files|
-|fd_flags|[]string|['--ignore-vcs', '--type,' ,'file', '--type,' 'directory']|flags for fd|
-|watch_buffer|int|2000|time in millisecnds elephant will gather changed paths before processing them|
-|watch_dirs|[]string|[]|watch these dirs, even if watch = false|
-|watch|bool|true|watch indexed directories|
-#### IgnoredPreview
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|path|string||path to ignore preview for|
-|placeholder|string||text to display instead|
-
 
 ### Elephant Menus
 
@@ -557,125 +405,6 @@ end
 |state|[]string||state of an item, can be used to f.e. mark it as current|
 
 
-### Elephant Actions Dispatcher
-
-Search and execute Niri actions.
-
-#### Requirements
-
-- `niri`
-
-
-`~/.config/elephant/niriactions.toml`
-#### Config
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|icon|string|depends on provider|icon for provider|
-|name_pretty|string|depends on provider|displayed name for the provider|
-|min_score|int32|depends on provider|minimum score for items to be displayed|
-|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
-|action_delay|int|0|delay in ms before the action is dispatched|
-|history|bool|true|make use of history for sorting|
-|history_when_empty|bool|true|consider history when query is empty|
-
-### Elephant Niri Sessions
-
-Create predefined session layouts and open them.
-
-#### Features
-
-- run custom commands to open windows
-- position windows according to definition
-
-#### Requirements
-
-- `niri`
-
-#### Example Sessions
-
-```toml
-[[sessions]]
-name = "Work"
-
-[[sessions.workspaces]]
-windows = [
-  { command = "uwsm-app -- footclient", app_id = "footclient" },
-  { command = "uwsm-app -- firefox-developer-edition", app_id = "firefox-developer-edition" },
-]
-
-[[sessions.workspaces]]
-windows = [
-  { command = "uwsm-app -- teams-for-linux", app_id = "teams-for-linux" },
-  { command = "uwsm-app -- discord", app_id = "discord" },
-]
-
-[[sessions.workspaces]]
-windows = [{ command = "uwsm-app -- tidal-hifi", app_id = "tidal-hifi" }]
-
-[[sessions]]
-name = "Private"
-
-[[sessions.workspaces]]
-windows = [
-  { command = "uwsm-app -- firefox-developer-edition", app_id = "firefox-developer-edition" },
-  { command = "uwsm-app -- discord", app_id = "discord" },
-]
-
-[[sessions.workspaces]]
-windows = [{ command = "uwsm-app -- tidal-hifi", app_id = "tidal-hifi" }]
-
-[[sessions]]
-name = "Walker"
-
-[[sessions.workspaces]]
-windows = [
-  { command = "uwsm-app -- footclient -D /home/andrej/Documents/walker -e nvim", app_id = "footclient" },
-  { command = "uwsm-app -- footclient -D /home/andrej/Documents/walker", app_id = "footclient" },
-]
-
-[[sessions]]
-name = "Elephant"
-
-[[sessions.workspaces]]
-windows = [
-  { command = "uwsm-app -- footclient -D /home/andrej/Documents/elephant -e nvim", app_id = "footclient", after = [
-    "niri msg action focus-window --id %ID%",
-    "niri msg action fullscreen-window",
-  ] },
-  { command = "uwsm-app -- footclient -D /home/andrej/Documents/elephant", app_id = "footclient" },
-]
-```
-
-
-`~/.config/elephant/nirisessions.toml`
-#### Config
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|icon|string|depends on provider|icon for provider|
-|name_pretty|string|depends on provider|displayed name for the provider|
-|min_score|int32|depends on provider|minimum score for items to be displayed|
-|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
-|sessions|[]main.Session||define the sessions|
-#### Session
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|name|string||name for the session|
-|workspaces|[]main.Workspace||set of workspaces|
-#### Workspace
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|windows|[]main.Window||windows in this workspace group|
-|after|[]string||commands to run after the workspace has been processed|
-#### Window
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|command|string||command to run|
-|app_id|string||app_id to identify the window|
-|after|[]string||commands to run after the window has been spawned|
-
-
-
-
 ### Elephant Providerlist
 
 Lists all installed providers and configured menus.
@@ -691,35 +420,6 @@ Lists all installed providers and configured menus.
 |hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
 |hidden|[]string|<empty>|hidden providers|
 
-### Elephant Runner
-
-Execute everything installed in your $PATH.
-
-#### Features
-
-- finds all executables items in $PATH
-- ... or define an explicit list yourself
-
-
-`~/.config/elephant/runner.toml`
-#### Config
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|icon|string|depends on provider|icon for provider|
-|name_pretty|string|depends on provider|displayed name for the provider|
-|min_score|int32|depends on provider|minimum score for items to be displayed|
-|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
-|history|bool|true|make use of history for sorting|
-|history_when_empty|bool|false|consider history when query is empty|
-|generic_text|string|run: |text prefix for generic run-anything entry|
-|explicits|[]main.ExplicitItem||use this explicit list, instead of searching $PATH|
-#### ExplicitItem
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|exec|string||executable/command to run|
-|alias|string||alias|
-
-
 ### Elephant Symbols
 
 Search for emojis and symbols
@@ -730,7 +430,7 @@ Search for emojis and symbols
 
 
 #### Possible locales
-af,ak,am,ar,ar_SA,as,ast,az,be,bew,bg,bgn,blo,bn,br,bs,ca,ca_ES,ca_ES_VALENCIA,ccp,ceb,chr,ckb,cs,cv,cy,da,de,de_CH,doi,dsb,el,en,en_001,en_AU,en_CA,en_GB,en_IN,es,es_419,es_MX,es_US,et,eu,fa,ff,ff_Adlm,fi,fil,fo,fr,fr_CA,frr,ga,gd,gl,gu,ha,ha_NE,he,hi,hi_Latn,hr,hsb,hu,hy,ia,id,ig,is,it,ja,jv,ka,kab,kk,kk_Arab,kl,km,kn,ko,kok,ku,ky,lb,lij,lo,lt,lv,mai,mi,mk,ml,mn,mni,mr,ms,mt,my,ne,nl,nn,no,nso,oc,om,or,pa,pa_Arab,pap,pcm,pl,ps,pt,pt_PT,qu,quc,rhg,rm,ro,root,ru,rw,sa,sat,sc,sd,si,sk,sl,so,sq,sr,sr_Cyrl,sr_Cyrl_BA,sr_Latn,sr_Latn_BA,su,sv,sw,sw_KE,ta,te,tg,th,ti,tk,tn,to,tr,tt,ug,uk,ur,uz,vec,vi,wo,xh,yo,yo_BJ,yue,yue_Hans,zh,zh_Hant,zh_Hant_HK,zu,
+af,ak,am,ar,ar_SA,as,ast,az,be,bew,bg,bgn,blo,bn,br,bs,ca,ca_ES,ca_ES_VALENCIA,ccp,ceb,chr,ckb,cs,cv,cy,da,de,de_CH,doi,dsb,el,en,en_001,en_AU,en_CA,en_GB,en_IN,es,es_419,es_MX,es_US,et,eu,fa,ff,ff_Adlm,fi,fil,fo,fr,fr_CA,frr,ga,gd,gl,gu,ha,ha_NE,he,hi,hi_Latn,hr,hsb,hu,hy,ia,id,ig,is,it,ja,jv,ka,kab,kk,kk_Arab,kl,km,kn,ko,kok,ku,ky,lb,lij,lo,lt,lv,mai,mi,mk,ml,mn,mni,mr,ms,mt,my,ne,nl,nn,no,nso,oc,om,or,pa,pa_Arab,pap,pcm,pl,ps,pt,pt_PT,qu,quc,rhg,rm,ro,root,ru,rw,sa,sat,sc,sd,si,sk,sl,so,sq,sr,sr_Cyrl,sr_Cyrl_BA,sr_Latn,sr_Latn_BA,su,sv,sw,sw_KE,ta,te,tg,th,ti,tk,tn,to,tr,tt,ug,uk,ur,uz,variations.txt,vec,vi,wo,xh,yo,yo_BJ,yue,yue_Hans,zh,zh_Hant,zh_Hant_HK,zu,
 
 `~/.config/elephant/symbols.toml`
 #### Config
@@ -744,79 +444,6 @@ af,ak,am,ar,ar_SA,as,ast,az,be,bew,bg,bgn,blo,bn,br,bs,ca,ca_ES,ca_ES_VALENCIA,c
 |history|bool|true|make use of history for sorting|
 |history_when_empty|bool|false|consider history when query is empty|
 |command|string|wl-copy|default command to be executed. supports %VALUE%.|
-
-### Elephant Todo
-
-Basic Todolist
-
-#### Features
-
-- basic time tracking
-- create new scheduled items
-- notifications for scheduled items
-- mark items as: done, active
-- urgent items
-- clear all done items
-- git integration (requires ssh access)
-
-#### Requirements
-
-- `notify-send` for notifications
-
-#### Git Integration
-
-You can set
-
-```toml
-location = "https://github.com/abenz1267/elephanttodo"
-```
-
-This will automatically try to clone/pull the repo. It will also automatically comimt and push on changes.
-
-#### Usage
-
-##### Creating a new item
-
-If you want to create a scheduled task, you can prefix your item with f.e.:
-
-```
-+5d > my task
-in 10m > my task
-in 5d at 15:00 > my task
-jan 1 at 13:00 > my task
-january 1 at 13:00 > my task
-1 jan at 13:00 > my task
-```
-
-Adding a `!` suffix will mark an item as urgent.
-
-##### Time-based searching
-
-Similar to creating, you can simply search for like `today` to get all items for today.
-
-
-`~/.config/elephant/todo.toml`
-#### Config
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|icon|string|depends on provider|icon for provider|
-|name_pretty|string|depends on provider|displayed name for the provider|
-|min_score|int32|depends on provider|minimum score for items to be displayed|
-|hide_from_providerlist|bool|false|hides a provider from the providerlist provider. provider provider.|
-|urgent_time_frame|int|10|items that have a due time within this period will be marked as urgent|
-|duck_player_volumes|bool|true|lowers volume of players when notifying, slowly raises volumes again|
-|show_creation_time|bool|true|displays the creatin time if no other time info is available|
-|categories|[]main.Category||categories|
-|location|string|elephant cache dir|location of the CSV file|
-|time_format|string|02-Jan 15:04|format of the time. Look at https://go.dev/src/time/format.go for the layout.|
-|title|string|Task Due|title of the notification|
-|body|string|%TASK%|body of the notification|
-#### Category
-| Field | Type | Default | Description |
-| --- | ---- | ---- | --- |
-|name|string||name for category|
-|prefix|string||prefix to store item in category|
-
 
 ### Elephant Unicode
 

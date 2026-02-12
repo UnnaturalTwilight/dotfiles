@@ -4,5 +4,5 @@ Name=Bzmenu
 Icon=bluetooth
 Exec=bzmenu --launcher walker
 Terminal=false
-Categories=Utility;Bluetooth;Menu;
+Categories=Utility;
 Keywords=bluetooth;bt;
