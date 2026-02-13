@@ -3,7 +3,7 @@
 #![enable(unwrap_variant_newtypes)]
 (
     draw_borders: true,
-    default_album_art_path: None,
+    //default_album_art_path: None,
     format_tag_separator: " | ",
     browser_column_widths: [25, 45, 30],
     background_color: None,

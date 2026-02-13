@@ -2,9 +2,6 @@ typeset -U path PATH
 path=(. ~/.local/bin $path)
 export PATH
 
-export NAME="${USERNAME:0:1:u}${USERNAME:1}"
-export PACKAGER="$NAME <$USERNAME@$HOST>"
-
 # XDG Base Directories
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
@@ -33,7 +30,3 @@ export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR"/npm
 # Rust
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
-
-if [[ -e $XDG_RUNTIME_DIR/mpd/socket ]]; then
-  export MPD_HOST=$XDG_RUNTIME_DIR/mpd/socket
-fi

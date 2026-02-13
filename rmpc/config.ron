@@ -2,10 +2,11 @@
 #![enable(unwrap_newtypes)]
 #![enable(unwrap_variant_newtypes)]
 (
-    address: "127.0.0.1:6600",
+    address: "$XDG_RUNTIME_DIR/mpd/socket",
     password: None,
     theme: "unnatural",
-    cache_dir: "~/.cache/rmpc",
+    cache_dir: "$XDG_CACHE_HOME/rmpc",
+    lyrics_dir: "$HOME/Music/lyrics",
     on_song_change: None,
     volume_step: 5,
     max_fps: 30,
@@ -24,7 +25,7 @@
     browser_song_sort: [Disc, Track, Artist, Title],
     directories_sort: SortFormat(group_by_type: true, reverse: false),
     auto_open_downloads: true,
-    extra_yt_dlp_args: ["--yt-music", "--output <path> <url>", "--no-progress"],
+    extra_yt_dlp_args: ["--yt-music", "--no-progress"],
     album_art: (
         method: Auto,
         order: EmbeddedFirst,

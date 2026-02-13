@@ -9,7 +9,9 @@ fi
 
 alias ssh='kitten ssh'
 alias copycat='kitten clipboard'
-alias uni-copy='kitten unicode-input | wl-copy -n'
+alias uni-copy='kitten unicode-input | tee >(wl-copy -n)'
+alias kdiff='kitten diff'
+alias icat='kitten icat'
 
 # Save the screen to scrollback when clearing
 cleartoscrollback() { builtin print -rn -- $'\r\e[0J\e[H\e[22J' >"$TTY"; }

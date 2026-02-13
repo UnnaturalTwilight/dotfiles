@@ -1,14 +1,18 @@
 # local zsh configurations
 
+KEYBOARD_HACK=\\
+
+export EDITOR=edit
+
+# For makepkg  "Cal <cal@underkill>"
+# Replace with real name and email if sharing packages with others
+export PACKAGER="${USERNAME:0:1:u}${USERNAME:1} <$USERNAME@$HOST>"
+
 # Kitty-specific aliases and functions, dependent shell integration // kittens
 # Making the assumption that if we're in kitty, the shell integration is loaded
 if [[ "$TERM" == "xterm-kitty" ]]; then
   source $ZDOTDIR/kitty.zsh
 fi
-
-KEYBOARD_HACK=\\
-
-export EDITOR=edit
 
 source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
 
