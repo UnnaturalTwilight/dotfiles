@@ -138,15 +138,42 @@ style = "bg:two fg:bright"
 format = '[ $symbol $branch ]($style)'
 
 [git_status]
-style = "bg:two fg:bright"
 format = '([$all_status$ahead_behind ]($style))'
+style = "bg:two fg:bright"
+stashed = '\$'
+ahead = "⇡"
+behind = "⇣"
+up_to_date = ""
+diverged = "⇕"
 conflicted = "≠"
 deleted = "✗"
+renamed = "»"
+modified = "!"
+staged = "+"
+untracked = "?"
+typechanged = ""
 windows_starship = "/mnt/c/Program Files/starship/bin/starship.exe"
 
 [git_commit]
-tag_symbol = '  '
+format = '[\($hash$tag\) ]($style)'
 style = "bg:two fg:bright"
+only_detached = true
+disabled = false
+tag_symbol = "  "
+tag_disabled = true
+tag_max_candidates = 0
+
+[git_state]
+rebase = "REBASING"
+merge = "MERGING"
+revert = "REVERTING"
+cherry_pick = "CHERRY-PICKING"
+bisect = "BISECTING"
+am = "AM"
+am_or_rebase = "AM/REBASE"
+style = "bold yellow"
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+disabled = false
 
 [c]
 symbol = ""

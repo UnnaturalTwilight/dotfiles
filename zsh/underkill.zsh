@@ -4,10 +4,6 @@ KEYBOARD_HACK=\\
 
 export EDITOR=edit
 
-# For makepkg  "Cal <cal@underkill>"
-# Replace with real name and email if sharing packages with others
-export PACKAGER="${USERNAME:0:1:u}${USERNAME:1} <$USERNAME@$HOST>"
-
 # Kitty-specific aliases and functions, dependent shell integration // kittens
 # Making the assumption that if we're in kitty, the shell integration is loaded
 if [[ "$TERM" == "xterm-kitty" ]]; then
@@ -20,9 +16,9 @@ source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
 alias mnt-win='sudo ntfs-3g -o windows_names /dev/nvme0n1p3 /mnt/c'
 alias reboot-win='systemctl reboot --boot-loader-entry=auto-windows'
 
-alias mini-fetch='hyfetch --distro arch_small --args="-c $HOME/.config/fastfetch/mini.jsonc"'
-alias fetch='fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
-alias clf='clear; fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
+alias mini-fetch='hyfetch --distro arch_small --args="-c $XDG_CONFIG_HOME/fastfetch/mini.jsonc"'
+alias fetch='fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
+alias clf='clear; fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
 
 alias compose='docker compose'
 
@@ -43,7 +39,7 @@ case $XDG_CURRENT_DESKTOP in
     alias logout='niri msg action quit --skip-confirmation'
     alias run='systemd-run --user --'
     alias lock='hyprlock'
-    alias eww-bg='eww --config $HOME/.config/eww_niri/'
+    alias eww-bg='eww --config $XDG_CONFIG_HOME/eww_niri/'
     alias qs-bg='qs --config niri-backdrop'
     ;;
   *)
@@ -53,7 +49,8 @@ esac
 
 case $USER in
   cal)
-    alias music-dl='wl-copy -c && wl-paste -w $HOME/.config/scripts/music-dl-echo.sh'
+    alias music-dl='wl-copy -c && wl-paste -w $XDG_CONFIG_HOME/scripts/music-dl-echo.sh'
+    alias makepkg='makepkg --config $XDG_CONFIG_HOME/pacman/makepkg-cal.conf'
     ;;
   sky)
     ;;

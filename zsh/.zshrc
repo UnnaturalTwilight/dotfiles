@@ -81,11 +81,6 @@ alias soft-reboot='systemctl soft-reboot'
 
 alias yazi='yazi-cwd'
 
-# Dynamic PACKAGER based on if it is a custom pkg vs an AUR pkg
-if [[ -e "$(command -pv yay)" ]]; then
-  alias yay='PACKAGER="AUR <Built on $HOST>" yay'
-fi
-
 # Prompt setup
 autoload -Uz promptinit
 promptinit

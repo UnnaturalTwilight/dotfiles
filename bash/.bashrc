@@ -27,6 +27,9 @@ shopt -s autocd
 if test -n "$KITTY_INSTALLATION_DIR"; then
     # export KITTY_SHELL_INTEGRATION="enabled" # using no-rc mode so that it is possible to disable integration
     source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"
+    
+    cleartoscrollback() { builtin printf "\e[H\e[22J"; }
+    alias clear='cleartoscrollback'
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
