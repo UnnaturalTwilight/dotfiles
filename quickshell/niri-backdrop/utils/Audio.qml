@@ -22,9 +22,11 @@ Singleton {
 
     readonly property string icon: {
         if (Pipewire.defaultAudioSink.name == "bluez_output.40:72:18:AD:77:86") {
-            return "󰋋";
+            return "󰋋"; // JBL Tune 770NC
+        } else if (Pipewire.defaultAudioSink.name == "bluez_output.88:08:94:A4:6B:25" ) {
+            return "󱡏"; // Skulcandy Sesh ANC Earbuds
         } else if (Pipewire.defaultAudioSink.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
-            return "󰓃";
+            return "󰓃"; // Built in speakers or headphone jack
         } else {
             return "?";
         }
@@ -32,6 +34,8 @@ Singleton {
 
     readonly property list<int> styles : {
         if (Pipewire.defaultAudioSink.name == "bluez_output.40:72:18:AD:77:86") {
+            return [96, -16];
+        } else if (Pipewire.defaultAudioSink.name == "bluez_output.88:08:94:A4:6B:25") {
             return [96, -16];
         } else if (Pipewire.defaultAudioSink.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
             return [80, -8];
