@@ -1,4 +1,14 @@
 - [] quickshell
   - [] idle inhibitor
   - [] start panel
-  - [] 
+  - [] PAM (Mimic windows?)
+- [] get a colour scheme
+  - [] rmpc
+  - [] yazi
+  - [] starship??
+  - [] The rest??
+    - [] niri
+    - kitty already matches vscode but that theame is not very aplicable to other apps
+      - [] zsh
+    - [] Zen??
+  - [] any other terminal apps I have
