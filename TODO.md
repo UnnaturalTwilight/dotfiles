@@ -2,6 +2,7 @@
   - [] idle inhibitor
   - [] start panel
   - [] PAM (Mimic windows?)
+  - [] bluetooth
 - [] get a colour scheme
   - [] rmpc
   - [] yazi

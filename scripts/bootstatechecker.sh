@@ -22,5 +22,11 @@ if [[ "$1" == "debug-env" ]]; then
     kitty --execute --detach kitten diff ${HOME}/bsc_debug_sysd-user-env-sorted ${HOME}/bsc_debug_zsh-env-sorted
 fi
 
+# bluez 5.86 is bugged and causes elephant bluetooth to not work.
+# this checks for the bugged behavior and notifies if it is detected. 
+if bluetoothctl show | read -t 1; then 
+else
+    notify-send "Bluez is broken" "bluetoothctl show produced no output" --urgency=critical --app-name="Boot State Checker"
+fi
+
 exit 0
-# other checks
