@@ -9,7 +9,6 @@ fi
 
 alias ssh='kitten ssh'
 alias copycat='kitten clipboard'
-alias uni-copy='kitten unicode-input | tee >(wl-copy -n)'
 alias kdiff='kitten diff'
 alias icat='kitten icat'
 

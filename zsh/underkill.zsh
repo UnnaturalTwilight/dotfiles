@@ -8,6 +8,7 @@ export EDITOR=edit
 # Making the assumption that if we're in kitty, the shell integration is loaded
 if [[ "$TERM" == "xterm-kitty" ]]; then
   source $ZDOTDIR/kitty.zsh
+  alias uni-copy='kitten unicode-input | tee >(wl-copy -n)'
 fi
 
 source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
