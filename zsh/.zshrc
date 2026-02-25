@@ -43,6 +43,7 @@ function yazi-cwd() {
   [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
   rm -f -- "$tmp"
 }
+compdef _yazi yazi-cwd
 
 ## Binds
 WORDCHARS=''
@@ -70,6 +71,7 @@ bindkey '^E' edit-command-line
 
 ## Aliases
 alias cd='z'
+alias cdz='zi'
 alias ls='eza -x --hyperlink --group-directories-first --icons=auto'
 alias ll='eza -l --hyperlink --group-directories-first --icons=auto'
 alias la='eza -la --hyperlink --group-directories-first --icons=auto'

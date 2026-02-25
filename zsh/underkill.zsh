@@ -23,7 +23,7 @@ alias clf='clear; fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
 alias compose='docker compose'
 
 alias vlc='env -u DISPLAY vlc' # run vlc in wayland
-alias fzf-view='fzf --style full --preview "fzf-preview {}" --bind "focus:transform-header:file --brief {}" -m'
+alias fzf-view='fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" --bind "focus:transform-header:file --brief {}" -m'
 
 # Suffix Alias to auto bat .md files with just the filename
 alias -s md='bat --italic-text=always'

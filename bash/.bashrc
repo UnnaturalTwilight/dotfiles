@@ -55,8 +55,6 @@ alias la='ls -lA --color=auto --hyperlink=auto --group-directories-first'
 
 alias grep='grep --color=auto'
 
-alias ..='cd ..'
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).

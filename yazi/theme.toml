@@ -12,3 +12,7 @@ append_dirs = [
     { name = "dotfiles", text = "", fg = "#89b4fa" },
     { name = "Images", text = "", fg = "#94e2d5" },
 ]
+
+prepend_conds = [
+    { if = "link & dir",  text = "", fg = "#7f849c" },  # Simlinks to Directories
+]

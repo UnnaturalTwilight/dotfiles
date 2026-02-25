@@ -20,27 +20,27 @@ run  = "git"
 
 [opener]
 bulk-rename = [
-	{ run = "kitty kitten edit-in-kitty %s", block = true, for = "linux" },
-	{ run = "edit.exe %s", block = true, for = "windows" },
+    { run = "kitty kitten edit-in-kitty %s", block = true, for = "linux" },
+    { run = "edit.exe %s", block = true, for = "windows" },
 ]
 edit = [
-	{ run = "${EDITOR:-nano} %s", desc = "Edit", block = true, for = "unix" },
-	{ run = "%EDITOR% %s", desc = "Edit", block = true, for = "windows" },
+    { run = "${EDITOR:-nano} %s", desc = "Edit", block = true, for = "unix" },
+    { run = "%EDITOR% %s", desc = "Edit", block = true, for = "windows" },
 ]
 code = [
     { run = "code %s", desc = "VSCode", for = "windows", orphan = true },
     { run = "code %s", desc = "VSCode", for = "linux", orphan = true },
 ]
 view-image = [
-	{ run = "kitty kitten icat --hold -- %s", desc = "Preview (icat)", block = false, for = "linux" },
+    { run = "kitty kitten icat --hold -- %s", desc = "Preview (icat)", block = false, for = "linux" },
 ]
 
 [open]
 prepend_rules = [
-	{ url = "bulk-rename.txt", use = "bulk-rename" },
-	{ url = "*/", use = [ "reveal", "code" ] },
-	{ mime = "image/*", use = [ "view-image", "open", "reveal" ] },
+    { url = "bulk-rename.txt", use = "bulk-rename" },
+    { url = "*/", use = [ "reveal", "code" ] },
+    { mime = "image/*", use = [ "view-image", "open", "reveal" ] },
 ]
 append_rules = [
-	{ url = "*", use = [ "open", "edit", "code", "reveal" ] },
+    { url = "*", use = [ "open", "edit", "code", "reveal" ] },
 ]

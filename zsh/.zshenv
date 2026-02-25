@@ -9,7 +9,6 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 
 # Applications
-export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc":"$XDG_CONFIG_HOME/gtk-2.0/gtkrc.mine"
 
 # Needs manual editing to systemd user sockets. see arch wiki.
 # script for auto setting it up is in scripts folder.

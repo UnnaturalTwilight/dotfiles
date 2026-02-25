@@ -1,5 +1,3 @@
-max_global_items_to_display = 5
-always_show_default = false
 
 [[entries]]
 default = true
