@@ -28,7 +28,7 @@ Singleton {
         } else if (Pipewire.defaultAudioSink.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
             return "󰓃"; // Built in speakers or headphone jack
         } else {
-            return "?";
+            return ""; // Fallback icon for unknown audio sink
         }
     }
 

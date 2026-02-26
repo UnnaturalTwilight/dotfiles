@@ -19,6 +19,8 @@ HISTFILE=$HOME/.local/state/bash/histfile
 shopt -s checkwinsize
 shopt -s autocd
 
+bind 'set show-all-if-unmodified on'
+
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 #shopt -s globstar
@@ -30,6 +32,8 @@ if test -n "$KITTY_INSTALLATION_DIR"; then
     
     cleartoscrollback() { builtin printf "\e[H\e[22J"; }
     alias clear='cleartoscrollback'
+    alias copycat='kitten clipboard'
+    alias kdiff='kitten diff'
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
@@ -43,7 +47,6 @@ esac
 
 if [ "$TERM" = "xterm-kitty" ] && [ -n "$SSH_TTY" ]; then
     alias edit='kitten edit-in-kitty'
-    alias copycat='kitten clipboard'
 else
     alias edit='nano'
 fi

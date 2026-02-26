@@ -32,6 +32,9 @@ spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"
 
 spawn-sh-at-startup "bluetoothctl connect 40:72:18:AD:77:86"
 
+// custom script to auto unlock keyring
+spawn-sh-at-startup "systemd-run --user keyring-unlock"
+
 xwayland-satellite {
     // off
     path "xwayland-satellite"
