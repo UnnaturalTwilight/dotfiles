@@ -8,6 +8,7 @@ Singleton {
     id: root
 
     readonly property color black: "black"
+    readonly property color white: "white"
 
     readonly property color kindaGray: "#b0b4bc"
     readonly property color darkGray: "#4e4e4e"

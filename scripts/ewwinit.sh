@@ -12,3 +12,5 @@ elif [ "$1" = "hyprland" ]; then
 else
     echo "$1"
 fi
+
+rm -f $HOME/.cache/eww_start.lock

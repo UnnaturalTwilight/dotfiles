@@ -24,3 +24,6 @@ blacklist = [
 
 [[aliases]]
 code = "code.desktop"
+dis = "discord.desktop"
+th = "thunderbird.desktop"
+vlc = "vlc.desktop"

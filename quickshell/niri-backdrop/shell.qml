@@ -3,6 +3,7 @@ import Quickshell
 import QtQuick
 
 import qs.backdrop
+import qs.panel
 
 Scope {
     id: root
@@ -27,4 +28,10 @@ Scope {
     //     model: Quickshell.screens
     //     Debug {}
     // }
+
+    Variants {
+
+        model: Quickshell.screens
+        Start {}
+    }
 }
