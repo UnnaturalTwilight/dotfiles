@@ -32,6 +32,8 @@ Singleton {
         }
     }
 
+    readonly property string description: Pipewire.defaultAudioSink?.description ?? Pipewire.defaultAudioSink.name ?? "Unknown";
+
     readonly property list<int> styles : {
         if (Pipewire.defaultAudioSink.name == "bluez_output.40:72:18:AD:77:86") {
             return [96, -16];

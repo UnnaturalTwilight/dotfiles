@@ -12,6 +12,7 @@ Singleton {
 
     readonly property color kindaGray: "#b0b4bc"
     readonly property color darkGray: "#4e4e4e"
+    readonly property color bgGray: "#414145"
     readonly property color pinkish: "#D35D6E"
     readonly property color navy: "#38384d"
 
