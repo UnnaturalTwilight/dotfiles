@@ -56,6 +56,7 @@ window-rule {
 window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
+    match app-id=r#"^org\.gnome\.seahorse\.Application$"#
 
     block-out-from "screen-capture"
 
@@ -115,7 +116,7 @@ window-rule {
 layer-rule {
     // Find the right namespace by running niri msg layers.
     match namespace="^wallpaper$"
-    // eww windows
+    // quickshell windows
     match namespace="^backdrop"
 
     place-within-backdrop true

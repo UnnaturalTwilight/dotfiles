@@ -1,9 +1,11 @@
 - [] quickshell
-  - [] idle inhibitor
+  - [] idle inhibitor (depends on quickshell-git)
   - [] start panel
-  - [] PAM (Mimic windows?)
+    - [] Fix Systray
+  - [] Polkit (Mimic windows?) (depends on quickshell-git)
   - [] bluetooth
 - [] get a colour scheme
+  - [] Quickshell
   - [] rmpc
   - [] yazi
   - [] starship??

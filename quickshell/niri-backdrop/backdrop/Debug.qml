@@ -41,6 +41,7 @@ PanelWindow {
         rows: children.length
 
         Repeater {
+            Layout.row: 1
             id: repeater
 
             model: ScriptModel {
@@ -71,7 +72,8 @@ PanelWindow {
             Layout.alignment: Qt.AlignBottom
             text: "Focused Window ID: " + (Niri?.focusedWindow?.windowId) + "\n" +
                 [...Niri.windows].sort((a, b) => a.workspaceId - b.workspaceId)
-                .map(w => JSON.stringify([w.windowId,{"ID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}])).join("\n") + "\n"
+                .map(w => JSON.stringify([w.windowId,{"ID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}])).join("\n") + "\n" + 
+                "\n" + modelData.name
             color: Colours.kindaGray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"

@@ -17,27 +17,24 @@ Singleton {
     }
 
     readonly property string approxTime: {
-        if (state === UPowerDeviceState.Discharging) {
-            return UPower.displayDevice.timeToEmpty > 0 ? qsTr("%1 Remaining")
+        if (state === UPowerDeviceState.FullyCharged || value >= 0.999) {
+            return qsTr("Fully charged");
+        } else if (state === UPowerDeviceState.Discharging) {
+            return UPower.displayDevice.timeToEmpty > 0 ? qsTr("%1 remaining")
                 .arg(formatSeconds(UPower.displayDevice.timeToEmpty, "Discharging")) : qsTr("Discharging");
         } else if (state === UPowerDeviceState.Charging) {
-            return UPower.displayDevice.timeToFull > 0 ? qsTr("%1 Until Full")
+            return UPower.displayDevice.timeToFull > 0 ? qsTr("%1 until full")
                 .arg(formatSeconds(UPower.displayDevice.timeToFull, "Charging")) : qsTr("Charging");
-        } else if (state === UPowerDeviceState.FullyCharged) {
-            return qsTr("Fully charged");
         } else {
             return "Unknown";
         }
     }
 
     function formatSeconds(s: int, fallback: string): string {
-        const day = Math.floor(s / 86400);
-        const hr = Math.floor(s / 3600) % 60;
+        const hr = Math.floor(s / 3600);
         const min = Math.floor(s / 60) % 60;
 
         let comps = [];
-        if (day > 0)
-            comps.push(`${day} days`);
         if (hr > 0)
             comps.push(`${hr} hours`);
         if (min > 0)

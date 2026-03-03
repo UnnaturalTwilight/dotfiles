@@ -13,11 +13,7 @@ Scope {
         model: Quickshell.screens
         Clock {}
     }
-    Variants {
-
-        model: Quickshell.screens
-        Symbols {}
-    }
+    Symbols {}
     Variants {
 
         model: Quickshell.screens
@@ -29,9 +25,5 @@ Scope {
     //     Debug {}
     // }
 
-    Variants {
-
-        model: Quickshell.screens
-        Start {}
-    }
+    Start {}
 }

@@ -51,9 +51,9 @@ binds {
     XF86AudioPlay   allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioPrev   allow-when-locked=true { spawn "playerctl" "previous"; }
 
-    // Eww "start" menu
-    XF86AudioMedia repeat=false { spawn-sh "$HOME/.config/eww/launch-start"; }
-    Shift+XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call start toggle"; }
+    // "start" menu
+    XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call start toggle"; }
+    Shift+XF86AudioMedia repeat=false { spawn-sh "$HOME/.config/eww/launch-start"; }
 
     Mod+Q repeat=false { close-window; }
     
@@ -241,6 +241,7 @@ binds {
     // Move the focused window between the floating and the tiling layout.
     Mod+R       { toggle-window-floating; }
     Mod+Shift+R { switch-focus-between-floating-and-tiling; }
+    Mod+Ctrl+MouseLeft { toggle-window-floating; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,

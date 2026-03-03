@@ -1,7 +1,8 @@
 // Start.qml
 import Quickshell
-import Quickshell.Wayland
 import Quickshell.Io
+import Quickshell.Wayland
+import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -9,12 +10,13 @@ import QtQuick.Shapes
 
 import qs
 import qs.utils
+import qs.panel
 
 PanelWindow {
     id: startPanel
-    required property var modelData
-    screen: modelData
-    visible: modelData.name === "eDP-1" && persist.onscreen
+    // required property ShellScreen modelData
+    screen: Quickshell.screens.find(s => s.name === "eDP-1")
+    visible: persist.onscreen
 
     IpcHandler {
         target: "start"
@@ -76,19 +78,63 @@ PanelWindow {
             anchors.margins: 20
             spacing: 12
 
-            Rectangle {
-                Layout.alignment: Qt.AlignCenter
+            GridLayout {
+                columns: 2
+                columnSpacing: 15
+                rowSpacing: 0
                 Layout.fillWidth: true
-                height: 160
-                radius: 20
-                color: Qt.alpha(Colours.black, 0.2)
+
+                Image {
+                    Layout.rowSpan: 5
+                    Layout.column: 0
+                    Layout.maximumWidth: 150
+                    Layout.maximumHeight: 150
+                    source: Quickshell.env("XDG_CONFIG_HOME") + "/profilepic.png"
+                    sourceSize.width: 1250
+                    sourceSize.height: 1250
+                    fillMode: Image.PreserveAspectCrop
+                }
 
                 Text {
-                    anchors.centerIn: parent
-                    text: "User Info Placeholder"
-                    font.pixelSize: 24
-                    color: Colours.white
+                    Layout.column: 1
+                    Layout.row: 1
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                    text: Quickshell.env("USER") + "@" + System.hostname
+                    font.pixelSize: 20
+                    font.family: "JetBrainsMonoNFM"
+                    color: Colours.kindaGray
                 }
+
+                Text {
+                    Layout.column: 1
+                    Layout.row: 2
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                    text: "Network: WIP"
+                    font.pixelSize: 20
+                    font.family: "JetBrainsMonoNFM"
+                    color: Colours.kindaGray
+                }
+
+                Text {
+                    Layout.column: 1
+                    Layout.row: 3
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                    text: startPanel.screen?.name
+                    font.pixelSize: 20
+                    font.family: "JetBrainsMonoNFM"
+                    color: Colours.kindaGray
+                }
+
+                // SysTray {
+                //     id: systray
+                //     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                //     Layout.preferredHeight: 40
+                //     Layout.fillWidth: true
+                //     Layout.column: 1
+                //     Layout.row: 3
+                //     Layout.margins: 5
+                //     Layout.bottomMargin: 10
+                // }
             }
 
             RowLayout {
@@ -172,175 +218,64 @@ PanelWindow {
                 }
             }
 
-            Rectangle {
+            InfoTile {
                 id: batteryTile
-                Layout.fillWidth: true
-                property int tileHeight: 80
-                color: "transparent"
-                implicitHeight: tileHeight
+                vSize: 80
+                icon: Text {
+                    Layout.alignment: Qt.AlignCenter
+                    Layout.fillHeight: true
+                    verticalAlignment: Text.AlignVCenter
+                    text: Battery.icon
+                    font.pixelSize: 56
+                    font.family: "JetBrainsMonoNFM"
+                    color: Colours.kindaGray
+                }
+                info: GridLayout {
+                    columns: 2
+                    Layout.alignment: Qt.AlignCenter
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
 
-                Rectangle {
-                    id: tileBox
-                    anchors.fill: parent
-                    color: "transparent"
-                    border.color: Qt.alpha(Colours.kindaGray, 0.5)
-                    border.width: 3
-                    radius: 12
+                    Text {
+                        Layout.row: 0
+                        Layout.column: 0
+                        text: Battery.approxTime
+                        font.pixelSize: 16
+                        font.family: "JetBrainsMonoNFM"
+                        color: Colours.white
+                    }
 
-                    RowLayout {
-                        id: tileContentRow
-                        anchors.fill: parent
-                        width: parent.width
-                        anchors.margins: 16
-                        spacing: 12
-
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: Battery.icon
-                            font.pixelSize: 56
-                            font.family: "JetBrainsMonoNFM"
-                            color: Colours.kindaGray
-                        }
-
-                        ColumnLayout {
-                            anchors.verticalCenter: parent.verticalCenter
-                            Layout.fillWidth: true
-
-                            Text {
-                                text: Battery.approxTime
-                                font.pixelSize: 16
-                                font.family: "JetBrainsMonoNFM"
-                                color: Colours.white
-                            }
-
-                            RowLayout {
-                                Layout.fillWidth: true
-                                spacing: 12
-                                Rectangle {
-                                    // Stretches to fill all left-over space
-                                    Layout.fillWidth: true
-
-                                    implicitHeight: 12
-                                    implicitWidth: 60
-                                    radius: 20
-                                    color: Colours.darkGray
-
-                                    Rectangle {
-                                        anchors {
-                                            left: parent.left
-                                            top: parent.top
-                                            bottom: parent.bottom
-                                        }
-
-                                        implicitWidth: parent.width * Battery.value
-                                        radius: parent.radius
-                                        color: Colours.pinkish
-                                    }
-                                }
-                                Text {
-                                    text: (Battery.value * 100).toFixed(0) + "%"
-                                    Layout.minimumWidth: 40
-                                    font.pixelSize: 16
-                                    font.family: "JetBrainsMonoNFM"
-                                    color: Colours.white
-                                }
-                            }
-                        }
+                    PercentBar {
+                        Layout.row: 1
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        value: Battery.value
                     }
                 }
             }
 
-            Rectangle {
-                id: audioTile
+            AudioTile {}
+
+            SysTray {
+                id: systray
+                Layout.preferredHeight: 50
                 Layout.fillWidth: true
-                property int tileHeight: 80
-                color: "transparent"
-                implicitHeight: tileHeight
-
-                Rectangle {
-                    id: audioTileBox
-                    anchors.fill: parent
-                    color: "transparent"
-                    border.color: Qt.alpha(Colours.kindaGray, 0.5)
-                    border.width: 3
-                    radius: 12
-
-                    RowLayout {
-                        id: audioTileContentRow
-                        anchors.fill: parent
-                        width: parent.width
-                        anchors.margins: 16
-                        spacing: 12
-
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            verticalAlignment: Text.AlignVCenter
-                            text: Audio.icon
-                            font.pixelSize: 56
-                            font.family: "JetBrainsMonoNFM"
-                            color: Colours.kindaGray
-                        }
-
-                        ColumnLayout {
-                            anchors.verticalCenter: parent.verticalCenter
-                            Layout.fillWidth: true
-
-                            Text {
-                                text: Audio.description
-                                font.pixelSize: 16
-                                font.family: "JetBrainsMonoNFM"
-                                color: Colours.white
-                            }
-
-                            RowLayout {
-                                Layout.fillWidth: true
-                                spacing: 12
-                                Rectangle {
-                                    // Stretches to fill all left-over space
-                                    Layout.fillWidth: true
-                                    implicitHeight: 12
-                                    implicitWidth: 60
-                                    radius: 20
-                                    color: Colours.darkGray
-
-                                    Rectangle {
-                                        anchors {
-                                            left: parent.left
-                                            top: parent.top
-                                            bottom: parent.bottom
-                                        }
-
-                                        implicitWidth: parent.width * Audio.volume
-                                        radius: parent.radius
-                                        color: Colours.pinkish
-                                        opacity: Audio.muted ? 0.5 : 1.0
-                                    }
-                                }
-                                Text {
-                                    Layout.alignment: Qt.AlignRight
-                                    Layout.minimumWidth: 40
-                                    text: (Audio.volume * 100).toFixed(0) + "%"
-                                    font.pixelSize: 16
-                                    font.family: "JetBrainsMonoNFM"
-                                    color: Colours.white
-                                }
-                            }
-                        }
-                    }
-                }
             }
 
             Rectangle {
-                Layout.fillHeight: true
                 Layout.alignment: Qt.AlignCenter
+                Layout.fillHeight: true
                 Layout.fillWidth: true
                 radius: 20
                 color: Qt.alpha(Colours.black, 0.2)
 
                 Text {
                     anchors.centerIn: parent
-                    text: "Placeholder"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    text: "Placeholder" + "\n"
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     font.pixelSize: 24
                     color: Colours.white
                 }

@@ -9,7 +9,7 @@ import qs.utils
 
 PanelWindow {
     id: bgClockPanel
-    required property var modelData
+    required property ShellScreen modelData
     screen: modelData
     // I would prefer not to have an invisible window on other screens, but I can't figure out Loaders right now.
     // visible: modelData.name === "eDP-1"

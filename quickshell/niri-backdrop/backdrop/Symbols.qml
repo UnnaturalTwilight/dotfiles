@@ -9,10 +9,8 @@ import qs.utils
 
 PanelWindow {
     id: bgSysPanel
-    required property var modelData
-    screen: modelData
-    // I would prefer not to have an invisible window on other screens, but I can't figure out Loaders right now.
-    visible: modelData.name === "eDP-1"
+    // required property var modelData
+    screen: Quickshell.screens.find(s => s.name === "eDP-1")
 
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Background
