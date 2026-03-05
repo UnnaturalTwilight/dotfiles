@@ -5,7 +5,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 import qs
-import qs.utils
 
 Item {
     id: root
@@ -14,10 +13,12 @@ Item {
     property bool active: true
     property string activeLabel: Math.round(root.value * 100) + "%"
     property string inactiveLabel: activeLabel
-    property int labelLength: 5
-    property var command: null
+    property int labelLength: 4
+
+    signal valueSet(real newValue)
 
     RowLayout {
+        id: layout
         anchors.fill: parent
         spacing: 12
         Slider {
@@ -47,7 +48,7 @@ Item {
                 }
             }
             handle: null
-            onValueChanged: root.command ? root.command(value) : null
+            onValueChanged: root.valueSet(value)
         }
         Text {
             text: (root.active ? root.activeLabel : root.inactiveLabel).padStart(root.labelLength, " ")

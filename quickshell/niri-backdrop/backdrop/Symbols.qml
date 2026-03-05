@@ -48,8 +48,8 @@ PanelWindow {
             color: Colours.kindaGray
             opacity: Audio.muted ? 0.5 : 1.0
             font.family: "JetBrainsMonoNFM"
-            font.pixelSize: Audio.styles[0]
-            Layout.bottomMargin: Audio.styles[1]
+            font.pixelSize: Audio.extraProps.iconDisplay[0]
+            Layout.bottomMargin: Audio.extraProps.iconDisplay[1]
         }
 
         Rectangle {

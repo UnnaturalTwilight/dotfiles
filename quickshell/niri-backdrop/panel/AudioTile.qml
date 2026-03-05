@@ -26,7 +26,7 @@ InfoTile {
             color: parent.containsMouse ? Colours.pinkish : Colours.kindaGray
         }
         hoverEnabled: true
-        onClicked: Quickshell.execDetached(["pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle"])
+        onClicked: Audio.setMuted(!Audio.muted) 
     }
 
     info: GridLayout {
@@ -39,17 +39,23 @@ InfoTile {
             id: dropdown
             Layout.row: 0
             Layout.fillWidth: true
+            // This filters out sinks with empty descriptions, In my case this is just a 'sink-input' for mpd
+            // If legit sinks have empty descriptions this will cause them to not show up in the dropdown
+            // Decriptions can be overridden in wireplumber config anyways
             model: Audio.ready ? Audio.sinks?.map(s => s.description).filter(d => d != "") : [Audio.description]
+            // This value falls back to the name and then "Unknown" which might break the dropdown
             currentValue: Audio.description
             onActivated: {
                 const sink = Audio.sinks.find(s => s.description === dropdown.currentValue);
                 if (sink) {
-                    Quickshell.execDetached(["pactl", "set-default-sink", sink.name]);
-                    console.log("Switched audio sink to:", sink.name);
+                    // Quickshell.execDetached(["pactl", "set-default-sink", sink.name]);
+                    Audio.setDefaultSink(sink);
+                    // console.log("Switched audio sink to:", sink.name);
                 } else {
-                    console.log("Selected audio sink not found:", dropdown.currentValue);
+                    console.warn("Selected audio sink not found:", dropdown.currentValue);
                 }
             }
+            rightPadding: 6
             font.pixelSize: 16
             font.family: "JetBrainsMonoNF"
             font.bold: hovered
@@ -86,6 +92,7 @@ InfoTile {
                 font.pixelSize: 16
                 font.bold: true
                 x: dropdown.width - width - dropdown.rightPadding
+                // anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Text.AlignVCenter
                 color: dropdown.hovered ? Colours.pinkish : Colours.kindaGray
@@ -106,7 +113,7 @@ InfoTile {
 
             popup: Popup {
                 y: dropdown.height
-                width: dropdown.width
+                width: dropdown.width - dropdown.rightPadding
                 height: contentItem.implicitHeight + 6
                 padding: 3
 
@@ -129,10 +136,18 @@ InfoTile {
         Text {
             Layout.row: 0
             Layout.column: 1
-            Layout.preferredWidth: 50
+            Layout.preferredWidth: 40
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             horizontalAlignment: Text.AlignRight
-            text: Audio.muted ? qsTr(" ") : ""
+            text: {
+                if (Audio.muted) {
+                    return " ";
+                } else if (Music.playing) {
+                    return " ";
+                } else {
+                    return "";
+                }
+            }
             font.pixelSize: 16
             font.family: "JetBrainsMonoNF"
             color: Colours.white
@@ -146,7 +161,7 @@ InfoTile {
             Layout.fillHeight: true
             value: Audio.volume
             active: !Audio.muted
-            command: Audio.setVolume
+            onValueSet: (v) => Audio.setVolume(v)
         }
     }
 }

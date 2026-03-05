@@ -19,7 +19,7 @@ MenuItem {
     onClicked: root.modelData.triggered()
     enabled: !root.modelData?.isSeparator
 
-    height: enabled ? implicitHeight : 6
+    height: enabled ? label.implicitHeight : 6
 
     Rectangle {
         anchors.fill: parent
@@ -36,11 +36,16 @@ MenuItem {
     }
 
     Text {
+        id: label
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 5
         text: root.modelData?.text
         color: parent.enabled ? Colours.white : Colours.kindaGray
+        width: parent.width - 10
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        font.family: "Noto Sans"
+        font.pixelSize: 16
     }
 
     CheckBox {
@@ -49,13 +54,17 @@ MenuItem {
         anchors.rightMargin: 5
         visible: root.modelData?.buttonType !== QsMenuButtonType.None
         checked: root.modelData?.checkState
+        enabled: false
     }
 
     Text {
         anchors.verticalCenter: parent.verticalCenter
+        verticalAlignment: Text.AlignVCenter
         anchors.right: parent.right
         anchors.rightMargin: 15
-        text: root.modelData?.hasChildren ? "▶" : ""
+        text: root.modelData?.hasChildren ? "󰦺" : ""
+        font.family: "JetBrainsMonoMF"
+        font.pixelSize: 20
         color: Colours.kindaGray
     }
 

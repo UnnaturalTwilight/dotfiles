@@ -15,6 +15,7 @@ Singleton {
     readonly property color bgGray: "#414145"
     readonly property color pinkish: "#D35D6E"
     readonly property color navy: "#38384d"
+    readonly property color darkViolet: "#745886"
 
     readonly property color niri_float: "#007ACC"
     // readonly property color niri_focused: "#FFFFFF"

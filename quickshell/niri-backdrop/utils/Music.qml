@@ -1,4 +1,4 @@
-// Mpris.qml
+// Music.qml
 pragma Singleton
 
 import Quickshell
@@ -8,7 +8,7 @@ import QtQuick
 Singleton {
     id: root
 
-    readonly property var sources: [...Mpris.players.values]
+    readonly property var players: [...Mpris.players.values]
 
     readonly property var mpd: [...Mpris.players.values].find(s => s.identity === "MPD")
 
@@ -19,6 +19,7 @@ Singleton {
     readonly property var length: mpd?.length
     readonly property var albumArt: mpd?.trackArtUrl
 
-    readonly property real progress: mpd ? (mpd.position / mpd.length) : 0
+    readonly property bool playing: mpd?.playbackState === MprisPlaybackState.Playing
 
+    readonly property real progress: mpd ? (mpd.position / mpd.length) : 0
 }

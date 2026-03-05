@@ -1,12 +1,12 @@
 // Start.qml
+pragma ComponentBehavior: Bound
+
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
-import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Shapes
 
 import qs
 import qs.utils
@@ -41,9 +41,8 @@ PanelWindow {
 
         property bool onscreen: false
     }
-    property int buttonSize: 60
 
-    exclusionMode: ExclusionMode.Ignore
+    exclusionMode: ExclusionMode.Auto
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.namespace: "overlay-qt-start"
     color: "transparent"
@@ -69,7 +68,7 @@ PanelWindow {
         id: startBox
         anchors.fill: parent
         color: Qt.alpha(Colours.bgGray, 1.0)
-        opacity: 1
+        // opacity: 1
         radius: 12
         implicitWidth: 420
 
@@ -124,20 +123,10 @@ PanelWindow {
                     font.family: "JetBrainsMonoNFM"
                     color: Colours.kindaGray
                 }
-
-                // SysTray {
-                //     id: systray
-                //     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                //     Layout.preferredHeight: 40
-                //     Layout.fillWidth: true
-                //     Layout.column: 1
-                //     Layout.row: 3
-                //     Layout.margins: 5
-                //     Layout.bottomMargin: 10
-                // }
             }
 
             RowLayout {
+                id: powerRow
                 spacing: 12
                 Layout.alignment: Qt.AlignCenter
 
@@ -166,52 +155,19 @@ PanelWindow {
                         },
                     ]
 
-                    delegate: DelayButton {
+                    Item {
                         required property var modelData
-                        text: modelData.text
-                        font.pixelSize: 48
-                        font.family: "JetBrainsMonoNFM"
-                        delay: 1000
-                        onActivated: {
-                            Quickshell.execDetached(modelData.action);
-                            persist.onscreen = false;
-                        }
-                        implicitHeight: buttonSize
-                        implicitWidth: buttonSize
-                        contentItem: Text {
-                            anchors.centerIn: parent
-                            text: parent.text
-                            font: parent.font
-                            color: hovered ? Colours.pinkish : Colours.kindaGray
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideRight
-                        }
-                        background: Shape {
-                            anchors.centerIn: parent
-                            implicitWidth: parent.width
-                            height: parent.height
-                            preferredRendererType: Shape.CurveRenderer
-                            ShapePath {
-                                property int lineweight: 4
-                                //p = 2 * [ a + b - r * ( 4 - π ) ]
-                                property real perimeter: 2 * (2 * buttonSize - (buttonSize / 4) * (4 - Math.PI))
-                                strokeWidth: lineweight
-                                strokeColor: hovered ? Colours.pinkish : Colours.kindaGray
-                                strokeStyle: ShapePath.DashLine
-                                dashPattern: [progress * (perimeter / lineweight), (perimeter / lineweight) - (progress * (perimeter / lineweight))]
-                                dashOffset: -(buttonSize / 4) / lineweight
-                                startX: 0
-                                startY: 0
-                                PathRectangle {
-                                    width: buttonSize
-                                    height: buttonSize
-                                    radius: buttonSize / 4
-                                    bevel: false
-                                }
-                                capStyle: ShapePath.RoundCap
-                                // fillColor: Qt.alpha(Colours.darkGray, 0.6)
-                                fillColor: "transparent"
+                        width: childrenRect.width
+                        height: childrenRect.height
+                        HoldButton {
+                            symbol: parent.modelData.text
+                            onActivated: () => {
+                                Quickshell.execDetached(parent.modelData.action);
+                                // This hackyness is nessary to prevent weird behavior when the window is ripped out from under it
+                                // only really relevent for the lock and suspend actions
+                                enabled = false;
+                                persist.onscreen = false;
+                                enabled = true;
                             }
                         }
                     }

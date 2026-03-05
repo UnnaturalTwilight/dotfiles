@@ -8,14 +8,22 @@ import QtQuick
 Singleton {
     id: root
 
+    readonly property var sinks: [...Pipewire.nodes.values].filter(n => n.isSink)
+
     PwObjectTracker {
         objects: [Pipewire.defaultAudioSink]
+    }
+
+    function setDefaultSink(sink) {
+        if (sink) {
+            Pipewire.preferredDefaultAudioSink = sink;
+        }
     }
 
     readonly property bool ready: Pipewire.ready
 
     readonly property real volume: {
-        return Pipewire.defaultAudioSink?.audio?.volume ?? 0.0;
+        return Pipewire.defaultAudioSink?.audio?.volume ?? 0;
     }
 
     function setVolume(v) {
@@ -34,8 +42,6 @@ Singleton {
         }
     }
 
-    readonly property var sinks: [...Pipewire.nodes.values].filter(n => n.isSink)
-
     readonly property string icon: {
         if (Pipewire.defaultAudioSink?.name == "bluez_output.40:72:18:AD:77:86") {
             return "󰋋"; // JBL Tune 770NC
@@ -51,15 +57,22 @@ Singleton {
 
     readonly property string description: Pipewire.defaultAudioSink?.description ?? Pipewire.defaultAudioSink?.name ?? "Unknown"
 
-    readonly property list<int> styles: {
-        if (Pipewire.defaultAudioSink?.name == "bluez_output.40:72:18:AD:77:86") {
-            return [96, -16];
-        } else if (Pipewire.defaultAudioSink?.name == "bluez_output.88:08:94:A4:6B:25") {
-            return [96, -16];
-        } else if (Pipewire.defaultAudioSink?.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
-            return [80, -8];
-        } else {
-            return [80, -8];
+    readonly property var extraProps: {
+        var props = {
+            "bluetooth": false,
+            "iconDisplay": [80, -8],
+            "data": {}
+        };
+        if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output")) {
+            props.bluetooth = true;
+            // These are dependent on the icon but happen to line up with bluetooth in my case
+            props.iconDisplay = [96, -16];
         }
+        // console.log(`ID: ${Pipewire.defaultAudioSink.id}`);
+        for (const [key, value] of Object.entries(Pipewire.defaultAudioSink.properties)) {
+            // console.log(`${key}: ${value}`);
+            props.data[key] = value;
+        }
+        return props;
     }
 }
