@@ -17,7 +17,7 @@ environment {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
+// spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
 spawn-sh-at-startup "wbg -s $HOME/.config/assets/niri-wallpaper.jpg"
 spawn-sh-at-startup "walker --gapplication-service"
 

@@ -42,7 +42,7 @@ PanelWindow {
         property bool onscreen: false
     }
 
-    exclusionMode: ExclusionMode.Auto
+    exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.namespace: "overlay-qt-start"
     color: "transparent"

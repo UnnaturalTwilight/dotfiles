@@ -13,7 +13,7 @@ Item {
     property bool active: true
     property string activeLabel: Math.round(root.value * 100) + "%"
     property string inactiveLabel: activeLabel
-    property int labelLength: 5
+    property int labelLength: 4
 
     RowLayout {
         anchors.fill: parent
