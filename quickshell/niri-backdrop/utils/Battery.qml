@@ -8,6 +8,10 @@ import QtQuick
 Singleton {
     id: root
 
+    readonly property var displayDevice: UPower.displayDevice
+    readonly property bool ready: UPower.displayDevice.ready
+    readonly property var devices: UPower.devices 
+
     readonly property real value: {
         return UPower.displayDevice.percentage ?? 0.0;
     }

@@ -68,11 +68,11 @@ Item {
         required property var modelData
 
         IconImage {
-            anchors.centerIn: parent
-            source: root.overideAppIcon(trayItem.modelData)
+            anchors.fill: parent
+            source: root.overrideAppIcon(trayItem.modelData)
             asynchronous: true
             mipmap: true
-            implicitSize: 32
+            // implicitSize: 32
         }
 
         MouseArea {
@@ -161,13 +161,20 @@ Item {
         }
     }
 
-    function overideAppIcon(app) {
+    function overrideAppIcon(app) {
         // console.log(app.id, app.title || app.tooltipTitle, app.icon);
 
         // This is the only field that discord populates with identifying info
         if (app.tooltipTitle === "Discord") {
             return Quickshell.iconPath("discord", app.icon);
         }
+
+        // This matches tailscale which doesn't have ANY static identifying info
+        // if (app.id.startsWith("systray_")) {
+        // Tailscale uses a dynamic icon that both isn't symbolic and doesn't have rounded corners
+        // making it not match anything else
+        // my icon theme doesn't have icon for it tho so I just live with it for now
+        // }
 
         return app.icon;
     }

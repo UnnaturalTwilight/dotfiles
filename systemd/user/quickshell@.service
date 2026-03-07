@@ -2,7 +2,7 @@
 [Unit]
 Description=Quickshell daemon with config dir $XDG_CONFIG_HOME/quickshell/%i/
 PartOf=graphical-session.target
-After=graphical-session.target
+After=graphical-session.target pipewire.service pipewire-session-manager.service
 Requisite=graphical-session.target
 AssertPathExists=%E/quickshell/%i/shell.qml
 

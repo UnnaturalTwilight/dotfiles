@@ -45,8 +45,9 @@ Singleton {
     readonly property string icon: {
         if (Pipewire.defaultAudioSink?.name == "bluez_output.40:72:18:AD:77:86") {
             return "󰋋"; // JBL Tune 770NC
-        } else if (Pipewire.defaultAudioSink?.name == "bluez_output.88:08:94:A4:6B:25") {
-            return "󱡏"; // Skulcandy Sesh ANC Earbuds
+        } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.88")) {
+            // matches boath LE and normal mode at the risk of false positives
+            return "󱡏"; // Skulcandy Sesh ANC Earbuds // bluez_output.88:08:94:A4:6B:25
         } else if (Pipewire.defaultAudioSink?.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
             return "󰓃"; // Built in speakers or headphone jack
         } else {
@@ -55,6 +56,7 @@ Singleton {
         }
     }
 
+    readonly property string name: Pipewire.defaultAudioSink?.name ?? "Unknown"
     readonly property string description: Pipewire.defaultAudioSink?.description ?? Pipewire.defaultAudioSink?.name ?? "Unknown"
 
     readonly property var extraProps: {
@@ -69,9 +71,11 @@ Singleton {
             props.iconDisplay = [96, -16];
         }
         // console.log(`ID: ${Pipewire.defaultAudioSink.id}`);
-        for (const [key, value] of Object.entries(Pipewire.defaultAudioSink.properties)) {
-            // console.log(`${key}: ${value}`);
-            props.data[key] = value;
+        if (ready) {
+            for (const [key, value] of Object.entries(Pipewire.defaultAudioSink?.properties)) {
+                // console.log(`${key}: ${value}`);
+                props.data[key] = value;
+            }
         }
         return props;
     }

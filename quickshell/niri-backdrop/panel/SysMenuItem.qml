@@ -41,7 +41,7 @@ MenuItem {
         anchors.leftMargin: 5
         text: root.text
         color: parent.enabled ? Colours.white : Colours.kindaGray
-        width: parent.width - 10
+        width: parent.width - 10 - (arrow.visible ? 26 : 0) - (checkbox.visible ? 26 : 0)
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.family: "Noto Sans"
         font.pixelSize: 16
@@ -50,11 +50,13 @@ MenuItem {
     // Everything this is supposed to do is just done with the Text above
     contentItem: null
 
+    // This should probably not be text
     arrow: Text {
+        id: arrow
         anchors.verticalCenter: parent.verticalCenter
         verticalAlignment: Text.AlignVCenter
         anchors.right: parent.right
-        anchors.rightMargin: 15
+        anchors.rightMargin: 12
         text: root.modelData?.hasChildren ? "󰦺" : ""
         font.family: "JetBrainsMonoMF"
         font.pixelSize: 20
@@ -62,11 +64,12 @@ MenuItem {
     }
 
     indicator: Rectangle {
+        id: checkbox
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: 10
-        width: parent.height - 6
-        height: parent.height - 6
+        width: label.font.pixelSize
+        height: label.font.pixelSize
         radius: root.modelData?.buttonType === QsMenuButtonType.CheckBox ? 4 : (parent.height - 6) / 2
         color: root.checked ? Colours.navy : Colours.darkGray
         border.color: Qt.alpha(Colours.kindaGray, 0.5)
