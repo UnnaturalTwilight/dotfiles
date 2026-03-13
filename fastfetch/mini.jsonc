@@ -8,7 +8,6 @@
         }
     },
     "modules": [
-        // "break",
         "title",
         {
             "type": "custom",
@@ -17,7 +16,7 @@
         {
             "type": "os",
             "key": " ",
-            "keyColor": "34", // = color4
+            "keyColor": "34",
             "format": "{3} {12}"
         },
         {
@@ -29,9 +28,8 @@
         {
             "type": "uptime",
             "key": " ",
-            "keyColor": "34",
+            "keyColor": "34"
         },
-        // "packages",
         {
             "type": "shell",
             "key": " ",

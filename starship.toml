@@ -21,6 +21,7 @@ $c\
 $cmake\
 $elixir\
 $elm\
+$fortran\
 $golang\
 $python\
 $lua\
@@ -197,6 +198,11 @@ format = '[ $symbol( $version)]($style)'
 
 [elm]
 symbol = ""
+style = "bg:four"
+format = '[ $symbol( $version)]($style)'
+
+[fortran]
+symbol = "󱈚"
 style = "bg:four"
 format = '[ $symbol( $version)]($style)'
 

@@ -15,12 +15,14 @@ mkdir -p $HOME/.config/systemd/user/gpg-agent.service.d
 
 mv $HOME/.config/systemd/user/gpg-agent.service.d/override.conf $HOME/.config/systemd/user/gpg-agent.service.d/override.conf.bak 2>/dev/null
 cat << EOF > $HOME/.config/systemd/user/gpg-agent.service.d/override.conf
+
 [Service]
 Environment="GNUPGHOME=%h/.local/share/gnupg"
 EOF
 
 mv $HOME/.config/systemd/user/gpg-agent.socket $HOME/.config/systemd/user/gpg-agent.socket.bak 2>/dev/null
 cat << EOF > $HOME/.config/systemd/user/gpg-agent.socket
+
 [Unit]
 Description=GnuPG cryptographic agent and passphrase cache
 Documentation=man:gpg-agent(1)
@@ -34,6 +36,7 @@ EOF
 
 mv $HOME/.config/systemd/user/gpg-agent-ssh.socket $HOME/.config/systemd/user/gpg-agent-ssh.socket.bak 2>/dev/null
 cat << EOF > $HOME/.config/systemd/user/gpg-agent-ssh.socket
+
 [Unit]
 Description=GnuPG cryptographic agent (ssh-agent emulation)
 Documentation=man:gpg-agent(1) man:ssh-add(1) man:ssh-agent(1) man:ssh(1)
@@ -48,6 +51,7 @@ EOF
 
 mv $HOME/.config/systemd/user/gpg-agent-extra.socket $HOME/.config/systemd/user/gpg-agent-extra.socket.bak 2>/dev/null
 cat << EOF > $HOME/.config/systemd/user/gpg-agent-extra.socket
+
 [Unit]
 Description=GnuPG cryptographic agent and passphrase cache (restricted)
 Documentation=man:gpg-agent(1)
@@ -62,6 +66,7 @@ EOF
 
 mv $HOME/.config/systemd/user/gpg-agent-browser.socket $HOME/.config/systemd/user/gpg-agent-browser.socket.bak 2>/dev/null
 cat << EOF > $HOME/.config/systemd/user/gpg-agent-browser.socket
+
 [Unit]
 Description=GnuPG cryptographic agent and passphrase cache (access for web browsers)
 Documentation=man:gpg-agent(1)
@@ -76,6 +81,7 @@ EOF
 
 mv $HOME/.config/systemd/user/dirmngr.socket $HOME/.config/systemd/user/dirmngr.socket.bak 2>/dev/null
 cat << EOF > $HOME/.config/systemd/user/dirmngr.socket
+
 [Unit]
 Description=GnuPG network certificate management daemon
 Documentation=man:dirmngr(8)
@@ -88,6 +94,7 @@ EOF
 
 mv $HOME/.config/systemd/user/keyboxd.socket $HOME/.config/systemd/user/keyboxd.socket.bak 2>/dev/null
 cat << EOF > $HOME/.config/systemd/user/keyboxd.socket
+
 [Unit]
 Description=GnuPG public key management service
 Documentation=man:keyboxd(8)

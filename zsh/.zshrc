@@ -122,10 +122,10 @@ ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=209'
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=209'
 ZSH_HIGHLIGHT_STYLES[comment]='fg=008,italic'
 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # Load local configs if they exist
 source $ZDOTDIR/$HOST.zsh
+
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 unset colourterm
 
