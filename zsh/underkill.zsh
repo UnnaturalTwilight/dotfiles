@@ -51,7 +51,6 @@ esac
 case $USER in
   cal)
     alias music-dl='wl-copy -c && wl-paste -w $XDG_CONFIG_HOME/scripts/music-dl-echo.sh'
-    alias makepkg='makepkg --config $XDG_CONFIG_HOME/pacman/makepkg-cal.conf'
     ;;
   sky)
     ;;

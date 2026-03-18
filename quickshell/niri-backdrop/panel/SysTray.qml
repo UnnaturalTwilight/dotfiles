@@ -77,6 +77,7 @@ Item {
 
         MouseArea {
             anchors.fill: parent
+            // cursorShape: Qt.PointingHandCursor
             onClicked: menu.open()
             onDoubleClicked: trayItem.modelData.activate()
         }
@@ -135,7 +136,6 @@ Item {
 
     component TrayMenu: Menu {
         id: trayMenu
-        property var entryData: null
         font.pixelSize: 16
         font.family: "JetBrainsMonoNFM"
         clip: true

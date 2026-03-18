@@ -44,6 +44,7 @@ function yazi-cwd() {
   rm -f -- "$tmp"
 }
 compdef _yazi yazi-cwd
+alias yazi='yazi-cwd'
 
 ## Binds
 WORDCHARS=''
@@ -81,7 +82,7 @@ alias grep='grep --color=auto'
 alias shutdown='shutdown now'
 alias soft-reboot='systemctl soft-reboot'
 
-alias yazi='yazi-cwd'
+alias makepkg="PACKAGER=${PACKAGER:=${(C)USER}} makepkg"
 
 # Prompt setup
 autoload -Uz promptinit

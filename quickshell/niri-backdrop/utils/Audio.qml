@@ -71,7 +71,7 @@ Singleton {
             props.iconDisplay = [96, -16];
         }
         // console.log(`ID: ${Pipewire.defaultAudioSink.id}`);
-        if (ready) {
+        if (ready && Pipewire.defaultAudioSink != null) {
             for (const [key, value] of Object.entries(Pipewire.defaultAudioSink?.properties)) {
                 // console.log(`${key}: ${value}`);
                 props.data[key] = value;

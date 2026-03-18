@@ -28,8 +28,8 @@ edit = [
     { run = "%EDITOR% %s", desc = "Edit", block = true, for = "windows" },
 ]
 code = [
-    { run = "code %s", desc = "VSCode", for = "windows", orphan = true },
-    { run = "code %s", desc = "VSCode", for = "linux", orphan = true },
+    { run = "code %s", desc = "Code", for = "windows", orphan = true },
+    { run = "code %s", desc = "Code", for = "linux", orphan = true },
 ]
 view-image = [
     { run = "kitty kitten icat --hold -- %s", desc = "Preview (icat)", block = false, for = "linux" },
@@ -40,6 +40,7 @@ prepend_rules = [
     { url = "bulk-rename.txt", use = "bulk-rename" },
     { url = "*/", use = [ "reveal", "code" ] },
     { mime = "image/*", use = [ "view-image", "open", "reveal" ] },
+    { mime = "application/wine-extension-ini", use = [ "edit", "reveal" ] },
 ]
 append_rules = [
     { url = "*", use = [ "open", "edit", "code", "reveal" ] },

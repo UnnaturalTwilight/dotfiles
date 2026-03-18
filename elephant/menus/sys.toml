@@ -33,8 +33,15 @@ icon = "reload"
 actions = { "restart" = "systemctl --user restart elephant.service" }
 
 [[entries]]
+text = "Restart Quickshell"
+subtext = "systemctl --user restart quickshell@niri-backdrop.service"
+keywords = ["quickshell"]
+icon = "org.quickshell"
+actions = { "restart" = "systemctl --user restart quickshell@niri-backdrop.service" }
+
+[[entries]]
 text = "Color Picker"
 subtext = "hyprpicker"
 keywords = ["color", "picker", "hypr"]
-actions = { "use" = "sleep 0.5 && hyprpicker -a" }
 icon = "color-picker"
+actions = { "use" = "sleep 0.5 && hyprpicker -a" }

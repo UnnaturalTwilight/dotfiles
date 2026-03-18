@@ -9,7 +9,7 @@ hide_from_providerlist = true
 text = "System Commands"
 icon = "laptop"
 submenu = "system"
-keywords = ["docker", "immich", "elephant"]
+keywords = ["docker", "immich", "elephant", "quickshell"]
 
 [[entries]]
 text = "Power Options"

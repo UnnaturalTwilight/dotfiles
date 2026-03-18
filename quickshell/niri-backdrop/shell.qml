@@ -4,6 +4,7 @@ import QtQuick
 
 import qs.backdrop
 import qs.panel
+import qs.lock
 
 Scope {
     id: root
@@ -26,4 +27,6 @@ Scope {
     // }
 
     Start {}
+
+    Lockscreen {}
 }
