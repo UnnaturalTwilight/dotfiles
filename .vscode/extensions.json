@@ -2,6 +2,7 @@
     "recommendations": [
         "theqtcompany.qt-qml",
         "kdl-org.kdl",
-        "a5huynh.vscode-ron"
+        "a5huynh.vscode-ron",
+        "sumneko.lua"
     ]
 }

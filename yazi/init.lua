@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 
 require("starship"):setup()
 require("git"):setup({ order = 500 })

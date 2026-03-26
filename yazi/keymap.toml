@@ -44,7 +44,8 @@ prepend_keymap = [
 
     # Toggle
     { on = "<Space>",   run = [ "toggle", "arrow next" ], desc = "Toggle the current selection state" },
-    { on = "<S-Space>", run = [ "toggle", "arrow prev" ], desc = "Toggle the current selection state" },
+    { on = "<S-Down>",  run = [ "toggle", "arrow next" ], desc = "Toggle the current selection state" },
+    { on = "<S-Up>",    run = [ "toggle", "arrow prev" ], desc = "Toggle the current selection state" },
     { on = "<C-Space>", run = "toggle_all",               desc = "Invert selection of all files" },
     { on = "<C-a>",     run = "toggle_all --state=on",    desc = "Select all files" },
     # { on = "<C-r>",     run = "toggle_all",               desc = "Invert selection of all files" },
