@@ -82,7 +82,7 @@ alias grep='grep --color=auto'
 alias shutdown='shutdown now'
 alias soft-reboot='systemctl soft-reboot'
 
-alias makepkg="PACKAGER=${PACKAGER:=${(C)USER}} makepkg"
+alias makepkg="export PACKAGER=${PACKAGER:=\"${(C)USER} <${USER}@${HOST}>\"} && makepkg"
 
 # Prompt setup
 autoload -Uz promptinit

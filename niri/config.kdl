@@ -20,6 +20,7 @@ environment {
 // spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
 spawn-sh-at-startup "wbg -s $HOME/.config/assets/niri-wallpaper.jpg"
 spawn-sh-at-startup "walker --gapplication-service"
+spawn-at-startup "vicinae" "server"
 
 spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
 
@@ -30,7 +31,7 @@ spawn-sh-at-startup "wl-paste --type=image --watch cliphist store"
 // bootstatechecker
 spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"
 
-// spawn-sh-at-startup "bluetoothctl connect 40:72:18:AD:77:86"
+spawn-sh-at-startup "bluetoothctl connect 40:72:18:AD:77:86"
 
 // custom script to auto unlock keyring
 spawn-sh-at-startup "systemd-run --user keyring-unlock"

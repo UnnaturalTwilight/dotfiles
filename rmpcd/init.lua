@@ -14,6 +14,8 @@ rmpcd.install("#builtin.playcount")
 -- rmpcd.install("#builtin.notify")
 
 -- Install the auto lyrics download builtin
--- rmpcd.install("#builtin.lyrics")
+rmpcd.install("#builtin.lyrics"):setup({
+     lyrics_dir = os.getenv("HOME") .. "/Music/lyrics",
+})
 
 return config

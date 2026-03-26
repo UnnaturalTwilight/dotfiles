@@ -20,8 +20,8 @@ hash = "26db011a778f261d730d4f5f8bf24b3f"
 
 [[plugin.deps]]
 use = "boydaihungst/mediainfo"
-rev = "6fbed8d"
-hash = "57ae6b43c477e117802f176683b78e74"
+rev = "26a75da"
+hash = "53011ad6844fb69e57c946af21ddd3de"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"

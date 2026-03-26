@@ -32,6 +32,7 @@ binds {
     Mod+E     repeat=false hotkey-overlay-title="Open Thunar"  { spawn "thunar"; }
     // Laucher
     Mod+Space repeat=false hotkey-overlay-title="Open Launcher"          { spawn "walker"; }
+    Mod+Shift+Space repeat=false hotkey-overlay-title="Open Launcher"    { spawn "vicinae" "toggle"; }
     Mod+V     repeat=false hotkey-overlay-title="Open Clipboard History" { spawn "walker" "-m" "clipboard"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
@@ -53,7 +54,7 @@ binds {
 
     // "start" menu
     XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call start toggle"; }
-    Shift+XF86AudioMedia repeat=false { spawn-sh "$HOME/.config/eww/launch-start"; }
+    // Shift+XF86AudioMedia repeat=false { spawn-sh "$HOME/.config/eww/launch-start"; }
 
     Mod+Q repeat=false { close-window; }
     

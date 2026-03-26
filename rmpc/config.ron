@@ -26,6 +26,7 @@
     directories_sort: SortFormat(group_by_type: true, reverse: false),
     auto_open_downloads: true,
     extra_yt_dlp_args: ["--yt-music", "--no-progress"],
+    queue_disable_current_item_style_timeout_ms: 10000, // 10s
     album_art: (
         method: Auto,
         order: EmbeddedFirst,
@@ -34,7 +35,7 @@
         vertical_align: Center,
         horizontal_align: Center,
     ),
-    
+
     keybinds: (
         clear: true,
         global: {
@@ -64,6 +65,7 @@
             "3":       SwitchToTab("Folders"),
             "4":       SwitchToTab("Playlists"),
             "5":       SwitchToTab("Search"),
+            "6":       SwitchToTab("Lyrics"),
             "<C-u>":   Update,
             "<C-U>":   Rescan,
         },
@@ -98,7 +100,7 @@
             "<C-s>":        Save(kind: Modal(all: false, duplicates_strategy: Ask)),
             "<C-S>":        Save(kind: Modal(all: true, duplicates_strategy: Ask)),
             "R":            Rate(),
-            "<C-c>":            CopyToClipboard(kind: Modal([
+            "<C-c>":        CopyToClipboard(kind: Modal([
                                 ("Displayed value", (content: DisplayedValue, all: false)),
                                 ("Artist - Title", (content: Metadata([(kind: Property(Artist)), (kind: Text(" - ")), (kind: Property(Title))]), all: false)),
                                 ("File Path", (content: Metadata([(kind: Text("~/Music/")), (kind: Property(File))]), all: false)),
@@ -112,7 +114,7 @@
             "X":     Shuffle,
         },
     ),
-    
+
     search: (
         case_sensitive: false,
         ignore_diacritics: false,
@@ -175,8 +177,9 @@
                             (kind: Property(Status(QueueLength())),style: (fg: "008")),
                             (kind: Text(" songs ── "),style: (fg: "008")),
                             (kind: Property(Status(QueueTimeTotal())),style: (fg: "008")),
-                            (kind: Text(" ─"),style: (fg: "008"))],
-                    ),
+                            (kind: Text(" ─"),style: (fg: "008"))
+                        ]
+                    )
                 ]
             )
         ),
@@ -194,7 +197,7 @@
                         ),
                         size: "35%", borders: "TOP | LEFT | BOTTOM",
                         border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤")),
-                    (pane: Pane(Queue), size: "65%", 
+                    (pane: Pane(Queue), size: "65%",
                         borders: "TOP | RIGHT | BOTTOM",
                         border_symbols: Inherited(parent: Rounded, top_left: "┬", top_right: "┤", bottom_left: "┴"),
                         border_title_position: Bottom,
@@ -204,17 +207,19 @@
                             (kind: Property(Status(QueueLength())),style: (fg: "008")),
                             (kind: Text(" songs ── "),style: (fg: "008")),
                             (kind: Property(Status(QueueTimeTotal())),style: (fg: "008")),
-                            (kind: Text(" ─"),style: (fg: "008"))],
-                    ),
-                ],
-            ),
+                            (kind: Text(" ─"),style: (fg: "008"))
+                        ]
+                    )
+                ]
+            )
         ),
         (
             name: "Folders",
             pane: Split(
                 size: "100%",
                 direction: Vertical,
-                panes: [(pane: Pane(Directories), size: "100%", borders: "ALL",
+                panes: [
+                    (pane: Pane(Directories), size: "100%", borders: "ALL",
                         border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤"),
                         border_title_position: Bottom,
                         border_title_alignment: Right,
@@ -223,8 +228,10 @@
                             (kind: Property(Status(QueueLength())),style: (fg: "008")),
                             (kind: Text(" songs ── "),style: (fg: "008")),
                             (kind: Property(Status(QueueTimeTotal())),style: (fg: "008")),
-                            (kind: Text(" ─"),style: (fg: "008"))],
-                )],
+                            (kind: Text(" ─"),style: (fg: "008"))
+                        ],
+                    )
+                ],
             )
         ),
         (
@@ -232,7 +239,8 @@
             pane: Split(
                 size: "100%",
                 direction: Vertical,
-                panes: [(pane: Pane(Playlists), size: "100%", borders: "ALL",
+                panes: [
+                    (pane: Pane(Playlists), size: "100%", borders: "ALL",
                         border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤"),
                         border_title_position: Bottom,
                         border_title_alignment: Right,
@@ -241,8 +249,10 @@
                             (kind: Property(Status(QueueLength())),style: (fg: "008")),
                             (kind: Text(" songs ── "),style: (fg: "008")),
                             (kind: Property(Status(QueueTimeTotal())),style: (fg: "008")),
-                            (kind: Text(" ─"),style: (fg: "008"))],
-                )],
+                            (kind: Text(" ─"),style: (fg: "008"))
+                        ]
+                    )
+                ]
             )
         ),
         (
@@ -250,7 +260,8 @@
             pane: Split(
                 size: "100%",
                 direction: Vertical,
-                panes: [(pane: Pane(Search), size: "100%", borders: "ALL",
+                panes: [
+                    (pane: Pane(Search), size: "100%", borders: "ALL",
                         border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤"),
                         border_title_position: Bottom,
                         border_title_alignment: Right,
@@ -259,8 +270,31 @@
                             (kind: Property(Status(QueueLength())),style: (fg: "008")),
                             (kind: Text(" songs ── "),style: (fg: "008")),
                             (kind: Property(Status(QueueTimeTotal())),style: (fg: "008")),
-                            (kind: Text(" ─"),style: (fg: "008"))],
-                )],
+                            (kind: Text(" ─"),style: (fg: "008"))
+                        ]
+                    )
+                ]
+            )
+        ),
+        (
+            name: "Lyrics",
+            pane: Split(
+                size: "100%",
+                direction: Vertical,
+                panes: [
+                    (pane: Pane(Lyrics), size: "100%", borders: "ALL",
+                        border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤"),
+                        border_title_position: Bottom,
+                        border_title_alignment: Right,
+                        border_title: [
+                            (kind: Text(" "),style: (fg: "008")),
+                            (kind: Property(Status(QueueLength())),style: (fg: "008")),
+                            (kind: Text(" songs ── "),style: (fg: "008")),
+                            (kind: Property(Status(QueueTimeTotal())),style: (fg: "008")),
+                            (kind: Text(" ─"),style: (fg: "008"))
+                        ]
+                    )
+                ]
             )
         ),
     ],
