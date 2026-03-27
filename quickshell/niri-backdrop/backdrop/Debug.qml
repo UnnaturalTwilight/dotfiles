@@ -37,11 +37,11 @@ PanelWindow {
     implicitHeight: debugLayout.implicitHeight + debugLayout2.implicitHeight + 40
     Grid {
         id: debugLayout
-        spacing: -24
+        spacing: 5
         rows: children.length
+        padding: 10
 
         Repeater {
-            Layout.row: 1
             id: repeater
 
             model: ScriptModel {
@@ -54,33 +54,37 @@ PanelWindow {
                 Layout.alignment: Qt.AlignCenter
             }
         }
-    }
 
-    // Text {
-    //         id: debugLayout
-    //         Layout.alignment: Qt.AlignTop
-    //         text: JSON.stringify(Niri.workspaces) + "\n"
-    //         color: Colours.kindaGray
-    //         font.pixelSize: 16
-    //         font.family: "JetBrainsMonoNFM"
-    //         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-    //         width: 1500
-    //     }
-
-    Text {
+        Text {
             id: debugLayout2
             Layout.alignment: Qt.AlignBottom
+            // qmlformat off
             text: "Focused Window ID: " + (Niri?.focusedWindow?.windowId) + "\n" +
                 [...Niri.windows].sort((a, b) => a.workspaceId - b.workspaceId)
-                .map(w => JSON.stringify([w.windowId,{"ID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}])).join("\n") + "\n" + 
-                "\n" + modelData.name
+                    .map(w => JSON.stringify([
+                        w.windowId,{"ID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}
+                    ])).join("\n") + "\n" + "\n" + modelData.name
+            // qmlformat on
             color: Colours.kindaGray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            width: 1500
-            y: debugLayout.implicitHeight + 20
         }
+
+        Text {
+            id: debugOutputs
+            Layout.alignment: Qt.AlignBottom
+            // qmlformat off
+            text: "Outputs: \n" + [...Niri.outputs].map(o => JSON.stringify([
+                o.name, {"modes": o.modes.length, "currentMode": o.currentMode}
+            ])).join("\n") + "\nFocused Output: " + (Niri.focusedOutput ? Niri.focusedOutput.name : "None")
+            // qmlformat on
+            color: Colours.kindaGray
+            font.pixelSize: 16
+            font.family: "JetBrainsMonoNFM"
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+    }
 
     component DebugItem: Rectangle {
         id: debugRect
@@ -88,20 +92,22 @@ PanelWindow {
         radius: 8
         color: "transparent"
         implicitWidth: debugText.implicitWidth + 20
-        implicitHeight: debugText.implicitHeight + 20
+        implicitHeight: debugText.implicitHeight
 
         Text {
             id: debugText
             Layout.alignment: Qt.AlignCenter
-            text: debugRect.modelData.workspaceId + 
-                " : " + JSON.stringify([...debugRect.modelData.windows]
-                .map(w => [w.windowId, {"wsID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}])) + "\n"
+            // qmlformat off
+            text: debugRect.modelData.workspaceId + " : " + 
+                JSON.stringify([...debugRect.modelData.windows].map(w => [
+                    w.windowId, {"wsID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}
+                ]))
+            // qmlformat on
             color: Colours.kindaGray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"
             wrapMode: Text.WrapAnywhere
             width: 1000
         }
-
     }
 }

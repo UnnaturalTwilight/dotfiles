@@ -26,21 +26,22 @@ Item {
             anchors.fill: parent
             anchors.margins: 5
 
-            WrapperMouseArea {
+            Rectangle {
                 Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                 Layout.preferredWidth: 1000
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    text: "󰃟"
-                    font.family: "JetBrainsMonoMFM"
-                    font.pixelSize: 32
-                    verticalAlignment: Text.AlignBottom
-                    color: Colours.kindaGray
-                }
+                color: "transparent"
+                // Text {
+                //     anchors.verticalCenter: parent.verticalCenter
+                //     anchors.left: parent.left
+                //     anchors.leftMargin: 10
+                //     text: "󰃟"
+                //     font.family: "JetBrainsMonoMFM"
+                //     font.pixelSize: 32
+                //     verticalAlignment: Text.AlignVCenter
+                //     color: Colours.kindaGray
+                // }
             }
 
             Repeater {

@@ -113,6 +113,16 @@ window-rule {
     draw-border-with-background true
 }
 
+window-rule {
+    match title="^Polkit Agent$"
+    
+    open-floating true
+    open-focused true
+
+    // for dev purposes
+    // open-on-output "eDP-1"
+}
+
 // Layer rules
 // -----------
 // https://yalter.github.io/niri/Configuration:-Layer-Rules

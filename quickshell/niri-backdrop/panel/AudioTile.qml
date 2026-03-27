@@ -1,4 +1,5 @@
 // AudioTile.qml
+pragma ComponentBehavior: Bound
 
 import Quickshell
 import Quickshell.Widgets

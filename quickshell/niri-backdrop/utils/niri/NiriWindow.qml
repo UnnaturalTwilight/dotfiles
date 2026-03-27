@@ -31,6 +31,9 @@ QtObject {
 	// Whether this window is currently requesting attention.
 	required property bool isUrgent
 
-	// column of the window in the workspace, starting from 1. Set to 0 if not applicable (eg. floating windows).
-	property int positionInWorkspace: 0
+	// Position- and size-related properties of the window.
+	required property WindowLayout layout
+
+	// Window focus timestamp in seconds, -1 if unknown.
+	required property real focusTimestamp
 }

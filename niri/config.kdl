@@ -20,7 +20,6 @@ environment {
 // spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
 spawn-sh-at-startup "wbg -s $HOME/.config/assets/niri-wallpaper.jpg"
 spawn-sh-at-startup "walker --gapplication-service"
-spawn-at-startup "vicinae" "server"
 
 spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
 

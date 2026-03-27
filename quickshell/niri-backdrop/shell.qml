@@ -5,6 +5,7 @@ import QtQuick
 import qs.backdrop
 import qs.panel
 import qs.lock
+import qs.auth
 
 Scope {
     id: root
@@ -28,5 +29,5 @@ Scope {
 
     Start {}
 
-    Lockscreen {}
+    Polkit {}
 }

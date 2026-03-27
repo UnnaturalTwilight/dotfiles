@@ -118,7 +118,13 @@ PanelWindow {
                 id: windowRepeater
 
                 model: ScriptModel {
-                    values: workspaceItem.modelData.windows.length > 0 ? [...workspaceItem.modelData.windows].sort((a, b) => a.positionInWorkspace - b.positionInWorkspace) : [Niri.emptyWindow]
+                    values: {
+                        if (workspaceItem.modelData.windows.length > 0) {
+                            return [...workspaceItem.modelData.windows].sort(bgWorkspacesPanel.windowSortingFunction);
+                        } else {
+                            return [Niri.emptyWindow];
+                        }
+                    }
                 }
 
                 WindowItem {
@@ -141,6 +147,19 @@ PanelWindow {
         // }
     }
 
+    function windowSortingFunction(a, b) {
+        // Sorts tiled windows left-to-right and then top-to-bottom within their column
+        // Floating windows end up first due to having -1 for both indices
+        const aXindex = a.layout.tileIndexInScrollingLayout;
+        const bXindex = b.layout.tileIndexInScrollingLayout;
+        if (aXindex === bXindex) {
+            const aYindex = a.layout.columnIndexInScrollingLayout;
+            const bYindex = b.layout.columnIndexInScrollingLayout;
+            return aYindex - bYindex;
+        }
+        return aXindex - bXindex;
+    }
+
     component WindowItem: Rectangle {
         id: windowItem
         required property NiriWindow modelData
@@ -155,14 +174,16 @@ PanelWindow {
         implicitWidth: 20
         implicitHeight: 20
 
-        color: empty ? Qt.alpha(Colours.navy, 0.6) : 
-            active && focused ? Colours.pinkish : 
-            active && urgent ? Colours.niri_urgent : 
-            active && floating ? Colours.niri_float : 
-            urgent ? Qt.alpha(Colours.niri_urgent, 0.8) : 
-            floating ? Qt.alpha(Colours.niri_float, 0.6) : 
-            active ? Qt.alpha(Colours.pinkish, 0.6) : 
+        // qmlformat off
+        color: empty ? Qt.alpha(Colours.navy, 0.6) :
+            active && focused ? Colours.pinkish :
+            active && urgent ? Colours.niri_urgent :
+            active && floating ? Colours.niri_float :
+            urgent ? Qt.alpha(Colours.niri_urgent, 0.8) :
+            floating ? Qt.alpha(Colours.niri_float, 0.6) :
+            active ? Qt.alpha(Colours.pinkish, 0.6) :
             Qt.alpha(Colours.kindaGray, 0.6)
+        // qmlformat on
         // opacity: 0.8
 
         Behavior on color {
@@ -184,7 +205,7 @@ PanelWindow {
         // Text {
         //     id: debugText
         //     anchors.centerIn: parent
-        //     text: windowItem.modelData.windowId + ":" + windowItem.modelData.positionInWorkspacez
+        //     text: windowItem.modelData.windowId + ":" + windowItem.modelData.layout.tileIndexInScrollingLayout + "x" + windowItem.modelData.layout.columnIndexInScrollingLayout
         //     color: "white"
         //     font.family: "JetBrainsMonoNFM"
         //     font.pixelSize: 14

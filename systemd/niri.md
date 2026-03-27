@@ -7,13 +7,13 @@ systemctl --user add-wants niri.service example.service
 ```
 
 Curently niri is set to want:
-```
-elephant.service
-hypridle.service
-plasma-polkit-agent.service
-quickshell@niri-backdrop.service
-solaar.service
-thunar.service
-thunderbird.service
-udiskie.service
-```
+
+- elephant.service
+- hypridle.service
+- ~~plasma-polkit-agent.service~~ > Replaced with quickshell
+- quickshell@niri-backdrop.service
+- solaar.service
+- thunar.service
+- thunderbird.service
+- udiskie.service
+
