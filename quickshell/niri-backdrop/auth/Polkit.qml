@@ -1,4 +1,5 @@
 // Polkit.qml
+pragma ComponentBehavior: Bound
 
 import Quickshell
 import Quickshell.Services.Polkit
@@ -16,7 +17,13 @@ Item {
         id: agent
     }
 
-    FloatingWindow {
+    LazyLoader {
+        id: promptLoader
+        component: PolkitPromptWindow {}
+        loading: true
+    }
+
+    component PolkitPromptWindow: FloatingWindow {
         id: promptWindow
         title: "Polkit Agent"
 

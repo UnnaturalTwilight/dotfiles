@@ -19,7 +19,7 @@ Item {
 
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Background
-        WlrLayershell.namespace: "backdrop-qs-items"
+        WlrLayershell.namespace: "backdrop-qs-" + root.modelData.name
         color: "transparent"
         surfaceFormat.opaque: false
 
@@ -29,6 +29,11 @@ Item {
             left: true
             bottom: true
         }
+
+        // Not sure I want to switch off of wbg yet.
+        // Wallpaper {
+            // screen: root.modelData
+        // }
 
         Loader {
             id: clockLoader

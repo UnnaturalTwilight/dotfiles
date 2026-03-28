@@ -16,6 +16,10 @@ Item {
 
     property int margins: 16
 
+    signal leftClicked()
+    signal rightClicked()
+    signal middleClicked()
+
     Rectangle {
         anchors.fill: parent
         radius: 12
@@ -28,6 +32,17 @@ Item {
             id: hoverBox
             anchors.fill: parent
             hoverEnabled: true
+
+            acceptedButtons: Qt.AllButtons
+            onClicked: (mouse) => {
+                if (mouse.button === Qt.LeftButton) {
+                    root.leftClicked();
+                } else if (mouse.button === Qt.RightButton) {
+                    root.rightClicked();
+                } else if (mouse.button === Qt.MiddleButton) {
+                    root.middleClicked();
+                }
+            }
 
             RowLayout {
                 anchors.fill: parent

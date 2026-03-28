@@ -16,7 +16,7 @@ Singleton {
 
     function setDefaultSink(sink) {
         if (sink) {
-            Pipewire.preferredDefaultAudioSink = sink;
+            // Pipewire.preferredDefaultAudioSink = sink;
         }
     }
 

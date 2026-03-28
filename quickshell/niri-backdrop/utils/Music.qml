@@ -10,7 +10,7 @@ Singleton {
 
     readonly property var players: [...Mpris.players.values]
 
-    readonly property var mpd: [...Mpris.players.values].find(s => s.identity === "MPD")
+    readonly property var mpd: [...Mpris.players.values].find(s => s.dbusName === "org.mpris.MediaPlayer2.mpd")
 
     readonly property var title: mpd?.trackTitle || "Unknown Track"
     readonly property var artist: mpd?.trackArtist || "Unknown Artist"

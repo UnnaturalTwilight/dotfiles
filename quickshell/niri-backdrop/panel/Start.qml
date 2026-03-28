@@ -2,7 +2,6 @@
 pragma ComponentBehavior: Bound
 
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
@@ -18,33 +17,32 @@ PanelWindow {
     screen: System.primaryScreen
     visible: persist.onscreen
 
-    IpcHandler {
-        target: "start"
+    function toggle(): void {
+        persist.onscreen = !persist.onscreen;
+    }
 
-        function toggle(): void {
-            persist.onscreen = !persist.onscreen;
-        }
-        function show(): void {
-            persist.onscreen = true;
-        }
-        function hide(): void {
-            persist.onscreen = false;
-        }
-        function shown(): bool {
-            return persist.onscreen;
-        }
+    function show(): void {
+        persist.onscreen = true;
+    }
+
+    function hide(): void {
+        persist.onscreen = false;
+    }
+
+    function shown(): bool {
+        return persist.onscreen;
     }
 
     PersistentProperties {
         id: persist
-        reloadableId: "persistedStates"
+        reloadableId: "persist-StartPanel"
 
         property bool onscreen: false
     }
 
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
-    WlrLayershell.namespace: "overlay-qt-start"
+    WlrLayershell.namespace: "overlay-qs-start"
     color: "transparent"
     surfaceFormat.opaque: false
 
@@ -201,6 +199,24 @@ PanelWindow {
                         color: Colours.white
                     }
 
+                    Text {
+                        Layout.row: 0
+                        Layout.column: 1
+                        Layout.preferredWidth: 40
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        horizontalAlignment: Text.AlignRight
+                        text: {
+                            if (!Idle.enabled) {
+                                return "󰒳 ";
+                            } else {
+                                return "";
+                            }
+                        }
+                        font.pixelSize: 16
+                        font.family: "JetBrainsMonoNF"
+                        color: Colours.white
+                    }
+
                     PercentBar {
                         Layout.row: 1
                         Layout.columnSpan: 2
@@ -208,6 +224,10 @@ PanelWindow {
                         Layout.fillHeight: true
                         value: Battery.value
                     }
+                }
+
+                onMiddleClicked: () => {
+                    Idle.enabled = !Idle.enabled;
                 }
             }
 
@@ -230,7 +250,7 @@ PanelWindow {
                     anchors.centerIn: parent
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    text: "Placeholder" + "\n"
+                    text: "Placeholder" + "\n" + "line 2"
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     font.pixelSize: 24
                     color: Colours.white

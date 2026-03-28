@@ -9,7 +9,7 @@ systemctl --user add-wants niri.service example.service
 Curently niri is set to want:
 
 - elephant.service
-- hypridle.service
+- ~~hypridle.service~~ > Replaced with quickshell
 - ~~plasma-polkit-agent.service~~ > Replaced with quickshell
 - quickshell@niri-backdrop.service
 - solaar.service
