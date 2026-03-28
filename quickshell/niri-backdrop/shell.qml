@@ -4,7 +4,6 @@ import QtQuick
 
 import qs.backdrop
 import qs.panel
-import qs.lock
 import qs.auth
 
 Scope {
@@ -13,14 +12,9 @@ Scope {
     Variants {
 
         model: Quickshell.screens
-        Clock {}
+        Backdrop {}
     }
-    Symbols {}
-    Variants {
 
-        model: Quickshell.screens
-        Workspaces {}
-    }
     // Variants {
 
     //     model: Quickshell.screens

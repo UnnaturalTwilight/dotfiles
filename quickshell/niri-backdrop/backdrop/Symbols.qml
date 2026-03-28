@@ -7,33 +7,16 @@ import QtQuick.Layouts
 import qs
 import qs.utils
 
-PanelWindow {
-    id: bgSysPanel
-    // required property var modelData
-    screen: Quickshell.screens.find(s => s.name === "eDP-1")
-
-    exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.layer: WlrLayer.Background
-    WlrLayershell.namespace: "backdrop-qt-symbols"
-    color: "transparent"
-    surfaceFormat.opaque: false
-
-    anchors {
-        top: false
-        right: true
-        left: false
-        bottom: true
-    }
-
-    margins {
-        top: 0
-        right: 50
-        left: 0
-        bottom: 40
-    }
+Item {
+    id: bgSymbols
+    required property var screen
 
     implicitWidth: sysLayout.implicitWidth
     implicitHeight: sysLayout.implicitHeight
+
+    x: screen?.width - (50 + implicitWidth)
+    y: screen?.height - (40 + implicitHeight)
+
     GridLayout {
         id: sysLayout
         rows: 2

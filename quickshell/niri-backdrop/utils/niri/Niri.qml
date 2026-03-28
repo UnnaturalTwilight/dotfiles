@@ -27,7 +27,7 @@ Singleton {
 
     // Every monitor has at least one workspace, so we poll for outputs every
     // time workspaces change.
-    // onWorkspacesChanged: outputProc.running = true
+    onWorkspacesChanged: outputProc.running = true
 
     // The currently focused workspace.
     property NiriWorkspace focusedWorkspace: null
@@ -37,30 +37,6 @@ Singleton {
 
     // The currently focused window.
     property NiriWindow focusedWindow: null
-
-    property NiriWindow emptyWindow: NiriWindow {
-        windowId: -1
-        title: ""
-        appId: ""
-        pid: -1
-        workspaceId: -1
-        isFocused: false
-        isFloating: false
-        isUrgent: false
-        focusTimestamp: -1
-        layout: WindowLayout {
-            tileIndexInScrollingLayout: NaN
-            columnIndexInScrollingLayout: NaN
-            tileWidth: NaN
-            tileHeight: NaN
-            windowWidth: NaN
-            windowHeight: NaN
-            tilePosInWorkspaceViewX: NaN
-            tilePosInWorkspaceViewY: NaN
-            windowOffsetInTileX: NaN
-            windowOffsetInTileY: NaN
-        }
-    }
 
     // Monitor outputs recognized by Niri.
     property list<NiriOutput> outputs: []
@@ -302,11 +278,11 @@ Singleton {
                 if (event.OverviewOpenedOrClosed) {
                     // {"OverviewOpenedOrClosed":{"is_open": BOOL }}
                     root.overviewOpened = event.OverviewOpenedOrClosed.is_open;
-                    return;
                 } else if (event.WorkspacesChanged) {
                     // {"WorkspacesChanged":{"workspaces":[ { WORKSPACE DATA }, ... ]}}
                     // Contains full workspace config, overrides all workspaces.
                     let newWorkspaces = [];
+                    // console.log("NiriService: WorkspacesChanged: " + JSON.stringify(event.WorkspacesChanged.workspaces));
                     for (const workspace of event.WorkspacesChanged.workspaces) {
                         const ws = workspaceComp.createObject(root, {
                             workspaceId: workspace.id,
@@ -321,13 +297,10 @@ Singleton {
                         if (ws.isFocused) {
                             root.focusedWorkspace = ws;
                         }
-                        // console.log("\nNiriService: WorkspacesChanged: workspace " + ws.workspaceId);
                         newWorkspaces.push(ws);
                     }
                     newWorkspaces = newWorkspaces.sort((a, b) => a.idx - b.idx);
                     root.workspaces = newWorkspaces;
-                    // console.log("NiriService: WorkspacesChanged: now " + JSON.stringify([...root.workspaces]));
-                    return;
                 } else if (event.WorkspaceActivated) {
                     // {"WorkspaceActivated":{"id": INT ,"focused": BOOL }}
                     // workspace with id is activated. Focused is true if it on the currently focused output.
@@ -343,7 +316,6 @@ Singleton {
                         }
                     }
                     console.warn("NiriService: New focused workspace not found. This likely a bug in the IPC implementation.");
-                    return;
                 } else if (event.WindowsChanged) {
                     // {"WindowsChanged":{"windows":[ { WINDOW DATA }, ... ]}}
                     // Contains full window config, overrides all windows.
@@ -353,7 +325,6 @@ Singleton {
                     }
                     root.windows = windows;
                     focusWindow(root.windows.find(w => w.isFocused)?.windowId ?? -1);
-                    return;
                 } else if (event.WindowOpenedOrChanged) {
                     // {"WindowOpenedOrChanged":{"window":{ WINDOW DATA }}
                     // Contains single modified or new window, should be merged with existing windows.

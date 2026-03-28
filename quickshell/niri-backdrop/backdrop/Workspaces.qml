@@ -2,42 +2,22 @@
 pragma ComponentBehavior: Bound
 
 import Quickshell
-import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 
 import qs
-import qs.utils
 import qs.utils.niri
 
-PanelWindow {
-    id: bgWorkspacesPanel
-    required property var modelData
-    screen: modelData
-
-    exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.layer: WlrLayer.Background
-    WlrLayershell.namespace: "backdrop-qt-workspaces"
-    color: "transparent"
-    surfaceFormat.opaque: false
-
-    anchors {
-        top: false
-        right: false
-        left: true
-        bottom: true
-    }
-
-    margins {
-        top: 0
-        right: 0
-        left: 40
-        bottom: 40
-    }
+Item {
+    id: bgWorkspaces
+    required property var screen
 
     implicitWidth: wrapper.implicitWidth + 32
     implicitHeight: wrapper.implicitHeight + 32
+
+    x: 40
+    y: screen?.height - (40 + implicitHeight)
 
     RectangularShadow {
         id: shadowBox
@@ -62,13 +42,12 @@ PanelWindow {
 
         color: Qt.alpha(Colours.navy, 0.5)
 
-        Grid {
+        GridLayout {
             id: workspaceLayout
             anchors.centerIn: parent
             rows: 1
             columns: children.length
             columnSpacing: 4
-            rightPadding: -4
 
             Repeater {
                 id: repeater
@@ -76,7 +55,7 @@ PanelWindow {
                 model: ScriptModel {
                     // You can filter the workspaces based on the `output` variable so
                     // only the workspaces from the current monitor are visible.
-                    values: [...Niri.workspaces.filter(w => w.output === bgWorkspacesPanel.screen?.name)]
+                    values: [...Niri.workspaces.filter(w => w.output === bgWorkspaces.screen?.name)]
                 }
 
                 WorkspaceItem {
@@ -89,8 +68,8 @@ PanelWindow {
     component WorkspaceItem: Rectangle {
         id: workspaceItem
         required property NiriWorkspace modelData
-        readonly property bool active: modelData.isFocused
-        readonly property bool empty: modelData.windows.length === 0
+        readonly property bool active: modelData?.isFocused ?? false
+        readonly property bool empty: modelData?.windows.length === 0
 
         radius: Math.min(width, height) / 2
 
@@ -107,22 +86,21 @@ PanelWindow {
             }
         }
 
-        Grid {
+        GridLayout {
             id: windowLayout
             anchors.centerIn: parent
             columns: children.length
             columnSpacing: 4
-            rightPadding: -4
 
             Repeater {
                 id: windowRepeater
 
                 model: ScriptModel {
                     values: {
-                        if (workspaceItem.modelData.windows.length > 0) {
-                            return [...workspaceItem.modelData.windows].sort(bgWorkspacesPanel.windowSortingFunction);
+                        if (!workspaceItem.empty) {
+                            return [...workspaceItem.modelData.windows].sort(bgWorkspaces.windowSortingFunction);
                         } else {
-                            return [Niri.emptyWindow];
+                            return [null];
                         }
                     }
                 }
@@ -163,11 +141,11 @@ PanelWindow {
     component WindowItem: Rectangle {
         id: windowItem
         required property NiriWindow modelData
-        readonly property bool empty: (modelData?.windowId ?? -1) <= 0
-        readonly property bool active: Niri?.focusedWorkspace?.workspaceId === modelData.workspaceId
-        readonly property bool focused: Niri?.focusedWindow?.windowId === modelData.windowId && !Niri?.overviewOpened
-        readonly property bool urgent: modelData?.isUrgent
-        readonly property bool floating: modelData?.isFloating
+        readonly property bool empty: modelData === null
+        readonly property bool active: Niri.focusedWorkspace?.workspaceId === modelData?.workspaceId
+        readonly property bool focused: Niri.focusedWindow?.windowId === modelData?.windowId && !Niri?.overviewOpened
+        readonly property bool urgent: modelData?.isUrgent ?? false
+        readonly property bool floating: modelData?.isFloating ?? false
 
         radius: Math.min(width, height) / 2
 
@@ -176,11 +154,12 @@ PanelWindow {
 
         // qmlformat off
         color: empty ? Qt.alpha(Colours.navy, 0.6) :
+            active && floating && focused ? Colours.niri_float :
             active && focused ? Colours.pinkish :
             active && urgent ? Colours.niri_urgent :
-            active && floating ? Colours.niri_float :
+            active && floating ? Qt.alpha(Colours.niri_float, 0.6) :
             urgent ? Qt.alpha(Colours.niri_urgent, 0.8) :
-            floating ? Qt.alpha(Colours.niri_float, 0.6) :
+            floating ? Qt.alpha(Colours.niri_float, 0.4) :
             active ? Qt.alpha(Colours.pinkish, 0.6) :
             Qt.alpha(Colours.kindaGray, 0.6)
         // qmlformat on

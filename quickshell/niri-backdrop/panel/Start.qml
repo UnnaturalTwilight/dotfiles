@@ -15,7 +15,7 @@ import qs.panel
 PanelWindow {
     id: startPanel
     // required property ShellScreen modelData
-    screen: Quickshell.screens.find(s => s.name === "eDP-1")
+    screen: System.primaryScreen
     visible: persist.onscreen
 
     IpcHandler {
