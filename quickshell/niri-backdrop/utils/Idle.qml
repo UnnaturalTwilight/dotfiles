@@ -6,6 +6,9 @@ import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
 
+import qs.utils
+import qs.utils.niri
+
 Singleton {
     id: root
     reloadableId: "Idle"
@@ -13,6 +16,8 @@ Singleton {
     property bool idle: false
     property bool enabled: false
     property bool respectInhibitors: true
+
+    property alias screenLocked: screenLocker.triggered
 
     IdleMonitor {
         id: screenDimmer
@@ -27,9 +32,9 @@ Singleton {
             root.idle = isIdle;
 
             if (isIdle && !triggered) {
-                Quickshell.execDetached(["brightnessctl", "-s", "set", "10"]);
+                Brightness.dimScreen();
             } else if (!isIdle && triggered) {
-                Quickshell.execDetached(["brightnessctl", "-r"]);
+                Brightness.restoreBrightness();
             }
 
             triggered = isIdle;
@@ -47,8 +52,8 @@ Singleton {
 
         onIsIdleChanged: {
             if (isIdle && !triggered) {
-                hyprlock.startDetached();
-                triggered = true; 
+                // not the cleanest solution but it works
+                Quickshell.execDetached(["qs", "--config", "niri-backdrop", "ipc", "call", "lock", "lock"]);
             }
         }
     }
@@ -64,22 +69,48 @@ Singleton {
 
         onIsIdleChanged: {
             if (isIdle && !triggered) {
-                Quickshell.execDetached(["brightnessctl", "-sd", "chromeos::kbd_backlight", "set", "0"]);
+                Brightness.keyboardBacklight(false);
             } else if (!isIdle && triggered) {
-                Quickshell.execDetached(["brightnessctl", "-rd", "chromeos::kbd_backlight"]);
+                Brightness.keyboardBacklight(true);
             }
 
             triggered = isIdle;
-        }    
+        }
     }
 
-    // replace with Quickshell native lockscreen
-    Process {
-        id: hyprlock
-        running: false
-        command: ["hyprlock", "--grace", "3"]
-        onExited: {
-            screenLocker.triggered = false;
+    IdleMonitor {
+        id: screenOff
+
+        property bool triggered: false
+        respectInhibitors: root.respectInhibitors
+        enabled: root.enabled
+
+        timeout: 360 // 6min
+
+        onIsIdleChanged: {
+            if (isIdle && !triggered) {
+                Niri.sleepDisplay();
+            }
+
+            triggered = isIdle;
+        }
+    }
+
+    IdleMonitor {
+        id: suspend
+
+        property bool triggered: false
+        respectInhibitors: root.respectInhibitors
+        enabled: root.enabled && !Music.playing
+
+        timeout: 600 // 10min
+
+        onIsIdleChanged: {
+            if (isIdle && !triggered) {
+                Quickshell.execDetached(["systemctl", "hybrid-sleep"]);
+            }
+
+            triggered = isIdle;
         }
     }
 }

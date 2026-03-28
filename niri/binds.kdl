@@ -281,5 +281,5 @@ binds {
     Mod+Shift+P { power-off-monitors; }
     
     // Lock screen
-    Mod+Shift+L hotkey-overlay-title="Lock Screen" { spawn "hyprlock" "--grace" "3"; }
+    Mod+Shift+L hotkey-overlay-title="Lock Screen" { spawn-sh "qs --config niri-backdrop ipc call lock lock"; }
 }

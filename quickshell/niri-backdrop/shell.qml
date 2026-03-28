@@ -1,4 +1,5 @@
 // quickshell/niri-backdrop/shell.qml
+
 import Quickshell
 import Quickshell.Io
 import QtQuick
@@ -23,18 +24,19 @@ Scope {
     //     Debug {}
     // }
 
-    // LazyLoader {
-    //     id: panelLoader
-    //     component: 
-    //     loading: true
-    // }
-    
     Start {
         id: startPanel
         screen: System.primaryScreen
     }
 
-    Polkit {}
+    Polkit {
+        id: polkitAgent
+    }
+
+    Lock {
+        id: sessionLock
+        locked: false
+    }
 
     IpcHandler {
         target: "start"
@@ -48,7 +50,7 @@ Scope {
         function hide(): void {
             startPanel.hide();
         }
-        function shown(): bool {
+        function state(): bool {
             return startPanel.shown();
         }
     }
@@ -65,6 +67,26 @@ Scope {
         function inhibited(): bool {
             return !Idle.enabled;
         }
+    }
+
+    IpcHandler {
+        target: "lock"
+
+        function lock(): void {
+            sessionLock.lock();
+            this.lockedChanged(true);
+        }
+
+        function unlock(): void {
+            sessionLock.unlock();
+            this.lockedChanged(false);
+        }
+
+        function state(): bool {
+            return sessionLock.locked;
+        }
+
+        signal lockedChanged(bool locked)
     }
 
     Component.onCompleted: {

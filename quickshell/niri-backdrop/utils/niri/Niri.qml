@@ -90,6 +90,14 @@ Singleton {
         });
     }
 
+    function sleepDisplay() {
+        send({
+            Action: {
+                PowerOffMonitors: {}
+            }
+        });
+    }
+
     // Activates the workspace with the given ID.
     function activateWorkspace(id: int) {
         send({
