@@ -13,12 +13,6 @@ WlSessionLock {
 
     locked: false
 
-    signal lockedChanged(bool locked)
-
-    onLockedChanged: {
-        lockedChanged(locked);
-    }
-
     readonly property int gracePeriodMs: 3000
 
     function lock(): void {

@@ -8,6 +8,7 @@ import qs.backdrop
 import qs.panel
 import qs.auth
 import qs.utils
+import qs.utils.niri
 
 Scope {
     id: root
@@ -63,6 +64,12 @@ Scope {
         }
         function respectInhibitors(enabled: bool): void {
             Idle.respectInhibitors = enabled;
+        }
+        function inhibitLock(enabled: bool): void {
+            Idle.inhibitLock = enabled;
+        }
+        function inhibitSuspend(enabled: bool): void {
+            Idle.inhibitSuspend = enabled;
         }
         function inhibited(): bool {
             return !Idle.enabled;

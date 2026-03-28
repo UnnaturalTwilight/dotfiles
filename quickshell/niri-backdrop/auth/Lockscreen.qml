@@ -46,7 +46,7 @@ Item {
 
         onCompleted: result => {
             console.log("PAM authentication completed with result: " + result.toString());
-            passwordField.text = "";
+            passwordField.currentText = "";
             lockScreen.spinner = false;
             if (result === PamResult.Success) {
                 lockScreen.lockData.unlock();

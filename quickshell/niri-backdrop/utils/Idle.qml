@@ -16,6 +16,9 @@ Singleton {
     property bool idle: false
     property bool enabled: false
     property bool respectInhibitors: true
+    property bool inhibitLock: false
+    // Will never suspend if MPD is playing music regardless of this value
+    property bool inhibitSuspend: false
 
     property alias screenLocked: screenLocker.triggered
 
@@ -26,7 +29,7 @@ Singleton {
         respectInhibitors: root.respectInhibitors
         enabled: root.enabled
 
-        timeout: 240 // 4min
+        timeout: root.screenLocked ? 30 /* 30s after lockscreen */ : 240 /* 4min */
 
         onIsIdleChanged: {
             root.idle = isIdle;
@@ -46,7 +49,7 @@ Singleton {
 
         property bool triggered: false
         respectInhibitors: root.respectInhibitors
-        enabled: root.enabled
+        enabled: root.enabled && !root.inhibitLock
 
         timeout: 300 // 5min
 
@@ -65,7 +68,7 @@ Singleton {
         respectInhibitors: root.respectInhibitors
         enabled: root.enabled
 
-        timeout: 330 // 5.5min
+        timeout: root.screenLocked ? 30 /* 30s after lockscreen */ : 330 /* 5.5min */
 
         onIsIdleChanged: {
             if (isIdle && !triggered) {
@@ -101,7 +104,7 @@ Singleton {
 
         property bool triggered: false
         respectInhibitors: root.respectInhibitors
-        enabled: root.enabled && !Music.playing
+        enabled: root.enabled && !Music.playing && !root.inhibitSuspend
 
         timeout: 600 // 10min
 
