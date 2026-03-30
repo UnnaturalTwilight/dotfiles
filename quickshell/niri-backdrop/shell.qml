@@ -74,6 +74,19 @@ Scope {
         function inhibited(): bool {
             return !Idle.enabled;
         }
+
+        function setIdle(): void {
+            Idle.setIdle();
+        }
+        function setWake(): void {
+            Idle.wake();
+        }
+        function setLocked(): void {
+            Idle.sleep();
+        }
+        function setSuspended(): void {
+            Idle.suspend();
+        }
     }
 
     IpcHandler {

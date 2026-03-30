@@ -13,39 +13,62 @@ Singleton {
     id: root
     reloadableId: "Idle"
 
-    property bool idle: false
+    property alias idle: dimTimer.triggered
+    property alias locked: lockTimer.triggered
     property bool enabled: false
     property bool respectInhibitors: true
+
     property bool inhibitLock: false
     // Will never suspend if MPD is playing music regardless of this value
     property bool inhibitSuspend: false
 
-    property alias screenLocked: screenLocker.triggered
+    function setIdle(): void {
+        Brightness.dimScreen();
+        dimTimer.triggered = true;
+    }
+
+    function wake(): void {
+        suspendTimer.triggered = false;
+        dimTimer.triggered = false;
+        Brightness.keyboardBacklight(true);
+        Brightness.restoreBrightness();
+    }
+
+    function sleep(): void {
+        lockTimer.triggered = true;
+        Brightness.keyboardBacklight(false);
+        Quickshell.execDetached(["qs", "--config", "niri-backdrop", "ipc", "call", "lock", "lock"]);
+        Niri.sleepDisplay();
+    }
+
+    function suspend(): void {
+        suspendTimer.triggered = true;
+        if (!lockTimer.triggered) {
+            sleep();
+        }
+        Quickshell.execDetached(["systemctl", "suspend-then-hibernate"]);
+    }
 
     IdleMonitor {
-        id: screenDimmer
+        id: dimTimer
 
         property bool triggered: false
         respectInhibitors: root.respectInhibitors
         enabled: root.enabled
 
-        timeout: root.screenLocked ? 30 /* 30s after lockscreen */ : 240 /* 4min */
+        timeout: 240 // 4min
 
         onIsIdleChanged: {
-            root.idle = isIdle;
-
             if (isIdle && !triggered) {
-                Brightness.dimScreen();
+                root.setIdle();
             } else if (!isIdle && triggered) {
-                Brightness.restoreBrightness();
+                root.wake();
             }
-
-            triggered = isIdle;
         }
     }
 
     IdleMonitor {
-        id: screenLocker
+        id: lockTimer
 
         property bool triggered: false
         respectInhibitors: root.respectInhibitors
@@ -55,52 +78,13 @@ Singleton {
 
         onIsIdleChanged: {
             if (isIdle && !triggered) {
-                // not the cleanest solution but it works
-                Quickshell.execDetached(["qs", "--config", "niri-backdrop", "ipc", "call", "lock", "lock"]);
+                root.sleep();
             }
         }
     }
 
     IdleMonitor {
-        id: keyboardBacklight
-
-        property bool triggered: false
-        respectInhibitors: root.respectInhibitors
-        enabled: root.enabled
-
-        timeout: root.screenLocked ? 30 /* 30s after lockscreen */ : 330 /* 5.5min */
-
-        onIsIdleChanged: {
-            if (isIdle && !triggered) {
-                Brightness.keyboardBacklight(false);
-            } else if (!isIdle && triggered) {
-                Brightness.keyboardBacklight(true);
-            }
-
-            triggered = isIdle;
-        }
-    }
-
-    IdleMonitor {
-        id: screenOff
-
-        property bool triggered: false
-        respectInhibitors: root.respectInhibitors
-        enabled: root.enabled
-
-        timeout: 360 // 6min
-
-        onIsIdleChanged: {
-            if (isIdle && !triggered) {
-                Niri.sleepDisplay();
-            }
-
-            triggered = isIdle;
-        }
-    }
-
-    IdleMonitor {
-        id: suspend
+        id: suspendTimer
 
         property bool triggered: false
         respectInhibitors: root.respectInhibitors
@@ -110,10 +94,8 @@ Singleton {
 
         onIsIdleChanged: {
             if (isIdle && !triggered) {
-                Quickshell.execDetached(["systemctl", "hybrid-sleep"]);
+                root.suspend();
             }
-
-            triggered = isIdle;
         }
     }
 }

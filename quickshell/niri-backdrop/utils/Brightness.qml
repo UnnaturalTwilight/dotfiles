@@ -12,7 +12,8 @@ Singleton {
     //  specific delta      Example: 50- or +10
     //  percentage delta    Example: 50%- or +10%
     function setBrightness(value: string) {
-        Quickshell.execDetached(["brightnessctl", "--save", "set", value, "--min-value=9600"]);
+        // min-value is set to 4800 (5%)
+        Quickshell.execDetached(["brightnessctl", "--save", "set", value, "--min-value=4800"]);
     }
 
     function dimScreen() {

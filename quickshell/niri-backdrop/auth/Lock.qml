@@ -16,13 +16,14 @@ WlSessionLock {
     readonly property int gracePeriodMs: 3000
 
     function lock(): void {
+        Idle.locked = true;
         sessionLock.locked = true;
-        Idle.screenLocked = true;
     }
 
     function unlock(): void {
+        Idle.wake();
+        Idle.locked = false;
         sessionLock.locked = false;
-        Idle.screenLocked = false;
     }
 
     WlSessionLockSurface {
