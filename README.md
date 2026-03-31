@@ -9,3 +9,6 @@ Both Hyprland and Eww are depricated and may be removed compleatly in the future
 - [UnnaturalSDDM](https://github.com/UnnaturalTwilight/UnnaturalSDDM) - My SDDM theme
 - [UnnaturalTwilight/eww](https://github.com/UnnaturalTwilight/eww) - My EWW fork
 I also have forks of other programs like msedit, rmpc, and niri but these mostly track upstream and most of the time these configs will be compatable with both
+
+## Acknowledgements
+ - SVG Icons are from: [iconify.design](https://iconify.design/)

@@ -1,7 +1,6 @@
 // PasswordField.qml
 import Quickshell
 import Quickshell.Services.Pam
-import Quickshell.Widgets
 import QtQuick
 import QtQuick.Controls
 
@@ -12,30 +11,19 @@ Item {
 
     required property PamContext pam
     property bool spinner: false
-    property string placeholderText: "󰌾 Logged in as " + Quickshell.env("USER")
+    property bool fingerprint: false
+    property string placeholderText: "Password"
     property string currentText: ""
+    property int iconSize: 32
 
-    anchors.centerIn: parent
-    anchors.verticalCenterOffset: 50
-    width: 300
+    signal submit(string password)
 
-    function tryUnlock() {
-        if (!pam.active) {
-            pam.start();
-        }
-        if (pam.responseRequired) {
-            pam.respond(currentText);
-        }
-        spinner = true;
-    }
-
-    ClippingRectangle {
+    Rectangle {
         id: pwFieldBackground
-        implicitWidth: 300
-        implicitHeight: 60
+        anchors.fill: parent
         radius: 100
         border.width: 4
-        color: Colours.white
+        color: Qt.alpha(Colours.white, 0.15)
         border.color: {
             if (passwordField.spinner) {
                 return Colours.pinkish;
@@ -44,38 +32,111 @@ Item {
             } else if (passwordField.pam.active) {
                 return Colours.darkViolet;
             } else {
-                return Colours.navy;
+                // return Colours.navy;
+                return "transparent";
             }
-        }
-
-        Text {
-            id: placeholder
-            text: passwordField.placeholderText
-            anchors.centerIn: parent
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            color: Colours.darkGray
-            font.pixelSize: 20
-            font.family: "Noto Sans"
-            visible: !passwordField.spinner && passwordField.currentText.length === 0
-        }
-
-        Text {
-            id: asterisks
-            text: "⏺".repeat(passwordField.currentText.length)
-            anchors.centerIn: parent
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            color: Colours.black
-            font.pixelSize: 28
-            font.family: "JetBrainsMonoNFM"
-            visible: passwordField.currentText.length > 0
         }
 
         Behavior on border.color {
             ColorAnimation {
                 duration: 200
                 easing.type: Easing.Linear
+            }
+        }
+    }
+
+    Rectangle {
+        id: passwordIconArea
+        width: parent.height
+        height: parent.height
+        anchors.left: parent.left
+        anchors.leftMargin: 2
+        anchors.verticalCenter: parent.verticalCenter
+        color: "transparent"
+
+        Image {
+            id: passwordIcon
+            source: {
+                if (passwordField.fingerprint) {
+                    // The message requirement of the above check is to prevent it from flashing the fingerprint icon when PAM first starts
+                    return Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/fingerprint.svg";
+                } else {
+                    return Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/password.svg";
+                }
+            }
+            anchors.centerIn: parent
+            width: passwordField.iconSize
+            height: passwordField.iconSize
+            sourceSize: Qt.size(width, height)
+            fillMode: Image.PreserveAspectFit
+            opacity: (passwordField.pam.responseRequired || !passwordField.pam.active) ? 1 : 0.5
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 250
+                    easing.type: Easing.Linear
+                }
+            }
+        }
+    }
+
+    Text {
+        id: displayText
+        text: {
+            if (passwordField.currentText.length === 0) {
+                return passwordField.placeholderText;
+            } else {
+                return "⏺".repeat(passwordField.currentText.length);
+            }
+        }
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 200
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        color: Colours.white
+        font.pixelSize: 24
+        font.family: "JetBrainsMonoNF"
+        font.italic: passwordField.currentText.length === 0
+    }
+
+    Rectangle {
+        id: sendButtonArea
+        width: parent.height
+        height: parent.height
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        color: Qt.alpha(Colours.white, sendButtonMouseArea.containsMouse ? 0.15 : 0)
+
+        topRightRadius: 100
+        bottomRightRadius: 100
+
+        MouseArea {
+            id: sendButtonMouseArea
+            anchors.fill: parent
+            hoverEnabled: passwordField.pam.responseRequired
+            onClicked: {
+                passwordField.submit(passwordField.currentText);
+            }
+        }
+
+        Image {
+            id: sendButton
+            source: {
+                return Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/arrow-right.svg";
+            }
+            anchors.centerIn: parent
+            width: passwordField.iconSize
+            height: passwordField.iconSize
+            sourceSize: Qt.size(width, height)
+            fillMode: Image.PreserveAspectFit
+            opacity: passwordField.pam.responseRequired ? 1 : 0.5
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 250
+                    easing.type: Easing.Linear
+                }
             }
         }
     }
@@ -91,8 +152,9 @@ Item {
 
         // Bidirectional sync — avoids a declarative binding which breaks on input
         onTextChanged: {
-            if (passwordField.currentText !== text)
+            if (passwordField.currentText !== text) {
                 passwordField.currentText = text;
+            }
         }
 
         Connections {
@@ -122,7 +184,7 @@ Item {
                 passwordField.currentText = "";
                 event.accepted = true;
             } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                passwordField.tryUnlock();
+                passwordField.submit(passwordField.currentText);
                 event.accepted = true;
             }
         }

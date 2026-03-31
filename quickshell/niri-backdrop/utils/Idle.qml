@@ -22,6 +22,10 @@ Singleton {
     // Will never suspend if MPD is playing music regardless of this value
     property bool inhibitSuspend: false
 
+    onIdleChanged: {
+        idleIPC.idleChanged(idle);
+    }
+
     function setIdle(): void {
         Brightness.dimScreen();
         dimTimer.triggered = true;
@@ -30,14 +34,14 @@ Singleton {
     function wake(): void {
         suspendTimer.triggered = false;
         dimTimer.triggered = false;
-        Brightness.keyboardBacklight(true);
-        Brightness.restoreBrightness();
+        Brightness.keyboard(true);
+        Brightness.restoreScreen();
     }
 
     function sleep(): void {
         lockTimer.triggered = true;
-        Brightness.keyboardBacklight(false);
-        Quickshell.execDetached(["qs", "--config", "niri-backdrop", "ipc", "call", "lock", "lock"]);
+        Brightness.keyboard(false);
+        lock();
         Niri.sleepDisplay();
     }
 
@@ -47,6 +51,46 @@ Singleton {
             sleep();
         }
         Quickshell.execDetached(["systemctl", "suspend-then-hibernate"]);
+    }
+
+    signal lock
+
+    IpcHandler {
+        id: idleIPC
+        target: "idle"
+
+        function inhibit(inhibited: bool): void {
+            root.enabled = !inhibited;
+        }
+        function respectInhibitors(enabled: bool): void {
+            root.respectInhibitors = enabled;
+        }
+        function inhibitLock(enabled: bool): void {
+            root.inhibitLock = enabled;
+        }
+        function inhibitSuspend(enabled: bool): void {
+            root.inhibitSuspend = enabled;
+        }
+
+        function inhibited(): bool {
+            return !root.enabled;
+        }
+
+        function set(action: string): void {
+            if (action === "idle") {
+                root.setIdle();
+            } else if (action === "wake") {
+                root.wake();
+            } else if (action === "sleep") {
+                root.sleep();
+            } else if (action === "suspend") {
+                root.suspend();
+            } else {
+                console.warn("Idle IPC: unknown action '" + action + "'");
+            }
+        }
+
+        signal idleChanged(bool idle)
     }
 
     IdleMonitor {

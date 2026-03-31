@@ -82,10 +82,12 @@ Singleton {
     }
 
     // Quit niri
-    function quitNiri() {
+    function quitNiri(force = false) {
         send({
             Action: {
-                Quit: {}
+                Quit: {
+                    skip_confirmation: force
+                }
             }
         });
     }

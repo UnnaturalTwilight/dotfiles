@@ -14,9 +14,9 @@ Singleton {
         objects: [Pipewire.defaultAudioSink]
     }
 
-    function setDefaultSink(sink) {
+    function setDefaultSink(sink: PwNode) {
         if (sink) {
-            // Pipewire.preferredDefaultAudioSink = sink;
+            Pipewire.preferredDefaultAudioSink = sink;
         }
     }
 
@@ -43,7 +43,7 @@ Singleton {
     }
 
     readonly property string icon: {
-        if (Pipewire.defaultAudioSink?.name == "bluez_output.40:72:18:AD:77:86") {
+        if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.40")) {
             return "󰋋"; // JBL Tune 770NC
         } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.88")) {
             // matches boath LE and normal mode at the risk of false positives

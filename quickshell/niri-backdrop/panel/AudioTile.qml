@@ -43,15 +43,17 @@ InfoTile {
             // This filters out sinks with empty descriptions, In my case this is just a 'sink-input' for mpd
             // If legit sinks have empty descriptions this will cause them to not show up in the dropdown
             // Decriptions can be overridden in wireplumber config anyways
-            model: Audio.ready ? Audio.sinks?.map(s => s.description).filter(d => d != "") : [Audio.description]
-            // This value falls back to the name and then "Unknown" which might break the dropdown
-            currentValue: Audio.description
+            model: Audio.ready ? Audio.sinks?.map(s => ({value: s.name, text: s.description})).filter(d => d.description != "") : [Audio.description]
+            textRole: "text"
+            valueRole: "value"
+
+            currentValue: Audio.name
             onActivated: {
-                const sink = Audio.sinks.find(s => s.description === dropdown.currentValue);
+                const sink = Audio.sinks.find(s => s.name === dropdown.currentValue);
                 if (sink) {
                     // Quickshell.execDetached(["pactl", "set-default-sink", sink.name]);
                     Audio.setDefaultSink(sink);
-                    // console.log("Switched audio sink to:", sink.name);
+                    console.log("Switched audio sink to:", sink.name);
                 } else {
                     console.warn("Selected audio sink not found:", dropdown.currentValue);
                 }
