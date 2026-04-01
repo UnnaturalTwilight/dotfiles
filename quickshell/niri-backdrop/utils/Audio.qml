@@ -26,7 +26,7 @@ Singleton {
         return Pipewire.defaultAudioSink?.audio?.volume ?? 0;
     }
 
-    function setVolume(v) {
+    function setVolume(v: real) {
         if (Pipewire.defaultAudioSink) {
             Pipewire.defaultAudioSink.audio.volume = v;
         }
@@ -36,7 +36,7 @@ Singleton {
         return Pipewire.defaultAudioSink?.audio?.muted ?? false;
     }
 
-    function setMuted(m) {
+    function setMuted(m: bool) {
         if (Pipewire.defaultAudioSink) {
             Pipewire.defaultAudioSink.audio.muted = m;
         }

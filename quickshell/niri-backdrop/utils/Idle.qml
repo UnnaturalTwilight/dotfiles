@@ -41,7 +41,7 @@ Singleton {
     function sleep(): void {
         lockTimer.triggered = true;
         Brightness.keyboard(false);
-        lock();
+        lock(true);
         Niri.sleepDisplay();
     }
 
@@ -53,7 +53,7 @@ Singleton {
         Quickshell.execDetached(["systemctl", "suspend-then-hibernate"]);
     }
 
-    signal lock
+    signal lock(bool grace)
 
     IpcHandler {
         id: idleIPC

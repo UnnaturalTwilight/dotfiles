@@ -6,7 +6,6 @@ import Quickshell.Services.Pam
 import QtQuick
 
 import qs
-import qs.utils
 import qs.backdrop
 
 Item {
@@ -38,14 +37,14 @@ Item {
         function onPamMessage() {
             const msg = lockScreen.pam.message.trim();
 
-            if (msg.includes("finger")) {
-                lockScreen.fingerprint = true;
-            } else {
-                lockScreen.fingerprint = false;
-            }
-
             if (lockScreen.pam.messageIsError) {
                 msg.endsWith(":") ? lockScreen.message = msg.slice(0, -1) : lockScreen.message = msg;
+            } else {
+                if (msg.includes("finger")) {
+                    lockScreen.fingerprint = true;
+                } else {
+                    lockScreen.fingerprint = false;
+                }
             }
         }
     }

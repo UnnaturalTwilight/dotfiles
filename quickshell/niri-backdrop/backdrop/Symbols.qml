@@ -1,6 +1,4 @@
 // Symbols.qml
-import Quickshell
-import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 
@@ -28,7 +26,7 @@ Item {
             id: audioIcon
             Layout.alignment: Qt.AlignCenter
             text: Audio.icon
-            color: Colours.kindaGray
+            color: Colours.gray
             opacity: Audio.muted ? 0.5 : 1.0
             font.family: "JetBrainsMonoNFM"
             font.pixelSize: Audio.extraProps.iconDisplay[0]
@@ -41,7 +39,7 @@ Item {
             implicitHeight: 10
             implicitWidth: 60
             radius: 20
-            color: Colours.darkGray
+            color: Colours.polar2
 
             Rectangle {
                 anchors {
@@ -52,7 +50,7 @@ Item {
 
                 implicitWidth: parent.width * Audio.volume
                 radius: parent.radius
-                color: Colours.pinkish
+                color: Colours.power1
                 opacity: Audio.muted ? 0.5 : 1.0
             }
         }
@@ -61,7 +59,7 @@ Item {
             id: batteryIcon
             Layout.alignment: Qt.AlignCenter
             text: Battery.icon
-            color: Colours.kindaGray
+            color: Colours.gray
             font.family: "JetBrainsMonoNFM"
             font.pixelSize: 88
             Layout.bottomMargin: -8
@@ -74,7 +72,7 @@ Item {
             implicitHeight: 10
             implicitWidth: 60
             radius: 20
-            color: Colours.darkGray
+            color: Colours.polar2
 
             Rectangle {
                 anchors {
@@ -85,7 +83,7 @@ Item {
 
                 implicitWidth: parent.width * Battery.value
                 radius: parent.radius
-                color: Colours.pinkish
+                color: Colours.power1
             }
         }
     }

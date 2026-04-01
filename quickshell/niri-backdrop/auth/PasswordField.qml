@@ -23,16 +23,15 @@ Item {
         anchors.fill: parent
         radius: 100
         border.width: 4
-        color: Qt.alpha(Colours.white, 0.15)
+        color: Colours.highlight
         border.color: {
             if (passwordField.spinner) {
-                return Colours.pinkish;
+                return Colours.mana2;
             } else if (passwordField.pam.messageIsError) {
-                return Colours.niri_urgent;
+                return Colours.aurora0;
             } else if (passwordField.pam.active) {
-                return Colours.darkViolet;
+                return Colours.mana0;
             } else {
-                // return Colours.navy;
                 return "transparent";
             }
         }
@@ -102,11 +101,12 @@ Item {
 
     Rectangle {
         id: sendButtonArea
-        width: parent.height
-        height: parent.height
+        width: height
+        height: parent.height - 8
         anchors.right: parent.right
+        anchors.rightMargin: 4
         anchors.verticalCenter: parent.verticalCenter
-        color: Qt.alpha(Colours.white, sendButtonMouseArea.containsMouse ? 0.15 : 0)
+        color: sendButtonMouseArea.containsMouse ? Colours.highlight : "transparent"
 
         topRightRadius: 100
         bottomRightRadius: 100

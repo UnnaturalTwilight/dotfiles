@@ -10,6 +10,12 @@ DelayButton {
     required property string symbol
     property int buttonSize: 60
 
+    property color bgColor: "transparent"
+    property color bgColorHover: Colours.highlight
+    property color borderColor: Colours.polar2
+    property color fgColor: Colours.gray
+    property color activeColor: Colours.power1
+
     text: root.symbol
     font.pixelSize: 48
     font.family: "JetBrainsMonoNFM"
@@ -21,13 +27,23 @@ DelayButton {
         anchors.centerIn: parent
         text: root.text
         font: root.font
-        color: root.hovered ? Colours.pinkish : Colours.kindaGray
+        color: root.hovered ? root.activeColor : root.fgColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }
 
-    background: Shape {
+    background: Rectangle {
+        anchors.centerIn: parent
+        implicitWidth: parent.width
+        implicitHeight: parent.height
+        radius: root.buttonSize / 4
+        color: root.hovered ? root.bgColorHover : root.bgColor
+        border.color: root.borderColor
+        border.width: 2
+    }
+
+    Shape {
         anchors.centerIn: parent
         implicitWidth: parent.width
         height: parent.height
@@ -37,7 +53,7 @@ DelayButton {
             //p = 2 * [ a + b - r * ( 4 - π ) ]
             property real perimeter: 2 * (2 * root.buttonSize - (root.buttonSize / 4) * (4 - Math.PI))
             strokeWidth: lineweight
-            strokeColor: root.hovered ? Colours.pinkish : Colours.kindaGray
+            strokeColor: root.hovered ? Colours.power1 : Colours.polar2
             strokeStyle: ShapePath.DashLine
             dashPattern: [root.progress * (perimeter / lineweight), (perimeter / lineweight) - (root.progress * (perimeter / lineweight))]
             dashOffset: -(root.buttonSize / 4) / lineweight

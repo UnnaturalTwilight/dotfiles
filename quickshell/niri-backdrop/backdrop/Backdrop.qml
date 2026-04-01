@@ -6,6 +6,7 @@ import Quickshell.Wayland
 import QtQuick
 
 import qs.utils
+import qs.utils.niri
 import qs.backdrop
 
 Item {
@@ -30,10 +31,9 @@ Item {
             bottom: true
         }
 
-        // Not sure I want to switch off of wbg yet.
-        // Wallpaper {
-            // screen: root.modelData
-        // }
+        Wallpaper {
+            screen: root.modelData
+        }
 
         Loader {
             id: clockLoader

@@ -44,9 +44,9 @@ $package\
 # add_newline = false
 
 # colours, why isn't this a part of the preset
-palette = 'default'
+palette = 'power'
 
-[palettes.default]
+[palettes.power]
 zero      = '#9A348E'
 one       = '#DA627D'
 two       = '#FCA17D'

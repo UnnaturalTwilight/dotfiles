@@ -2,6 +2,7 @@
 pragma ComponentBehavior: Bound
 
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
@@ -9,252 +10,204 @@ import QtQuick.Controls
 
 import qs
 import qs.utils
+import qs.utils.niri
 import qs.panel
 
-PanelWindow {
-    id: startPanel
-    // required property ShellScreen modelData
-    screen: System.primaryScreen
-    visible: persist.onscreen
+Scope {
+    id: startScope
 
-    function toggle(): void {
-        persist.onscreen = !persist.onscreen;
+    property alias screen: startPanel.screen
+    property alias onscreen: persist.onscreen
+
+    IpcHandler {
+        id: startIPC
+        target: "start"
+
+        function toggle(): void {
+            persist.onscreen = !startScope.onscreen;
+        }
+        function setVisible(visible: bool): void {
+            persist.onscreen = visible;
+        }
+        function state(): bool {
+            return persist.onscreen;
+        }
     }
 
-    function show(): void {
-        persist.onscreen = true;
-    }
-
-    function hide(): void {
+    function closePanel(): void {
         persist.onscreen = false;
-    }
-
-    function shown(): bool {
-        return persist.onscreen;
     }
 
     PersistentProperties {
         id: persist
-        reloadableId: "persist-StartPanel"
+        reloadableId: "StartPanel"
 
         property bool onscreen: false
     }
 
-    exclusionMode: ExclusionMode.Ignore
-    WlrLayershell.layer: WlrLayer.Overlay
-    WlrLayershell.namespace: "overlay-qs-start"
-    color: "transparent"
-    surfaceFormat.opaque: false
+    PanelWindow {
+        id: startPanel
+        // required property ShellScreen modelData
+        visible: persist.onscreen
 
-    anchors {
-        top: true
-        right: true
-        left: false
-        bottom: true
-    }
+        exclusionMode: ExclusionMode.Ignore
+        WlrLayershell.layer: WlrLayer.Overlay
+        WlrLayershell.namespace: "overlay-qs-start"
+        color: "transparent"
+        surfaceFormat.opaque: false
 
-    margins {
-        top: 30
-        right: 30
-        left: 0
-        bottom: 30
-    }
+        anchors {
+            top: true
+            right: true
+            left: false
+            bottom: true
+        }
 
-    implicitWidth: startBox.implicitWidth
-    implicitHeight: startBox.implicitHeight
-    Rectangle {
-        id: startBox
-        anchors.fill: parent
-        color: Qt.alpha(Colours.bgGray, 1.0)
-        // opacity: 1
-        radius: 12
-        implicitWidth: 420
+        margins {
+            top: 30
+            right: 30
+            left: 0
+            bottom: 30
+        }
 
-        ColumnLayout {
+        implicitWidth: startBox.implicitWidth
+        implicitHeight: startBox.implicitHeight
+        Rectangle {
+            id: startBox
             anchors.fill: parent
-            anchors.margins: 20
-            spacing: 12
+            color: Colours.polar1
+            // opacity: 1
+            radius: 12
+            implicitWidth: 420
 
-            GridLayout {
-                columns: 2
-                columnSpacing: 15
-                rowSpacing: 0
-                Layout.fillWidth: true
-
-                Image {
-                    Layout.rowSpan: 5
-                    Layout.column: 0
-                    Layout.maximumWidth: 150
-                    Layout.maximumHeight: 150
-                    source: Quickshell.env("XDG_CONFIG_HOME") + "/profilepic.png"
-                    sourceSize.width: 1250
-                    sourceSize.height: 1250
-                    fillMode: Image.PreserveAspectCrop
-                }
-
-                Text {
-                    Layout.column: 1
-                    Layout.row: 1
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    text: Quickshell.env("USER") + "@" + System.hostname
-                    font.pixelSize: 20
-                    font.family: "JetBrainsMonoNFM"
-                    color: Colours.kindaGray
-                }
-
-                Text {
-                    Layout.column: 1
-                    Layout.row: 2
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    text: "Network: WIP"
-                    font.pixelSize: 20
-                    font.family: "JetBrainsMonoNFM"
-                    color: Colours.kindaGray
-                }
-
-                Text {
-                    Layout.column: 1
-                    Layout.row: 3
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    text: startPanel.screen?.name
-                    font.pixelSize: 20
-                    font.family: "JetBrainsMonoNFM"
-                    color: Colours.kindaGray
-                }
-            }
-
-            RowLayout {
-                id: powerRow
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 20
                 spacing: 12
-                Layout.alignment: Qt.AlignCenter
 
-                Repeater {
+                GridLayout {
+                    columns: 2
+                    columnSpacing: 15
+                    rowSpacing: 0
+                    Layout.fillWidth: true
 
-                    model: [
-                        {
-                            "text": "",
-                            "action": ["systemctl", "poweroff"]
-                        },
-                        {
-                            "text": "",
-                            "action": ["systemctl", "reboot"]
-                        },
-                        {
-                            "text": "󰤄",
-                            "action": ["systemctl", "suspend"]
-                        },
-                        {
-                            "text": "",
-                            "action": ["loginctl", "lock-session"]
-                        },
-                        {
-                            "text": "",
-                            "action": ["niri", "msg", "action", "quit", "--skip-confirmation"]
-                        },
-                    ]
+                    Image {
+                        Layout.rowSpan: 5
+                        Layout.column: 0
+                        Layout.maximumWidth: 150
+                        Layout.maximumHeight: 150
+                        source: Quickshell.env("XDG_CONFIG_HOME") + "/profilepic.png"
+                        sourceSize.width: 1250
+                        sourceSize.height: 1250
+                        fillMode: Image.PreserveAspectCrop
+                    }
 
-                    Item {
-                        required property var modelData
-                        width: childrenRect.width
-                        height: childrenRect.height
-                        HoldButton {
-                            symbol: parent.modelData.text
-                            onActivated: () => {
-                                Quickshell.execDetached(parent.modelData.action);
-                                // This hackyness is nessary to prevent weird behavior when the window is ripped out from under it
-                                // only really relevent for the lock and suspend actions
-                                enabled = false;
-                                persist.onscreen = false;
-                                enabled = true;
-                            }
-                        }
+                    Text {
+                        Layout.column: 1
+                        Layout.row: 1
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                        text: Quickshell.env("USER") + "@" + System.hostname
+                        font.pixelSize: 20
+                        font.family: "JetBrainsMonoNFM"
+                        color: Colours.gray
+                    }
+
+                    Text {
+                        Layout.column: 1
+                        Layout.row: 2
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                        text: "WORK IN PROGRESS"
+                        font.pixelSize: 20
+                        font.family: "JetBrainsMonoNFM"
+                        color: Colours.gray
+                    }
+
+                    Text {
+                        Layout.column: 1
+                        Layout.row: 3
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                        text: startPanel.screen?.name
+                        font.pixelSize: 20
+                        font.family: "JetBrainsMonoNFM"
+                        color: Colours.gray
                     }
                 }
-            }
 
-            InfoTile {
-                id: batteryTile
-                vSize: 80
-                icon: Text {
-                    Layout.alignment: Qt.AlignCenter
-                    Layout.fillHeight: true
-                    verticalAlignment: Text.AlignVCenter
-                    text: Battery.icon
-                    font.pixelSize: 56
-                    font.family: "JetBrainsMonoNFM"
-                    color: Colours.kindaGray
-                }
-                info: GridLayout {
-                    columns: 2
+                PowerRow {}
+
+                Rectangle {
                     Layout.alignment: Qt.AlignCenter
                     Layout.fillHeight: true
                     Layout.fillWidth: true
+                    radius: 20
+                    color: Colours.polar0
 
                     Text {
-                        Layout.row: 0
-                        Layout.column: 0
-                        text: Battery.approxTime
-                        font.pixelSize: 16
-                        font.family: "JetBrainsMonoNFM"
-                        color: Colours.white
+                        anchors.centerIn: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        text: "Placeholder"
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        font.pixelSize: 24
+                        color: Colours.text
                     }
-
-                    Text {
-                        Layout.row: 0
-                        Layout.column: 1
-                        Layout.preferredWidth: 40
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        horizontalAlignment: Text.AlignRight
-                        text: {
-                            if (!Idle.enabled) {
-                                return "󰒳 ";
-                            } else {
-                                return "";
-                            }
-                        }
-                        font.pixelSize: 16
-                        font.family: "JetBrainsMonoNF"
-                        color: Colours.white
-                    }
-
-                    PercentBar {
-                        Layout.row: 1
-                        Layout.columnSpan: 2
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        value: Battery.value
-                    }
-                }
-
-                onMiddleClicked: () => {
-                    Idle.enabled = !Idle.enabled;
                 }
             }
+        }
+    }
 
-            AudioTile {}
+    component PowerRow: RowLayout {
+        id: powerRow
+        spacing: 12
+        Layout.alignment: Qt.AlignCenter
 
-            SysTray {
-                id: systray
-                Layout.preferredHeight: 50
-                Layout.fillWidth: true
+        HoldButton {
+            symbol: ""
+            onActivated: () => {
+                Quickshell.execDetached(["systemctl", "poweroff"]);
+                Qt.callLater(() => {
+                    startScope.closePanel();
+                });
             }
+        }
 
-            Rectangle {
-                Layout.alignment: Qt.AlignCenter
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                radius: 20
-                color: Qt.alpha(Colours.black, 0.2)
+        HoldButton {
+            symbol: ""
+            onActivated: () => {
+                Quickshell.execDetached(["systemctl", "reboot"]);
+                Qt.callLater(() => {
+                    startScope.closePanel();
+                });
+            }
+        }
 
-                Text {
-                    anchors.centerIn: parent
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    text: "Placeholder" + "\n" + "line 2"
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    font.pixelSize: 24
-                    color: Colours.white
-                }
+        HoldButton {
+            symbol: "󰤄"
+            onActivated: () => {
+                Idle.suspend();
+                Qt.callLater(() => {
+                    startScope.closePanel();
+                });
+            }
+        }
+
+        HoldButton {
+            symbol: ""
+            onActivated: () => {
+                Idle.lock(false);
+                Qt.callLater(() => {
+                    startScope.closePanel();
+                });
+            }
+        }
+
+        HoldButton {
+            symbol: ""
+            onActivated: () => {
+                Niri.quitNiri(true);
+                Qt.callLater(() => {
+                    startScope.closePanel();
+                });
             }
         }
     }

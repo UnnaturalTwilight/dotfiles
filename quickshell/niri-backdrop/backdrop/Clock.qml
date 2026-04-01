@@ -24,7 +24,7 @@ Item {
             id: timeText
             Layout.alignment: Qt.AlignCenter
             text: Time.time
-            color: Colours.kindaGray
+            color: Colours.gray
             font.pixelSize: 128
             font.family: "JetBrainsMonoNFM"
         }
@@ -33,7 +33,7 @@ Item {
             id: dateText
             Layout.alignment: Qt.AlignCenter
             text: Time.date
-            color: Colours.kindaGray
+            color: Colours.gray
             font.pixelSize: 24
             font.family: "Noto Sans"
         }

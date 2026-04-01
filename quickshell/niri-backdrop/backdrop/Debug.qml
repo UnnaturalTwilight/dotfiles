@@ -60,18 +60,18 @@ PanelWindow {
             Layout.alignment: Qt.AlignBottom
             // qmlformat off
             text: "Focused Window ID: " + (Niri?.focusedWindow?.windowId) + "\n" +
+                "Focused workspace ID: " + (Niri?.focusedWorkspace?.workspaceId) + "\n" +
                 [...Niri.windows].sort((a, b) => a.workspaceId - b.workspaceId)
                     .map(w => JSON.stringify([
                         w.windowId,{"ID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}
-                    ])).join("\n") + "\n" + "\n" + modelData.name
+                    ])).join("\n") + "\n" + "\n" + bgDEBUGPanel.modelData.name
             // qmlformat on
-            color: Colours.kindaGray
+            color: Colours.gray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
-
-        Text {
+        /* Text {
             id: debugOutputs
             Layout.alignment: Qt.AlignBottom
             // qmlformat off
@@ -79,11 +79,11 @@ PanelWindow {
                 o.name, {"modes": o.modes.length, "currentMode": o.currentMode}
             ])).join("\n") + "\nFocused Output: " + (Niri.focusedOutput ? Niri.focusedOutput.name : "None")
             // qmlformat on
-            color: Colours.kindaGray
+            color: Colours.gray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        }
+        } */
     }
 
     component DebugItem: Rectangle {
@@ -98,12 +98,12 @@ PanelWindow {
             id: debugText
             Layout.alignment: Qt.AlignCenter
             // qmlformat off
-            text: debugRect.modelData.workspaceId + " : " + 
+            text: debugRect.modelData.workspaceId + " : " +
                 JSON.stringify([...debugRect.modelData.windows].map(w => [
                     w.windowId, {"wsID": w.workspaceId, "pos": w.positionInWorkspace, "urgent": w.isUrgent, "floating": w.isFloating}
                 ]))
             // qmlformat on
-            color: Colours.kindaGray
+            color: Colours.gray
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"
             wrapMode: Text.WrapAnywhere

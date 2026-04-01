@@ -25,6 +25,7 @@ binds {
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
     Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+C { spawn "hyprpicker" "-a"; }
 
     // Suggested binds for running programs
     Mod+Grave repeat=false hotkey-overlay-title="Open Kitty"   { spawn "kitty"; }

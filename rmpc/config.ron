@@ -67,8 +67,8 @@
             "4":       SwitchToTab("Playlists"),
             "5":       SwitchToTab("Search"),
             "6":       SwitchToTab("Lyrics"),
-            "<C-u>":   Update,
-            "<C-U>":   Rescan,
+            "<u>":   Update,
+            "<U>":   Rescan,
         },
         navigation: {
             "<C-c>":        Close,

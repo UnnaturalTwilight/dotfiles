@@ -2,9 +2,6 @@
 import Quickshell
 import QtQuick
 
-import qs
-import qs.utils
-
 Item {
     id: bgWallpaper
     required property var screen

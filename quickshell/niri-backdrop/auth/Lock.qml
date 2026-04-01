@@ -36,8 +36,8 @@ Scope {
     Connections {
         target: Idle
 
-        function onLock() {
-            root.lock(true);
+        function onLock(grace = false): void {
+            root.lock(grace);
         }
     }
 

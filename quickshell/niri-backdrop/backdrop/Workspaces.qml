@@ -12,55 +12,42 @@ import qs.utils.niri
 Item {
     id: bgWorkspaces
     required property var screen
+    property var spaces: {
+        // filtering workspaces by output and removing extra empty workspaces
+        let s = [...Niri.workspaces.filter(w => w.output === bgWorkspaces.screen?.name)];
+        const firstEmptyIndex = s.findIndex(s => s.windows.length === 0);
+        s = s.filter((s, i) => s.windows.length > 0 || i === firstEmptyIndex);
+        return s;
+    }
 
-    implicitWidth: wrapper.implicitWidth + 32
-    implicitHeight: wrapper.implicitHeight + 32
+    implicitWidth: workspaceLayout.implicitWidth + 32
+    implicitHeight: workspaceLayout.implicitHeight + 32
 
     x: 40
     y: screen?.height - (40 + implicitHeight)
 
     RectangularShadow {
         id: shadowBox
-        anchors.fill: wrapper
+        anchors.fill: workspaceLayout
         offset.x: 0
         offset.y: 0
-        radius: wrapper.radius
+        radius: workspaceLayout.height / 2
         blur: 8
-        spread: 12
-        color: Qt.alpha(Colours.black, 0.3)
+        spread: 8
+        color: Colours.shadow
     }
 
-    Rectangle {
-        id: wrapper
-        anchors.left: parent.left
-        anchors.leftMargin: 16
-        anchors.verticalCenter: parent.verticalCenter
+    RowLayout {
+        id: workspaceLayout
+        anchors.centerIn: parent
+        spacing: 4
 
-        implicitWidth: workspaceLayout.implicitWidth + 8
-        implicitHeight: workspaceLayout.implicitHeight + 8
-        radius: Math.min(width, height) / 2
+        Repeater {
+            id: repeater
+            model: bgWorkspaces.spaces
 
-        color: Qt.alpha(Colours.navy, 0.5)
-
-        GridLayout {
-            id: workspaceLayout
-            anchors.centerIn: parent
-            rows: 1
-            columns: children.length
-            columnSpacing: 4
-
-            Repeater {
-                id: repeater
-
-                model: ScriptModel {
-                    // You can filter the workspaces based on the `output` variable so
-                    // only the workspaces from the current monitor are visible.
-                    values: [...Niri.workspaces.filter(w => w.output === bgWorkspaces.screen?.name)]
-                }
-
-                WorkspaceItem {
-                    Layout.alignment: Qt.AlignCenter
-                }
+            WorkspaceItem {
+                Layout.alignment: Qt.AlignCenter
             }
         }
     }
@@ -71,12 +58,16 @@ Item {
         readonly property bool active: modelData?.isFocused ?? false
         readonly property bool empty: modelData?.windows.length === 0
 
-        radius: Math.min(width, height) / 2
+        // radius: Math.min(width, height) / 2
+        topLeftRadius: modelData.idx === 1 ? 50 : 8
+        bottomLeftRadius: topLeftRadius
+        topRightRadius: modelData.idx >= bgWorkspaces.spaces.length ? 50 : 8
+        bottomRightRadius: topRightRadius
 
-        implicitWidth: Math.max(windowLayout.implicitWidth + 8, 30)
-        implicitHeight: 30
+        implicitWidth: Math.max(windowLayout.implicitWidth + 14, 36)
+        implicitHeight: 36
 
-        color: active ? Colours.darkGray : !empty ? Colours.navy : "transparent"
+        color: active ? Colours.power6 : Colours.polar2
         // opacity: 0.8
 
         Behavior on color {
@@ -100,7 +91,13 @@ Item {
                         if (!workspaceItem.empty) {
                             return [...workspaceItem.modelData.windows].sort(bgWorkspaces.windowSortingFunction);
                         } else {
-                            return [null];
+                            // Placeholder object in order to use the windowItem to show an icon for empty workspaces
+                            return [
+                                {
+                                    workspaceId: workspaceItem.modelData.workspaceId,
+                                    empty: true
+                                }
+                            ];
                         }
                     }
                 }
@@ -109,20 +106,7 @@ Item {
                     Layout.alignment: Qt.AlignCenter
                 }
             }
-
-            // Debug
-            // rows: 2
-            // rowSpacing: 60
         }
-
-        // Text {
-        //     id: debugText
-        //     anchors.centerIn: parent
-        //     text: modelData.workspaceId + ":" + modelData.windows.length || "?"
-        //     color: "white"
-        //     font.family: "JetBrainsMonoNFM"
-        //     font.pixelSize: 14
-        // }
     }
 
     function windowSortingFunction(a, b) {
@@ -140,30 +124,34 @@ Item {
 
     component WindowItem: Rectangle {
         id: windowItem
-        required property NiriWindow modelData
-        readonly property bool empty: modelData === null
+        required property var modelData // can be either a NiriWindow or a placeholder object for empty workspaces
+        readonly property bool empty: modelData?.empty ?? false // if empty is true only active will be valid
         readonly property bool active: Niri.focusedWorkspace?.workspaceId === modelData?.workspaceId
         readonly property bool focused: Niri.focusedWindow?.windowId === modelData?.windowId && !Niri?.overviewOpened
         readonly property bool urgent: modelData?.isUrgent ?? false
         readonly property bool floating: modelData?.isFloating ?? false
 
-        radius: Math.min(width, height) / 2
-
+        radius: 20
         implicitWidth: 20
         implicitHeight: 20
 
-        // qmlformat off
-        color: empty ? Qt.alpha(Colours.navy, 0.6) :
-            active && floating && focused ? Colours.niri_float :
-            active && focused ? Colours.pinkish :
-            active && urgent ? Colours.niri_urgent :
-            active && floating ? Qt.alpha(Colours.niri_float, 0.6) :
-            urgent ? Qt.alpha(Colours.niri_urgent, 0.8) :
-            floating ? Qt.alpha(Colours.niri_float, 0.4) :
-            active ? Qt.alpha(Colours.pinkish, 0.6) :
-            Qt.alpha(Colours.kindaGray, 0.6)
-        // qmlformat on
-        // opacity: 0.8
+        color: {
+            if (empty) {
+                return "transparent";
+            } else if (urgent) {
+                return Colours.power2;
+            } else if (floating) {
+                if (active) {
+                    return focused ? Colours.frost1 : Colours.frost2;
+                } else {
+                    return Colours.frost3;
+                }
+            } else if (active) {
+                return focused ? Colours.mana2 : Colours.mana0;
+            } else {
+                return Colours.gray;
+            }
+        }
 
         Behavior on color {
             ColorAnimation {
@@ -172,22 +160,16 @@ Item {
             }
         }
 
-        // implicitWidth: focused ? 30 : 20
-        // Behavior on implicitWidth {
-        //     SmoothedAnimation {
-        //         duration: 500
-        //         easing.type: Easing.Linear
-        //     }
-        // }
-
-        // implicitWidth: debugText.implicitWidth + 10
-        // Text {
-        //     id: debugText
-        //     anchors.centerIn: parent
-        //     text: windowItem.modelData.windowId + ":" + windowItem.modelData.layout.tileIndexInScrollingLayout + "x" + windowItem.modelData.layout.columnIndexInScrollingLayout
-        //     color: "white"
-        //     font.family: "JetBrainsMonoNFM"
-        //     font.pixelSize: 14
-        // }
+        Text {
+            id: iconText
+            visible: parent.empty
+            text: "󰐙"
+            color: parent.active ? Colours.mana0 : Colours.polar5
+            font.family: "JetBrainsMonoNFM"
+            font.pixelSize: 32
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+        }
     }
 }
