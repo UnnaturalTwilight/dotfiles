@@ -1,6 +1,7 @@
-icon = 'bluetooth'
+hidden = []
 
 [Config]
 hide_from_providerlist = false
-min_score = 20
+icon = 'applications-other'
+min_score = 10
 name_pretty = ''

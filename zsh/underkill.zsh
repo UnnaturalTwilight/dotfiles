@@ -30,12 +30,6 @@ alias fzf-view='fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" --
 alias -s md='bat --italic-text=always'
 
 case $XDG_CURRENT_DESKTOP in
-  Hyprland)
-    # Hyprland aliases
-    alias logout='hyprctl dispatch exit'
-    alias run='hyprctl dispatch exec --'
-    alias lock='hyprlock'
-    ;;
   niri)
     alias logout='niri msg action quit --skip-confirmation'
     alias run='niri msg action spawn --'

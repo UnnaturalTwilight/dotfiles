@@ -1,6 +1,6 @@
 {
     "files.insertFinalNewline": true,
     "Lua.workspace.library": [
-        "$HOME/programs/rmpc/rmpcd/src/lua/types"
+        "$HOME/.local/share/rmpcd/lua"
     ]
 }

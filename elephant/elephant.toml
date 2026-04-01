@@ -1,3 +1,9 @@
-argument_delimited = "#"
 auto_detect_launch_prefix = true
-ignored_providers = ["runner"] # Currently broken
+before_load = []
+git_on_demand = true
+ignored_providers = ['runner']
+launch_prefix = ''
+overload_local_env = false
+terminal_cmd = ''
+
+[provider_hosts]

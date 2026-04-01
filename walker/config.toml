@@ -69,18 +69,6 @@ prefix = "~"
 provider = "files"
 
 [[providers.prefixes]]
-prefix = "."
-provider = "symbols"
-
-[[providers.prefixes]]
-prefix = "\\"
-provider = "unicode"
-
-[[providers.prefixes]]
-prefix = "+"
-provider = "todo"
-
-[[providers.prefixes]]
 prefix = "="
 provider = "calc"
 

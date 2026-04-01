@@ -21,14 +21,14 @@ actions = { "reboot" = "systemctl reboot" }
 
 [[entries]]
 text = "Lock"
-subtext = "hyprlock"
-keywords = ["hyprlock", "power"]
+subtext = "Quickshell Lockscreen"
+keywords = ["sleep", "power"]
 icon = "system-lock-screen"
-actions = { "lock" = "hyprlock" }
+actions = { "lock" = "qs -c niri-backdrop ipc call lock lock" }
 
 [[entries]]
-text = "Sleep"
+text = "Suspend"
 subtext = "systemctl hybrid-sleep"
 keywords = ["suspend", "hibernate", "power"]
 icon = "system-suspend"
-actions = { "sleep" = "systemctl hybrid-sleep" }
+actions = { "suspend" = "systemctl hybrid-sleep" }
