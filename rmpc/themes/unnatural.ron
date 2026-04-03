@@ -2,41 +2,56 @@
 #![enable(unwrap_newtypes)]
 #![enable(unwrap_variant_newtypes)]
 (
-    draw_borders: true,
+    draw_borders: false,
     //default_album_art_path: None,
     format_tag_separator: " | ",
     browser_column_widths: [25, 45, 30],
     background_color: None,
-    text_color: "white",
+    text_color: "gray",
     header_background_color: None,
     modal_background_color: None,
     modal_backdrop: false,
     preview_label_style: (fg: "#81a1c1", modifiers: "Italic"),
     preview_metadata_group_style: (fg: "#a3be8c", modifiers: "Bold"),
-    current_item_style: (fg: "white", bg: "#5f5faf", modifiers: "Bold"),
-    highlighted_item_style: (fg: "#d7afff", bg: "black", modifiers: "Bold"),
+    current_item_style: ( bg: "#38384d", modifiers: "Bold"),
+    highlighted_item_style: (fg: "#8fbcbb", bg: "black", modifiers: "Bold"),
     borders_style: (fg: "dark_gray", modifiers: "Bold"),
     highlight_border_style: (fg: "dark_gray"),
 
-    symbols: (song: "󰝚 ", dir: " ", playlist: "󰲸", marker: "⯈", ellipsis: "...",
-        song_style: None, dir_style: (fg: "#86bbd8"), playlist_style: (fg: "#a3be8c")),
+    symbols: (
+        song: "󰝚", dir: "", playlist: "󰲸", marker: "▋", ellipsis: "...",
+        song_style: (fg: "#b0b4bc"),
+        dir_style: (fg: "#86bbd8"),
+        playlist_style: (fg: "#a3be8c"),
+        marker_style: (fg: "#c092dd"),
+    ),
+
     progress_bar: (
         symbols: ["▐", "█", "┃", "█", "▌"],
         track_style: (fg: "black"),
-        elapsed_style: (fg: "#5f5faf"),
-        thumb_style: (fg: "#875fff"),
+        elapsed_style: (fg: "#5e81ac"),
+        thumb_style: (fg: "#81a1c1"),
         use_track_when_empty: false,
     ),
+
     scrollbar: (
-        symbols: ["│", "█", "▲", "▼"],
+        symbols: ["│", "┃", "▲", "▼"],
         track_style: (fg: "dark_gray"),
         ends_style: (fg: "gray"),
-        thumb_style: (fg: "#5f5faf", modifiers: "Bold"),
+        thumb_style: (fg: "#b0b4bc", modifiers: "Bold"),
     ),
     
     tab_bar: (
-        active_style: (fg: "white", bg: "#5f5faf", modifiers: "Bold"),
-        inactive_style: (fg: "gray", modifiers: ""),
+        active_style: (fg: "white", bg: "#38384d", modifiers: "Bold | Italic"),
+        inactive_style: (fg: None),
+    ),
+
+    level_styles: (
+        info: (fg: "#81a1c1", bg: "black"),
+        warn: (fg: "#ebcb8b", bg: "black"),
+        error: (fg: "#bf616a", bg: "black"),
+        debug: (fg: "#a3be8c", bg: "black"),
+        trace: (fg: "#c47eba", bg: "black"),
     ),
 
     browser_song_format: [
@@ -58,25 +73,20 @@
     
     song_table_format: [
         (
-            prop: (kind: Text("")),
-            width: "1",
-        ),
-        (
             prop: (kind: Property(Title), style: (fg: "gray"),
-                highlighted_item_style: (fg: "black", modifiers: "Bold"),
                 default: (kind: Property(Filename), style: (fg: "gray"),)
             ),
             width: "70%",
         ),
         (
-            prop: (kind: Property(Album), style: (fg: "gray", modifiers: "Bold"),
+            prop: (kind: Property(Album), style: (fg: "gray"),
                 default: (kind: Text("Unknown Album"), style: (fg: "dark_gray"))
             ),
             width: "30%",
         ),
         (
-            prop: (kind: Property(Duration),
-                default: (kind: Text("-:--"))
+            prop: (kind: Property(Duration), style: (fg: "gray"),
+                default: (kind: Text("-:--"), style: (fg: "dark_gray"))
             ),
             width: "5",
             alignment: Right,
@@ -105,17 +115,30 @@
             (
                 pane: Pane(TabContent),
                 size: "100%",
+                borders: "ALL",
+                border_symbols: Inherited(parent: Rounded, top_left: "├", top_right: "┤"),
+                border_title_position: Bottom,
+                border_title_alignment: Right,
+                border_title: [
+                    (kind: Text(" ")),
+                    (kind: Property(Status(QueueLength())),style: (fg: "#6a6a6a")),
+                    (kind: Text(" songs"),style: (fg: "#6a6a6a")),
+                    (kind: Text(" ── "),style: (fg: "dark_gray")),
+                    (kind: Property(Status(QueueTimeTotal())),style: (fg: "#6a6a6a")),
+                    (kind: Text(" ─"),style: (fg: "dark_gray"))
+                ]
             ),
             (
                 size: "3",
                 borders: "ALL",
                 border_symbols: Rounded,
                 border_title: [
-                    (kind: Text(" "),style: (fg: "dark_gray")),
-                    (kind: Property(Status(Elapsed)),style: (fg: "dark_gray")),
-                    (kind: Text("/"),style: (fg: "dark_gray")),
-                    (kind: Property(Status(Duration)),style: (fg: "dark_gray")),
-                    (kind: Text(" ─"),style: (fg: "dark_gray"))],
+                    (kind: Text(" ")),
+                    (kind: Property(Status(Elapsed)),style: (fg: "#6a6a6a")),
+                    (kind: Text("/"),style: (fg: "#6a6a6a")),
+                    (kind: Property(Status(Duration)),style: (fg: "#6a6a6a")),
+                    (kind: Text(" ─"),style: (fg: "dark_gray")),
+                ],
                 border_title_alignment: Right,
                 pane: Pane(ProgressBar)
             ),
@@ -125,27 +148,31 @@
     components: {
         "_playpause1": Pane(Property(
             content: [
-                (kind: Property(Status(StateV2(playing_label: " 🬦🬓🬦🬓 ", paused_label: "  🭑🬽  ", stopped_label: " 🬦🬹🬹🬓 "))), 
-                style: (fg: "#875fff", modifiers: "Bold")),
+                (kind: Property(Status(StateV2(
+                    playing_label: " 🬦🬓🬦🬓 ", paused_label: "  🭑🬽  ", stopped_label: " 🬦🬹🬹🬓 ",
+                ))), 
+                style: (fg: "#ae69ce", modifiers: "Bold")),
             ], align: Left,
         )),
         "_playpause2": Pane(Property(
             content: [
-                (kind: Property(Status(StateV2(playing_label: " 🬉🬄🬉🬄 ", paused_label: "  🭜🭘  ", stopped_label: " 🬉🬎🬎🬄" ))), 
-                style: (fg: "#875fff", modifiers: "Bold")),
+                (kind: Property(Status(StateV2(
+                    playing_label: " 🬉🬄🬉🬄 ", paused_label: "  🭜🭘  ", stopped_label: " 🬉🬎🬎🬄 ",
+                ))), 
+                style: (fg: "#ae69ce", modifiers: "Bold")),
             ], align: Left,
         )),
         "_mode1" : Pane(Property(
             content: [
                 (kind: Property(Status(RepeatV2(
                     on_label: "  ", off_label: "  ",
-                    on_style: (fg: "#875fff", modifiers: "Bold"),
-                    off_style: (fg: "gray", modifiers: "Bold")))
+                    on_style: (fg: "#ae69ce", modifiers: "Bold"),
+                    off_style: (fg: "#6a6a6a", modifiers: "Bold")))
                 )),
                 (kind: Property(Status(RandomV2(
                     on_label: "  ", off_label: "  ",
-                    on_style: (fg: "#875fff", modifiers: "Bold"),
-                    off_style: (fg: "gray", modifiers: "Bold")))
+                    on_style: (fg: "#ae69ce", modifiers: "Bold"),
+                    off_style: (fg: "#6a6a6a", modifiers: "Bold")))
                 )),
             ], align: Left,
         )),
@@ -153,15 +180,15 @@
             content: [
                 (kind: Property(Status(ConsumeV2(
                     on_label: " 󰅗 ", off_label: " 󱟃 ", oneshot_label: " 󰍵 ",
-                    on_style: (fg: "#875fff", modifiers: "Bold"),
-                    off_style: (fg: "gray", modifiers: "Bold"),
-                    oneshot_style: (fg: "#5f5faf", modifiers: "Bold")))
+                    on_style: (fg: "#ae69ce", modifiers: "Bold"),
+                    off_style: (fg: "#6a6a6a", modifiers: "Bold"),
+                    oneshot_style: (fg: "#a29ed9", modifiers: "Bold")))
                 )),
                 (kind: Property(Status(SingleV2(
                     on_label: "  ", off_label: " 󰒉 ", oneshot_label: " 󰎤 ",
-                    on_style: (fg: "#875fff", modifiers: "Bold"),
-                    off_style: (fg: "gray", modifiers: "Bold"),
-                    oneshot_style: (fg: "#5f5faf", modifiers: "Bold")))
+                    on_style: (fg: "#ae69ce", modifiers: "Bold"),
+                    off_style: (fg: "#6a6a6a", modifiers: "Bold"),
+                    oneshot_style: (fg: "#a29ed9", modifiers: "Bold")))
                 )),
             ], align: Left,
         )),
@@ -188,13 +215,13 @@
         "title": Pane(Property(
             content: [
                 (kind: Property(Song(Title)), style: (fg: "white", modifiers: "Bold"),
-                    default: (kind: Property(Song(Filename)), style: (fg: "white", modifiers: "Bold"), default:(kind: Text("No Song"))))
+                    default: (kind: Property(Song(Filename)), style: (fg: "white", modifiers: "Italic"), default:(kind: Text("No Song"))))
             ], align: Center, scroll_speed: 1
         )),
         "subtitle": Pane(Property(
             content: [
                 (kind: Property(Song(Artist)), style: (fg: "gray"),
-                    default: (kind: Text("Unknown Artist"), style: (fg: "dark_gray"))),
+                    default: (kind: Text("Unknown Artist"), style: (fg: "dark_gray", modifiers: "Italic"))),
             ], align: Center, scroll_speed: 1
         )),
         "song": Split(
@@ -211,14 +238,14 @@
                 (size: "11", pane: Pane(Volume(
                     kind: Slider(
                         symbols: (start: "╺", filled: "━", thumb: "●", track: "━", end: "╸",),
-                        track_style: (fg: "dark_gray"), filled_style: (fg: "#875fff"), thumb_style: (fg: "gray"),
+                        track_style: (fg: "dark_gray"), filled_style: (fg: "#ae69ce"), thumb_style: (fg: "gray"),
                 )))),
             ],
         ),
         "volumeLabel": Pane(Property(
             content: [
-                (kind: Property(Status(Volume)), style: (fg: "gray", modifiers: "Bold")),
-                (kind: Text("% "), style: (fg: "gray", modifiers: "Bold"))
+                (kind: Property(Status(Volume)), style: (fg: "gray")),
+                (kind: Text("% "), style: (fg: "gray"))
             ], align: Right
         )),
         "volume": Split(
@@ -265,7 +292,7 @@
         // value will be used as 0 and 100. Only hex and RGB colors are supported here and your terminal
         // must support them as well!
         bar_color: Gradient({
-            100: "#df75ff",
+            100: "#c47eba",
             000: "#6a5bcd"
         })
     ),
