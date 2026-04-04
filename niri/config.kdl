@@ -208,9 +208,8 @@ layout {
 
         // Gradients can use a few different interpolation color spaces.
         active-gradient from="#ffccddee" to="#9900ffee" angle=120 relative-to="workspace-view" in="oklch shorter hue"
-        inactive-color "#595959aa"
-        // inactive-gradient from="#505050aa" to="#808080aa" angle=45 relative-to="workspace-view"
-        urgent-color "#fca17daa"
+        inactive-color "#525252aa"
+        urgent-color "#fca17dee"
     }
 
     // You can enable drop shadows for windows.
@@ -247,7 +246,7 @@ layout {
         offset x=0 y=5
 
         // You can also change the shadow color and opacity.
-        color "#0007"
+        color "#00000066"
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
@@ -339,14 +338,14 @@ include "rules.kdl"
 
 overview {
     zoom 0.5
-    backdrop-color "#262626"
+    backdrop-color "#1e1e1e"
 
     workspace-shadow {
         // off
         softness 40
         spread 20
         offset x=0 y=0
-        color "#00000050"
+        color "#00000066"
     }
 }
 
@@ -359,7 +358,7 @@ recent-windows {
     open-delay-ms 150
 
     highlight {
-        active-color "#999999ee"
+        active-color "#b0b4bcaa"
         urgent-color "#fca17dee"
         padding 20
         corner-radius 10

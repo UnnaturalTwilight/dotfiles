@@ -41,14 +41,13 @@ window-rule {
     tiled-state false
 
     border {
-        active-color "#007ACCee"
-        inactive-color "#007ACCaa"
+        active-color "#88c0d0ee"
+        inactive-color "#5e81acaa"
     }
 }
 
 window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
-    match app-id=r#"zen$"# title="^Picture-in-Picture$"
+    match title="^Picture-in-Picture$"
     opacity 1.0
 }
 

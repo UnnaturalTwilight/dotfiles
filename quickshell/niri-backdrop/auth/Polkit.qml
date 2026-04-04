@@ -107,7 +107,7 @@ Item {
 
                 color: Colours.polar0
                 border.width: 3
-                border.color: agent.flow?.failed ? Colours.aurora1 : Colours.aurora3
+                border.color: agent.flow?.failed ? Colours.aurora1 : Colours.frost1
                 radius: 12
 
                 Image {

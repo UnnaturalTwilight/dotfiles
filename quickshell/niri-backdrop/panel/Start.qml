@@ -11,6 +11,7 @@ import QtQuick.Controls
 import qs
 import qs.utils
 import qs.utils.niri
+import qs.widgets
 import qs.panel
 
 Scope {

@@ -12,12 +12,17 @@ import qs.utils.niri
 Item {
     id: bgWorkspaces
     required property var screen
-    property var spaces: {
-        // filtering workspaces by output and removing extra empty workspaces
-        let s = [...Niri.workspaces.filter(w => w.output === bgWorkspaces.screen?.name)];
-        const firstEmptyIndex = s.findIndex(s => s.windows.length === 0);
-        s = s.filter((s, i) => s.windows.length > 0 || i === firstEmptyIndex);
-        return s;
+    property int workspaceCount: 0
+    ScriptModel {
+        id: spaces
+        values: {
+            // filtering workspaces by output and removing extra empty workspaces
+            let s = [...Niri.workspaces.filter(w => w.output === bgWorkspaces.screen?.name)];
+            const firstEmptyIndex = s.findIndex(s => s.windows.length === 0);
+            s = s.filter((s, i) => s.windows.length > 0 || i === firstEmptyIndex);
+            bgWorkspaces.workspaceCount = s.length;
+            return s;
+        }
     }
 
     implicitWidth: workspaceLayout.implicitWidth + 32
@@ -44,7 +49,7 @@ Item {
 
         Repeater {
             id: repeater
-            model: bgWorkspaces.spaces
+            model: spaces
 
             WorkspaceItem {
                 Layout.alignment: Qt.AlignCenter
@@ -61,13 +66,13 @@ Item {
         // radius: Math.min(width, height) / 2
         topLeftRadius: modelData.idx === 1 ? 50 : 8
         bottomLeftRadius: topLeftRadius
-        topRightRadius: modelData.idx >= bgWorkspaces.spaces.length ? 50 : 8
+        topRightRadius: modelData.idx >= bgWorkspaces.workspaceCount ? 50 : 8
         bottomRightRadius: topRightRadius
 
         implicitWidth: Math.max(windowLayout.implicitWidth + 14, 36)
         implicitHeight: 36
 
-        color: active ? Colours.power6 : Colours.polar2
+        color: active ? Colours.power5 : Colours.polar2
         // opacity: 0.8
 
         Behavior on color {
@@ -142,12 +147,12 @@ Item {
                 return Colours.power2;
             } else if (floating) {
                 if (active) {
-                    return focused ? Colours.frost1 : Colours.frost2;
+                    return focused ? Colours.frost3 : Colours.frost1;
                 } else {
-                    return Colours.frost3;
+                    return Colours.frost0;
                 }
             } else if (active) {
-                return focused ? Colours.mana2 : Colours.mana0;
+                return focused ? Colours.mana4 : Colours.mana1;
             } else {
                 return Colours.gray;
             }
@@ -164,7 +169,7 @@ Item {
             id: iconText
             visible: parent.empty
             text: "󰐙"
-            color: parent.active ? Colours.mana0 : Colours.polar5
+            color: parent.active ? Colours.mana1 : Colours.polar5
             font.family: "JetBrainsMonoNFM"
             font.pixelSize: 32
             verticalAlignment: Text.AlignVCenter

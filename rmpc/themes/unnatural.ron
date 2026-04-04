@@ -23,7 +23,7 @@
         song_style: (fg: "#b0b4bc"),
         dir_style: (fg: "#86bbd8"),
         playlist_style: (fg: "#a3be8c"),
-        marker_style: (fg: "#c092dd"),
+        marker_style: (fg: "#c47eba"),
     ),
 
     progress_bar: (
@@ -151,7 +151,7 @@
                 (kind: Property(Status(StateV2(
                     playing_label: " 🬦🬓🬦🬓 ", paused_label: "  🭑🬽  ", stopped_label: " 🬦🬹🬹🬓 ",
                 ))), 
-                style: (fg: "#ae69ce", modifiers: "Bold")),
+                style: (fg: "#7654a8", modifiers: "Bold")),
             ], align: Left,
         )),
         "_playpause2": Pane(Property(
@@ -159,19 +159,19 @@
                 (kind: Property(Status(StateV2(
                     playing_label: " 🬉🬄🬉🬄 ", paused_label: "  🭜🭘  ", stopped_label: " 🬉🬎🬎🬄 ",
                 ))), 
-                style: (fg: "#ae69ce", modifiers: "Bold")),
+                style: (fg: "#7654a8", modifiers: "Bold")),
             ], align: Left,
         )),
         "_mode1" : Pane(Property(
             content: [
                 (kind: Property(Status(RepeatV2(
                     on_label: "  ", off_label: "  ",
-                    on_style: (fg: "#ae69ce", modifiers: "Bold"),
+                    on_style: (fg: "#7654a8", modifiers: "Bold"),
                     off_style: (fg: "#6a6a6a", modifiers: "Bold")))
                 )),
                 (kind: Property(Status(RandomV2(
                     on_label: "  ", off_label: "  ",
-                    on_style: (fg: "#ae69ce", modifiers: "Bold"),
+                    on_style: (fg: "#7654a8", modifiers: "Bold"),
                     off_style: (fg: "#6a6a6a", modifiers: "Bold")))
                 )),
             ], align: Left,
@@ -180,15 +180,15 @@
             content: [
                 (kind: Property(Status(ConsumeV2(
                     on_label: " 󰅗 ", off_label: " 󱟃 ", oneshot_label: " 󰍵 ",
-                    on_style: (fg: "#ae69ce", modifiers: "Bold"),
+                    on_style: (fg: "#7654a8", modifiers: "Bold"),
                     off_style: (fg: "#6a6a6a", modifiers: "Bold"),
-                    oneshot_style: (fg: "#a29ed9", modifiers: "Bold")))
+                    oneshot_style: (fg: "#5e81ac", modifiers: "Bold")))
                 )),
                 (kind: Property(Status(SingleV2(
                     on_label: "  ", off_label: " 󰒉 ", oneshot_label: " 󰎤 ",
-                    on_style: (fg: "#ae69ce", modifiers: "Bold"),
+                    on_style: (fg: "#7654a8", modifiers: "Bold"),
                     off_style: (fg: "#6a6a6a", modifiers: "Bold"),
-                    oneshot_style: (fg: "#a29ed9", modifiers: "Bold")))
+                    oneshot_style: (fg: "#5e81ac", modifiers: "Bold")))
                 )),
             ], align: Left,
         )),
@@ -238,7 +238,7 @@
                 (size: "11", pane: Pane(Volume(
                     kind: Slider(
                         symbols: (start: "╺", filled: "━", thumb: "●", track: "━", end: "╸",),
-                        track_style: (fg: "dark_gray"), filled_style: (fg: "#ae69ce"), thumb_style: (fg: "gray"),
+                        track_style: (fg: "dark_gray"), filled_style: (fg: "#7654a8"), thumb_style: (fg: "gray"),
                 )))),
             ],
         ),
@@ -293,7 +293,7 @@
         // must support them as well!
         bar_color: Gradient({
             100: "#c47eba",
-            000: "#6a5bcd"
+            000: "#917bc6"
         })
     ),
 )

@@ -9,7 +9,7 @@ import qs.utils
 import qs.utils.niri
 import qs.backdrop
 
-Item {
+Scope {
     id: root
 
     property var modelData

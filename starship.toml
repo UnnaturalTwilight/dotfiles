@@ -15,7 +15,7 @@ $directory\
 $git_branch\
 $git_status\
 $git_commit\
-[](fg:two bg:four)\
+[](fg:two bg:three)\
 [(\
 $c\
 $cmake\
@@ -33,11 +33,11 @@ $nodejs\
 $nim\
 $rust\
 $perl\
-$scala )](bg:four)\
-[](fg:four bg:five)\
+$scala )](bg:three)\
+[](fg:three bg:four)\
 $docker_context\
 $package\ 
-[ ](fg:five)$all\
+[ ](fg:four)$all\
 """
 
 # Disable the blank line at the start of the prompt
@@ -50,20 +50,10 @@ palette = 'power'
 zero      = '#9A348E'
 one       = '#DA627D'
 two       = '#FCA17D'
-three     = '#86BBD8'
-four      = '#06969A'
-five      = '#33658A'
-bright    = '#e5e5e5'
-dark      = 'bright-black'
-
-[palettes.test]
-zero      = '#ff0000'
-one       = '#00ff00'
-two       = '#0000ff'
-three     = '#ffff00'
-four      = '#00ffff'
-five      = '#ff00ff'
-bright    = '#e5e5e5'
+three     = '#06969A'
+four      = '#33658A'
+five      = '#38384d'
+bright    = 'white'
 dark      = 'bright-black'
 
 # You can also replace your username with a neat symbol like   or disable this
@@ -178,102 +168,102 @@ disabled = false
 
 [c]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [cpp]
 symbol = "󰙲"
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [cmake]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [elixir]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [elm]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [fortran]
 symbol = "󱈚"
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [golang]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [python]
 symbol = "󰌠"
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [lua]
 symbol = "󰢱"
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [gradle]
 symbol = "🅶"
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [haskell]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [java]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [julia]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [nim]
 symbol = "󰆥"
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [rust]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [scala]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [perl]
 symbol = ""
-style = "bg:four"
+style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
 [docker_context]
 symbol = ""
-style = "bg:five"
+style = "bg:four"
 format = '[ $symbol $context ]($style)'
 
 [package]
 symbol = ""
-style = "bg:five"
+style = "bg:four"
 format = '([ $symbol $version ]($style))'
 
 [cmd_duration]

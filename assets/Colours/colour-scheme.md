@@ -6,28 +6,20 @@ The colours are based on the [Nord](www.nordtheme.com) theme and the colours fro
 
 # Colour Tables
 
-| Index | Polar     | Snow      | Aurora    | Power     | Mana      | Frost     |
+| Index | Polar     | Snow      | Power     | Aurora    | Mana      | Frost     |
 | :---: | :-------: | :-------: | :-------: | :-------: | :-------: | :-------: |
-| 0     | #111111 | #f2f4f7 | #bf616a | #9a348e | #a29ed9 | #8fbcbb |
-| 1     | #1e1e1e | #e5e9f0 | #d08770 | #da627d | #b69de8 | #88c0d0 |
-| 2     | #393939 | #d8dee9 | #ebcb8b | #fca17d | #c092dd | #81a1c1 |
-| 3     | #525252 | #cad2e1 | #a3be8c | #86bbd8 | #ae69ce | #5e81ac |
-| 4     | #5e5e5e | #bdc7da | #81a1c1 | #06969a | --        | --        |
-| 5     | #6a6a6a | #b0bcd3 | #c47eba | #33658a | --        | --        |
-| 6     | --        | --        | #8866bb | #38384d | --        | --        |
+| 0     | #111111 | #f2f4f7 | #9a348e | #bf616a | #7654a8 | #5e81ac |
+| 1     | #1e1e1e | #e5e9f0 | #da627d | #d08770 | #8866bb | #81a1c1 |
+| 2     | #393939 | #d8dee9 | #fca17d | #ebcb8b | #917bc6 | #86bbd8 |
+| 3     | #525252 | #cad2e1 | #06969a | #a3be8c | #aa8ddf | #88c0d0 |
+| 4     | #5e5e5e | #bdc7da | #33658a | #c47eba | #af7ccd | #8fbcbb |
+| 5     | #6a6a6a | #b0bcd3 | #38384d | --        | --        | --        |
 
-| Black     | White     | Gray      | Text      | Selection |
-| :-------: | :-------: | :-------: | :-------: | :-------: |
-| #000000 | #ffffff | #b0b4bc | #cccccc | #264f78 |
+| Black     | White     | Gray      | Text      |
+| :-------: | :-------: | :-------: | :-------: |
+| #000000 | #ffffff | #b0b4bc | #cccccc |
 
-Shadow is black at 40% opacity: #00000066
-Highlight is white at 15% opacity: #ffffff26
+- Shadow is black at 40% opacity: #00000066
+- Highlight is white at 15% opacity: #ffffff26
 
-My Niri config curently uses its own colours. They are as follows:
- - Active: #cc66eeee
- - Active Gradient: #ffccddee to #9900ffee
- - Float: #007accee ( #007accaa )
- - Urgent: #fca17daa
- - Highlight: #999999ee
- - Inactive: #595959aa
- - Shadow: #00000066
+Mana-2 and Frost-1 are also treated as members of the Aurora palette where applicable.

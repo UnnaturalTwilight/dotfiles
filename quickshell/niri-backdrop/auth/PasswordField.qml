@@ -26,11 +26,11 @@ Item {
         color: Colours.highlight
         border.color: {
             if (passwordField.spinner) {
-                return Colours.mana2;
+                return Colours.aurora4;
             } else if (passwordField.pam.messageIsError) {
                 return Colours.aurora0;
             } else if (passwordField.pam.active) {
-                return Colours.mana0;
+                return Colours.mana2;
             } else {
                 return "transparent";
             }

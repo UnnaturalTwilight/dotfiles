@@ -102,7 +102,7 @@ Item {
         anchors.verticalCenterOffset: -150
         width: 300
         height: 300
-        color: Qt.alpha(Colours.white, 0.15)
+        color: Colours.highlight
         radius: 150
 
         Image {
