@@ -10,7 +10,7 @@ path=($path ~/.local/bin/windowsapps ~/.local/bin/winget)
 
 # Check if interop is working, since I rely on more than I should.
 # This is a far from foolproof check but it does catch the case that provides the least helpful error message
-cat /proc/sys/fs/binfmt_misc/WSLInterop &>/dev/null || echo "WSL interop is not working! Windows programs will not work" 
+cat /proc/sys/fs/binfmt_misc/WSLInterop &>/dev/null || echo "\e[91mWSL interop is not working! Windows programs will not work\e[0m" 
 
 # Kitty-specific aliases and functions, dependent shell integration // kittens
 # Making the assumption that if we're in kitty, the shell integration is loaded
@@ -21,6 +21,7 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
 elif [[ "$TERM_PROGRAM" == "vscode" ]]; then
   source "$(code --locate-shell-integration-path zsh)"
 else
+  # It should be safe to assume that the terminal is Windows Terminal if neither of the above are true for WSL
   # Alt-Shift-C
   bindkey '^[C' copy-buffer-to-clipboard
   # Ctrl X
@@ -70,6 +71,6 @@ function cut-buffer-to-clipboard() {
 zle -N cut-buffer-to-clipboard
 
 # plugin: zsh-autosuggestions, causes issues if loaded on remote hosts
-if [[ -z "$SSH_TTY" && "$colourterm" == "yes" ]]; then
+if [[ ! -v SSH_TTY && -v COLORTERM ]]; then
   source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi

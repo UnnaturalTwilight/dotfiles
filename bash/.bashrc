@@ -34,15 +34,13 @@ if test -n "$KITTY_INSTALLATION_DIR"; then
     alias clear='cleartoscrollback'
     alias copycat='kitten clipboard'
     alias kdiff='kitten diff'
+    alias icat='kitten icat'
+    alias ssh='kitten ssh'
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
+# Windows Terminal reports itself as xterm-256color and doesn't set COLORTERM despite supporting truecolor
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-case "$COLORTERM" in
-    truecolor) color_prompt=yes;;
+    xterm-color|*-256color) export COLORTERM=truecolor;;
 esac
 
 if [ "$TERM" = "xterm-kitty" ] && [ -n "$SSH_TTY" ]; then
@@ -75,7 +73,6 @@ fi
 # prompt
 PS1='[\u@\h \W]\$ '
 
-if [ "$color_prompt" = yes ]; then
+if [ -n "$COLORTERM" ]; then
     eval "$(starship init bash)"
 fi
-unset color_prompt

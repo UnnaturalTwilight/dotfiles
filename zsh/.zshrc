@@ -84,6 +84,11 @@ alias soft-reboot='systemctl soft-reboot'
 
 alias makepkg="PACKAGER=${PACKAGER:=\"${(C)USER} <${USER}@${HOST}>\"} makepkg"
 
+# Windows terminal reports itself as xterm-256color and doesn't set COLORTERM despite supporting truecolor
+case "$TERM" in
+    xterm-color|*-256color) export COLORTERM=truecolor;;
+esac
+
 # Prompt setup
 autoload -Uz promptinit
 promptinit
@@ -91,14 +96,7 @@ promptinit
 PROMPT='%n@%m %~ %F{white}%B%#%b%f '
 RPROMPT='[%F{yellow}%?%f]'
 
-# load starship if truecolor terminal
-if [[ "$COLORTERM" == "truecolor" ]]; then
-  colourterm=yes
-elif [[ "$TERM" == (*-256color|xterm-color) ]]; then
-  colourterm=yes
-fi
-
-if [[ "$colourterm" == "yes" ]]; then
+if [[ -v COLORTERM ]]; then
   eval "$(starship init zsh)"
 fi
 
@@ -127,8 +125,6 @@ ZSH_HIGHLIGHT_STYLES[comment]='fg=008,italic'
 source $ZDOTDIR/$HOST.zsh
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-unset colourterm
 
 # zoxide initialization
 eval "$(zoxide init zsh)"

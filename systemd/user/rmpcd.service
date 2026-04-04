@@ -1,0 +1,13 @@
+[Unit]
+Description=rmpcd: MPRIS, lyrics, and more for mpd
+Requires=mpd.service
+After=mpd.service
+
+[Service]
+ExecStart=%h/.local/bin/rmpcd
+Restart=on-failure
+Type=dbus
+BusName=org.mpris.MediaPlayer2.mpd
+
+[Install]
+WantedBy=default.target
