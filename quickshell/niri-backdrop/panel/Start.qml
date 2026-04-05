@@ -130,7 +130,9 @@ Scope {
 
                 AudioTile {}
 
-                SysTray {}
+                SysTray {
+                    id: systray
+                }
 
                 Rectangle {
                     Layout.alignment: Qt.AlignCenter

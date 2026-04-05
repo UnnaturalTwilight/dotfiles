@@ -2,12 +2,6 @@
 
 import Quickshell
 import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
-import qs
-import qs.utils
-import qs.widgets
 
 PopupWindow {
     id: brightnessPopover
@@ -28,6 +22,7 @@ PopupWindow {
     BrightnessTile {
         id: brightnessTile
         anchors.fill: parent
+        opacity: 0
 
         Behavior on opacity {
             NumberAnimation {
@@ -56,7 +51,7 @@ PopupWindow {
     }
 
     function closeSelf(force = false) {
-        if (menuHover.hovered) {
+        if (menuHover.hovered && !force) {
             return;
         }
         visible = false;

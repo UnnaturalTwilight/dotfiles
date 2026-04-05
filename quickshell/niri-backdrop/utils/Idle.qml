@@ -59,24 +59,23 @@ Singleton {
         id: idleIPC
         target: "idle"
 
-        function inhibit(inhibited: bool): void {
-            root.enabled = !inhibited;
-        }
         function respectInhibitors(enabled: bool): void {
-            root.respectInhibitors = enabled;
-        }
-        function inhibitLock(enabled: bool): void {
-            root.inhibitLock = enabled;
-        }
-        function inhibitSuspend(enabled: bool): void {
-            root.inhibitSuspend = enabled;
+            persist.respectInhibitors = enabled;
         }
 
-        function inhibited(): bool {
-            return !root.enabled;
+        function setInhibitors(level: string, inhibited: bool): void {
+            if (level === "idle") {
+                persist.enabled = !inhibited;
+            } else if (level === "lock") {
+                persist.inhibitLock = inhibited;
+            } else if (level === "suspend") {
+                persist.inhibitSuspend = inhibited;
+            } else {
+                console.warn("Idle IPC: unknown inhibitor level '" + level + "'");
+            }
         }
 
-        function set(action: string): void {
+        function setState(action: string): void {
             if (action === "idle") {
                 root.setIdle();
             } else if (action === "wake") {
@@ -88,6 +87,27 @@ Singleton {
             } else {
                 console.warn("Idle IPC: unknown action '" + action + "'");
             }
+        }
+
+        function getState(): string {
+            if (suspendTimer.triggered) {
+                return "suspend";
+            } else if (lockTimer.triggered) {
+                return "sleep";
+            } else if (dimTimer.triggered) {
+                return "idle";
+            } else {
+                return "active";
+            }
+        }
+
+        function getInhibitors(): string {
+            return JSON.stringify({
+                idle: !persist.enabled,
+                lock: persist.inhibitLock,
+                suspend: persist.inhibitSuspend,
+                respectExternal: persist.respectInhibitors
+            });
         }
 
         signal idleChanged(bool idle)

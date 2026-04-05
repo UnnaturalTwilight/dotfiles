@@ -37,6 +37,7 @@ PopupWindow {
         border.color: Colours.frost0
         border.width: 2
         radius: 12
+        opacity: 0
 
         Behavior on opacity {
             NumberAnimation {
@@ -78,7 +79,7 @@ PopupWindow {
         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
         enabled: (!entry.modelData?.isSeparator && entry.modelData?.enabled) ?? false
-        implicitHeight: entry.modelData?.isSeparator ? 6 : label.height
+        implicitHeight: entry.modelData?.isSeparator ? 4 : label.height
         property bool checked: entry.modelData?.checkState ?? false
         property alias hovered: menuEntryMouseArea.containsMouse
 
@@ -114,14 +115,13 @@ PopupWindow {
             }
         }
 
-        // Separator
+        // Separator or Hover Background
         Rectangle {
             anchors.fill: parent
-            anchors.margins: 1
-            anchors.leftMargin: 10
-            anchors.rightMargin: 10
-            radius: 6
-            color: !entry.modelData?.isSeparator ? "transparent" : Colours.polar2
+            anchors.leftMargin: !entry.modelData?.isSeparator ? label.anchors.leftMargin - 5 : 10
+            anchors.rightMargin: !entry.modelData?.isSeparator ? 0 : 10
+            radius: 8
+            color: !entry.modelData?.isSeparator ? entry.hovered ? Colours.highlight : "transparent" : Colours.polar2
         }
 
         // Content
@@ -132,15 +132,13 @@ PopupWindow {
             anchors.leftMargin: 5
             // This is for Solaar since it uses spaces for indentation and looks weird when the text is wrapped
             text: {
-                let text = entry.modelData?.text;
-                if (text && !entry.modelData?.isSeparator) {
-                    while (text.startsWith(" ")) {
-                        anchors.leftMargin += 5;
-                        text = text.substring(1);
-                    }
-                    return text;
+                const l = entry.modelData?.text;
+                if (l) {
+                    const t = l.trim();
+                    anchors.leftMargin = 5 + (l.length - t.length) * 5;
+                    return t;
                 } else {
-                    return "Unknown";
+                    return "...";
                 }
             }
             color: parent.enabled ? Colours.text : Colours.polar5
@@ -186,12 +184,6 @@ PopupWindow {
                 visible: entry.checked
             }
         }
-
-        Rectangle {
-            radius: 8
-            anchors.fill: parent
-            color: entry.hovered ? Colours.highlight : "transparent"
-        }
     }
 
     HoverHandler {
@@ -215,7 +207,7 @@ PopupWindow {
 
     function closeSelf(force = false) {
         destroyChild();
-        if (menuHover.hovered) {
+        if (menuHover.hovered && !force) {
             return;
         }
         if (parentMenu) {

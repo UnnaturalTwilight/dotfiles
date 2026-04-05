@@ -7,7 +7,6 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs
-import qs.utils
 import qs.widgets
 
 Scope {
@@ -16,11 +15,12 @@ Scope {
     required property ShellScreen screen
     required property real value
     required property string icon
+    property bool suppress: false
 
     function showOsd() {
         // This function can be called to show the OSD without changing the brightness,
         // for example when the user clicks on the brightness tile in the quick settings.
-        if (!System.suppressOSD) {
+        if (!root.suppress) {
             root.shouldShowOsd = true;
             root.osdVisible = true;
             hideTimer.restart();
@@ -45,7 +45,7 @@ Scope {
         PanelWindow {
             id: osdWindow
             // set the popup to be on my laptop screen
-            screen: System.primaryScreen
+            screen: root.screen
 
             anchors.bottom: true
             margins.bottom: 50

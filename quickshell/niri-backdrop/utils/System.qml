@@ -24,7 +24,7 @@ Singleton {
         readonly property string hostname: hostnameFile.text().trim()
     }
 
-    readonly property var primaryScreen: {
+    readonly property ShellScreen primaryScreen: {
         for (let i = 0; i < Quickshell.screens.length; i++) {
             if (Quickshell.screens[i].name === "eDP-1") {
                 return Quickshell.screens[i];
@@ -35,7 +35,7 @@ Singleton {
     }
 
     // suppress popups on reload
-    property bool suppressOSD: true
+    // property bool suppressOSD: true
 
     IpcHandler {
         id: systemIpc

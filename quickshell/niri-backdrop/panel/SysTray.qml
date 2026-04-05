@@ -17,7 +17,6 @@ Item {
     property var menuWidth: 350
 
     property var activeMenu: null
-    property bool menuOpen: false
 
     Layout.fillWidth: true
     implicitHeight: trayLayout.implicitHeight
@@ -41,9 +40,8 @@ Item {
                 hoverEnabled: true
                 acceptedButtons: Qt.AllButtons
                 onClicked: mouse => {
-                    if (mouse.button === Qt.MiddleButton) {
-                        Brightness.fetch();
-                    } else {
+                    Brightness.fetch();
+                    if (mouse.button !== Qt.MiddleButton) {
                         systray.activeMenu = null;
                         systray.menuSwaped();
                         brightnessPopover.toggle();
@@ -57,6 +55,9 @@ Item {
                         Brightness.setScreen(step + "%-");
                     }
                     wheel.accepted = true;
+                }
+                onExited: {
+                    brightnessPopover.startSelfCloseTimer();
                 }
             }
             Text {
@@ -124,8 +125,7 @@ Item {
         Loader {
             id: trayMenuLoader
             anchors.fill: parent
-            asynchronous: true
-            active: true
+            active: false
             sourceComponent: TrayMenu {
                 id: trayMenu
                 menuHandle: trayIcon.modelData.menu
@@ -143,7 +143,7 @@ Item {
                 target: systray
 
                 function onMenuSwaped() {
-                    if (systray.activeMenu === trayIcon.modelData && systray.menuOpen) {
+                    if (systray.activeMenu === trayIcon.modelData) {
                         trayMenuLoader.active = true;
                     } else {
                         trayMenuLoader.item.closeSelf();
@@ -165,6 +165,7 @@ Item {
             acceptedButtons: Qt.AllButtons
             onPressed: event => {
                 systray.activeMenu = trayIcon.modelData;
+                trayMenuLoader.active = true;
                 systray.menuSwaped();
                 if (event.buttons & Qt.LeftButton) {
                     if (trayIcon.modelData.onlyMenu) {
@@ -183,6 +184,9 @@ Item {
                 if (event.buttons & Qt.MiddleButton) {
                     trayIcon.modelData.secondaryActivate();
                 }
+            }
+            onExited: {
+                trayMenuLoader.item?.startSelfCloseTimer();
             }
         }
     }

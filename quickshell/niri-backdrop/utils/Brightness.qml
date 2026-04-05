@@ -5,6 +5,9 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
+import qs.popup
+import qs.utils
+
 Singleton {
     id: root
 
@@ -20,20 +23,23 @@ Singleton {
     //  percentage value    Example: 50%
     //  specific delta      Example: 50- or +10
     //  percentage delta    Example: 50%- or +10%
-    function setScreen(value: string) {
+    function setScreen(value: string, showOsd = false) {
         // min-value is set to 4800 (5%)
-        brightnessSetProc.exec(["brightnessctl", "set", value, "--min-value=4800"]);
+        brightnessSetProc.exec(["brightnessctl", "--quiet", "--class=backlight", "set", value, "--min-value=4800"]);
         backlightSaved = false;
+        if (showOsd) {
+            brightnessOsd.showOsd();
+        }
     }
 
     function dimScreen(force = false) {
         saveScreen(force);
-        Quickshell.execDetached(["brightnessctl", "--class=backlight", "set", "10"]);
+        Quickshell.execDetached(["brightnessctl", "--quiet", "--class=backlight", "set", "10"]);
     }
 
     function saveScreen(force = false) {
         if (force || !backlightSaved) {
-            Quickshell.execDetached(["brightnessctl", "--save", "--class=backlight"]);
+            Quickshell.execDetached(["brightnessctl", "--quiet", "--save", "--class=backlight"]);
             backlightSaved = true;
         } else {
             // console.log("saveScreen was called with brightness already saved")
@@ -42,7 +48,7 @@ Singleton {
 
     function restoreScreen(force = false) {
         if (force || backlightSaved) {
-            brightnessSetProc.exec(["brightnessctl", "--restore", "--class=backlight"]);
+            brightnessSetProc.exec(["brightnessctl", "--quiet", "--restore", "--class=backlight"]);
             backlightSaved = false;
         } else {
             // console.log("restoreScreen was called without brightness being saved")
@@ -51,10 +57,10 @@ Singleton {
 
     function keyboard(enabled: bool, force = false) {
         if (enabled && (force || kbdBacklightSaved)) {
-            Quickshell.execDetached(["brightnessctl", "--restore", "--device", "chromeos::kbd_backlight"]);
+            Quickshell.execDetached(["brightnessctl", "--quiet", "--restore", "--device=chromeos::kbd_backlight"]);
             kbdBacklightSaved = false;
         } else if (!enabled && (force || !kbdBacklightSaved)) {
-            Quickshell.execDetached(["brightnessctl", "--save", "--device", "chromeos::kbd_backlight", "set", "0"]);
+            Quickshell.execDetached(["brightnessctl", "--quiet", "--save", "--device=chromeos::kbd_backlight", "set", "0"]);
             kbdBacklightSaved = true;
         }
     }
@@ -72,8 +78,7 @@ Singleton {
 
         property bool backlightSaved: false
         property bool kbdBacklightSaved: false
-
-        property real screenValue: (root.screenMax > 0) ? (root.screenRaw / root.screenMax) : 0
+        property real screenValue: root.screenRaw / root.screenMax
     }
 
     IpcHandler {
@@ -84,13 +89,13 @@ Singleton {
             root.fetch();
         }
         function set(value: string) {
-            root.setScreen(value);
+            root.setScreen(value, true);
         }
     }
 
     Process {
         id: brightnessSetProc
-        
+
         running: false
         onExited: {
             brightnessFetchProc.running = true;
@@ -114,5 +119,26 @@ Singleton {
                 }
             }
         }
+    }
+
+    // FileView to watch for external brightness changes (internal displays only)
+    readonly property FileView brightnessWatcher: FileView {
+        id: brightnessWatcher
+        path: "/sys/class/backlight/intel_backlight/actual_brightness"
+        watchChanges: path !== ""
+        onFileChanged: {
+            // When a file change is detected, actively refresh from system
+            // to ensure we get the most up-to-date value
+            Qt.callLater(() => {
+                brightnessFetchProc.running = true;
+            });
+        }
+    }
+
+    OSD {
+        id: brightnessOsd
+        screen: System.primaryScreen
+        value: root.screenValue
+        icon: "󰃟 "
     }
 }

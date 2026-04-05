@@ -1,6 +1,4 @@
 // BatteryTile.qml
-
-import Quickshell
 import QtQuick
 import QtQuick.Layouts
 
@@ -39,7 +37,14 @@ InfoTile {
             Layout.row: 0
             Layout.column: 1
             Layout.alignment: Qt.AlignRight
-            text: !Idle.enabled ? "󰒳 " : ""
+            text: {
+                let status = "";
+                status += !Idle.respectInhibitors ? "󰾪 " : "";
+                status += Idle.inhibitSuspend ? "󱋙 " : "";
+                status += Idle.inhibitLock ? "󱙲 " : "";
+                status += !Idle.enabled ? "󰒳 " : "";
+                return status;
+            }
             font.pixelSize: 16
             font.family: "JetBrainsMonoNF"
             color: Colours.gray

@@ -53,7 +53,11 @@ Scope {
             root.unlock();
         }
 
-        function state(): bool {
+        function lockWithGrace(): void {
+            root.lock(true);
+        }
+
+        function status(): bool {
             return root.locked;
         }
 

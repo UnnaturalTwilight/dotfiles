@@ -25,7 +25,6 @@ binds {
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
     Mod+Shift+Slash { show-hotkey-overlay; }
-    Mod+C { spawn "hyprpicker" "-a"; }
 
     // Suggested binds for running programs
     Mod+Grave repeat=false hotkey-overlay-title="Open Kitty"   { spawn "kitty"; }
@@ -33,8 +32,8 @@ binds {
     Mod+E     repeat=false hotkey-overlay-title="Open Thunar"  { spawn "thunar"; }
     // Laucher
     Mod+Space repeat=false hotkey-overlay-title="Open Launcher"          { spawn "walker"; }
-    Mod+Shift+Space repeat=false hotkey-overlay-title="Open Launcher"    { spawn "vicinae" "toggle"; }
     Mod+V     repeat=false hotkey-overlay-title="Open Clipboard History" { spawn "walker" "-m" "clipboard"; }
+    Mod+C     repeat=false hotkey-overlay-title="Launch Colour Picker"   { spawn "hyprpicker" "-a"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
@@ -48,6 +47,7 @@ binds {
     XF86MonBrightnessUp     allow-when-locked=true { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "brightness" "set" "+10%"; }
     XF86MonBrightnessDown   allow-when-locked=true { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "brightness" "set" "10%-"; }
 
+    // Multimedia keys, these don't quite work due to different devices making different dumb assumptions about how they work
     XF86AudioNext   allow-when-locked=true { spawn "playerctl" "next"; }
     XF86AudioPause  allow-when-locked=true { spawn "playerctl" "play-pause"; }
     XF86AudioPlay   allow-when-locked=true { spawn "playerctl" "play-pause"; }
@@ -55,7 +55,6 @@ binds {
 
     // "start" menu
     XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call start toggle"; }
-    // Shift+XF86AudioMedia repeat=false { spawn-sh "$HOME/.config/eww/launch-start"; }
 
     Mod+Q repeat=false { close-window; }
     
@@ -221,24 +220,24 @@ binds {
     // * adjust width as a percentage of screen width: "-10%" or "+10%"
     // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
     // set-column-width "100" will make the column occupy 200 physical screen pixels.
-    Mod+Minus { set-column-width "-10%"; }
-    Mod+KP_Subtract { set-column-width "-10%"; }
-    Mod+Equal { set-column-width "+10%"; }
-    Mod+KP_Add { set-column-width "+10%"; }
-    Mod+Shift+Minus { set-column-width "-5%"; }
-    Mod+Shift+KP_Subtract { set-column-width "-5%"; }
-    Mod+Shift+Equal { set-column-width "+5%"; }
-    Mod+Shift+KP_Add { set-column-width "+5%"; }
+    Mod+Minus               { set-column-width "-10%"; }
+    Mod+KP_Subtract         { set-column-width "-10%"; }
+    Mod+Equal               { set-column-width "+10%"; }
+    Mod+KP_Add              { set-column-width "+10%"; }
+    Mod+Shift+Minus         { set-column-width "-5%"; }
+    Mod+Shift+KP_Subtract   { set-column-width "-5%"; }
+    Mod+Shift+Equal         { set-column-width "+5%"; }
+    Mod+Shift+KP_Add        { set-column-width "+5%"; }
 
     // Finer height adjustments when in column with other windows.
-    Mod+Ctrl+Minus { set-window-height "-10%"; }
-    Mod+Ctrl+KP_Subtract { set-window-height "-10%"; }
-    Mod+Ctrl+Equal { set-window-height "+10%"; }
-    Mod+Ctrl+KP_Add { set-window-height "+10%"; }
-    Mod+Ctrl+Shift+Minus { set-window-height "-5%"; }
-    Mod+Ctrl+Shift+KP_Subtract { set-window-height "-5%"; }
-    Mod+Ctrl+Shift+Equal { set-window-height "+5%"; }
-    Mod+Ctrl+Shift+KP_Add { set-window-height "+5%"; }
+    Mod+Ctrl+Minus              { set-window-height "-10%"; }
+    Mod+Ctrl+KP_Subtract        { set-window-height "-10%"; }
+    Mod+Ctrl+Equal              { set-window-height "+10%"; }
+    Mod+Ctrl+KP_Add             { set-window-height "+10%"; }
+    Mod+Ctrl+Shift+Minus        { set-window-height "-5%"; }
+    Mod+Ctrl+Shift+KP_Subtract  { set-window-height "-5%"; }
+    Mod+Ctrl+Shift+Equal        { set-window-height "+5%"; }
+    Mod+Ctrl+Shift+KP_Add       { set-window-height "+5%"; }
 
     // Move the focused window between the floating and the tiling layout.
     Mod+R       { toggle-window-floating; }
@@ -256,6 +255,7 @@ binds {
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
+    // Set windows to be opaque even when out of focus
     Mod+T { toggle-window-rule-opacity; }
 
     // Applications such as remote-desktop clients and software KVM switches may
@@ -266,7 +266,7 @@ binds {
     //
     // The allow-inhibiting=false property can be applied to other binds as well,
     // which ensures niri always processes them, even when an inhibitor is active.
-    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Mod+Escape repeat=false allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     // Taskmgr
     Ctrl+Shift+Escape repeat=false hotkey-overlay-title="Open Btop++" { spawn "kitty" "--app-id=btop" "btop"; }
@@ -279,8 +279,9 @@ binds {
 
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
+    // This does not lock the session
     Mod+Shift+P { power-off-monitors; }
     
     // Lock screen
-    Mod+Shift+L hotkey-overlay-title="Lock Screen" { spawn-sh "qs --config niri-backdrop ipc call lock lock"; }
+    Mod+L hotkey-overlay-title="Lock Screen" { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "lock" "lock"; }
 }
