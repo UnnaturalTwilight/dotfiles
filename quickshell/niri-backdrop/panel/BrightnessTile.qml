@@ -15,9 +15,8 @@ Rectangle {
     Layout.preferredHeight: 40
     radius: 12
     color: hoverBox.containsMouse ? Colours.highlight : "transparent"
-    border.color: Colours.polar2
+    border.color: Colours.frost0
     border.width: 2
-    clip: true
 
     MouseArea {
         id: hoverBox

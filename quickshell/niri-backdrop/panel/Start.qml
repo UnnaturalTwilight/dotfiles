@@ -12,7 +12,6 @@ import qs
 import qs.utils
 import qs.utils.niri
 import qs.widgets
-import qs.panel
 
 Scope {
     id: startScope
@@ -36,6 +35,7 @@ Scope {
     }
 
     function closePanel(): void {
+        systray.activeMenu = null;
         persist.onscreen = false;
     }
 
@@ -93,6 +93,7 @@ Scope {
                     Layout.fillWidth: true
 
                     Image {
+                        id: profilePic
                         Layout.rowSpan: 5
                         Layout.column: 0
                         Layout.maximumWidth: 150
@@ -112,25 +113,12 @@ Scope {
                         font.family: "JetBrainsMonoNFM"
                         color: Colours.gray
                     }
-
-                    Text {
-                        Layout.column: 1
+                    
+                    Spacer {
                         Layout.row: 2
-                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                        text: "WORK IN PROGRESS"
-                        font.pixelSize: 20
-                        font.family: "JetBrainsMonoNFM"
-                        color: Colours.gray
-                    }
-
-                    Text {
                         Layout.column: 1
-                        Layout.row: 3
-                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                        text: startPanel.screen?.name
-                        font.pixelSize: 20
-                        font.family: "JetBrainsMonoNFM"
-                        color: Colours.gray
+                        Layout.topMargin: 5
+                        Layout.rightMargin: 50
                     }
                 }
 
@@ -142,7 +130,7 @@ Scope {
 
                 AudioTile {}
 
-                BrightnessTile {}
+                SysTray {}
 
                 Rectangle {
                     Layout.alignment: Qt.AlignCenter

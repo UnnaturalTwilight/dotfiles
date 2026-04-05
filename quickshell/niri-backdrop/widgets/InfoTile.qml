@@ -27,7 +27,6 @@ Item {
         color: hoverBox.containsMouse ? Colours.highlight : "transparent"
         border.color: Colours.polar2
         border.width: 2
-        clip: true
 
         MouseArea {
             id: hoverBox

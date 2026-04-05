@@ -82,7 +82,7 @@ InfoTile {
                     verticalAlignment: Text.AlignVCenter
                 }
                 background: Rectangle {
-                    color: delegate.highlighted ? Colours.power5 : Colours.polar1
+                    color: delegate.highlighted ? Colours.highlight : "transparent"
                 }
                 highlighted: dropdown.highlightedIndex === index
             }
@@ -127,9 +127,10 @@ InfoTile {
                 }
 
                 background: Rectangle {
-                    border.color: Colours.power4
-                    border.width: 3
-                    radius: 4
+                    color: Colours.polar1
+                    border.color: Colours.frost0
+                    border.width: 2
+                    radius: 12
                 }
             }
         }

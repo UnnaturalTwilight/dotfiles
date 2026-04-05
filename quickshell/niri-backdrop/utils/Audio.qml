@@ -69,7 +69,7 @@ Singleton {
         // console.log(`ID: ${Pipewire.defaultAudioSink.id}`);
         if (ready && Pipewire.defaultAudioSink != null) {
             for (const [key, value] of Object.entries(Pipewire.defaultAudioSink?.properties)) {
-                console.log(`${key}: ${value}`);
+                // console.log(`${key}: ${value}`);
                 props.data[key] = value;
             }
         }
