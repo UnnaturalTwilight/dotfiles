@@ -136,6 +136,14 @@ Scope {
 
                 PowerRow {}
 
+                Spacer {}
+
+                BatteryTile {}
+
+                AudioTile {}
+
+                BrightnessTile {}
+
                 Rectangle {
                     Layout.alignment: Qt.AlignCenter
                     Layout.fillHeight: true
@@ -155,6 +163,14 @@ Scope {
                 }
             }
         }
+    }
+
+    component Spacer: Rectangle {
+        color: Colours.polar2
+        Layout.alignment: Qt.AlignCenter
+        Layout.fillWidth: true
+        implicitHeight: 6
+        radius: 10
     }
 
     component PowerRow: RowLayout {

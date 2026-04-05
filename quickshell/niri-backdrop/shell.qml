@@ -8,7 +8,7 @@ import qs.backdrop
 import qs.panel
 import qs.auth
 import qs.utils
-import qs.utils.niri
+import qs.popup
 
 Scope {
     id: root
@@ -38,7 +38,27 @@ Scope {
         id: sessionLock
     }
 
-    Component.onCompleted: {
-        Idle.enabled = true;
+    OSD {
+        id: brightnessOsd
+        screen: System.primaryScreen
+        value: Brightness.screenValue
+        icon: "󰃟 "
+
+        Connections {
+            target: Brightness
+
+            function onScreenValueChanged() {
+                brightnessOsd.showOsd();
+            }
+        }
+    }
+
+    Timer {
+        id: loadDelay
+        interval: 100
+        running: true
+        onTriggered: {
+            System.suppressOSD = false;
+        }
     }
 }

@@ -3,20 +3,17 @@ pragma Singleton
 
 import Quickshell
 import Quickshell.Io
+import QtQuick
 
 Singleton {
     id: root
 
     property int screenRaw: 0
     property int screenMax: 96000
-    property real screenValue: (screenMax > 0) ? (screenRaw / screenMax) : 0
+    property alias screenValue: persist.screenValue
 
-    onScreenValueChanged: {
-        console.log("Brightness changed to " + root.screenValue);
-    }
-
-    property bool backlightSaved: false
-    property bool kbdBacklightSaved: false
+    property alias backlightSaved: persist.backlightSaved
+    property alias kbdBacklightSaved: persist.kbdBacklightSaved
 
     // Valid values:
     //  specific value      Example: 500
@@ -25,7 +22,7 @@ Singleton {
     //  percentage delta    Example: 50%- or +10%
     function setScreen(value: string) {
         // min-value is set to 4800 (5%)
-        brightnessProc.exec(["brightnessctl", "-m", "set", value, "--min-value=4800"]);
+        brightnessSetProc.exec(["brightnessctl", "set", value, "--min-value=4800"]);
         backlightSaved = false;
     }
 
@@ -36,7 +33,7 @@ Singleton {
 
     function saveScreen(force = false) {
         if (force || !backlightSaved) {
-            brightnessProc.exec(["brightnessctl", "-m", "--save", "--class=backlight"]);
+            Quickshell.execDetached(["brightnessctl", "--save", "--class=backlight"]);
             backlightSaved = true;
         } else {
             // console.log("saveScreen was called with brightness already saved")
@@ -45,7 +42,7 @@ Singleton {
 
     function restoreScreen(force = false) {
         if (force || backlightSaved) {
-            brightnessProc.exec(["brightnessctl", "-m", "--restore", "--class=backlight"]);
+            brightnessSetProc.exec(["brightnessctl", "--restore", "--class=backlight"]);
             backlightSaved = false;
         } else {
             // console.log("restoreScreen was called without brightness being saved")
@@ -63,21 +60,58 @@ Singleton {
     }
 
     function fetch() {
-        brightnessProc.exec(["brightnessctl", "-m", "info", "--class=backlight"]);
+        if (brightnessFetchProc.running) {
+            return; // Avoid spawning multiple processes if one is already running
+        }
+        brightnessFetchProc.running = true;
+    }
+
+    PersistentProperties {
+        id: persist
+        reloadableId: "Brightness"
+
+        property bool backlightSaved: false
+        property bool kbdBacklightSaved: false
+
+        property real screenValue: (root.screenMax > 0) ? (root.screenRaw / root.screenMax) : 0
+    }
+
+    IpcHandler {
+        id: brightnessIPC
+        target: "brightness"
+
+        function refresh() {
+            root.fetch();
+        }
+        function set(value: string) {
+            root.setScreen(value);
+        }
     }
 
     Process {
-        id: brightnessProc
+        id: brightnessSetProc
+        
+        running: false
+        onExited: {
+            brightnessFetchProc.running = true;
+        }
+    }
+
+    Process {
+        id: brightnessFetchProc
 
         running: true
         command: ["brightnessctl", "-m", "info", "--class=backlight"]
 
         stdout: StdioCollector {
             onStreamFinished: {
-                console.log("brightnessctl output: " + text);
                 const a = text.split(",");
-                root.screenRaw = parseInt(a[2]);
-                root.screenMax = parseInt(a[4]);
+                if (a[2] != "") {
+                    root.screenRaw = parseInt(a[2]);
+                    root.screenMax = parseInt(a[4]);
+                } else {
+                    console.error("brightnessctl output was empty");
+                }
             }
         }
     }

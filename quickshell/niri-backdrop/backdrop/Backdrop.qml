@@ -6,10 +6,8 @@ import Quickshell.Wayland
 import QtQuick
 
 import qs.utils
-import qs.utils.niri
-import qs.backdrop
 
-Scope {
+Item {
     id: root
 
     property var modelData

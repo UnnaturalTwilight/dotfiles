@@ -15,12 +15,12 @@ Singleton {
 
     property alias idle: dimTimer.triggered
     property alias locked: lockTimer.triggered
-    property bool enabled: false
-    property bool respectInhibitors: true
+    property alias enabled: persist.enabled
+    property alias respectInhibitors: persist.respectInhibitors
 
-    property bool inhibitLock: false
+    property alias inhibitLock: persist.inhibitLock
     // Will never suspend if MPD is playing music regardless of this value
-    property bool inhibitSuspend: false
+    property alias inhibitSuspend: persist.inhibitSuspend
 
     onIdleChanged: {
         idleIPC.idleChanged(idle);
@@ -91,6 +91,16 @@ Singleton {
         }
 
         signal idleChanged(bool idle)
+    }
+
+    PersistentProperties {
+        id: persist
+        reloadableId: "Idle"
+
+        property bool enabled: true
+        property bool respectInhibitors: true
+        property bool inhibitLock: false
+        property bool inhibitSuspend: false
     }
 
     IdleMonitor {

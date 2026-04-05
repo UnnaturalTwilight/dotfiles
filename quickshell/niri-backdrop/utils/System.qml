@@ -15,8 +15,14 @@ Singleton {
         blockLoading: true
     }
 
-    readonly property string hostname: hostnameFile.text().trim()
+    property alias hostname: persist.hostname
 
+    PersistentProperties {
+        id: persist
+        reloadableId: "System"
+
+        readonly property string hostname: hostnameFile.text().trim()
+    }
 
     readonly property var primaryScreen: {
         for (let i = 0; i < Quickshell.screens.length; i++) {
@@ -26,5 +32,21 @@ Singleton {
         }
         // in case eDP-1 is not found, just return the first screen
         return Quickshell.screens[0];
+    }
+
+    // suppress popups on reload
+    property bool suppressOSD: true
+
+    IpcHandler {
+        id: systemIpc
+        target: "sys"
+
+        function reload() {
+            Quickshell.reload(false);
+        }
+
+        function hardReload() {
+            Quickshell.reload(true);
+        }
     }
 }

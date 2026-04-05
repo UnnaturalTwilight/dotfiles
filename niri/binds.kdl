@@ -45,8 +45,8 @@ binds {
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
 
     // Example brightness key mappings for brightnessctl.
-    XF86MonBrightnessUp     allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-" "-n4800"; }
+    XF86MonBrightnessUp     allow-when-locked=true { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "brightness" "set" "+10%"; }
+    XF86MonBrightnessDown   allow-when-locked=true { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "brightness" "set" "10%-"; }
 
     XF86AudioNext   allow-when-locked=true { spawn "playerctl" "next"; }
     XF86AudioPause  allow-when-locked=true { spawn "playerctl" "play-pause"; }

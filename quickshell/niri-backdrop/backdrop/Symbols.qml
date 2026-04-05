@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 import qs
 import qs.utils
+import qs.widgets
 
 Item {
     id: bgSymbols
@@ -33,26 +34,14 @@ Item {
             Layout.bottomMargin: Audio.extraProps.iconDisplay[1]
         }
 
-        Rectangle {
-            // Stretches to fill all left-over space
+        PercentBar {
+            id: volumeBar
             Layout.fillWidth: true
-            implicitHeight: 10
+            Layout.alignment: Qt.AlignCenter
+            value: Audio.volume
+            active: !Audio.muted
             implicitWidth: 60
-            radius: 20
-            color: Colours.polar2
-
-            Rectangle {
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-
-                implicitWidth: parent.width * Audio.volume
-                radius: parent.radius
-                color: Colours.power1
-                opacity: Audio.muted ? 0.5 : 1.0
-            }
+            implicitHeight: 10
         }
 
         Text {
@@ -65,26 +54,13 @@ Item {
             Layout.bottomMargin: -8
         }
 
-        Rectangle {
-            // Stretches to fill all left-over space
+        PercentBar {
+            id: batteryBar
             Layout.fillWidth: true
-
-            implicitHeight: 10
+            Layout.alignment: Qt.AlignCenter
+            value: Battery.value
             implicitWidth: 60
-            radius: 20
-            color: Colours.polar2
-
-            Rectangle {
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-
-                implicitWidth: parent.width * Battery.value
-                radius: parent.radius
-                color: Colours.power1
-            }
+            implicitHeight: 10
         }
     }
 }

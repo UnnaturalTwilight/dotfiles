@@ -22,23 +22,19 @@ Singleton {
 
     readonly property bool ready: Pipewire.ready
 
-    readonly property real volume: {
-        return Pipewire.defaultAudioSink?.audio?.volume ?? 0;
-    }
+    property real volume: Pipewire.defaultAudioSink?.audio?.volume ?? 0.0
 
-    function setVolume(v: real) {
+    onVolumeChanged: {
         if (Pipewire.defaultAudioSink) {
-            Pipewire.defaultAudioSink.audio.volume = v;
+            Pipewire.defaultAudioSink.audio.volume = volume;
         }
     }
 
-    readonly property bool muted: {
-        return Pipewire.defaultAudioSink?.audio?.muted ?? false;
-    }
+    property bool muted: Pipewire.defaultAudioSink?.audio?.muted ?? false
 
-    function setMuted(m: bool) {
+    onMutedChanged: {
         if (Pipewire.defaultAudioSink) {
-            Pipewire.defaultAudioSink.audio.muted = m;
+            Pipewire.defaultAudioSink.audio.muted = muted;
         }
     }
 
@@ -73,7 +69,7 @@ Singleton {
         // console.log(`ID: ${Pipewire.defaultAudioSink.id}`);
         if (ready && Pipewire.defaultAudioSink != null) {
             for (const [key, value] of Object.entries(Pipewire.defaultAudioSink?.properties)) {
-                // console.log(`${key}: ${value}`);
+                console.log(`${key}: ${value}`);
                 props.data[key] = value;
             }
         }
