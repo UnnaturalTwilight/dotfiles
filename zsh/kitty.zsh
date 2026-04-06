@@ -15,3 +15,12 @@ alias icat='kitten icat'
 # Save the screen to scrollback when clearing
 cleartoscrollback() { builtin print -rn -- $'\r\e[0J\e[H\e[22J' >"$TTY"; }
 alias clear='cleartoscrollback'
+
+cleartoscrollback-widget() {
+  cleartoscrollback
+  zle -K main
+  zle send-break
+}
+
+zle -N clear-screen cleartoscrollback-widget
+

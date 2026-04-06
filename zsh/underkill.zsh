@@ -1,7 +1,5 @@
 # local zsh configurations
 
-KEYBOARD_HACK=\\
-
 export EDITOR=edit
 
 # Kitty-specific aliases and functions, dependent shell integration // kittens
@@ -50,24 +48,6 @@ case $USER in
   *)
     ;;
 esac
-
-function copy-buffer-to-clipboard() {
-  print -Rn "$BUFFER" | wl-copy
-}
-zle -N copy-buffer-to-clipboard
-bindkey '^[[99;6u' copy-buffer-to-clipboard
-
-function cut-buffer-to-clipboard() {
-  print -Rn "$BUFFER" | wl-copy
-  zle kill-buffer
-}
-zle -N cut-buffer-to-clipboard
-bindkey '^[[120;6u' cut-buffer-to-clipboard
-
-# plugin: zsh-autosuggestions, causes issues if loaded on remote hosts
-if [[ ! -v SSH_TTY && -v COLORTERM ]]; then
-  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
 
 if [[ "$TERM" == "linux" && ! -v SSH_TTY ]]; then
   # Set my color scheme

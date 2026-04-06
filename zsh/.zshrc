@@ -5,14 +5,15 @@ HISTSIZE=100000
 SAVEHIST=80000
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_DUPS
-
 setopt AUTO_RESUME
-
 setopt AUTO_CD
-bindkey -e
 
-# Keybind
-# autoload zkbd
+bindkey -e
+KEYBOARD_HACK=\\
+WORDCHARS=''
+
+# Disable freezing on Ctrl-S, because WHY?
+stty -ixon
 
 # The following lines were added by compinstall
 zstyle :compinstall filename '$ZDOTDIR/.zshrc'
@@ -22,6 +23,9 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+## Binds
+source $ZDOTDIR/keybinds.zsh
+
 # help function
 autoload -Uz run-help
 (( ${+aliases[run-help]} )) && unalias run-help
@@ -29,8 +33,8 @@ autoload -Uz run-help-git run-help-ip run-help-openssl run-help-p4 run-help-sudo
 alias help=run-help
 
 # reload completions on pacman update
-TRAPUSR1() { 
-  rehash 
+TRAPUSR1() {
+  rehash
 }
 
 # Set up fzf key bindings and fuzzy completion
@@ -46,32 +50,8 @@ function yazi-cwd() {
 compdef _yazi yazi-cwd
 alias yazi='yazi-cwd'
 
-## Binds
-WORDCHARS=''
-# I should up keybinds properly at some point but for now using the raw escape codes will do
-# C-Left and C-Right for word jumping -- kitty sets these to alt-left and alt-right by default, this is just a copy of that code with the keycodes changed
-bindkey '^[[1;5C' forward-word
-bindkey '^[[1;5D' backward-word
-# Ctrl-Backspace to delete word backwards
-bindkey '^H' backward-delete-word
-# Home and End keys
-bindkey '^[[H' beginning-of-line
-bindkey '^[[F' end-of-line
-# delete deletes forward
-bindkey '^[[3~' delete-char
-bindkey '^[[3;5~' delete-word
-# Undo on ctrl-z, redo on ctrl-shift-z
-bindkey '^Z' undo
-bindkey '^[[122;6u' redo
-
-# Edit cmd buffer on Ctrl-e
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey '^E' edit-command-line
-
 ## Aliases
 alias cd='z'
-alias cdz='zi'
 alias ls='eza -x --hyperlink --group-directories-first --icons=auto'
 alias ll='eza -l --hyperlink --group-directories-first --icons=auto'
 alias la='eza -la --hyperlink --group-directories-first --icons=auto'
@@ -85,26 +65,18 @@ alias makepkg="PACKAGER=${PACKAGER:=\"${(C)USER} <${USER}@${HOST}>\"} makepkg"
 
 # Windows terminal reports itself as xterm-256color and doesn't set COLORTERM despite supporting truecolor
 case "$TERM" in
-    xterm-color|*-256color) export COLORTERM=truecolor;;
+  xterm-color|*-256color) export COLORTERM=truecolor;;
 esac
 
-# Prompt setup
-autoload -Uz promptinit
-promptinit
+## Builtin zle highlight styles
+# region is selected text and is set to be a little darker than kitty's highlight color
+zle_highlight=(region:bg=18 special:standout suffix:bold isearch:underline paste:standout)
 
-PROMPT='%n@%m %~ %F{white}%B%#%b%f '
-RPROMPT='[%F{yellow}%?%f]'
-
-if [[ -v COLORTERM ]]; then
-  eval "$(starship init zsh)"
-fi
-
-# Load plugins
-
+## Configure zsh-syntax-highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(main brackets)
-
 # Define styles for zsh-syntax-highlighting
-# default styles can be found at: https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/highlighters/main/main-highlighter.zsh
+# default styles can be found at: 
+# https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/highlighters/main/main-highlighter.zsh
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
 ZSH_HIGHLIGHT_STYLES[command]='fg=magenta'
@@ -120,10 +92,27 @@ ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=209'
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=209'
 ZSH_HIGHLIGHT_STYLES[comment]='fg=008,italic'
 
-# Load local configs if they exist
+## Prompt setup
+autoload -Uz promptinit
+promptinit
+
+PROMPT='%n@%m %~ %F{white}%B%#%b%f '
+RPROMPT='[%F{yellow}%?%f]'
+
+if [[ -v COLORTERM ]]; then
+  eval "$(starship init zsh)"
+fi
+
+## Load local configs if they exist
 source $ZDOTDIR/$HOST.zsh
 
+## Load plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# zoxide initialization
+# plugin: zsh-autosuggestions, causes issues if loaded on remote hosts
+if [[ ! -v SSH_TTY && -v COLORTERM ]]; then
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+## zoxide initialization
 eval "$(zoxide init zsh)"

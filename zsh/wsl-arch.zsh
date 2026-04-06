@@ -16,14 +16,13 @@ cat /proc/sys/fs/binfmt_misc/WSLInterop &>/dev/null || echo "\e[91mWSL interop i
 # Making the assumption that if we're in kitty, the shell integration is loaded
 if [[ "$TERM" == "xterm-kitty" ]]; then
   source $ZDOTDIR/kitty.zsh
-  bindkey '^[[99;6u' copy-buffer-to-clipboard
-  bindkey '^[[120;6u' cut-buffer-to-clipboard
 elif [[ "$TERM_PROGRAM" == "vscode" ]]; then
   source "$(code --locate-shell-integration-path zsh)"
 else
   # It should be safe to assume that the terminal is Windows Terminal if neither of the above are true for WSL
   # Alt-Shift-C
   bindkey '^[C' copy-buffer-to-clipboard
+  bindkey -M shift-select '^[C' shift-select::copy-region
   # Ctrl X
   bindkey '^X' cut-buffer-to-clipboard
 
@@ -50,9 +49,10 @@ else
 
   precmd_functions+=(_windows-terminal-integration)
   preexec_functions+=(_windows-terminal-integration-prexec)
+  
+  # Windows Terminal's bg colour makes the default fg=8 almost invisable
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
 fi
-
-KEYBOARD_HACK=\\
 
 export GALLIUM_DRIVER=d3d12
 export LIBVA_DRIVER_NAME=d3d12
@@ -81,19 +81,3 @@ function where() {
 function run-win() {
   "$(wslpath "$(where.exe $1 | head -n 1)" | sed 's|\r$||')" $*[2,-1]
 }
-
-function copy-buffer-to-clipboard() {
-  print -Rn "$BUFFER" | /mnt/c/Windows/System32/clip.exe 2>/dev/null
-}
-zle -N copy-buffer-to-clipboard
-
-function cut-buffer-to-clipboard() {
-  print -Rn "$BUFFER" | /mnt/c/Windows/System32/clip.exe 2>/dev/null
-  zle kill-buffer
-}
-zle -N cut-buffer-to-clipboard
-
-# plugin: zsh-autosuggestions, causes issues if loaded on remote hosts
-if [[ ! -v SSH_TTY && -v COLORTERM ]]; then
-  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
