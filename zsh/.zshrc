@@ -54,7 +54,6 @@ bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 # Ctrl-Backspace to delete word backwards
 bindkey '^H' backward-delete-word
-bindkey '^[[1;5H' backward-delete-line
 # Home and End keys
 bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line

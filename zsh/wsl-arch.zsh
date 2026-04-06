@@ -46,7 +46,7 @@ else
   }
 
   # Because of how starship works on zsh this is valid
-  PROMPT="${PROMPT}"$'\e]133;B\e\\'
+  # PROMPT="${PROMPT}"$'\e]133;B\e\\'
 
   precmd_functions+=(_windows-terminal-integration)
   preexec_functions+=(_windows-terminal-integration-prexec)
