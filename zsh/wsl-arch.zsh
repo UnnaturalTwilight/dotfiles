@@ -26,13 +26,36 @@ else
   bindkey '^[C' copy-buffer-to-clipboard
   # Ctrl X
   bindkey '^X' cut-buffer-to-clipboard
+
+  function _windows-terminal-integration() {
+    # Exit code of last command
+    if [[ -n "$STARSHIP_CMD_STATUS" ]]; then
+      builtin echo -ne "\e]133;D;${STARSHIP_CMD_STATUS}\e\\"
+    else
+      builtin echo -ne "\e]133;D\e\\"
+    fi
+    # current working directory
+    printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
+    # Start of prompt
+    builtin echo -ne "\e]133;A\e\\"
+  }
+
+  function _windows-terminal-integration-prexec() {
+    # Start of command execution
+    builtin echo -ne "\e]133;C\e\\"
+  }
+
+  # Because of how starship works on zsh this is valid
+  PROMPT="${PROMPT}"$'\e]133;B\e\\'
+
+  precmd_functions+=(_windows-terminal-integration)
+  preexec_functions+=(_windows-terminal-integration-prexec)
 fi
 
 KEYBOARD_HACK=\\
 
 export GALLIUM_DRIVER=d3d12
 export LIBVA_DRIVER_NAME=d3d12
-# eval "$(/usr/sbin/wsl2-ssh-agent)"
 
 export EDITOR=edit
 
