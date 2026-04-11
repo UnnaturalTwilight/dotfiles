@@ -30,7 +30,12 @@ PopupWindow {
                 easing.type: Easing.InOutQuad
             }
         }
+
+        Component.onCompleted: {
+            opacity = 1;
+        }
     }
+
     HoverHandler {
         id: menuHover
 
@@ -47,28 +52,35 @@ PopupWindow {
         id: selfCloseTimer
         interval: 250
         repeat: false
+        running: false
         onTriggered: brightnessPopover.closeSelf()
+    }
+
+    Timer {
+        id: fadeOutTimer
+        interval: 250
+        repeat: false
+        running: false
+        onTriggered: brightnessPopover.visible = false
     }
 
     function closeSelf(force = false) {
         if (menuHover.hovered && !force) {
             return;
         }
-        visible = false;
+        brightnessTile.opacity = 0;
+        fadeOutTimer.start();
     }
 
     function startSelfCloseTimer() {
         selfCloseTimer.start();
-        brightnessTile.opacity = 0;
     }
 
     function stopSelfCloseTimer() {
         selfCloseTimer.stop();
-        brightnessTile.opacity = 1;
     }
 
     function open() {
-        brightnessTile.opacity = 0;
         visible = true;
         brightnessTile.opacity = 1;
     }

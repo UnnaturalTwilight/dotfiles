@@ -61,6 +61,11 @@ input {
             // For example:
             // layout "us,ru"
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
+            
+            // Rebinding capslock to another key:
+            // options "caps:hyper"
+            // options "caps:menu"
+            // options "caps:none"
 
             // If this section is empty, niri will fetch xkb settings
             // from org.freedesktop.locale1. You can control these using

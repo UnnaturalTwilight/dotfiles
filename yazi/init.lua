@@ -6,6 +6,7 @@ require("full-border"):setup {
 	-- Available values: ui.Border.PLAIN, ui.Border.ROUNDED
 	type = ui.Border.ROUNDED,
 }
+
 -- Simlink display
 Status:children_add(function(self)
 	local h = self._current.hovered
@@ -14,8 +15,9 @@ Status:children_add(function(self)
 	else
 		return ""
 	end
-end, 3300, Status.LEFT)
+end, 3100, Status.LEFT)
 
+-- User/Group display
 Status:children_add(function()
 	local h = cx.active.current.hovered
 	if not h or ya.target_family() ~= "unix" then
@@ -35,4 +37,4 @@ Status:children_add(function()
 		ui.Span(ya.group_name(h.cha.gid) or tostring(h.cha.gid)):fg("magenta"),
 		" ",
 	}
-end, 500, Status.RIGHT)
+end, 900, Status.RIGHT)

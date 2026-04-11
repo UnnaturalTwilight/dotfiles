@@ -46,6 +46,10 @@ PopupWindow {
             }
         }
 
+        Component.onCompleted: {
+            opacity = 1;
+        }
+
         QsMenuOpener {
             id: menuOpener
             menu: menuWindow.menuHandle
@@ -93,8 +97,8 @@ PopupWindow {
                     childMenuLoader.setSource("TrayMenu.qml", {
                         menuHandle: entry.modelData,
                         parentMenu: menuWindow,
-                        anchorX: menuWindow.anchor.rect.x + 100,
-                        anchorY: menuWindow.anchor.rect.y + entry.mapToItem(menuWindowBg, 0, 0).y + entry.implicitHeight,
+                        anchorX: menuWindow.anchorX + 100,
+                        anchorY: menuWindow.anchorY + entry.mapToItem(menuWindowBg, 0, 0).y + entry.implicitHeight,
                         implicitWidth: 300
                     });
                     childMenuLoader.active = true;
@@ -141,7 +145,7 @@ PopupWindow {
                     return "...";
                 }
             }
-            color: parent.enabled ? Colours.text : Colours.polar5
+            color: parent.enabled ? Colours.text : Colours.snow5
             width: parent.width - 10 - (arrow.visible ? 26 : 0) - (checkbox.visible ? 26 : 0)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.family: "Noto Sans"
@@ -202,19 +206,32 @@ PopupWindow {
         id: selfCloseTimer
         interval: 250
         repeat: false
+        running: false
         onTriggered: menuWindow.closeSelf()
+    }
+
+    Timer {
+        id: fadeOutTimer
+        interval: 250
+        repeat: false
+        running: false
+        onTriggered: {
+            if (menuWindow.parentMenu) {
+                menuWindow.parentMenu.destroyChild();
+                menuWindow.parentMenu.closeSelf();
+            } else {
+                menuWindow.visible = false;
+            }
+        }
     }
 
     function closeSelf(force = false) {
         destroyChild();
         if (menuHover.hovered && !force) {
             return;
-        }
-        if (parentMenu) {
-            parentMenu.destroyChild();
-            parentMenu.closeSelf();
         } else {
-            visible = false;
+            menuWindowBg.opacity = 0;
+            fadeOutTimer.start();
         }
     }
 
@@ -228,7 +245,6 @@ PopupWindow {
 
     function startSelfCloseTimer() {
         selfCloseTimer.start();
-        menuWindowBg.opacity = 0;
     }
 
     function stopSelfCloseTimer() {
@@ -236,11 +252,9 @@ PopupWindow {
             parentMenu.stopSelfCloseTimer();
         }
         selfCloseTimer.stop();
-        menuWindowBg.opacity = 1;
     }
 
     function open() {
-        menuWindowBg.opacity = 0;
         visible = true;
         menuWindowBg.opacity = 1;
     }

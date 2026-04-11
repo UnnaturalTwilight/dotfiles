@@ -31,6 +31,9 @@ code = [
     { run = "code %s", desc = "Code", for = "windows", orphan = true },
     { run = "code %s", desc = "Code", for = "linux", orphan = true },
 ]
+view-bat = [
+    { run = "bat --color=always --paging=always --italic-text=always --pager=less -- %s", desc = "Preview (bat)", block = true, for = "linux" },
+]
 view-image = [
     { run = "kitty kitten icat --hold -- %s", desc = "Preview (icat)", block = false, for = "linux" },
 ]
@@ -40,7 +43,8 @@ prepend_rules = [
     { url = "bulk-rename.txt", use = "bulk-rename" },
     { url = "*/", use = [ "reveal", "code" ] },
     { mime = "image/*", use = [ "view-image", "open", "reveal" ] },
-    { mime = "application/wine-extension-ini", use = [ "edit", "reveal" ] },
+    { mime = "text/*", use = [ "edit", "view-bat", "reveal" ] },
+    { mime = "application/{json,ndjson,javascript,wine-extension-ini}", use = [ "edit", "view-bat", "reveal" ] },
 ]
 append_rules = [
     { url = "*", use = [ "open", "edit", "code", "reveal" ] },

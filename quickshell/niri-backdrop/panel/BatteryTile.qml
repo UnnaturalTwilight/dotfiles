@@ -27,6 +27,7 @@ InfoTile {
         Text {
             Layout.row: 0
             Layout.column: 0
+            Layout.fillWidth: true
             text: Battery.approxTime
             font.pixelSize: 16
             font.family: "JetBrainsMonoNFM"

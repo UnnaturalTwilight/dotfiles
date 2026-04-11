@@ -1,6 +1,6 @@
 #! /usr/bin/zsh
 # Setup the simlinks between .config and this repo
-cd ~/dotfiles || exit 1
+builtin cd ~/dotfiles || exit 1
 
 if [ -z "$ZDOTDIR" ]; then
   # ZDOTDIR is the only real thing we can check for this
@@ -20,7 +20,8 @@ ln -sfbr --suffix=.bak ./bash/.bash_profile $HOME/.bash_profile
 
 ## Create symlinks for zsh
 mkdir -p $ZDOTDIR
-ln -sfbr --suffix=.bak --target-directory=$ZDOTDIR ./zsh/.* 
+ln -sfbr --suffix=.bak --target-directory=$ZDOTDIR ./zsh/.*
+ln -sfbr --suffix=.bak --target-directory=$ZDOTDIR ./zsh/keybinds.zsh
 ln -sfbr --suffix=.bak --target-directory=$ZDOTDIR ./zsh/kitty.zsh
 ln -sfbr --suffix=.bak --target-directory=$ZDOTDIR ./zsh/$host.zsh
 
@@ -42,15 +43,16 @@ ln -sfbr --suffix=.bak $XDG_CONFIG_HOME/assets/${user}_profilepic.png $XDG_CONFI
 
 # Yazi
 mkdir $XDG_CONFIG_HOME/yazi
-ln -sfbr --suffix=.bak ./yazi/* -t $XDG_CONFIG_HOME/yazi
+ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME/yazi ./yazi/*
+cp -fLT --remove-destination ./yazi/package.toml $XDG_CONFIG_HOME/yazi/package.toml
 if (command -pv ya); then
-    echo
-    ya pkg upgrade
-    echo
-else 
-    echo
-    echo "run ya pkg upgrade to install yazi plugins"
-    echo
+  echo
+  ya pkg upgrade
+  echo
+else
+  echo
+  echo "run ya pkg upgrade to install yazi plugins"
+  echo
 fi
 
 echo

@@ -87,9 +87,9 @@ Scope {
                 spacing: 12
 
                 GridLayout {
-                    columns: 2
-                    columnSpacing: 15
-                    rowSpacing: 0
+                    columns: 3
+                    rowSpacing: 3
+                    Layout.rightMargin: 20
                     Layout.fillWidth: true
 
                     Image {
@@ -106,19 +106,48 @@ Scope {
 
                     Text {
                         Layout.column: 1
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
                         Layout.row: 1
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                         text: Quickshell.env("USER") + "@" + System.hostname
                         font.pixelSize: 20
-                        font.family: "JetBrainsMonoNFM"
+                        font.family: "JetBrainsMonoNF"
                         color: Colours.gray
                     }
                     
                     Spacer {
                         Layout.row: 2
                         Layout.column: 1
-                        Layout.topMargin: 5
-                        Layout.rightMargin: 50
+                        Layout.columnSpan: 2
+                        Layout.fillWidth: true
+                    }
+
+                    Text {
+                        Layout.column: 1
+                        Layout.row: 3
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                        text: Network.connectionString
+                        font.pixelSize: 20
+                        font.family: "JetBrainsMonoNF"
+                        color: Colours.gray
+                        Component.onCompleted: {
+                            Network.refresh();
+                        }
+                    }
+
+                    Text {
+                        Layout.column: 2
+                        Layout.row: 3
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        text: Network.connectionIcon
+                        font.pixelSize: 20
+                        font.family: "JetBrainsMonoNF"
+                        color: Colours.gray
+                        Component.onCompleted: {
+                            Network.refresh();
+                        }
                     }
                 }
 
@@ -145,6 +174,7 @@ Scope {
                         anchors.centerIn: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
+                        width: parent.width - 10
                         text: "Placeholder"
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         font.pixelSize: 24

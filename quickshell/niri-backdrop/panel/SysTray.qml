@@ -146,7 +146,7 @@ Item {
                     if (systray.activeMenu === trayIcon.modelData) {
                         trayMenuLoader.active = true;
                     } else {
-                        trayMenuLoader.item.closeSelf();
+                        trayMenuLoader.item?.closeSelf();
                     }
                 }
             }
