@@ -22,13 +22,20 @@ actions = { "reboot" = "systemctl reboot" }
 [[entries]]
 text = "Lock"
 subtext = "Quickshell Lockscreen"
-keywords = ["sleep", "power"]
+keywords = ["power"]
 icon = "system-lock-screen"
 actions = { "lock" = "qs -c niri-backdrop ipc call lock lock" }
 
 [[entries]]
-text = "Suspend"
-subtext = "systemctl hybrid-sleep"
-keywords = ["suspend", "hibernate", "power"]
+text = "Sleep"
+subtext = "suspend-then-hibernate"
+keywords = ["suspend", "power"]
 icon = "system-suspend"
-actions = { "suspend" = "systemctl hybrid-sleep" }
+actions = { "suspend" = "qs -c niri-backdrop ipc call idle setState suspend" }
+
+[[entries]]
+text = "Hibernate"
+subtext = "hibernate"
+keywords = ["power"]
+icon = "system-suspend-hibernate"
+actions = { "hibernate" = "qs -c niri-backdrop ipc call idle setState hibernate" }

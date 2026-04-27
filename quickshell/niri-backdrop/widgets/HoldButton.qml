@@ -17,7 +17,7 @@ DelayButton {
     property color activeColor: Colours.power1
 
     text: root.symbol
-    font.pixelSize: 48
+    font.pixelSize: root.buttonSize * 0.8
     font.family: "JetBrainsMonoNFM"
     delay: 1000
     implicitHeight: buttonSize

@@ -88,6 +88,10 @@ provider = "runner"
 prefix = "!"
 provider = "windows"
 
+[[providers.prefixes]]
+prefix = "<"
+provider = "playerctl"
+
 [providers.clipboard]
 time_format = "%d.%m. - %H:%M" # format for the clipboard item date
 

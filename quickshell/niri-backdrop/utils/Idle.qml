@@ -53,6 +53,14 @@ Singleton {
         Quickshell.execDetached(["systemctl", "suspend-then-hibernate"]);
     }
 
+    function hibernate(): void {
+        suspendTimer.triggered = true;
+        if (!lockTimer.triggered) {
+            sleep();
+        }
+        Quickshell.execDetached(["systemctl", "hibernate"]);
+    }
+
     signal lock(bool grace)
 
     IpcHandler {
@@ -84,6 +92,8 @@ Singleton {
                 root.sleep();
             } else if (action === "suspend") {
                 root.suspend();
+            } else if (action === "hibernate") {
+                root.hibernate();
             } else {
                 console.warn("Idle IPC: unknown action '" + action + "'");
             }

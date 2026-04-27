@@ -197,35 +197,44 @@ Scope {
         id: powerRow
         spacing: 12
         Layout.alignment: Qt.AlignCenter
+        property int buttonSize: 48
 
         HoldButton {
             symbol: ""
             onActivated: () => {
                 Quickshell.execDetached(["systemctl", "poweroff"]);
-                Qt.callLater(() => {
-                    startScope.closePanel();
-                });
             }
+            buttonSize: powerRow.buttonSize
         }
 
         HoldButton {
             symbol: ""
             onActivated: () => {
                 Quickshell.execDetached(["systemctl", "reboot"]);
-                Qt.callLater(() => {
-                    startScope.closePanel();
-                });
             }
+            buttonSize: powerRow.buttonSize
         }
 
         HoldButton {
             symbol: "󰤄"
             onActivated: () => {
-                Idle.suspend();
                 Qt.callLater(() => {
                     startScope.closePanel();
+                    Idle.suspend();
                 });
             }
+            buttonSize: powerRow.buttonSize
+        }
+
+        HoldButton {
+            symbol: "󰜗"
+            onActivated: () => {
+                Qt.callLater(() => {
+                    startScope.closePanel(); 
+                    Idle.hibernate();
+                });
+            }
+            buttonSize: powerRow.buttonSize
         }
 
         HoldButton {
@@ -236,6 +245,7 @@ Scope {
                     startScope.closePanel();
                 });
             }
+            buttonSize: powerRow.buttonSize
         }
 
         HoldButton {
@@ -246,6 +256,7 @@ Scope {
                     startScope.closePanel();
                 });
             }
+            buttonSize: powerRow.buttonSize
         }
     }
 }

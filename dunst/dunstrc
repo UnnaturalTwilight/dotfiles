@@ -349,7 +349,7 @@
     # When enabled, notifications won't timeout while the mouse pointer is over
     # them. The timeout resumes when the pointer leaves the window.
     # Only works on Wayland.
-    pause_on_mouse_over = true
+    pause_on_mouse_over = false
 
     # Use PCRE regular expressions for filtering rules.
     # This setting overrides enable_posix_regex.

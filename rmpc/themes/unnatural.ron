@@ -13,8 +13,8 @@
     modal_backdrop: false,
     preview_label_style: (fg: "#81a1c1", modifiers: "Italic"),
     preview_metadata_group_style: (fg: "#a3be8c", modifiers: "Bold"),
-    current_item_style: ( bg: "#38384d", modifiers: "Bold"),
-    highlighted_item_style: (fg: "#8fbcbb", bg: "black", modifiers: "Bold"),
+    current_item_style: (bg: "#38384d", modifiers: "Bold"),
+    highlighted_item_style: (fg: "#8fbcbb", bg: "black"),
     borders_style: (fg: "dark_gray", modifiers: "Bold"),
     highlight_border_style: (fg: "dark_gray"),
 
@@ -24,6 +24,14 @@
         dir_style: (fg: "#86bbd8"),
         playlist_style: (fg: "#a3be8c"),
         marker_style: (fg: "#c47eba"),
+        song_highlighted_style: None,
+        dir_highlighted_style: None,
+        playlist_highlighted_style: None,
+        marker_highlighted_style: None,
+        song_current_style: None,
+        dir_current_style: None,
+        playlist_current_style: None,
+        marker_current_style: None,
     ),
 
     progress_bar: (
@@ -43,7 +51,7 @@
     
     tab_bar: (
         active_style: (fg: "white", bg: "#38384d", modifiers: "Bold | Italic"),
-        inactive_style: (fg: None),
+        inactive_style: (fg: "default"),
     ),
 
     level_styles: (
@@ -92,7 +100,7 @@
             alignment: Right,
         ),
         (
-            prop: (kind: Text("")),
+            prop: (kind: Empty()),
             width: "0",
         ),
     ],

@@ -99,6 +99,7 @@ window-rule {
 // Windows trust to open at a reasonable size
 window-rule {
     match app-id="^kitty$"
+    match app-id="^Thunar$"
 
     // freedp dose some funky things if it doesn't have control over its size
     match app-id="^xfreerdp$"
