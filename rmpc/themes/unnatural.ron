@@ -16,7 +16,7 @@
     current_item_style: (bg: "#38384d", modifiers: "Bold"),
     highlighted_item_style: (fg: "#8fbcbb", bg: "black"),
     borders_style: (fg: "dark_gray", modifiers: "Bold"),
-    highlight_border_style: (fg: "dark_gray"),
+    highlight_border_style: None,
 
     symbols: (
         song: "󰝚", dir: "", playlist: "󰲸", marker: "▋", ellipsis: "...",
@@ -48,7 +48,7 @@
         ends_style: (fg: "gray"),
         thumb_style: (fg: "#b0b4bc", modifiers: "Bold"),
     ),
-    
+
     tab_bar: (
         active_style: (fg: "white", bg: "#38384d", modifiers: "Bold | Italic"),
         inactive_style: (fg: "default"),
@@ -78,22 +78,22 @@
             default: (kind: Property(Filename))
         ),
     ],
-    
+
     song_table_format: [
         (
-            prop: (kind: Property(Title), style: (fg: "gray"),
-                default: (kind: Property(Filename), style: (fg: "gray"),)
+            prop: (kind: Property(Title),
+                default: (kind: Property(Filename))
             ),
             width: "70%",
         ),
         (
-            prop: (kind: Property(Album), style: (fg: "gray"),
+            prop: (kind: Property(Album),
                 default: (kind: Text("Unknown Album"), style: (fg: "dark_gray"))
             ),
             width: "30%",
         ),
         (
-            prop: (kind: Property(Duration), style: (fg: "gray"),
+            prop: (kind: Property(Duration),
                 default: (kind: Text("-:--"), style: (fg: "dark_gray"))
             ),
             width: "5",
@@ -152,13 +152,13 @@
             ),
         ],
     ),
-    
+
     components: {
         "_playpause1": Pane(Property(
             content: [
                 (kind: Property(Status(StateV2(
                     playing_label: " 🬦🬓🬦🬓 ", paused_label: "  🭑🬽  ", stopped_label: " 🬦🬹🬹🬓 ",
-                ))), 
+                ))),
                 style: (fg: "#7654a8", modifiers: "Bold")),
             ], align: Left,
         )),
@@ -166,7 +166,7 @@
             content: [
                 (kind: Property(Status(StateV2(
                     playing_label: " 🬉🬄🬉🬄 ", paused_label: "  🭜🭘  ", stopped_label: " 🬉🬎🬎🬄 ",
-                ))), 
+                ))),
                 style: (fg: "#7654a8", modifiers: "Bold")),
             ], align: Left,
         )),
@@ -279,7 +279,7 @@
             ],
         ),
     },
-    
+
     cava: (
         // symbols that will be used to draw the bar in the visualiser, in ascending order of fill fraction
         bar_symbols: ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'],
@@ -288,10 +288,10 @@
 
         bar_width: 2, // width of a single bar in columns
         bar_spacing: 1, // free space between bars in columns
-    
+
         // Possible values are "Top", "Bottom" and "Horizontal".
         orientation: Horizontal,
-    
+
         // A simple color gradient. This is a map where keys are percent values of the height
         // where the color starts. After that it is linearly interpolated towards the next value.
         // In this example, the color will start at green for the lowest amplitudes, go towards

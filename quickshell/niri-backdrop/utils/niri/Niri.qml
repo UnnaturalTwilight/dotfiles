@@ -416,6 +416,10 @@ Singleton {
                 } else if (event.KeyboardLayoutsChanged) {
                     root.keyboardLayoutIndex = event.KeyboardLayoutsChanged.keyboard_layouts.current_idx;
                     root.keyboardLayouts = event.KeyboardLayoutsChanged.keyboard_layouts.names;
+                } else if (event.CastsChanged) {
+                    // {"CastsChanged": { "casts": [ DATA ]}}
+                    // Ignored for now
+                    return;
                 } else if (event.Ok) {
                     // Confirmation response of eventstream
                     return;

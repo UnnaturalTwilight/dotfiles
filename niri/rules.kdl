@@ -93,7 +93,7 @@ window-rule {
 
 window-rule {
     match app-id=r#"^btop$"#
-    min-width 820 // roughly 80 columns in kitty on my laptop
+    min-width 825 // roughly 80 columns in kitty on my laptop
 }
 
 // Windows trust to open at a reasonable size

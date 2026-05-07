@@ -49,8 +49,8 @@ case $USER in
     ;;
 esac
 
-if [[ "$TERM" == "linux" && ! -v SSH_TTY ]]; then
-  # Set my color scheme
-  print -n -- "\e]P0000000\e]P1f14c4c\e]P223d18b\e]P3f5f543\e]P43b8eea\e]P5d670d6\e]P629b8db\e]P7e5e5e5"
-  print -n -- "\e]P8525252\e]P9cd3131\e]Pa0dbc79\e]Pbe5e510\e]Pc2472c8\e]Pdbc3fbc\e]Pe11a8cd\e]Pfffffff"
-fi
+# if [[ "$TERM" == "linux" && ! -v SSH_TTY ]]; then
+#   # Set my color scheme
+#   print -n -- "\e]P0000000\e]P1f14c4c\e]P223d18b\e]P3f5f543\e]P43b8eea\e]P5d670d6\e]P629b8db\e]P7e5e5e5"
+#   print -n -- "\e]P8525252\e]P9cd3131\e]Pa0dbc79\e]Pbe5e510\e]Pc2472c8\e]Pdbc3fbc\e]Pe11a8cd\e]Pfffffff"
+# fi

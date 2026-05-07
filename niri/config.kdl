@@ -30,8 +30,6 @@ spawn-sh-at-startup "wl-paste --type=image --watch cliphist store"
 // bootstatechecker
 spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"
 
-spawn-sh-at-startup "bluetoothctl connect 40:72:18:AD:77:86"
-
 // custom script to auto unlock keyring
 spawn-sh-at-startup "systemd-run --user keyring-unlock"
 
@@ -61,7 +59,7 @@ input {
             // For example:
             // layout "us,ru"
             // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
-            
+
             // Rebinding capslock to another key:
             // options "caps:hyper"
             // options "caps:menu"
@@ -138,7 +136,7 @@ output "eDP-1" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    
+
     position x=0 y=0
 
     layout {
@@ -148,9 +146,10 @@ output "eDP-1" {
 }
 
 output "ASUSTek COMPUTER INC XG27ACG T6LMQS029175" {
-    // mode "2560x1440@60"
+    mode "2560x1440"
     scale 1
-    
+    //variable-refresh-rate on-demand=true
+
     position x=-2560 y=-80
 }
 

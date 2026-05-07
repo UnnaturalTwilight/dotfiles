@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 --@type Config
 local config = {}
 

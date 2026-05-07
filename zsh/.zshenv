@@ -29,3 +29,5 @@ export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR"/npm
 # Rust
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+# Copilot
+export COPILOT_HOME="$XDG_CONFIG_HOME"/copilot

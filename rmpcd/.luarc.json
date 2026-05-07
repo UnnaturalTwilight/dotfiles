@@ -1,5 +1,4 @@
 {
-    "workspace.library": [
-        "/home/cal/.local/share/rmpcd/lua"
-    ]
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "workspace.library": ["../.local/share/rmpcd/lua"]
 }

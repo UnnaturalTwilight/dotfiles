@@ -162,7 +162,9 @@ Singleton {
 
         onIsIdleChanged: {
             if (isIdle && !triggered) {
-                root.sleep();
+                Qt.callLater(() => {
+                    root.sleep();
+                });
             }
         }
     }
@@ -178,7 +180,9 @@ Singleton {
 
         onIsIdleChanged: {
             if (isIdle && !triggered) {
-                root.suspend();
+                Qt.callLater(() => {
+                    root.suspend();
+                });
             }
         }
     }
