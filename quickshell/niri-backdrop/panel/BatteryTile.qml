@@ -14,7 +14,7 @@ InfoTile {
         verticalAlignment: Text.AlignVCenter
         text: Battery.icon
         font.pixelSize: 56
-        font.family: "JetBrainsMonoNFM"
+        font.family: Fonts.nerdMono
         color: Colours.gray
     }
 
@@ -30,7 +30,7 @@ InfoTile {
             Layout.fillWidth: true
             text: Battery.approxTime
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             color: Colours.white
         }
 
@@ -47,7 +47,7 @@ InfoTile {
                 return status;
             }
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNF"
+            font.family: Fonts.nerd
             color: Colours.gray
         }
 
@@ -66,7 +66,7 @@ InfoTile {
             Layout.alignment: Qt.AlignRight
             text: (Math.round(Battery.value * 100) + "%").padStart(5, " ")
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             color: Colours.text
         }
     }

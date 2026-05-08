@@ -54,7 +54,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 text: "󰃟"
                 font.pixelSize: 40
-                font.family: "JetBrainsMonoNFM"
+                font.family: Fonts.nerdMono
                 color: Colours.gray
             }
 
@@ -91,7 +91,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignRight
                 text: (Math.round(Brightness.screenValue * 100) + "%").padStart(5, " ")
                 font.pixelSize: 16
-                font.family: "JetBrainsMonoNFM"
+                font.family: Fonts.nerdMono
                 color: Colours.text
             }
         }

@@ -29,7 +29,7 @@ Item {
             text: Audio.icon
             color: Colours.gray
             opacity: Audio.muted ? 0.5 : 1.0
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             font.pixelSize: Audio.extraProps.iconDisplay[0]
             Layout.bottomMargin: Audio.extraProps.iconDisplay[1]
         }
@@ -49,7 +49,7 @@ Item {
             Layout.alignment: Qt.AlignCenter
             text: Battery.icon
             color: Colours.gray
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             font.pixelSize: 88
             Layout.bottomMargin: -8
         }

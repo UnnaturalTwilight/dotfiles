@@ -1,7 +1,7 @@
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
 [[plugin.prepend_preloaders]]
-mime = "{audio,video,image}/*" 
+mime = "{audio,video,image}/*"
 run = "mediainfo"
 
 [[plugin.prepend_previewers]]
@@ -29,7 +29,7 @@ edit = [
 ]
 code = [
     { run = "code %s", desc = "Code", for = "windows", orphan = true },
-    { run = "code %s", desc = "Code", for = "linux", orphan = true },
+    { run = "zeditor %s", desc = "Zed", for = "linux", orphan = true },
 ]
 view-bat = [
     { run = "bat --color=always --paging=always --italic-text=always --pager=less -- %s", desc = "Preview (bat)", block = true, for = "linux" },

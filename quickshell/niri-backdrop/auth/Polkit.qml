@@ -76,7 +76,7 @@ Item {
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 16
-                font.family: "JetBrainsMonoNF"
+                font.family: Fonts.mono
                 color: Colours.text
             }
 
@@ -91,7 +91,7 @@ Item {
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 14
-                font.family: "JetBrainsMonoNF"
+                font.family: Fonts.mono
                 color: Colours.text
                 // visible: agent.flow?.supplementaryMessage != ""
             }

@@ -148,7 +148,7 @@ PopupWindow {
             color: parent.enabled ? Colours.text : Colours.snow5
             width: parent.width - 10 - (arrow.visible ? 26 : 0) - (checkbox.visible ? 26 : 0)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            font.family: "Noto Sans"
+            font.family: Fonts.sans
             font.pixelSize: 16
             visible: !entry.modelData?.isSeparator
         }
@@ -161,7 +161,7 @@ PopupWindow {
             anchors.right: parent.right
             anchors.rightMargin: 12
             text: entry.modelData?.hasChildren ? "󰦺" : ""
-            font.family: "JetBrainsMonoMF"
+            font.family: Fonts.nerd
             font.pixelSize: 20
             color: Colours.gray
         }
@@ -182,7 +182,7 @@ PopupWindow {
             Text {
                 anchors.centerIn: parent
                 text: entry.modelData?.buttonType === QsMenuButtonType.CheckBox ? "" : ""
-                font.family: "JetBrainsMonoMFM"
+                font.family: Fonts.nerdMono
                 font.pixelSize: 9
                 color: Colours.text
                 visible: entry.checked

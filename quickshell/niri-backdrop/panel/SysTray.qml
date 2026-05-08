@@ -66,7 +66,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 text: "󰃟"
                 font.pixelSize: 48
-                font.family: "JetBrainsMonoNFM"
+                font.family: Fonts.nerdMono
                 color: Colours.gray
             }
             BrightnessPopover {

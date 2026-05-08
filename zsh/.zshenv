@@ -31,3 +31,5 @@ export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 # Copilot
 export COPILOT_HOME="$XDG_CONFIG_HOME"/copilot
+# Vscode
+export VSCODE_PORTABLE="$XDG_DATA_HOME"/vscode

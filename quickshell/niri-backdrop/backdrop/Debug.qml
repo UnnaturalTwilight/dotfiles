@@ -68,7 +68,7 @@ PanelWindow {
             // qmlformat on
             color: Colours.gray
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
         /* Text {
@@ -81,7 +81,7 @@ PanelWindow {
             // qmlformat on
             color: Colours.gray
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         } */
     }
@@ -105,7 +105,7 @@ PanelWindow {
             // qmlformat on
             color: Colours.gray
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             wrapMode: Text.WrapAnywhere
             width: 1000
         }

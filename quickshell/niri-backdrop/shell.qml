@@ -7,6 +7,7 @@ import qs.backdrop
 import qs.panel
 import qs.auth
 import qs.utils
+import qs.overlay
 
 Scope {
     id: root
@@ -15,6 +16,11 @@ Scope {
 
         model: Quickshell.screens
         Backdrop {}
+    }
+
+    Overlay {
+        id: overlay
+        modelData: System.primaryScreen
     }
 
     // Variants {

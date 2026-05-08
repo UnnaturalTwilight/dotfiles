@@ -5,7 +5,7 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
-import qs.popup
+import qs.overlay
 import qs.utils
 
 Singleton {

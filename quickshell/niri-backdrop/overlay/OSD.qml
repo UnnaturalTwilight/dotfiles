@@ -18,15 +18,13 @@ Scope {
     property bool suppress: false
 
     function showOsd() {
-        // This function can be called to show the OSD without changing the brightness,
-        // for example when the user clicks on the brightness tile in the quick settings.
         if (!root.suppress) {
             root.shouldShowOsd = true;
             root.osdVisible = true;
             hideTimer.restart();
         }
     }
-    
+
     property bool shouldShowOsd: false
     property bool osdVisible: false
 
@@ -76,7 +74,7 @@ Scope {
                     Text {
                         text: root.icon
                         font.pixelSize: 30
-                        font.family: "JetBrainsMonoNFM"
+                        font.family: Fonts.nerdMono
                         color: Colours.gray
                         // Layout.preferredWidth: percentageText.width
                     }
@@ -94,7 +92,7 @@ Scope {
                         text: (Math.round(root.value * 100) + "%").padStart(5, " ")
                         color: Colours.text
                         font.pixelSize: 16
-                        font.family: "JetBrainsMonoNFM"
+                        font.family: Fonts.mono
                     }
                 }
 

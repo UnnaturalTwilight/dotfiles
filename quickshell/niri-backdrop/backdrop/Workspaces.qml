@@ -170,7 +170,7 @@ Item {
             visible: parent.empty
             text: "󰐙"
             color: parent.active ? Colours.mana1 : Colours.polar5
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             font.pixelSize: 32
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter

@@ -12,6 +12,7 @@ import qs
 import qs.utils
 import qs.utils.niri
 import qs.widgets
+import qs.overlay
 
 Scope {
     id: startScope
@@ -115,7 +116,7 @@ Scope {
                         font.family: "JetBrainsMonoNF"
                         color: Colours.gray
                     }
-                    
+
                     Spacer {
                         Layout.row: 2
                         Layout.column: 1
@@ -161,6 +162,10 @@ Scope {
 
                 SysTray {
                     id: systray
+                }
+
+                NotificationList {
+                    id: notifications
                 }
 
                 Rectangle {
@@ -230,7 +235,7 @@ Scope {
             symbol: "󰜗"
             onActivated: () => {
                 Qt.callLater(() => {
-                    startScope.closePanel(); 
+                    startScope.closePanel();
                     Idle.hibernate();
                 });
             }

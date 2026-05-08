@@ -1,0 +1,130 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "extend_comment_on_newline": false,
+  "cli_default_open_behavior": "existing_window",
+  "diagnostics": {
+    "inline": {
+      "enabled": false,
+    },
+  },
+  "document_symbols": "on",
+  "document_folding_ranges": "on",
+  "semantic_tokens": "off",
+  "toolbar": {
+    "code_actions": true,
+  },
+  "minimap": {
+    "thumb_border": "left_open",
+    "thumb": "always",
+    "show": "auto",
+  },
+  "sticky_scroll": {
+    "enabled": true,
+  },
+  "colorize_brackets": true,
+  "languages": {
+    "RON": {
+      "colorize_brackets": true,
+    },
+    "Rust": {
+      "inlay_hints": {
+        "enabled": true,
+      },
+    },
+    "Lua": {
+      "inlay_hints": {
+        "enabled": true,
+      },
+    },
+    "QML": {
+      "show_completions_on_input": false,
+      "inlay_hints": {
+        "enabled": true,
+      },
+    },
+  },
+  "use_smartcase_search": true,
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+  },
+  "format_on_save": "off",
+  "title_bar": {
+    "show_menus": false,
+    "button_layout": "",
+    "show_user_picture": false,
+    "show_branch_status_icon": false,
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": true,
+    },
+  },
+  "use_system_prompts": false,
+  "use_system_path_prompts": false,
+  "proxy": "",
+  "edit_predictions": {
+    "provider": "copilot",
+  },
+  "project_panel": {
+    "diagnostic_badges": true,
+    "git_status_indicator": true,
+    "dock": "left",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+    "button": false,
+  },
+  "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-5-mini",
+      "enable_thinking": true,
+      "effort": "high",
+    },
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "git_panel": {
+    "commit_title_max_length": 0,
+    "file_icons": false,
+    "dock": "left",
+  },
+  "which_key": {
+    "delay_ms": 500,
+    "enabled": true,
+  },
+  "auto_update": false,
+  "terminal": {
+    "toolbar": {},
+    "bell": "system",
+    "cursor_shape": "bar",
+    "blinking": "on",
+  },
+  "base_keymap": "VSCode",
+  "buffer_font_fallbacks": ["JetBrains Mono", ".ZedMono"],
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "agent_servers": {
+    "github-copilot-cli": {
+      "type": "registry",
+    },
+  },
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "VSCode Modern Dark",
+  },
+}

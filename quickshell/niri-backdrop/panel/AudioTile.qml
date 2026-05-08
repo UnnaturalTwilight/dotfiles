@@ -23,7 +23,7 @@ InfoTile {
             verticalAlignment: Text.AlignVCenter
             text: Audio.icon
             font.pixelSize: 56
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
             color: parent.containsMouse ? Colours.power1 : Colours.gray
         }
         hoverEnabled: true
@@ -63,7 +63,7 @@ InfoTile {
             }
             rightPadding: 6
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNF"
+            font.family: Fonts.mono
             font.bold: hovered
             hoverEnabled: true
 
@@ -151,7 +151,7 @@ InfoTile {
                 }
             }
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNF"
+            font.family: Fonts.nerd
             color: Colours.gray
         }
 
@@ -187,7 +187,7 @@ InfoTile {
             Layout.alignment: Qt.AlignRight
             text: (Math.round(Audio.volume * 100) + "%").padStart(5, " ")
             font.pixelSize: 16
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.mono
             color: Colours.text
         }
     }

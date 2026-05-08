@@ -124,7 +124,7 @@ Item {
         anchors.top: avatar.bottom
         anchors.margins: 10
         font.pixelSize: 32
-        font.family: "JetBrainsMonoNF"
+        font.family: Fonts.mono
         font.weight: 700
         color: Colours.white
     }
@@ -153,7 +153,7 @@ Item {
         anchors.top: passwordField.bottom
         anchors.topMargin: 10
         font.pixelSize: 16
-        font.family: "Noto Sans"
+        font.family: Fonts.sans
         color: Colours.white
     }
 

@@ -26,7 +26,7 @@ Item {
             text: Time.time
             color: Colours.gray
             font.pixelSize: 128
-            font.family: "JetBrainsMonoNFM"
+            font.family: Fonts.nerdMono
         }
 
         Text {

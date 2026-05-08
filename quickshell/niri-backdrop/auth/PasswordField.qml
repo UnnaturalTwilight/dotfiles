@@ -5,6 +5,7 @@ import QtQuick
 import QtQuick.Controls
 
 import qs
+import qs.widgets
 
 Item {
     id: passwordField
@@ -53,29 +54,19 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         color: "transparent"
 
-        Image {
+        SvgIcon {
             id: passwordIcon
-            source: {
+            iconName: {
                 if (passwordField.fingerprint) {
                     // The message requirement of the above check is to prevent it from flashing the fingerprint icon when PAM first starts
-                    return Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/fingerprint.svg";
+                    return "fingerprint";
                 } else {
-                    return Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/password.svg";
+                    return "password";
                 }
             }
+            size: passwordField.iconSize
             anchors.centerIn: parent
-            width: passwordField.iconSize
-            height: passwordField.iconSize
-            sourceSize: Qt.size(width, height)
-            fillMode: Image.PreserveAspectFit
             opacity: (passwordField.pam.responseRequired || !passwordField.pam.active) ? 1 : 0.5
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 250
-                    easing.type: Easing.Linear
-                }
-            }
         }
     }
 
@@ -120,24 +111,12 @@ Item {
             }
         }
 
-        Image {
+        SvgIcon {
             id: sendButton
-            source: {
-                return Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/arrow-right.svg";
-            }
+            iconName: "arrow-right"
+            size: passwordField.iconSize
             anchors.centerIn: parent
-            width: passwordField.iconSize
-            height: passwordField.iconSize
-            sourceSize: Qt.size(width, height)
-            fillMode: Image.PreserveAspectFit
             opacity: passwordField.pam.responseRequired ? 1 : 0.5
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 250
-                    easing.type: Easing.Linear
-                }
-            }
         }
     }
 
