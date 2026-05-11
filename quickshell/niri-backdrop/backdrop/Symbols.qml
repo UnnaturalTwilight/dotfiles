@@ -1,6 +1,7 @@
 // Symbols.qml
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Effects
 
 import qs
 import qs.utils
@@ -20,18 +21,25 @@ Item {
         id: sysLayout
         rows: 2
         columnSpacing: 20
-        rowSpacing: -5
+        rowSpacing: -3
         flow: GridLayout.TopToBottom
 
-        Text {
+        MultiEffect {
             id: audioIcon
-            Layout.alignment: Qt.AlignCenter
-            text: Audio.icon
-            color: Colours.gray
+            source: SvgIcon {
+                iconName: Audio.icon
+                size: 128
+            }
+
+            Layout.preferredHeight: Audio.extraProps.iconDisplaySize
+            Layout.preferredWidth: Audio.extraProps.iconDisplaySize
+            Layout.leftMargin: (60 - Audio.extraProps.iconDisplaySize) / 2
+            Layout.rightMargin: (60 - Audio.extraProps.iconDisplaySize) / 2
+            Layout.bottomMargin: -14
+
+            colorization: 1.0
+            colorizationColor: Colours.gray
             opacity: Audio.muted ? 0.5 : 1.0
-            font.family: Fonts.nerdMono
-            font.pixelSize: Audio.extraProps.iconDisplay[0]
-            Layout.bottomMargin: Audio.extraProps.iconDisplay[1]
         }
 
         PercentBar {
@@ -44,14 +52,20 @@ Item {
             implicitHeight: 10
         }
 
-        Text {
+        MultiEffect {
             id: batteryIcon
-            Layout.alignment: Qt.AlignCenter
-            text: Battery.icon
-            color: Colours.gray
-            font.family: Fonts.nerdMono
-            font.pixelSize: 88
-            Layout.bottomMargin: -8
+            source: SvgIcon {
+                iconName: Battery.icons[Battery.iconIdx]
+                size: 128
+            }
+
+            Layout.preferredHeight: 96
+            Layout.preferredWidth: 96
+            Layout.leftMargin: -18
+            Layout.rightMargin: -18
+
+            colorization: 1.0
+            colorizationColor: Colours.gray
         }
 
         PercentBar {

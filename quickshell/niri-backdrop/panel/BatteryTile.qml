@@ -1,6 +1,7 @@
 // BatteryTile.qml
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Effects
 
 import qs
 import qs.utils
@@ -10,12 +11,25 @@ InfoTile {
     id: batteryTile
     vSize: 80
 
-    icon: Text {
-        verticalAlignment: Text.AlignVCenter
-        text: Battery.icon
-        font.pixelSize: 56
-        font.family: Fonts.nerdMono
-        color: Colours.gray
+    icon: Rectangle {
+        implicitHeight: parent.implicitHeight
+        implicitWidth: batteryIcon.width
+        color: "transparent"
+
+        MultiEffect {
+            id: batteryIcon
+            source: SvgIcon {
+                iconName: Battery.icons[Battery.iconIdx]
+                size: 128
+            }
+
+            width: 60
+            height: 60
+            anchors.centerIn: parent
+
+            colorization: 1.0
+            colorizationColor: Colours.gray
+        }
     }
 
     info: GridLayout {

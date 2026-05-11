@@ -52,7 +52,11 @@ Item {
                 Loader {
                     id: iconLoader
                     Layout.fillHeight: true
+                    Layout.preferredHeight: iconLoader.height
                     Layout.preferredWidth: iconLoader.width
+                    Layout.margins: -root.margins
+                    Layout.leftMargin: (34 - iconLoader.width) / 2
+                    Layout.rightMargin: (34 - iconLoader.width) / 2
                     sourceComponent: root.icon
                 }
 

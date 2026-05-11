@@ -4,6 +4,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Effects
 
 import qs
 import qs.utils
@@ -15,17 +16,24 @@ InfoTile {
 
     icon: MouseArea {
         implicitHeight: parent.implicitHeight
-        implicitWidth: audioIcon.implicitWidth
+        implicitWidth: audioIcon.width
 
-        Text {
+        MultiEffect {
             id: audioIcon
+            source: SvgIcon {
+                iconName: Audio.icon
+                size: 128
+            }
+
+            width: Audio.extraProps.iconDisplaySize - 24
+            height: Audio.extraProps.iconDisplaySize - 24
             anchors.centerIn: parent
-            verticalAlignment: Text.AlignVCenter
-            text: Audio.icon
-            font.pixelSize: 56
-            font.family: Fonts.nerdMono
-            color: parent.containsMouse ? Colours.power1 : Colours.gray
+
+            colorization: 1.0
+            colorizationColor: parent.containsMouse ? Colours.power1 : Colours.gray
+            opacity: Audio.muted ? 0.5 : 1.0
         }
+
         hoverEnabled: true
         onClicked: Audio.muted = !Audio.muted
     }

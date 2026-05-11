@@ -54,21 +54,35 @@ Singleton {
     }
 
     // qmlformat off
-    readonly property string icon: {
-        return state === UPowerDeviceState.Charging ? icons[11]
-            : value < 0.05 ? icons[10]
-            : value < 0.15 ? icons[9]
-            : value < 0.25 ? icons[8]
-            : value < 0.35 ? icons[7]
-            : value < 0.45 ? icons[6]
-            : value < 0.55 ? icons[5]
-            : value < 0.65 ? icons[4]
-            : value < 0.75 ? icons[3]
-            : value < 0.85 ? icons[2]
-            : value < 0.95 ? icons[1]
-            : icons[0];
+    readonly property int iconIdx: {
+        return state === UPowerDeviceState.Charging ? 11
+            : value < 0.05 ? 10
+            : value < 0.15 ? 9
+            : value < 0.25 ? 8
+            : value < 0.35 ? 7
+            : value < 0.45 ? 6
+            : value < 0.55 ? 5
+            : value < 0.65 ? 4
+            : value < 0.75 ? 3
+            : value < 0.85 ? 2
+            : value < 0.95 ? 1
+            : 0;
     }
     // qmlformat on
 
-    readonly property list<string> icons: ["󰁹", "󰂂", "󰂁", "󰂀", "󰁿", "󰁾", "󰁽", "󰁼", "󰁻", "󰁺", "󰂎", "󰂄"]
+    readonly property list<string> icons: [
+        "battery/full",
+        "battery/90",
+        "battery/80",
+        "battery/70",
+        "battery/60",
+        "battery/50",
+        "battery/40",
+        "battery/30",
+        "battery/20",
+        "battery/10",
+        "battery/outline",
+        "battery/charging"
+    ]
+    readonly property list<string> fontIcons: ["󰁹", "󰂂", "󰂁", "󰂀", "󰁿", "󰁾", "󰁽", "󰁼", "󰁻", "󰁺", "󰂎", "󰂄"]
 }
