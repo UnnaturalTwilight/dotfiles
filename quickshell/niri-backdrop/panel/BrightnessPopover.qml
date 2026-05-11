@@ -3,6 +3,8 @@
 import Quickshell
 import QtQuick
 
+import qs
+
 PopupWindow {
     id: brightnessPopover
     property alias tile: brightnessTile
@@ -19,9 +21,13 @@ PopupWindow {
     implicitWidth: 350
     implicitHeight: 50
 
-    BrightnessTile {
-        id: brightnessTile
+    Rectangle {
+        id: windowBg
         anchors.fill: parent
+        color: Colours.polar1
+        border.color: Colours.frost0
+        border.width: 2
+        radius: 12
         opacity: 0
 
         Behavior on opacity {
@@ -33,6 +39,11 @@ PopupWindow {
 
         Component.onCompleted: {
             opacity = 1;
+        }
+
+        BrightnessTile {
+            id: brightnessTile
+            anchors.fill: parent
         }
     }
 
@@ -68,7 +79,7 @@ PopupWindow {
         if (menuHover.hovered && !force) {
             return;
         }
-        brightnessTile.opacity = 0;
+        windowBg.opacity = 0;
         fadeOutTimer.start();
     }
 
@@ -82,7 +93,7 @@ PopupWindow {
 
     function open() {
         visible = true;
-        brightnessTile.opacity = 1;
+        windowBg.opacity = 1;
     }
 
     function toggle() {

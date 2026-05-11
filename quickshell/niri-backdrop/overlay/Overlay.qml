@@ -7,6 +7,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.utils
+import qs.widgets
 
 Item {
     id: overlayRoot

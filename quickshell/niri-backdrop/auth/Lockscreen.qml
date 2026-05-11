@@ -7,6 +7,7 @@ import QtQuick
 
 import qs
 import qs.backdrop
+import qs.widgets
 
 Item {
     id: lockScreen
@@ -163,5 +164,11 @@ Item {
 
     Symbols {
         screen: lockScreen.screen
+    }
+
+    MediaBar {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 50
     }
 }

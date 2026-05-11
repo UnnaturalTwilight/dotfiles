@@ -22,4 +22,22 @@ Singleton {
     readonly property bool playing: mpd?.playbackState === MprisPlaybackState.Playing
 
     readonly property real progress: mpd ? (mpd.position / mpd.length) : 0
+
+    function toggle() {
+        if (mpd && mpd.canTogglePlaying) {
+            mpd.togglePlaying();
+        }
+    }
+
+    function next() {
+        if (mpd && mpd.canGoNext) {
+            mpd.next();
+        }
+    }
+
+    function previous() {
+        if (mpd && mpd.canGoPrevious) {
+            mpd.previous();
+        }
+    }
 }
