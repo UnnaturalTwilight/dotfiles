@@ -24,7 +24,7 @@ ColumnLayout {
         model: Notify.tracked.values
 
         Notification {
-            implicitWidth: parent.width
+            implicitWidth: parent?.width ?? 300
         }
     }
 

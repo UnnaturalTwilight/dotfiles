@@ -221,8 +221,8 @@ Item {
     }
 
     function sysTrayOrder(a) {
-        // This is the order I want certain known apps to appear in the tray, with pinned items taking priority over this
-        const order = ["nm-applet", "blueman", "systray_", "indicator-solaar"];
+        // This is the order I want certain known apps to appear in the tray
+        const order = ["nm-applet", "blueman", "tailscale", "systray_", "indicator-solaar"];
         const index = order.findIndex(id => a.id.includes(id));
         return index === -1 ? Number.POSITIVE_INFINITY : index;
     }

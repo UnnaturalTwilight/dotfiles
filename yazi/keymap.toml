@@ -1,5 +1,5 @@
 # Default: https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/keymap-default.toml
-"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+#:schema https://yazi-rs.github.io/schemas/keymap.json
 
 [mgr]
 # This contains some keybinding that are the same as the default ones

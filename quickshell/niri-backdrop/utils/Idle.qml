@@ -161,7 +161,7 @@ Singleton {
         timeout: 300 // 5min
 
         onIsIdleChanged: {
-            if (isIdle && !triggered) {
+            if (isIdle) {
                 Qt.callLater(() => {
                     root.sleep();
                 });

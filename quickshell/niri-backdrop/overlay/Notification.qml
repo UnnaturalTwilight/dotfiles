@@ -63,10 +63,11 @@ Rectangle {
 
         ColumnLayout {
             visible: root.modelData.appIcon !== "" || root.modelData.image !== ""
+            Layout.alignment: Qt.AlignTop
+
             Image {
                 source: Quickshell.iconPath(root.modelData.appIcon, true)
-                sourceSize.width: root.iconSize
-                sourceSize.height: root.iconSize
+                sourceSize: Qt.size(root.iconSize, root.iconSize)
                 Layout.maximumWidth: root.iconSize
                 Layout.maximumHeight: root.iconSize
                 visible: root.modelData.appIcon !== ""
@@ -74,8 +75,7 @@ Rectangle {
 
             Image {
                 source: root.modelData.image
-                sourceSize.width: root.iconSize
-                sourceSize.height: root.iconSize
+                sourceSize: Qt.size(root.iconSize, root.iconSize)
                 Layout.maximumWidth: root.iconSize
                 Layout.maximumHeight: root.iconSize
                 visible: root.modelData.image !== ""
@@ -86,8 +86,6 @@ Rectangle {
             Layout.fillWidth: true
 
             Text {
-                Layout.row: 0
-                Layout.column: 1
                 Layout.fillWidth: true
 
                 text: root.modelData.appName
@@ -102,8 +100,6 @@ Rectangle {
             }
 
             Text {
-                Layout.row: 1
-                Layout.column: 1
                 Layout.fillWidth: true
 
                 text: root.modelData.summary
@@ -117,8 +113,6 @@ Rectangle {
             }
 
             Text {
-                Layout.row: 2
-                Layout.column: 1
                 Layout.fillWidth: true
 
                 text: root.modelData.body
@@ -130,6 +124,14 @@ Rectangle {
                     pixelSize: root.fontSize
                 }
                 color: Colours.snow2
+            }
+
+            PercentBar {
+                Layout.fillWidth: true
+                visible: root.modelData.hints.value !== undefined
+                value: root.modelData.hints.value / 100
+
+                implicitHeight: 12
             }
 
             RowLayout {

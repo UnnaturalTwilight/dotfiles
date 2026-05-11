@@ -2,8 +2,9 @@
 
 import Quickshell
 import QtQuick
+import QtQuick.VectorImage
 
-Image {
+VectorImage {
     id: root
 
     property string iconName: "close"
@@ -15,8 +16,8 @@ Image {
 
     width: size
     height: size
-    sourceSize: Qt.size(width, height)
-    fillMode: Image.PreserveAspectFit
+    fillMode: VectorImage.PreserveAspectFit
+    preferredRendererType: VectorImage.CurveRenderer
 
     Behavior on opacity {
         NumberAnimation {
