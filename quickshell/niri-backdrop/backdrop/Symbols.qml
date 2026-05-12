@@ -1,7 +1,6 @@
 // Symbols.qml
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Effects
 
 import qs
 import qs.utils
@@ -24,22 +23,17 @@ Item {
         rowSpacing: -3
         flow: GridLayout.TopToBottom
 
-        MultiEffect {
+        SvgIcon {
             id: audioIcon
-            source: SvgIcon {
-                iconName: Audio.icon
-                size: 128
-            }
+            iconName: Audio.icon
+            opacity: Audio.muted ? 0.5 : 1.0
+            colour: Colours.gray
 
             Layout.preferredHeight: Audio.extraProps.iconDisplaySize
             Layout.preferredWidth: Audio.extraProps.iconDisplaySize
             Layout.leftMargin: (60 - Audio.extraProps.iconDisplaySize) / 2
             Layout.rightMargin: (60 - Audio.extraProps.iconDisplaySize) / 2
             Layout.bottomMargin: -14
-
-            colorization: 1.0
-            colorizationColor: Colours.gray
-            opacity: Audio.muted ? 0.5 : 1.0
         }
 
         PercentBar {
@@ -52,20 +46,15 @@ Item {
             implicitHeight: 10
         }
 
-        MultiEffect {
+        SvgIcon {
             id: batteryIcon
-            source: SvgIcon {
-                iconName: Battery.icons[Battery.iconIdx]
-                size: 128
-            }
+            iconName: Battery.icons[Battery.iconIdx]
+            colour: Colours.gray
 
             Layout.preferredHeight: 96
             Layout.preferredWidth: 96
             Layout.leftMargin: -18
             Layout.rightMargin: -18
-
-            colorization: 1.0
-            colorizationColor: Colours.gray
         }
 
         PercentBar {

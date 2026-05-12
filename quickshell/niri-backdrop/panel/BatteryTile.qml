@@ -16,19 +16,14 @@ InfoTile {
         implicitWidth: batteryIcon.width
         color: "transparent"
 
-        MultiEffect {
+        SvgIcon {
             id: batteryIcon
-            source: SvgIcon {
-                iconName: Battery.icons[Battery.iconIdx]
-                size: 128
-            }
-
-            width: 60
-            height: 60
+            iconName: Battery.icons[Battery.iconIdx]
+            size: 120
+            scale: 0.5
             anchors.centerIn: parent
 
-            colorization: 1.0
-            colorizationColor: Colours.gray
+            colour: Colours.gray
         }
     }
 

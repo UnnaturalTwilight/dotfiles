@@ -31,6 +31,13 @@ Item {
             color: Colours.power1
             radius: parent.radius
             opacity: percentBar.active ? 1.0 : 0.5
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 250
+                    easing.type: Easing.Linear
+                }
+            }
         }
     }
 }
