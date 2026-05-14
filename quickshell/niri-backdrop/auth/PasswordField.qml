@@ -86,7 +86,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         color: Colours.white
         font.pixelSize: 24
-        font.family: "JetBrainsMonoNF"
+        font.family: Fonts.mono
         font.italic: passwordField.currentText.length === 0
     }
 

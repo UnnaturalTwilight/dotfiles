@@ -179,6 +179,7 @@ Rectangle {
                     Text {
                         text: ""
                         color: notificationInlineReplyMouseArea.containsMouse ? Colours.highlight : Colours.polar4
+                        font.family: Fonts.nerd
                     }
                     MouseArea {
                         id: notificationInlineReplyMouseArea
@@ -220,6 +221,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.Wrap
+                font.family: Fonts.sans
             }
         }
         MouseArea {

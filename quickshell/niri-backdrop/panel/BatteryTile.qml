@@ -66,7 +66,7 @@ InfoTile {
             Layout.alignment: Qt.AlignRight
             text: (Math.round(Battery.value * 100) + "%").padStart(5, " ")
             font.pixelSize: 16
-            font.family: Fonts.nerdMono
+            font.family: Fonts.mono
             color: Colours.text
         }
     }

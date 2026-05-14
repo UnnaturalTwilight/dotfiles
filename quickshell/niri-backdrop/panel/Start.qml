@@ -113,7 +113,7 @@ Scope {
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                         text: Quickshell.env("USER") + "@" + System.hostname
                         font.pixelSize: 20
-                        font.family: "JetBrainsMonoNF"
+                        font.family: Fonts.mono
                         color: Colours.gray
                     }
 
@@ -131,7 +131,7 @@ Scope {
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                         text: Network.connectionString
                         font.pixelSize: 20
-                        font.family: "JetBrainsMonoNF"
+                        font.family: Fonts.mono
                         color: Colours.gray
                         Component.onCompleted: {
                             Network.refresh();
@@ -144,7 +144,7 @@ Scope {
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         text: Network.connectionIcon
                         font.pixelSize: 20
-                        font.family: "JetBrainsMonoNF"
+                        font.family: Fonts.nerd
                         color: Colours.gray
                         Component.onCompleted: {
                             Network.refresh();

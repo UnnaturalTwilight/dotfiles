@@ -26,7 +26,7 @@ Item {
             text: Time.time
             color: Colours.gray
             font.pixelSize: 128
-            font.family: Fonts.nerdMono
+            font.family: Fonts.mono
         }
 
         Text {
@@ -35,7 +35,7 @@ Item {
             text: Time.date
             color: Colours.gray
             font.pixelSize: 24
-            font.family: "Noto Sans"
+            font.family: Fonts.sans
         }
     }
 }

@@ -91,7 +91,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignRight
                 text: (Math.round(Brightness.screenValue * 100) + "%").padStart(5, " ")
                 font.pixelSize: 16
-                font.family: Fonts.nerdMono
+                font.family: Fonts.mono
                 color: Colours.text
             }
         }
