@@ -16,54 +16,54 @@ Item {
     x: screen?.width - (50 + implicitWidth)
     y: screen?.height - (40 + implicitHeight)
 
-    GridLayout {
+    RowLayout {
         id: sysLayout
-        rows: 2
-        columnSpacing: 20
-        rowSpacing: -3
-        flow: GridLayout.TopToBottom
+        spacing: 20
 
-        SvgIcon {
-            id: audioIcon
+        Symbol {
             iconName: Audio.icon
-            opacity: Audio.muted ? 0.5 : 1.0
-            colour: Colours.gray
-
-            Layout.preferredHeight: Audio.extraProps.iconDisplaySize
-            Layout.preferredWidth: Audio.extraProps.iconDisplaySize
-            Layout.leftMargin: (60 - Audio.extraProps.iconDisplaySize) / 2
-            Layout.rightMargin: (60 - Audio.extraProps.iconDisplaySize) / 2
-            Layout.bottomMargin: -14
+            iconOpacity: Audio.muted ? 0.5 : 1.0
+            iconSize: Audio.extraProps.iconDisplaySize
+            barValue: Audio.volume
+            barActive: !Audio.muted
         }
 
-        PercentBar {
-            id: volumeBar
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignCenter
-            value: Audio.volume
-            active: !Audio.muted
-            implicitWidth: 60
-            implicitHeight: 10
+        Symbol {
+            iconName: Battery.icons[Battery.iconIdx]
+            iconSize: 96
+            barValue: Battery.value
         }
+    }
+
+    component Symbol : Rectangle {
+        id: symbolRoot
+        Layout.preferredWidth: 60
+        Layout.fillHeight: true
+        color: "transparent"
+
+        property alias iconName: symbolIcon.iconName
+        property alias iconOpacity: symbolIcon.opacity
+        property alias iconSize: symbolIcon.size
+
+        property alias barValue: symbolBar.value
+        property alias barActive: symbolBar.active
 
         SvgIcon {
-            id: batteryIcon
-            iconName: Battery.icons[Battery.iconIdx]
+            id: symbolIcon
             colour: Colours.gray
-
-            Layout.preferredHeight: 96
-            Layout.preferredWidth: 96
-            Layout.leftMargin: -18
-            Layout.rightMargin: -18
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: symbolBar.top
+            anchors.bottomMargin: -4
+            height: size + 2
         }
 
         PercentBar {
-            id: batteryBar
-            Layout.fillWidth: true
+            id: symbolBar
             Layout.alignment: Qt.AlignCenter
-            value: Battery.value
             implicitWidth: 60
             implicitHeight: 10
+            anchors.horizontalCenter: symbolIcon.horizontalCenter
+            anchors.bottom: parent.bottom
         }
     }
 }
