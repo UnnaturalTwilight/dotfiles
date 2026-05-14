@@ -17,8 +17,6 @@ environment {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// spawn-sh-at-startup "$HOME/.config/scripts/ewwinit.sh niri"
-spawn-sh-at-startup "wbg -s $HOME/.config/assets/niri-wallpaper.jpg"
 spawn-sh-at-startup "walker --gapplication-service"
 
 spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
@@ -340,6 +338,14 @@ animations {
     recent-windows-close {
         spring damping-ratio=1.0 stiffness=800 epsilon=0.001
     }
+}
+
+blur {
+    on
+    // passes 3
+    // offset 3
+    // noise 0.02
+    // saturation 1.5
 }
 
 include "rules.kdl"

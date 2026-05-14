@@ -12,7 +12,7 @@ export XDG_STATE_HOME=$HOME/.local/state
 
 # Needs manual editing to systemd user sockets. see arch wiki.
 # script for auto setting it up is in scripts folder.
-export GNUPGHOME="$XDG_DATA_HOME"/gnupg 
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
 
 # Go
 export GOPATH="$XDG_DATA_HOME"/go
@@ -23,8 +23,8 @@ export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 # Gradle
 export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
 # NPM
-export NPM_CONFIG_INIT_MODULE="$XDG_CONFIG_HOME"/npm/config/npm-init.js   
-export NPM_CONFIG_CACHE="$XDG_CACHE_HOME"/npm                             
+export NPM_CONFIG_INIT_MODULE="$XDG_CONFIG_HOME"/npm/config/npm-init.js
+export NPM_CONFIG_CACHE="$XDG_CACHE_HOME"/npm
 export NPM_CONFIG_TMP="$XDG_RUNTIME_DIR"/npm
 # Rust
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
@@ -33,3 +33,4 @@ export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export COPILOT_HOME="$XDG_CONFIG_HOME"/copilot
 # Vscode
 export VSCODE_PORTABLE="$XDG_DATA_HOME"/vscode
+export VSCODE_CLI_DATA_DIR="$XDG_DATA_HOME"/vscode/cli-data
