@@ -12,7 +12,7 @@ Singleton {
     FileView {
         id: hostnameFile
         path: Qt.resolvedUrl("/etc/hostname")
-        blockLoading: true
+        blockLoading: false
     }
 
     property alias hostname: persist.hostname
@@ -33,9 +33,6 @@ Singleton {
         // in case eDP-1 is not found, just return the first screen
         return Quickshell.screens[0];
     }
-
-    // suppress popups on reload
-    // property bool suppressOSD: true
 
     IpcHandler {
         id: systemIpc

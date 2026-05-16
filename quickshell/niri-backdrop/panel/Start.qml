@@ -12,7 +12,6 @@ import qs
 import qs.utils
 import qs.utils.niri
 import qs.widgets
-import qs.overlay
 
 Scope {
     id: startScope
@@ -142,7 +141,7 @@ Scope {
                         Layout.column: 2
                         Layout.row: 3
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        text: Network.connectionIcon
+                        text: Network?.connectionIcon ?? ""
                         font.pixelSize: 20
                         font.family: Fonts.nerd
                         color: Colours.gray
@@ -166,25 +165,6 @@ Scope {
 
                 NotificationList {
                     id: notifications
-                }
-
-                Rectangle {
-                    Layout.alignment: Qt.AlignCenter
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    radius: 20
-                    color: Colours.polar0
-
-                    Text {
-                        anchors.centerIn: parent
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        width: parent.width - 10
-                        text: "Placeholder"
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        font.pixelSize: 24
-                        color: Colours.text
-                    }
                 }
             }
         }

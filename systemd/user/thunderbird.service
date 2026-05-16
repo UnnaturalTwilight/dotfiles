@@ -6,7 +6,7 @@ StartLimitIntervalSec=300
 StartLimitBurst=5
 
 [Service]
-Type=simple
+Type=idle
 ExecStart=thunderbird --headless
 StandardError=null
 Restart=always

@@ -62,7 +62,7 @@ InfoTile {
                     console.warn("Selected audio sink not found:", dropdown.currentValue);
                 }
             }
-            rightPadding: 6
+            rightPadding: 0
             font.pixelSize: 16
             font.family: Fonts.mono
             font.bold: hovered
@@ -84,6 +84,8 @@ InfoTile {
                 }
                 background: Rectangle {
                     color: delegate.highlighted ? Colours.highlight : "transparent"
+                    width: dropdown.width - dropdown.rightPadding - 6
+                    radius: 8
                 }
                 highlighted: dropdown.highlightedIndex === index
             }

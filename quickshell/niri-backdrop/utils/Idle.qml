@@ -140,7 +140,7 @@ Singleton {
         respectInhibitors: root.respectInhibitors
         enabled: root.enabled
 
-        timeout: 240 // 4min
+        timeout: 150 // 2.5min
 
         onIsIdleChanged: {
             if (isIdle && !triggered) {
@@ -158,7 +158,7 @@ Singleton {
         respectInhibitors: root.respectInhibitors
         enabled: root.enabled && !root.inhibitLock
 
-        timeout: 300 // 5min
+        timeout: 180 // 3min
 
         onIsIdleChanged: {
             if (isIdle) {

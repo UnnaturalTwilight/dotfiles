@@ -45,30 +45,25 @@ Singleton {
         const min = Math.floor(s / 60) % 60;
 
         let comps = [];
-        if (hr > 0)
+        if (hr > 0) {
             comps.push(`${hr} hours`);
-        if (min > 0)
+        }
+        if (min > 0) {
             comps.push(`${min} mins`);
+        }
 
         return comps.join(", ") || fallback;
     }
 
-    // qmlformat off
     readonly property int iconIdx: {
-        return state === UPowerDeviceState.Charging ? 11
-            : value < 0.05 ? 10
-            : value < 0.15 ? 9
-            : value < 0.25 ? 8
-            : value < 0.35 ? 7
-            : value < 0.45 ? 6
-            : value < 0.55 ? 5
-            : value < 0.65 ? 4
-            : value < 0.75 ? 3
-            : value < 0.85 ? 2
-            : value < 0.95 ? 1
-            : 0;
+        if (state === UPowerDeviceState.Unknown) {
+            return 12;
+        } else if (state === UPowerDeviceState.Charging) {
+            return 11;
+        } else {
+            return Math.round(10 - (value * 10));
+        }
     }
-    // qmlformat on
 
     readonly property list<string> icons: [
         "battery/full",
@@ -82,7 +77,9 @@ Singleton {
         "battery/20",
         "battery/10",
         "battery/outline",
-        "battery/charging"
+        "battery/charging",
+        "battery/unknown"
     ]
-    readonly property list<string> fontIcons: ["󰁹", "󰂂", "󰂁", "󰂀", "󰁿", "󰁾", "󰁽", "󰁼", "󰁻", "󰁺", "󰂎", "󰂄"]
+
+    readonly property list<string> fontIcons: ["󰁹", "󰂂", "󰂁", "󰂀", "󰁿", "󰁾", "󰁽", "󰁼", "󰁻", "󰁺", "󰂎", "󰂄", "󰂑"]
 }

@@ -6,8 +6,7 @@ import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 
-import qs.utils
-import qs.widgets
+import qs.utils.notify
 
 Item {
     id: overlayRoot
@@ -48,7 +47,7 @@ Item {
             y: 40
 
             Repeater {
-                model: Notify.tracked.values
+                model: Notify.onscreen
 
                 Notification {}
             }

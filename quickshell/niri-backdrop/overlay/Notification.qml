@@ -8,12 +8,13 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 import qs
+import qs.utils.notify
 import qs.widgets
 
 Rectangle {
     id: root
 
-    required property Notification modelData
+    required property NotificationData modelData
     property int padding: 10
     property int iconSize: 48
     property int fontSize: 18
@@ -30,7 +31,7 @@ Rectangle {
         acceptedButtons: Qt.AllButtons
         onClicked: mouse => {
             if (mouse.button === Qt.MiddleButton) {
-                root.modelData.dismiss();
+                root.modelData.close();
             }
         }
     }
@@ -49,7 +50,7 @@ Rectangle {
             id: notificationDismissMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: root.modelData.dismiss()
+            onClicked: root.modelData.close()
         }
     }
 
@@ -62,15 +63,15 @@ Rectangle {
         spacing: root.padding
 
         ColumnLayout {
-            visible: root.modelData.appIcon !== "" || root.modelData.image !== ""
+            // visible: root.modelData.appIcon !== "" || root.modelData.image !== ""
             Layout.alignment: Qt.AlignTop
 
             Image {
-                source: Quickshell.iconPath(root.modelData.appIcon, true)
+                source: Quickshell.iconPath(root.modelData.appIcon, "preferences-desktop-notification")
                 sourceSize: Qt.size(root.iconSize, root.iconSize)
                 Layout.maximumWidth: root.iconSize
                 Layout.maximumHeight: root.iconSize
-                visible: root.modelData.appIcon !== ""
+                visible: root.modelData.appIcon !== "" || root.modelData.image === ""
             }
 
             Image {
@@ -185,7 +186,7 @@ Rectangle {
                         id: notificationInlineReplyMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: root.modelData.sendInlineReply(notificationInlineReplyTextField.text)
+                        onClicked: root.modelData.notification.sendInlineReply(notificationInlineReplyTextField.text)
                     }
                 }
             }
