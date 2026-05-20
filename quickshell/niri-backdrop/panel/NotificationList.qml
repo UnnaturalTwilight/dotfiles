@@ -2,7 +2,6 @@
 pragma ComponentBehavior: Bound
 
 import Quickshell
-import Quickshell.Widgets
 import Quickshell.Services.Notifications
 import QtQuick
 import QtQuick.Layouts
@@ -24,8 +23,9 @@ Rectangle {
     property int iconSize: 32
     property int fontSize: 18
 
-    ClippingRectangle {
-        color: "transparent"
+    ListView {
+        id: notificationList
+        clip: true
 
         anchors {
             top: dismissAll.bottom
@@ -35,21 +35,51 @@ Rectangle {
         }
         implicitWidth: parent.width - notifications.gap * 2
         implicitHeight: parent.height - dismissAll.height - notifications.gap * 3
-        radius: 16
+        spacing: notifications.gap
 
-        ListView {
-            id: notificationList
+        model: ScriptModel {
+            values: Notify.list.filter(n => !n.temporary)
+        }
 
-            anchors.fill: parent
-            spacing: notifications.gap
+        delegate: Notification {
+            implicitWidth: parent?.width ?? 300
+            // color: Colours.polar1
+        }
 
-            model: ScriptModel {
-                values: Notify.list.filter(n => !n.temporary)
+        add: Transition {
+            NumberAnimation {
+                properties: "x"
+                from: 400
+                duration: 250
             }
+        }
 
-            delegate: Notification {
-                implicitWidth: parent?.width ?? 300
-                // color: Colours.polar1
+        addDisplaced: Transition {
+            NumberAnimation {
+                properties: "x,y"
+                duration: 250
+            }
+        }
+
+        remove: Transition {
+            ParallelAnimation {
+                NumberAnimation {
+                    property: "opacity"
+                    to: 0
+                    duration: 250
+                }
+                NumberAnimation {
+                    properties: "x"
+                    to: 400
+                    duration: 250
+                }
+            }
+        }
+
+        removeDisplaced: Transition {
+            NumberAnimation {
+                properties: "x,y"
+                duration: 250
             }
         }
     }

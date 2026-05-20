@@ -23,7 +23,7 @@ Rectangle {
     implicitWidth: 400
     radius: 20
     color: Colours.shadow
-    border.color: modelData.urgency === NotificationUrgency.Critical ? Colours.power1 : Colours.frost0
+    border.color: modelData?.urgency === NotificationUrgency.Critical ? Colours.power1 : Colours.frost0
     border.width: 2
 
     MouseArea {
@@ -31,7 +31,9 @@ Rectangle {
         acceptedButtons: Qt.AllButtons
         onClicked: mouse => {
             if (mouse.button === Qt.MiddleButton) {
-                root.modelData.close();
+                root.modelData?.close();
+            } else if (mouse.button === Qt.LeftButton) {
+                root.modelData?.dismiss();
             }
         }
     }
@@ -50,7 +52,7 @@ Rectangle {
             id: notificationDismissMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: root.modelData.close()
+            onClicked: root.modelData?.close()
         }
     }
 
@@ -67,19 +69,19 @@ Rectangle {
             Layout.alignment: Qt.AlignTop
 
             Image {
-                source: Quickshell.iconPath(root.modelData.appIcon, "preferences-desktop-notification")
+                source: Quickshell.iconPath(root.modelData?.appIcon ?? "", "preferences-desktop-notification")
                 sourceSize: Qt.size(root.iconSize, root.iconSize)
                 Layout.maximumWidth: root.iconSize
                 Layout.maximumHeight: root.iconSize
-                visible: root.modelData.appIcon !== "" || root.modelData.image === ""
+                visible: root.modelData?.appIcon !== "" || root.modelData?.image === ""
             }
 
             Image {
-                source: root.modelData.image
+                source: root.modelData?.image ?? ""
                 sourceSize: Qt.size(root.iconSize, root.iconSize)
                 Layout.maximumWidth: root.iconSize
                 Layout.maximumHeight: root.iconSize
-                visible: root.modelData.image !== ""
+                visible: root.modelData?.image !== ""
             }
         }
 
@@ -89,7 +91,7 @@ Rectangle {
             Text {
                 Layout.fillWidth: true
 
-                text: root.modelData.appName
+                text: root.modelData?.appName ?? ""
                 wrapMode: Text.Wrap
                 Layout.maximumWidth: 350
                 font {
@@ -103,7 +105,7 @@ Rectangle {
             Text {
                 Layout.fillWidth: true
 
-                text: root.modelData.summary
+                text: root.modelData?.summary ?? ""
                 wrapMode: Text.Wrap
                 Layout.maximumWidth: 350
                 font {
@@ -116,9 +118,9 @@ Rectangle {
             Text {
                 Layout.fillWidth: true
 
-                text: root.modelData.body
+                text: root.modelData?.body ?? ""
                 wrapMode: Text.Wrap
-                visible: root.modelData.body !== ""
+                visible: root.modelData?.body !== ""
                 Layout.maximumWidth: 350
                 font {
                     family: Fonts.sans
@@ -129,8 +131,8 @@ Rectangle {
 
             PercentBar {
                 Layout.fillWidth: true
-                visible: root.modelData.hints.value !== undefined
-                value: root.modelData.hints.value / 100
+                visible: root.modelData?.hints?.value !== undefined
+                value: root.modelData?.hints?.value / 100
 
                 implicitHeight: 12
             }
@@ -140,10 +142,10 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignRight
                 spacing: root.padding
-                visible: root.modelData.actions.length > 0
+                visible: root.modelData?.actions.length > 0
 
                 Repeater {
-                    model: root.modelData.actions
+                    model: root.modelData?.actions
 
                     delegate: Action {}
                 }
@@ -152,7 +154,7 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.maximumWidth: 400
-                visible: root.modelData.hasInlineReply
+                visible: root.modelData?.hasInlineReply === true
                 border.color: notificationInlineReplyMouseArea.containsMouse ? Colours.frost2 : Colours.frost0
                 TextField {
                     id: notificationInlineReplyTextField
@@ -165,7 +167,7 @@ Rectangle {
                         pixelSize: root.fontSize
                     }
                     Layout.fillWidth: true
-                    placeholderText: root.modelData.inlineReplyPlaceholder
+                    placeholderText: root.modelData?.inlineReplyPlaceholder ?? "Reply..."
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.Wrap
                 }
@@ -186,7 +188,7 @@ Rectangle {
                         id: notificationInlineReplyMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: root.modelData.notification.sendInlineReply(notificationInlineReplyTextField.text)
+                        onClicked: root.modelData?.notification?.sendInlineReply(notificationInlineReplyTextField.text)
                     }
                 }
             }

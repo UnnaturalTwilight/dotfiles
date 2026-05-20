@@ -34,7 +34,7 @@ QtObject {
     property date timestamp: new Date()
 
     readonly property Timer timer: Timer {
-        running: root.expireTimeout > 0
+        running: root.expireTimeout > 0 && root.urgency !== NotificationUrgency.Critical
         interval: root.expireTimeout
         onTriggered: {
             root.expire();
@@ -45,15 +45,20 @@ QtObject {
         if (Notify.list.includes(this)) {
             Notify.list = Notify.list.filter(n => n !== this);
             notification?.dismiss();
-            destroy();
         }
+    }
+
+    function dismiss(): void {
+        if (root.temporary) {
+            close();
+        }
+        root.onscreen = false;
     }
 
     function expire(): void {
         if (Notify.list.includes(this) && root.temporary) {
             Notify.list = Notify.list.filter(n => n !== this);
             notification?.expire();
-            destroy();
         } else {
             root.onscreen = false;
         }
@@ -131,7 +136,7 @@ QtObject {
         appIcon = notification.appIcon;
         appName = notification.appName;
         image = notification.image;
-        expireTimeout = notification.expireTimeout;
+        expireTimeout = notification.expireTimeout > 0 ? notification.expireTimeout : 10000;
         hints = notification.hints;
         urgency = notification.urgency;
         resident = notification.resident;

@@ -9,7 +9,6 @@ setopt AUTO_RESUME
 setopt AUTO_CD
 
 bindkey -e
-KEYBOARD_HACK=\\
 WORDCHARS=''
 
 # Disable freezing on Ctrl-S, because WHY?
@@ -39,6 +38,9 @@ TRAPUSR1() {
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+
+# WHY does fzf unset this??
+KEYBOARD_HACK=\\
 
 function yazi-cwd() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -120,3 +122,4 @@ fi
 
 ## zoxide initialization
 eval "$(zoxide init zsh)"
+
