@@ -13,5 +13,6 @@ Item {
         source: Quickshell.env("XDG_CONFIG_HOME") + "/assets/niri-wallpaper.jpg"
         fillMode: Image.PreserveAspectCrop
         retainWhileLoading: true
+        asynchronous: true
     }
 }

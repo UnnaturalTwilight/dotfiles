@@ -10,7 +10,7 @@ Singleton {
     readonly property bool online: Networking.connectivity === NetworkConnectivity.Full
 
     readonly property var connectionIcon: {
-        if (devices?.values?.[0].connected) {
+        if (devices?.values[0]?.connected) {
             devices.values[0].type === DeviceType.Wifi ? "󰤨" : ""
         } else {
             return "󰪎"
@@ -32,7 +32,7 @@ Singleton {
 
     ScriptModel {
         id: networks
-        values: Networking.devices?.values.find(d => d.type === DeviceType.Wifi).networks.values
+        values: Networking.devices?.values.find(d => d.type === DeviceType.Wifi)?.networks.values ?? []
     }
 
     function deviceSorting(a, b) {

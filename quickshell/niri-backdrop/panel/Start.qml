@@ -110,7 +110,7 @@ Scope {
                         Layout.fillWidth: true
                         Layout.row: 1
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                        text: Quickshell.env("USER") + "@" + System.hostname
+                        text: System.username + "@" + System.hostname
                         font.pixelSize: 20
                         font.family: Fonts.mono
                         color: Colours.gray

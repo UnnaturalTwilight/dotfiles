@@ -19,8 +19,7 @@ Item {
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Background
         WlrLayershell.namespace: "backdrop-qs-" + root.modelData.name
-        color: "transparent"
-        surfaceFormat.opaque: false
+        color: "black"
 
         anchors {
             top: true

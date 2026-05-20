@@ -38,10 +38,10 @@ Singleton {
         Brightness.restoreScreen();
     }
 
-    function sleep(): void {
+    function sleep(grace = false): void {
         lockTimer.triggered = true;
         Brightness.keyboard(false);
-        lock(true);
+        lock(grace);
         Niri.sleepDisplay();
     }
 
@@ -163,7 +163,7 @@ Singleton {
         onIsIdleChanged: {
             if (isIdle) {
                 Qt.callLater(() => {
-                    root.sleep();
+                    root.sleep(true);
                 });
             }
         }

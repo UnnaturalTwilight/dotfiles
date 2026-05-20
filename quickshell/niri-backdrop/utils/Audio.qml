@@ -22,17 +22,23 @@ Singleton {
 
     readonly property bool ready: Pipewire.ready
 
-    property real volume: Pipewire.defaultAudioSink?.audio?.volume ?? 0.0
+    readonly property real volume: Pipewire.defaultAudioSink?.audio?.volume ?? 0.0
 
-    onVolumeChanged: {
+    function setVolume(volume) {
         if (Pipewire.defaultAudioSink) {
             Pipewire.defaultAudioSink.audio.volume = volume;
         }
     }
 
-    property bool muted: Pipewire.defaultAudioSink?.audio?.muted ?? false
+    readonly property bool muted: Pipewire.defaultAudioSink?.audio?.muted ?? false
 
-    onMutedChanged: {
+    function toggleMute() {
+        if (Pipewire.defaultAudioSink) {
+            Pipewire.defaultAudioSink.audio.muted = !Pipewire.defaultAudioSink.audio.muted;
+        }
+    }
+
+    function setMuted(muted) {
         if (Pipewire.defaultAudioSink) {
             Pipewire.defaultAudioSink.audio.muted = muted;
         }

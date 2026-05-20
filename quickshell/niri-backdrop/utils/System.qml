@@ -7,21 +7,21 @@ import QtQuick
 
 Singleton {
     id: root
-    reloadableId: "System"
-
-    FileView {
-        id: hostnameFile
-        path: Qt.resolvedUrl("/etc/hostname")
-        blockLoading: false
-    }
 
     property alias hostname: persist.hostname
+    readonly property string username: Quickshell.env("USER")
 
     PersistentProperties {
         id: persist
         reloadableId: "System"
 
         readonly property string hostname: hostnameFile.text().trim()
+    }
+
+    FileView {
+        id: hostnameFile
+        path: Qt.resolvedUrl("/etc/hostname")
+        blockLoading: false
     }
 
     readonly property ShellScreen primaryScreen: {

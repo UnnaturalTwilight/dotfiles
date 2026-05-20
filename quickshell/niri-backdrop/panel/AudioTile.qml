@@ -28,7 +28,7 @@ InfoTile {
         }
 
         hoverEnabled: true
-        onClicked: Audio.muted = !Audio.muted
+        onClicked: Audio.toggleMute()
     }
 
     info: GridLayout {
@@ -179,7 +179,7 @@ InfoTile {
             handle: null
 
             onMoved: {
-                Audio.volume = volumeControl.position;
+                Audio.setVolume(volumeControl.position);
             }
         }
 
