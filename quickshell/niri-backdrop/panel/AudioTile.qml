@@ -145,13 +145,11 @@ InfoTile {
             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
             horizontalAlignment: Text.AlignRight
             text: {
-                if (Audio.muted) {
-                    return " ";
-                } else if (Music.playing) {
-                    return " ";
-                } else {
-                    return "";
-                }
+                let status = "";
+                status += Music.playing ? " " : "";
+                status += Audio.extraProps.batteryIcon ? Audio.extraProps.batteryIcon + " " : "";
+                status += Audio.muted ? " " : "";
+                return status;
             }
             font.pixelSize: 16
             font.family: Fonts.nerd

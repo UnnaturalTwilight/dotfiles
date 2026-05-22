@@ -45,8 +45,8 @@ Singleton {
     }
 
     readonly property string icon: {
-        if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.40")) {
-            return "headphones"; // JBL Tune 770NC
+        if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.8C")) {
+            return "headphones"; // Skulcandy HESH 540 ANC Headphones
         } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.88")) {
             // matches boath LE and normal mode at the risk of false positives
             return "earbuds"; // Skulcandy Sesh ANC Earbuds // bluez_output.88:08:94:A4:6B:25
@@ -65,18 +65,24 @@ Singleton {
         var props = {
             "bluetooth": false,
             "iconDisplaySize": 80,
+            "batteryLevel": null,
+            "batteryIcon": "",
             "data": {}
         };
-        if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output")) {
-            props.bluetooth = true;
-            // These are dependent on the icon but happen to line up with bluetooth in my case
-            props.iconDisplaySize = 70;
-        }
         // console.log(`ID: ${Pipewire.defaultAudioSink.id}`);
         if (ready && Pipewire.defaultAudioSink != null) {
             for (const [key, value] of Object.entries(Pipewire.defaultAudioSink?.properties)) {
                 // console.log(`${key}: ${value}`);
                 props.data[key] = value;
+            }
+        }
+        if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output")) {
+            props.bluetooth = true;
+            // These are dependent on the icon but happen to line up with bluetooth in my case
+            props.iconDisplaySize = 70;
+            if (props.data["api.bluez5.address"]) {
+                props.batteryLevel = Bluetooth.batteryLevelByMAC(props.data["api.bluez5.address"]);
+                props.batteryIcon = Battery.fontIcons[Math.round(10 - (props.batteryLevel * 10))];
             }
         }
         return props;

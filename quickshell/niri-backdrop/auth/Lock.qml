@@ -13,16 +13,13 @@ import qs.auth
 Scope {
     id: root
 
-    readonly property int gracePeriodMs: 3000
-    property bool gracePeriod: false
     property alias locked: sessionLock.secure
 
     onLockedChanged: {
         lockIPC.lockedChanged(locked);
     }
 
-    function lock(grace = false): void {
-        gracePeriod = grace;
+    function lock(): void {
         Idle.locked = true;
         sessionLock.locked = true;
     }
@@ -36,8 +33,8 @@ Scope {
     Connections {
         target: Idle
 
-        function onLock(grace = false): void {
-            root.lock(grace);
+        function onLock(): void {
+            root.lock();
         }
     }
 
@@ -46,15 +43,11 @@ Scope {
         target: "lock"
 
         function lock(): void {
-            root.lock(false);
+            root.lock();
         }
 
         function unlock(): void {
             root.unlock();
-        }
-
-        function lockWithGrace(): void {
-            root.lock(true);
         }
 
         function status(): bool {

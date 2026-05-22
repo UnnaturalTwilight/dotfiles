@@ -3,13 +3,14 @@ pragma ComponentBehavior: Bound
 
 import Quickshell
 import Quickshell.Services.Polkit
+import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
 import qs
 
-Item {
+Scope {
     id: root
 
     PolkitAgent {
@@ -57,6 +58,8 @@ Item {
         onClosed: {
             agent.flow.cancelAuthenticationRequest();
         }
+
+        BackgroundEffect.blurRegion: Region { item: promptWindow.contentItem }
 
         GridLayout {
             anchors.fill: parent

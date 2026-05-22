@@ -31,6 +31,7 @@ Singleton {
             }
         }
         // in case eDP-1 is not found, just return the first screen
+        console.log("eDP-1 not found, defaulting to first screen");
         return Quickshell.screens[0];
     }
 

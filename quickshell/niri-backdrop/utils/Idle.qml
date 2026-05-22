@@ -38,10 +38,10 @@ Singleton {
         Brightness.restoreScreen();
     }
 
-    function sleep(grace = false): void {
+    function sleep(): void {
         lockTimer.triggered = true;
         Brightness.keyboard(false);
-        lock(grace);
+        lock();
         Niri.sleepDisplay();
     }
 
@@ -61,7 +61,7 @@ Singleton {
         Quickshell.execDetached(["systemctl", "hibernate"]);
     }
 
-    signal lock(bool grace)
+    signal lock()
 
     IpcHandler {
         id: idleIPC
@@ -163,7 +163,7 @@ Singleton {
         onIsIdleChanged: {
             if (isIdle) {
                 Qt.callLater(() => {
-                    root.sleep(true);
+                    root.sleep();
                 });
             }
         }

@@ -55,6 +55,10 @@ binds {
 
     // "start" menu
     XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call start toggle"; }
+    
+    // Airplane mode key
+    // This still causes wifi & bluetooth to restart
+    XF86RFKill repeat=false allow-when-locked=true { spawn "rfkill" "unblock" "all"; }
 
     Mod+Q repeat=false { close-window; }
     

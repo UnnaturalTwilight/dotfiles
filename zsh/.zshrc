@@ -70,10 +70,6 @@ case "$TERM" in
   xterm-color|*-256color) export COLORTERM=truecolor;;
 esac
 
-case "$COLORTERM" in
-  kmscon) export COLORTERM=truecolor;;
-esac
-
 ## Builtin zle highlight styles
 # region is selected text and is set to be a little darker than kitty's highlight color
 zle_highlight=(region:bg=18 special:standout suffix:bold isearch:underline paste:standout)

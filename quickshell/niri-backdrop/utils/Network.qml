@@ -8,6 +8,7 @@ Singleton {
     id: root
 
     readonly property bool online: Networking.connectivity === NetworkConnectivity.Full
+    readonly property bool airplaneMode: Networking.wifiEnabled === false || Networking.wifiHardwareEnabled === false
 
     readonly property var connectionIcon: {
         if (devices?.values[0]?.connected) {
@@ -19,7 +20,14 @@ Singleton {
 
     readonly property string connectionString: {
         if (Networking.connectivity === NetworkConnectivity.Full) {
-            return networks.values.find(n => n.connected)?.name || "Ethernet"
+            return networks.values.find(n => n.connected)?.name || "Online"
+            // if (devices?.values[0]?.type === DeviceType.Wifi) {
+            //     return "Wi-Fi"
+            // } else if (devices?.values[0]?.type === DeviceType.Wired) {
+            //     return "Ethernet"
+            // } else {
+            //     return "Online"
+            // }
         } else {
             return "Offline"
         }
@@ -27,7 +35,7 @@ Singleton {
 
     ScriptModel {
         id: devices
-        values: [...Networking.devices.values].sort((a, b) => root.deviceSorting(a, b))
+        values: [...Networking.devices.values].sort(root.deviceSorting)
     }
 
     ScriptModel {

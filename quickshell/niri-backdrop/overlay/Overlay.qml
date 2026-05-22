@@ -4,14 +4,10 @@ pragma ComponentBehavior: Bound
 import Quickshell
 import Quickshell.Wayland
 import QtQuick
-import QtQuick.Layouts
 
-import qs
 import qs.utils.notify
-import qs.utils.niri
-import qs.backdrop
 
-Item {
+Scope {
     id: overlayRoot
 
     property var modelData
@@ -40,62 +36,9 @@ Item {
 
         Region {
             id: notificationRegion
-            x: notificationStack.x
-            y: notificationStack.y + 40
-            width: notificationStack.implicitWidth
-            height: notificationStack.contentHeight - 40
+            item: notificationStack
             radius: 20
         }
-
-        /*
-        Item {
-            id: hoverTab
-
-            x: overlayRoot.modelData?.width / 2 - (implicitWidth) / 2
-            y: expandCounter > 0 ? -10 : 10 - implicitHeight
-            // implicitWidth:
-            implicitHeight: 80
-
-            // bottomLeftRadius: 10
-            // bottomRightRadius: 10
-
-            // color: Colours.shadow
-            // border.color: Colours.frost0
-            // border.width: 2
-
-            Behavior on y {
-                NumberAnimation {
-                    duration: 250
-                    easing.type: Easing.InOutQuad
-                }
-            }
-
-            property int expandCounter: 0
-
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                onEntered: hoverTab.expandCounter += 1;
-                onExited: hoverTab.expandCounter -= 1;
-                onClicked: {
-                    Niri.toggleOverview();
-                }
-            }
-
-            Workspaces {
-                screen: overlayRoot.modelData
-                anchors.centerIn: parent
-            }
-
-            Connections {
-                target: Niri
-
-                function onOverviewOpenedChanged() {
-                    Niri.overviewOpened ? hoverTab.expandCounter += 1 : hoverTab.expandCounter -= 1;;
-                }
-            }
-        }
-        */
 
         ListView {
             id: notificationStack

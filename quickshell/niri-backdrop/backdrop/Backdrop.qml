@@ -7,7 +7,7 @@ import QtQuick
 
 import qs.utils
 
-Item {
+Scope {
     id: root
 
     property var modelData
@@ -31,14 +31,9 @@ Item {
         Wallpaper {
             screen: root.modelData
         }
-
-        Loader {
-            id: clockLoader
-            sourceComponent: Clock {
-                screen: root.modelData
-            }
-            asynchronous: true
-            visible: status === Loader.Ready
+    
+        Clock {
+            screen: root.modelData
         }
 
         Loader {

@@ -225,7 +225,7 @@ Scope {
         HoldButton {
             symbol: ""
             onActivated: () => {
-                Idle.lock(false);
+                Idle.lock();
                 Qt.callLater(() => {
                     startScope.closePanel();
                 });

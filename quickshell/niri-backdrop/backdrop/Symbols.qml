@@ -35,11 +35,10 @@ Item {
         }
     }
 
-    component Symbol : Rectangle {
+    component Symbol : Item {
         id: symbolRoot
         Layout.preferredWidth: 60
         Layout.fillHeight: true
-        color: "transparent"
 
         property alias iconName: symbolIcon.iconName
         property alias iconOpacity: symbolIcon.opacity

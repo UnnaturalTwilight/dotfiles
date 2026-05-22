@@ -18,14 +18,7 @@ Item {
     required property PamContext pam
     property string message: ""
     property bool spinner: false
-    property bool gracePeriodActive: false
     property bool fingerprint: false
-
-    Component.onCompleted: {
-        graceTimer.restart();
-        lockScreen.gracePeriodActive = lockData.gracePeriod;
-        lockScreen.spinner = false;
-    }
 
     Connections {
         target: lockScreen.pam
@@ -51,17 +44,12 @@ Item {
     }
 
     function tryUnlock(response: string) {
-        if (gracePeriodActive && response === "") {
-            lockScreen.lockData.unlock();
-            return;
-        }
         if (!pam.active) {
             pam.start();
         }
         if (pam.responseRequired) {
             pam.respond(response);
         }
-        gracePeriodActive = false;
         spinner = true;
     }
 
@@ -69,25 +57,10 @@ Item {
         id: bgMouseArea
         // onClicked: lock.locked = false
         onClicked: {
-            if (lockScreen.gracePeriodActive) {
-                lockScreen.lockData.unlock();
-            } else {
-                lockScreen.pam.start();
-            }
+            lockScreen.pam.start();
         }
 
         anchors.fill: parent
-    }
-
-    Timer {
-        id: graceTimer
-        interval: lockScreen.lockData.gracePeriodMs
-        running: true
-
-        onTriggered: {
-            // Disable grace
-            lockScreen.gracePeriodActive = false;
-        }
     }
 
     Image {
