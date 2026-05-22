@@ -81,7 +81,6 @@ Scope {
             Lockscreen {
                 id: lockScreen
                 screen: lockSurface.screen
-                lockData: root
                 pam: pam
             }
         }

@@ -14,7 +14,6 @@ Item {
     anchors.fill: parent
 
     required property ShellScreen screen
-    required property var lockData
     required property PamContext pam
     property string message: ""
     property bool spinner: false

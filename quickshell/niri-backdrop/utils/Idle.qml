@@ -13,11 +13,11 @@ Singleton {
     id: root
     reloadableId: "Idle"
 
-    property alias idle: dimTimer.triggered
+    readonly property alias idle: dimTimer.triggered
     property alias locked: lockTimer.triggered
+
     property alias enabled: persist.enabled
     property alias respectInhibitors: persist.respectInhibitors
-
     property alias inhibitLock: persist.inhibitLock
     // Will never suspend if MPD is playing music regardless of this value
     property alias inhibitSuspend: persist.inhibitSuspend
@@ -39,7 +39,6 @@ Singleton {
     }
 
     function sleep(): void {
-        lockTimer.triggered = true;
         Brightness.keyboard(false);
         lock();
         Niri.sleepDisplay();
@@ -61,7 +60,7 @@ Singleton {
         Quickshell.execDetached(["systemctl", "hibernate"]);
     }
 
-    signal lock()
+    signal lock
 
     IpcHandler {
         id: idleIPC

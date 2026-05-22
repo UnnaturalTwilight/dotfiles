@@ -8,14 +8,14 @@ import QtQuick
 Singleton {
     id: root
 
-    property alias hostname: persist.hostname
+    readonly property alias hostname: persist.hostname
     readonly property string username: Quickshell.env("USER")
 
     PersistentProperties {
         id: persist
         reloadableId: "System"
 
-        readonly property string hostname: hostnameFile.text().trim()
+        property string hostname: hostnameFile.text().trim()
     }
 
     FileView {

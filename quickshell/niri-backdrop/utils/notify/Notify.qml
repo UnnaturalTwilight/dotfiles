@@ -10,19 +10,14 @@ Singleton {
     id: root
 
     property list<NotificationData> list: []
-
-    property alias onscreen: onscreenModel.values
-    property alias doNotDisturb: props.doNotDisturb
-
     property alias tracked: notifServer.trackedNotifications
 
-    ScriptModel {
-        id: onscreenModel
-        values: root.list.filter(notif => notif.onscreen)
-    }
+    property alias doNotDisturb: props.doNotDisturb
 
     PersistentProperties {
         id: props
+        reloadableId: "Notify"
+        
         property bool doNotDisturb: false
     }
 

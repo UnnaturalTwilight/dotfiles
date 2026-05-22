@@ -11,12 +11,12 @@ import qs.utils
 Singleton {
     id: root
 
-    property int screenRaw: 0
-    property int screenMax: 96000
-    property alias screenValue: persist.screenValue
+    readonly property alias screenRaw: persist.screenRaw
+    readonly property alias screenMax: persist.screenMax
+    readonly property real screenValue: screenRaw / screenMax
 
-    property alias backlightSaved: persist.backlightSaved
-    property alias kbdBacklightSaved: persist.kbdBacklightSaved
+    readonly property alias backlightSaved: persist.backlightSaved
+    readonly property alias kbdBacklightSaved: persist.kbdBacklightSaved
 
     // Valid values:
     //  specific value      Example: 500
@@ -26,7 +26,7 @@ Singleton {
     function setScreen(value: string, showOsd = false) {
         // min-value is set to 4800 (5%)
         brightnessSetProc.exec(["brightnessctl", "--quiet", "--class=backlight", "set", value, "--min-value=4800"]);
-        backlightSaved = false;
+        persist.backlightSaved = false;
         if (showOsd) {
             brightnessOsd.showOsd();
         }
@@ -38,30 +38,30 @@ Singleton {
     }
 
     function saveScreen(force = false) {
-        if (force || !backlightSaved) {
+        if (force || !persist.backlightSaved) {
             Quickshell.execDetached(["brightnessctl", "--quiet", "--save", "--class=backlight"]);
-            backlightSaved = true;
+            persist.backlightSaved = true;
         } else {
             // console.log("saveScreen was called with brightness already saved")
         }
     }
 
     function restoreScreen(force = false) {
-        if (force || backlightSaved) {
+        if (force || persist.backlightSaved) {
             brightnessSetProc.exec(["brightnessctl", "--quiet", "--restore", "--class=backlight"]);
-            backlightSaved = false;
+            persist.backlightSaved = false;
         } else {
             // console.log("restoreScreen was called without brightness being saved")
         }
     }
 
     function keyboard(enabled: bool, force = false) {
-        if (enabled && (force || kbdBacklightSaved)) {
+        if (enabled && (force || persist.kbdBacklightSaved)) {
             Quickshell.execDetached(["brightnessctl", "--quiet", "--restore", "--device=chromeos::kbd_backlight"]);
-            kbdBacklightSaved = false;
-        } else if (!enabled && (force || !kbdBacklightSaved)) {
+            persist.kbdBacklightSaved = false;
+        } else if (!enabled && (force || !persist.kbdBacklightSaved)) {
             Quickshell.execDetached(["brightnessctl", "--quiet", "--save", "--device=chromeos::kbd_backlight", "set", "0"]);
-            kbdBacklightSaved = true;
+            persist.kbdBacklightSaved = true;
         }
     }
 
@@ -78,7 +78,8 @@ Singleton {
 
         property bool backlightSaved: false
         property bool kbdBacklightSaved: false
-        property real screenValue: root.screenRaw / root.screenMax
+        property int screenRaw: 0
+        property int screenMax: 96000
     }
 
     IpcHandler {
@@ -112,8 +113,8 @@ Singleton {
             onStreamFinished: {
                 const a = text.split(",");
                 if (a[2] != "") {
-                    root.screenRaw = parseInt(a[2]);
-                    root.screenMax = parseInt(a[4]);
+                    persist.screenRaw = parseInt(a[2]);
+                    persist.screenMax = parseInt(a[4]);
                 } else {
                     console.error("brightnessctl output was empty");
                 }

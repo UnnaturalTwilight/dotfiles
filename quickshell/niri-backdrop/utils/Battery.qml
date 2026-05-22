@@ -12,13 +12,8 @@ Singleton {
     readonly property bool ready: UPower.displayDevice.ready
     readonly property var devices: UPower.devices
 
-    readonly property real value: {
-        return UPower.displayDevice.percentage ?? 0.0;
-    }
-
-    readonly property var state: {
-        return UPower.displayDevice.state ?? UPowerDeviceState.Unknown;
-    }
+    readonly property real value: UPower.displayDevice.percentage ?? 0.0;
+    readonly property var state: UPower.displayDevice.state ?? UPowerDeviceState.Unknown
 
     readonly property string approxTime: {
         if (state === UPowerDeviceState.FullyCharged || value >= 0.999) {
