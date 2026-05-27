@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Unicode Picker
+Icon=accessories-character-map-symbolic
+TryExec=kitty
+Exec=unicode-panel.sh
+Terminal=false
+Categories=Utility;
+Keywords=unicode;symbols
+StartupWMClass=unicode

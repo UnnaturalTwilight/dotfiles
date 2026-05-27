@@ -15,8 +15,8 @@ host=${HOST:-$(cat /etc/hostname)}
 user=${USER:-$USERNAME}
 
 ## Create symlinks for bash
-ln -sfbr --suffix=.bak ./bash/.bashrc $HOME/.bashrc
-ln -sfbr --suffix=.bak ./bash/.bash_profile $HOME/.bash_profile
+ln -sfbr --suffix=.bak --target-directory=$HOME ./bash/.bashrc
+ln -sfbr --suffix=.bak --target-directory=$HOME ./bash/.bash_profile
 
 ## Create symlinks for zsh
 mkdir -p $ZDOTDIR
@@ -31,11 +31,18 @@ source $ZDOTDIR/.zshenv
 # Make sure zsh reads $ZDOTDIR/.zshrc
 mv $HOME/.zshrc $HOME/.zshrc.bak 2>/dev/null
 
-# Starship
-ln -sfbr --suffix=.bak ./starship.toml $XDG_CONFIG_HOME/starship.toml
+# make a couple dirs that just need to exist
+mkdir -p $XDG_STATE_HOME/bash
+mkdir -p $XDG_STATE_HOME/zsh
+mkdir -p $XDG_DATA_HOME/applications
+mkdir -p $HOME/.local/bin
 
-# Fastfetch
-ln -sfbr --suffix=.bak ./fastfetch $XDG_CONFIG_HOME/fastfetch
+# Simple Links
+ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./starship.toml
+ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./hyfetch.json
+ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./fastfetch
+ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./kitty
+ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./msedit
 
 # Assets (images, etc.)
 ln -sfbr --suffix=.bak ./assets $XDG_CONFIG_HOME/assets
@@ -47,7 +54,7 @@ ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME/yazi ./yazi/*
 cp -fLT --remove-destination ./yazi/package.toml $XDG_CONFIG_HOME/yazi/package.toml
 if (command -pv ya); then
   echo
-  ya pkg upgrade
+  ya pkg upgrade --discard
   echo
 else
   echo
@@ -55,15 +62,16 @@ else
   echo
 fi
 
+# Desktop files
+ln -sfbr --suffix=.bak --target-directory=$XDG_DATA_HOME/applications ./desktop/unicode-picker.desktop
+ln -sfbr --suffix=.bak --target-directory=$XDG_DATA_HOME/applications ./desktop/vlc.desktop
+
+# Scripts
+ln -sfbr --suffix=.bak --target-directory=$HOME/.local/bin ./scripts/unicode-panel.sh
+
 echo
 echo "THIS SCRIPT IS WIP"
 echo "All other links need to be created by hand"
-
-# make a couple dirs that just need to exist
-mkdir -p $XDG_STATE_HOME/bash
-mkdir -p $XDG_STATE_HOME/zsh
-mkdir -p $XDG_DATA_HOME/applications
-mkdir -p $HOME/.local/bin
 
 # SDDM
 echo
