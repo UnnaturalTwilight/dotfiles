@@ -108,30 +108,31 @@ prepend_keymap = [
 
     # Find
     # move to chords on f?
-    { on = "/", run = "find --smart",            desc = "Find next file" },
-    { on = "?", run = "find --previous --smart", desc = "Find previous file" },
-    { on = "n", run = "find_arrow",              desc = "Next found" },
-    { on = "N", run = "find_arrow --previous",   desc = "Previous found" },
-    # ^ can this be done as a smart action of the arrow keys
+    { on = "/", run = "find --smart",               desc = "Find next file" },
+    { on = "?", run = "find --previous --smart",    desc = "Find previous file" },
+    { on = "<C-Down>", run = "find_arrow",          desc = "Next found" },
+    { on = "<C-Up>", run = "find_arrow --previous", desc = "Previous found" },
 
     # Sorting
     # Using default chords on "," for sorting
 
     # Goto
-    { on = [ "g", "<Space>" ], run = "cd --interactive", desc = "Jump interactively" },
-    { on = [ "g", "f" ],       run = "follow",           desc = "Follow hovered symlink" },
-    { on = [ "g", "h" ],       run = "cd ~",             desc = "Go home" },
-    { on = [ "g", "r" ],       run = "cd /",             desc = "Go to root dir" },
-    { on = [ "g", "c" ],       run = "cd ~/.config",     desc = "Go ~/.config" },
-    { on = [ "g", "d" ],       run = "cd ~/Downloads",   desc = "Go ~/Downloads" },
-    { on = [ "g", "w" ],       run = "cd /mnt/c",        desc = "Go to Windows C: drive" },
+    { on = "G",                run = "cd --interactive",    desc = "Jump interactively" },
+    { on = [ "g", "<Space>" ], run = "cd --interactive",    desc = "Jump interactively" },
+    { on = [ "g", "f" ],       run = "follow",              desc = "Follow hovered symlink" },
+    { on = [ "g", "h" ],       run = "cd ~",                desc = "Go home" },
+    { on = [ "g", "r" ],       run = "cd /",                desc = "Go to root dir" },
+    { on = [ "g", "c" ],       run = "cd ~/.config",        desc = "Go ~/.config" },
+    { on = [ "g", "d" ],       run = "cd ~/Downloads",      desc = "Go ~/Downloads" },
+    { on = [ "g", "w" ],       run = "cd /mnt/c",           desc = "Go to Windows C: drive" },
+    { on = [ "g", "m" ],       run = "cd /run/media/$USER", desc = "Go to USB Media" },
 
     # Tabs
     { on = "t", run = "tab_create --current",   desc = "Create a new tab in CWD" },
     # { on = [ "t", "r" ], run = "tab_rename --interactive", desc = "Rename current tab" },
 
     # Default config has the following for 0-9
-    { on = "1", run = "tab_switch 0", desc = "Switch to first tab" },
+    # { on = "1", run = "tab_switch 0", desc = "Switch to first tab" },
 
     { on = "[", run = "tab_switch -1 --relative", desc = "Switch to previous tab" },
     { on = "]", run = "tab_switch 1 --relative",  desc = "Switch to next tab" },

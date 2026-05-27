@@ -420,6 +420,10 @@ Singleton {
                     // {"CastsChanged": { "casts": [ DATA ]}}
                     // Ignored for now
                     return;
+                } else if (event.ScreenshotCaptured) {
+                    // {"ScreenshotCaptured": { "path": PATH or null }}
+                    // Ignored for now
+                    return;
                 } else if (event.Ok) {
                     // Confirmation response of eventstream
                     return;

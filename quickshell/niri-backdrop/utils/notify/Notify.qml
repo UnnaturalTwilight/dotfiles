@@ -6,6 +6,8 @@ import Quickshell.Io
 import Quickshell.Services.Notifications
 import QtQuick
 
+import "rewrites.js" as Rewrites
+
 Singleton {
     id: root
 
@@ -17,7 +19,7 @@ Singleton {
     PersistentProperties {
         id: props
         reloadableId: "Notify"
-        
+
         property bool doNotDisturb: false
     }
 
@@ -39,8 +41,29 @@ Singleton {
             notif.tracked = true;
 
             const comp = notifComp.createObject(root, {
-                onscreen: !props.doNotDisturb,
-                notification: notif
+                onscreen: (!props.doNotDisturb && !notif.lastGeneration) || notif.urgency === NotificationUrgency.Critical,
+                notification: notif,
+
+                id: notif.id,
+                appName: notif.appName,
+                appIcon: notif.appIcon,
+                summary: Rewrites.rewriteSummary(notif.summary, notif),
+                body: Rewrites.rewriteBody(notif.body, notif),
+                image: Rewrites.rewriteImage(notif.image, notif),
+                urgency: notif.urgency,
+                expireTimeout: notif.expireTimeout > 0 ? notif.expireTimeout : 10000,
+                temporary: notif.transient,
+                desktopEntry: notif.desktopEntry,
+                hints: notif.hints,
+                resident: notif.resident,
+                actions: notif.actions.map(a => ({
+                    identifier: a.identifier,
+                    text: a.text,
+                    invoke: () => a.invoke()
+                })),
+                hasActionIcons: notif.hasActionIcons,
+                hasInlineReply: notif.hasInlineReply,
+                inlineReplyPlaceholder: notif.inlineReplyPlaceholder
             });
             root.list = [comp, ...root.list];
         }

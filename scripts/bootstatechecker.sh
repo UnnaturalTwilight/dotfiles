@@ -5,7 +5,7 @@
 if findmnt -r | grep -q '/mnt/c'; then
     if findmnt -r -O ro | grep -q '/mnt/c'; then
         notify-send "C:/ is mounted read-only" "Windows may not have been fully shut down." --urgency=critical --app-name="Boot State Checker"
-    fi 
+    fi
 else
     notify-send "C:/ is not mounted" "Apps that depend on data stored under windows will not work." --urgency=critical --app-name="Boot State Checker"
 fi
@@ -23,8 +23,9 @@ if [[ "$1" == "debug-env" ]]; then
 fi
 
 # bluez 5.86 is bugged and causes elephant bluetooth to not work.
-# this checks for the bugged behavior and notifies if it is detected. 
-if bluetoothctl show | read -t 1; then 
+# this checks for the bugged behavior and notifies if it is detected.
+if bluetoothctl show | read -t 1; then
+    :
 else
     notify-send "Bluez is broken" "bluetoothctl show produced no output" --urgency=critical --app-name="Boot State Checker"
 fi

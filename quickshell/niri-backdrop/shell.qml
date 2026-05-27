@@ -18,9 +18,10 @@ Scope {
         Backdrop {}
     }
 
-    Overlay {
-        id: overlay
-        modelData: System.primaryScreen
+    Variants {
+
+        model: Quickshell.screens
+        Overlay {}
     }
 
     // Variants {

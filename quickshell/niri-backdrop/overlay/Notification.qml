@@ -33,7 +33,7 @@ Rectangle {
             if (mouse.button === Qt.MiddleButton) {
                 root.modelData?.close();
             } else if (mouse.button === Qt.LeftButton) {
-                root.modelData?.dismiss();
+                root.modelData?.defaultAction();
             }
         }
     }
@@ -131,10 +131,17 @@ Rectangle {
 
             PercentBar {
                 Layout.fillWidth: true
-                visible: root.modelData?.hints?.value !== undefined
-                value: root.modelData?.hints?.value / 100
+                visible: root.modelData?.hasProgress
+                value: root.modelData?.progress ?? 0
 
                 implicitHeight: 12
+
+                Behavior on value {
+                    NumberAnimation {
+                        duration: 250
+                        easing.type: Easing.Linear
+                    }
+                }
             }
 
             RowLayout {
@@ -153,36 +160,53 @@ Rectangle {
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.maximumWidth: 400
+                // Layout.maximumWidth: 400
+                Layout.preferredHeight: root.fontSize + root.padding
                 visible: root.modelData?.hasInlineReply === true
-                border.color: notificationInlineReplyMouseArea.containsMouse ? Colours.frost2 : Colours.frost0
+                color: Colours.shadow
+                border.color: notificationInlineReplyTextField.activeFocus ? Colours.power1 : Colours.polar2
+                border.width: 2
+                radius: 8
                 TextField {
                     id: notificationInlineReplyTextField
                     anchors.fill: parent
                     background: null
-                    color: Colours.polar4
-                    placeholderTextColor: Colours.polar1
-                    font {
-                        family: Fonts.sans
-                        pixelSize: root.fontSize
-                    }
+                    color: Colours.text
+                    placeholderTextColor: Colours.snow5
+                    font.family: Fonts.sans
                     Layout.fillWidth: true
                     placeholderText: root.modelData?.inlineReplyPlaceholder ?? "Reply..."
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.Wrap
+
+                    Keys.onPressed: function (event) {
+                        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                            root.modelData?.notification?.sendInlineReply(notificationInlineReplyTextField.text)
+                            event.accepted = true;
+                        }
+                    }
                 }
                 Item {
                     anchors {
                         right: parent.right
-                        rightMargin: root.padding
                         verticalCenter: parent.verticalCenter
                     }
                     implicitWidth: root.fontSize + root.padding
                     implicitHeight: root.fontSize + root.padding
                     Text {
-                        text: ""
-                        color: notificationInlineReplyMouseArea.containsMouse ? Colours.highlight : Colours.polar4
-                        font.family: Fonts.nerd
+                        anchors.centerIn: parent
+                        text: "󰒊"
+                        color: Colours.white
+                        opacity: notificationInlineReplyMouseArea.containsMouse ? 1 : 0.7
+                        font.family: Fonts.nerdMono
+                        font.pixelSize: root.fontSize * 1.25
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 250
+                                easing.type: Easing.Linear
+                            }
+                        }
                     }
                     MouseArea {
                         id: notificationInlineReplyMouseArea
@@ -205,6 +229,7 @@ Rectangle {
         color: Colours.shadow
         radius: 8
         border.color: notificationActionMouseArea.containsMouse ? Colours.power1 : Colours.polar2
+        border.width: 2
         RowLayout {
             id: actionContent
             anchors.centerIn: parent

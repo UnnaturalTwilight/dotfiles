@@ -18,6 +18,7 @@ Scope {
 
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
+        WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
         WlrLayershell.namespace: "overlay-qs-" + overlayRoot.modelData.name
         color: "transparent"
         surfaceFormat.opaque: false

@@ -4,6 +4,8 @@ import Quickshell
 import Quickshell.Services.Notifications
 import QtQuick
 
+import "rewrites.js" as Rewrites
+
 QtObject {
     id: root
 
@@ -32,12 +34,24 @@ QtObject {
     // Custom properties
     property bool onscreen: true
     property date timestamp: new Date()
+    property string category: hints?.category || "default"
+    property bool hasProgress: hints?.value !== undefined
+    property real progress: hints?.value / 100
 
     readonly property Timer timer: Timer {
         running: root.expireTimeout > 0 && root.urgency !== NotificationUrgency.Critical
         interval: root.expireTimeout
         onTriggered: {
             root.expire();
+        }
+    }
+
+    function defaultAction(): void {
+        const defaultAction = Rewrites.getDefaultAction(root.actions, root);
+        if (defaultAction) {
+            defaultAction?.invoke();
+        } else {
+            root.dismiss();
         }
     }
 
@@ -74,41 +88,19 @@ QtObject {
             // console.log("Notification closed:", root.id, "Reason:", NotificationCloseReason.toString(reason));
         }
 
-        function onSummaryChanged(): void {
-            root.summary = root.notification.summary;
-        }
-
-        function onBodyChanged(): void {
-            root.body = root.notification.body;
-        }
-
-        function onAppIconChanged(): void {
-            root.appIcon = root.notification.appIcon;
-        }
-
-        function onAppNameChanged(): void {
-            root.appName = root.notification.appName;
-        }
-
-        function onImageChanged(): void {
-            root.image = root.notification.image;
-        }
-
-        function onExpireTimeoutChanged(): void {
-            root.expireTimeout = root.notification.expireTimeout;
-        }
-
-        function onUrgencyChanged(): void {
-            root.urgency = root.notification.urgency;
-        }
-
-        function onResidentChanged(): void {
-            root.resident = root.notification.resident;
-        }
-
-        function onHasActionIconsChanged(): void {
-            root.hasActionIcons = root.notification.hasActionIcons;
-        }
+        function onAppNameChanged(): void { root.appName = root.notification.appName; }
+        function onAppIconChanged(): void { root.appIcon = root.notification.appIcon; }
+        function onSummaryChanged(): void { root.summary = Rewrites.rewriteSummary(root.notification.summary, root.notification); }
+        function onBodyChanged(): void { root.body = Rewrites.rewriteBody(root.notification.body, root.notification); }
+        function onImageChanged(): void { root.image = Rewrites.rewriteImage(root.notification.image, root.notification); }
+        function onUrgencyChanged(): void { root.urgency = root.notification.urgency; }
+        function onExpireTimeoutChanged(): void { root.expireTimeout = root.notification.expireTimeout; }
+        function onDesktopEntryChanged(): void { root.desktopEntry = root.notification.desktopEntry; }
+        function onHintsChanged(): void { root.hints = root.notification.hints; }
+        function onResidentChanged(): void { root.resident = root.notification.resident; }
+        function onHasActionIconsChanged(): void { root.hasActionIcons = root.notification.hasActionIcons; }
+        function onHasInlineReplyChanged(): void { root.hasInlineReply = root.notification.hasInlineReply; }
+        function onInlineReplyPlaceholderChanged(): void { root.inlineReplyPlaceholder = root.notification.inlineReplyPlaceholder; }
 
         function onActionsChanged(): void {
             root.actions = root.notification.actions.map(a => ({
@@ -118,34 +110,16 @@ QtObject {
             }));
         }
 
-        function onHintsChanged(): void {
-            root.hints = root.notification.hints;
-        }
-
         target: root.notification
     }
 
     Component.onCompleted: {
-        if (!notification) {
-            return;
-        }
+        // console.log("New notification:", root.id);
+        // console.log("Hints: ", JSON.stringify(root.hints));
 
-        id = notification.id;
-        summary = notification.summary;
-        body = notification.body;
-        appIcon = notification.appIcon;
-        appName = notification.appName;
-        image = notification.image;
-        expireTimeout = notification.expireTimeout > 0 ? notification.expireTimeout : 10000;
-        hints = notification.hints;
-        urgency = notification.urgency;
-        resident = notification.resident;
-        temporary = notification.transient;
-        hasActionIcons = notification.hasActionIcons;
-        actions = notification.actions.map(a => ({
-            identifier: a.identifier,
-            text: a.text,
-            invoke: () => a.invoke()
-        }));
+        // Use the kde hint if it exists
+        if (root.hints?.["x-kde-reply-placeholder-text"] !== undefined) {
+            root.inlineReplyPlaceholder = root.hints["x-kde-reply-placeholder-text"];
+        }
     }
 }
