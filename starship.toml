@@ -18,6 +18,7 @@ $git_commit\
 [](fg:two bg:three)\
 [(\
 $c\
+$cpp\
 $cmake\
 $elixir\
 $elm\
@@ -36,7 +37,7 @@ $perl\
 $scala )](bg:three)\
 [](fg:three bg:four)\
 $docker_context\
-$package\ 
+$package\
 [ ](fg:four)$all\
 """
 
@@ -68,7 +69,7 @@ disabled = false
 [hostname]
 ssh_only = true
 ssh_symbol = "@"
-format = '([$ssh_symbol]($style))[$hostname]($style)'
+format = '[$ssh_symbol$hostname]($style)'
 style = "bg:zero"
 
 [sudo]
@@ -171,10 +172,10 @@ symbol = ""
 style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
-[cpp]
-symbol = "󰙲"
-style = "bg:three"
-format = '[ $symbol( $version)]($style)'
+# [cpp]
+# symbol = "󰙲"
+# style = "bg:three"
+# format = '[ $symbol( $version)]($style)'
 
 [cmake]
 symbol = ""
@@ -191,10 +192,10 @@ symbol = ""
 style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
-[fortran]
-symbol = "󱈚"
-style = "bg:three"
-format = '[ $symbol( $version)]($style)'
+# [fortran]
+# symbol = "󱈚"
+# style = "bg:three"
+# format = '[ $symbol( $version)]($style)'
 
 [golang]
 symbol = ""
@@ -272,7 +273,7 @@ style = "bold yellow"
 
 [time]
 disabled = true
-time_format = "%l:%M %P" 
+time_format = "%l:%M %P"
 style = "fg:dark"
 format = '[ $time ]($style)'
 

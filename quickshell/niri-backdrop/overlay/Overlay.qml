@@ -30,13 +30,7 @@ Scope {
         }
 
         mask: Region {
-            regions: [notificationRegion]
-            // item: hoverTab
-        }
-
-        Region {
-            id: notificationRegion
-            item: notificationStack
+            item: notificationStack.contentItem
             radius: 20
         }
 

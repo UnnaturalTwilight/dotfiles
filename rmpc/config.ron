@@ -181,7 +181,7 @@
                     (pane: Split(
                         direction: Vertical,
                             panes: [
-                                (pane: Pane(AlbumArt), size: "20", borders: "RIGHT", border_symbols: Rounded),
+                                (pane: Pane(AlbumArt), size: ".45r", borders: "RIGHT", border_symbols: Rounded),
                                 (pane: Pane(Cava), size: "100%", borders: "RIGHT", border_symbols: Rounded),
                             ]
                         ),

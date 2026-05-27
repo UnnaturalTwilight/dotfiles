@@ -32,7 +32,7 @@ bind 'set show-all-if-unmodified on'
 if test -n "$KITTY_INSTALLATION_DIR"; then
     # export KITTY_SHELL_INTEGRATION="enabled" # using no-rc mode so that it is possible to disable integration
     source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"
-    
+
     cleartoscrollback() { builtin printf "\e[H\e[22J"; }
     alias clear='cleartoscrollback'
     alias copycat='kitten clipboard'
@@ -72,6 +72,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion.d
   fi
 fi
+source <(tailscale completion bash)
 
 # prompt
 PS1='[\u@\h \W]\$ '
