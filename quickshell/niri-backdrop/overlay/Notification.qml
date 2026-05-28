@@ -65,7 +65,6 @@ Rectangle {
         spacing: root.padding
 
         ColumnLayout {
-            // visible: root.modelData.appIcon !== "" || root.modelData.image !== ""
             Layout.alignment: Qt.AlignTop
 
             Image {
@@ -89,43 +88,44 @@ Rectangle {
             Layout.fillWidth: true
 
             Text {
-                Layout.fillWidth: true
+                text: root.modelData?.appName || "Notification"
 
-                text: root.modelData?.appName ?? ""
-                wrapMode: Text.Wrap
+                Layout.fillWidth: true
                 Layout.maximumWidth: 350
                 font {
                     family: Fonts.sans
                     pixelSize: root.fontSize
                     bold: true
                 }
+                wrapMode: Text.Wrap
                 color: Colours.snow2
             }
 
             Text {
-                Layout.fillWidth: true
-
                 text: root.modelData?.summary ?? ""
-                wrapMode: Text.Wrap
+                visible: root.modelData?.summary !== ""
+
+                Layout.fillWidth: true
                 Layout.maximumWidth: 350
                 font {
                     family: Fonts.sans
                     pixelSize: root.fontSize
                 }
+                wrapMode: Text.Wrap
                 color: Colours.snow2
             }
 
             Text {
-                Layout.fillWidth: true
-
                 text: root.modelData?.body ?? ""
-                wrapMode: Text.Wrap
                 visible: root.modelData?.body !== ""
+
+                Layout.fillWidth: true
                 Layout.maximumWidth: 350
                 font {
                     family: Fonts.sans
                     pixelSize: root.fontSize
                 }
+                wrapMode: Text.Wrap
                 color: Colours.snow2
             }
 
@@ -235,12 +235,12 @@ Rectangle {
             anchors.centerIn: parent
             spacing: root.padding
             Image {
-                source: root.modelData.hasActionIcons ? actionRoot.modelData.identifier : ""
+                source: Quickshell.iconPath(actionRoot.modelData.identifier, true)
                 sourceSize.width: root.iconSize / 2
                 sourceSize.height: root.iconSize / 2
                 Layout.maximumWidth: root.iconSize / 2
                 Layout.maximumHeight: root.iconSize / 2
-                visible: root.modelData.hasActionIcons
+                visible: root.modelData.hasActionIcons && source.toString() !== ""
             }
             Text {
                 Layout.fillWidth: true
@@ -250,6 +250,8 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.Wrap
                 font.family: Fonts.sans
+                font.italic: actionRoot.modelData.text.trim() == ""
+                font.bold: actionRoot.modelData?.default ?? false
             }
         }
         MouseArea {

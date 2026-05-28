@@ -38,7 +38,7 @@ Rectangle {
         spacing: notifications.gap
 
         model: ScriptModel {
-            values: Notify.list.filter(n => !n.temporary)
+            values: Notify.list.filter(n => !n.closed)
         }
 
         delegate: Notification {

@@ -41,29 +41,10 @@ Singleton {
             notif.tracked = true;
 
             const comp = notifComp.createObject(root, {
-                onscreen: (!props.doNotDisturb && !notif.lastGeneration) || notif.urgency === NotificationUrgency.Critical,
                 notification: notif,
-
                 id: notif.id,
-                appName: notif.appName,
-                appIcon: notif.appIcon,
-                summary: Rewrites.rewriteSummary(notif.summary, notif),
-                body: Rewrites.rewriteBody(notif.body, notif),
-                image: Rewrites.rewriteImage(notif.image, notif),
-                urgency: notif.urgency,
-                expireTimeout: notif.expireTimeout > 0 ? notif.expireTimeout : 10000,
-                temporary: notif.transient,
-                desktopEntry: notif.desktopEntry,
-                hints: notif.hints,
-                resident: notif.resident,
-                actions: notif.actions.map(a => ({
-                    identifier: a.identifier,
-                    text: a.text,
-                    invoke: () => a.invoke()
-                })),
-                hasActionIcons: notif.hasActionIcons,
-                hasInlineReply: notif.hasInlineReply,
-                inlineReplyPlaceholder: notif.inlineReplyPlaceholder
+                onscreen: (!props.doNotDisturb && !notif.lastGeneration) || notif.urgency === NotificationUrgency.Critical,
+                expireTimeout: notif.expireTimeout === -1 ? 10000 : notif.expireTimeout
             });
             root.list = [comp, ...root.list];
         }
@@ -99,6 +80,12 @@ Singleton {
 
         function getCount(): int {
             return root.list.length;
+        }
+
+        function dump(): void {
+            for (const notif of root.list) {
+                Rewrites.dumpNotif(notif);
+            }
         }
     }
 
