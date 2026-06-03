@@ -32,7 +32,6 @@ Singleton {
     }
 
     function wake(): void {
-        suspendTimer.triggered = false;
         dimTimer.triggered = false;
         Brightness.keyboard(true);
         Brightness.restoreScreen();
@@ -42,21 +41,20 @@ Singleton {
         Brightness.keyboard(false);
         lock();
         Niri.sleepDisplay();
+        console.log("Idle: sleep");
+        if (!Music.playing && !root.inhibitSuspend) {
+            // If music is playing or suspend is inhibited just turn off the screen instead of actually sleeping
+            Quickshell.execDetached(["systemctl", "sleep"]);
+        }
     }
 
     function suspend(): void {
-        suspendTimer.triggered = true;
-        if (!lockTimer.triggered) {
-            sleep();
-        }
+        console.log("Idle: suspend");
         Quickshell.execDetached(["systemctl", "suspend-then-hibernate"]);
     }
 
     function hibernate(): void {
-        suspendTimer.triggered = true;
-        if (!lockTimer.triggered) {
-            sleep();
-        }
+        console.log("Idle: hibernate");
         Quickshell.execDetached(["systemctl", "hibernate"]);
     }
 
@@ -99,9 +97,7 @@ Singleton {
         }
 
         function getState(): string {
-            if (suspendTimer.triggered) {
-                return "suspend";
-            } else if (lockTimer.triggered) {
+            if (lockTimer.triggered) {
                 return "sleep";
             } else if (dimTimer.triggered) {
                 return "idle";
@@ -163,24 +159,6 @@ Singleton {
             if (isIdle) {
                 Qt.callLater(() => {
                     root.sleep();
-                });
-            }
-        }
-    }
-
-    IdleMonitor {
-        id: suspendTimer
-
-        property bool triggered: false
-        respectInhibitors: root.respectInhibitors
-        enabled: root.enabled && !Music.playing && !root.inhibitSuspend
-
-        timeout: 600 // 10min
-
-        onIsIdleChanged: {
-            if (isIdle && !triggered) {
-                Qt.callLater(() => {
-                    root.suspend();
                 });
             }
         }

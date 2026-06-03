@@ -49,7 +49,9 @@ Singleton {
             return "headphones"; // Skulcandy HESH 540 ANC Headphones
         } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.88")) {
             // matches boath LE and normal mode at the risk of false positives
-            return "earbuds"; // Skulcandy Sesh ANC Earbuds // bluez_output.88:08:94:A4:6B:25
+            return "earbuds"; // Skulcandy Sesh ANC Earbuds
+        } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.D4")) {
+            return "earbuds";
         } else if (Pipewire.defaultAudioSink?.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
             return "speaker"; // Built in speakers or headphone jack
         } else {

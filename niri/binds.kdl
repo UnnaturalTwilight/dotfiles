@@ -1,8 +1,4 @@
 
-switch-events {
-    lid-close { spawn "quickshell" "--config" "niri-backdrop" "ipc" "call" "lock" "lock"; }
-}
-
 // Disable the hot corners.
 gestures {
     hot-corners {

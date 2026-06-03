@@ -9,7 +9,7 @@ import qs.auth
 import qs.utils
 import qs.overlay
 
-Scope {
+ShellRoot {
     id: root
 
     Variants {

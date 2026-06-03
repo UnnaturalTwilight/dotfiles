@@ -46,19 +46,25 @@ function rewriteBody(body, notif) {
 }
 
 function rewriteImage(image, notif) {
-  if (notif.appName == "niri") {
-    // add niri's logo as the image
-    return "file:///home/cal/.config/assets/Icons/niri_icon.svg";
+  if (notif.appIcon.startsWith("file://") && notif.appName == "niri") {
+    return notif.appIcon;
   }
   return image;
 }
 
 function rewriteAppIcon(appIcon, notif) {
+  let resolvedIcon = Quickshell.iconPath(appIcon, true);
+  if (appIcon.startsWith("file://")) {
+    resolvedIcon = appIcon;
+  }
   if (notif.desktopEntry == "org.mozilla.Thunderbird" && !appIcon) {
     // Thunderbird doesn't always set an app icon so if it's missing set it to the Thunderbird logo
-    return "thunderbird";
+    resolvedIcon = Quickshell.iconPath("thunderbird", true);
+  } else if (notif.appName == "niri") {
+    // add niri's logo as the image
+    resolvedIcon = "file:///home/cal/.config/assets/Icons/niri_icon.svg";
   }
-  return appIcon;
+  return resolvedIcon;
 }
 
 function rewriteActions(actions, notif) {

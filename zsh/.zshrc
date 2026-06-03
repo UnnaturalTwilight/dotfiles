@@ -9,7 +9,8 @@ setopt AUTO_RESUME
 setopt AUTO_CD
 
 bindkey -e
-WORDCHARS=''
+# Default: *?_-.[]~=/&;!#$%^(){}<>
+WORDCHARS="*?_-[]~&!#$%^"
 
 # Disable freezing on Ctrl-S, because WHY?
 stty -ixon
@@ -77,7 +78,7 @@ zle_highlight=(region:bg=18 special:standout suffix:bold isearch:underline paste
 ## Configure zsh-syntax-highlighting
 ZSH_HIGHLIGHT_HIGHLIGHTERS+=(main brackets)
 # Define styles for zsh-syntax-highlighting
-# default styles can be found at: 
+# default styles can be found at:
 # https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/highlighters/main/main-highlighter.zsh
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=red'
@@ -118,4 +119,3 @@ fi
 
 ## zoxide initialization
 eval "$(zoxide init zsh)"
-

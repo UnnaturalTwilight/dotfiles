@@ -22,6 +22,7 @@ Scope {
     function lock(): void {
         Idle.locked = true;
         sessionLock.locked = true;
+        console.log("Session locked");
     }
 
     function unlock(): void {

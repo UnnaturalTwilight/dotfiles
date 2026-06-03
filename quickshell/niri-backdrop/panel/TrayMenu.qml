@@ -115,7 +115,7 @@ PopupWindow {
 
             onClicked: {
                 entry.modelData.triggered();
-                reloadTrayMenu();
+                // reloadTrayMenu();
             }
         }
 

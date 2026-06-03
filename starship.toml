@@ -192,10 +192,10 @@ symbol = ""
 style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 
-# [fortran]
-# symbol = "󱈚"
-# style = "bg:three"
-# format = '[ $symbol( $version)]($style)'
+[fortran]
+symbol = "󱈚"
+style = "bg:three"
+format = '[ $symbol( $version)]($style)'
 
 [golang]
 symbol = ""

@@ -68,7 +68,7 @@ Rectangle {
             Layout.alignment: Qt.AlignTop
 
             Image {
-                source: Quickshell.iconPath(root.modelData?.appIcon ?? "", "preferences-desktop-notification")
+                source: root.modelData.appIcon || Quickshell.iconPath("preferences-desktop-notification")
                 sourceSize: Qt.size(root.iconSize, root.iconSize)
                 Layout.maximumWidth: root.iconSize
                 Layout.maximumHeight: root.iconSize
@@ -76,7 +76,7 @@ Rectangle {
             }
 
             Image {
-                source: root.modelData?.image ?? ""
+                source: root.modelData.image ?? ""
                 sourceSize: Qt.size(root.iconSize, root.iconSize)
                 Layout.maximumWidth: root.iconSize
                 Layout.maximumHeight: root.iconSize
