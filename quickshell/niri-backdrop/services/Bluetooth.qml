@@ -9,7 +9,6 @@ Singleton {
     id: root
 
     readonly property BluetoothAdapter adapter: Bluetooth.defaultAdapter
-
     readonly property alias devices: devicesModel.values
 
     ScriptModel {

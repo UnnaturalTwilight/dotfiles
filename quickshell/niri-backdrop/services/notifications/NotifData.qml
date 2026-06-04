@@ -1,4 +1,4 @@
-// NotificationData.qml
+// NotifData.qml
 
 import Quickshell
 import Quickshell.Services.Notifications
@@ -52,8 +52,8 @@ QtObject {
     }
 
     function close(): void {
-        if (Notify.list.includes(this)) {
-            Notify.list = Notify.list.filter(n => n !== this);
+        if (NotifServer.list.includes(this)) {
+            NotifServer.list = NotifServer.list.filter(n => n !== this);
             notification?.dismiss();
         }
     }
@@ -66,8 +66,8 @@ QtObject {
     }
 
     function expire(): void {
-        if (Notify.list.includes(this) && root.temporary) {
-            Notify.list = Notify.list.filter(n => n !== this);
+        if (NotifServer.list.includes(this) && root.temporary) {
+            NotifServer.list = NotifServer.list.filter(n => n !== this);
             notification?.expire();
         } else {
             root.onscreen = false;

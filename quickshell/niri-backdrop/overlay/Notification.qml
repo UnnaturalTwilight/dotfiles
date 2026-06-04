@@ -7,14 +7,14 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import qs
-import qs.utils.notify
+import qs.config
+import qs.services.notifications
 import qs.widgets
 
 Rectangle {
     id: root
 
-    required property NotificationData modelData
+    required property NotifData modelData
     property int padding: 10
     property int iconSize: 48
     property int fontSize: 18

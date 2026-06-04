@@ -4,7 +4,7 @@
 // https://yalter.github.io/niri/niri_ipc/struct.Workspace.html
 
 import QtQuick
-import qs.utils.niri
+import qs.services.niri
 
 QtObject {
 	// This is the constant, unique ID of the workspace.

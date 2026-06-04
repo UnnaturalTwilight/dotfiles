@@ -5,7 +5,7 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 
-import qs
+import qs.config
 
 PopupWindow {
     id: menuWindow

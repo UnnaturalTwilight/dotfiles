@@ -3,7 +3,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Shapes
 
-import qs
+import qs.config
 
 DelayButton {
     id: root

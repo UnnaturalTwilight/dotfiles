@@ -1,10 +1,10 @@
 // PasswordField.qml
-import Quickshell
+
 import Quickshell.Services.Pam
 import QtQuick
 import QtQuick.Controls
 
-import qs
+import qs.config
 import qs.widgets
 
 Item {

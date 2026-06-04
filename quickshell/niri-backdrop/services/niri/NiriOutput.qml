@@ -1,6 +1,6 @@
 import QtQuick
 import Quickshell
-import qs.utils.niri
+import qs.services.niri
 
 // Component representing a monitor display recognized by Niri.
 //

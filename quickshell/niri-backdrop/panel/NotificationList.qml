@@ -6,8 +6,8 @@ import Quickshell.Services.Notifications
 import QtQuick
 import QtQuick.Layouts
 
-import qs
-import qs.utils.notify
+import qs.config
+import qs.services.notifications
 import qs.overlay
 
 Rectangle {
@@ -38,7 +38,7 @@ Rectangle {
         spacing: notifications.gap
 
         model: ScriptModel {
-            values: Notify.list.filter(n => !n.closed)
+            values: NotifServer.list.filter(n => !n.closed)
         }
 
         delegate: Notification {
@@ -112,7 +112,7 @@ Rectangle {
         implicitWidth: 120
         implicitHeight: 30
 
-        property bool active: Notify.list.length > 0
+        property bool active: NotifServer.list.length > 0
         color: dismissAllMouseArea.containsMouse ? Colours.highlight : "transparent"
         Text {
             text: "Dismiss all"
@@ -132,7 +132,7 @@ Rectangle {
             hoverEnabled: dismissAll.active
             enabled: dismissAll.active
             onClicked: {
-                Notify.clearAll();
+                NotifServer.clearAll();
             }
         }
     }
@@ -151,7 +151,7 @@ Rectangle {
 
         color: dndMouseArea.containsMouse ? Colours.highlight : "transparent"
         Text {
-            text: Notify.doNotDisturb ? "󰂛" : "󰂚"
+            text: NotifServer.doNotDisturb ? "󰂛" : "󰂚"
             color: dndMouseArea.containsMouse ? Colours.power1 : Colours.text
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
@@ -168,7 +168,7 @@ Rectangle {
             hoverEnabled: true
             enabled: true
             onClicked: {
-                Notify.doNotDisturb = !Notify.doNotDisturb;
+                NotifServer.doNotDisturb = !NotifServer.doNotDisturb;
             }
         }
     }

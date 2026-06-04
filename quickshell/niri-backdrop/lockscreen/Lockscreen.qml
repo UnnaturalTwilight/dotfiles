@@ -5,7 +5,7 @@ import Quickshell
 import Quickshell.Services.Pam
 import QtQuick
 
-import qs
+import qs.config
 import qs.backdrop
 import qs.widgets
 

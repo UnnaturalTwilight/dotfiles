@@ -3,8 +3,8 @@
 import QtQuick
 import QtQuick.Layouts
 
-import qs
-import qs.utils
+import qs.config
+import qs.services
 import qs.widgets
 
 Rectangle {

@@ -5,54 +5,53 @@ import Quickshell
 import Quickshell.Wayland
 import QtQuick
 
-import qs.utils
+import qs.services
 
-Scope {
-    id: root
-
+PanelWindow {
+    id: bgPanel
+    screen: modelData
     property var modelData
 
-    PanelWindow {
-        id: bgPanel
-        screen: root.modelData
+    exclusionMode: ExclusionMode.Ignore
+    WlrLayershell.layer: WlrLayer.Background
+    WlrLayershell.namespace: "backdrop-qs-" + modelData.name
+    color: "black"
 
-        exclusionMode: ExclusionMode.Ignore
-        WlrLayershell.layer: WlrLayer.Background
-        WlrLayershell.namespace: "backdrop-qs-" + root.modelData.name
-        color: "black"
+    anchors {
+        top: true
+        right: true
+        left: true
+        bottom: true
+    }
 
-        anchors {
-            top: true
-            right: true
-            left: true
-            bottom: true
-        }
+    Image {
+        anchors.fill: parent
+        source: Quickshell.env("XDG_CONFIG_HOME") + "/assets/niri-wallpaper.jpg"
+        fillMode: Image.PreserveAspectCrop
+        retainWhileLoading: true
+        asynchronous: true
+    }
 
-        Wallpaper {
-            screen: root.modelData
-        }
-    
-        Clock {
-            screen: root.modelData
-        }
+    Clock {
+        screen: bgPanel.modelData
+    }
 
-        Loader {
-            id: workspacesLoader
-            sourceComponent: Workspaces {
-                screen: root.modelData
-            }
-            asynchronous: true
-            visible: status === Loader.Ready
+    Loader {
+        id: workspacesLoader
+        sourceComponent: Workspaces {
+            screen: bgPanel.modelData
         }
+        asynchronous: true
+        visible: status === Loader.Ready
+    }
 
-        Loader {
-            id: symbolsLoader
-            sourceComponent: Symbols {
-                screen: root.modelData
-            }
-            asynchronous: true
-            visible: status == Loader.Ready
-            active: root.modelData === System.primaryScreen
+    Loader {
+        id: symbolsLoader
+        sourceComponent: Symbols {
+            screen: bgPanel.modelData
         }
+        asynchronous: true
+        visible: status == Loader.Ready
+        active: bgPanel.modelData === System.primaryScreen
     }
 }

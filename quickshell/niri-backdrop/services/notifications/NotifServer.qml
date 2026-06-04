@@ -1,4 +1,4 @@
-// Notify.qml
+// NotifServer.qml
 pragma Singleton
 
 import Quickshell
@@ -11,8 +11,8 @@ import "rewrites.js" as Rewrites
 Singleton {
     id: root
 
-    property list<NotificationData> list: []
-    property alias tracked: notifServer.trackedNotifications
+    property list<NotifData> list: []
+    property alias tracked: server.trackedNotifications
 
     property alias doNotDisturb: props.doNotDisturb
 
@@ -24,7 +24,7 @@ Singleton {
     }
 
     NotificationServer {
-        id: notifServer
+        id: server
 
         bodyHyperlinksSupported: false
         bodyMarkupSupported: true
@@ -91,6 +91,6 @@ Singleton {
 
     Component {
         id: notifComp
-        NotificationData {}
+        NotifData {}
     }
 }

@@ -6,8 +6,8 @@ import Quickshell.Services.SystemTray
 import QtQuick
 import QtQuick.Layouts
 
-import qs
-import qs.utils
+import qs.config
+import qs.services
 
 Item {
     id: systray

@@ -3,7 +3,7 @@
 import Quickshell
 import QtQuick
 
-import qs
+import qs.config
 
 PopupWindow {
     id: brightnessPopover

@@ -6,7 +6,7 @@ import Quickshell
 import QtQuick
 import QtQuick.Layouts
 
-import qs
+import qs.config
 import qs.widgets
 
 Scope {

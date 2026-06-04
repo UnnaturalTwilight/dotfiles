@@ -6,8 +6,8 @@ import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
 
-import qs.utils
-import qs.utils.niri
+import qs.services
+import qs.services.niri
 
 Singleton {
     id: root

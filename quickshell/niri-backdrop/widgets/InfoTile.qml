@@ -3,7 +3,7 @@
 import QtQuick
 import QtQuick.Layouts
 
-import qs
+import qs.config
 
 Item {
     id: root

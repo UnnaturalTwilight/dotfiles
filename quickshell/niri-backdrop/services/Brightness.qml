@@ -6,7 +6,7 @@ import Quickshell.Io
 import QtQuick
 
 import qs.overlay
-import qs.utils
+import qs.services
 
 Singleton {
     id: root

@@ -2,8 +2,8 @@
 
 import QtQuick
 
-import qs
-import qs.utils
+import qs.config
+import qs.services
 
 Item {
     id: bgClock

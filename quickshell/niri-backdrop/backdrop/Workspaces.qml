@@ -6,8 +6,8 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Effects
 
-import qs
-import qs.utils.niri
+import qs.config
+import qs.services.niri
 
 Item {
     id: bgWorkspaces

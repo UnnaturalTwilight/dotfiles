@@ -3,11 +3,12 @@
 import Quickshell
 import QtQuick
 
+import qs.polkit
 import qs.backdrop
 import qs.panel
-import qs.auth
-import qs.utils
+import qs.services
 import qs.overlay
+import qs.lockscreen
 
 ShellRoot {
     id: root

@@ -7,8 +7,7 @@ import Quickshell.Services.Pam
 import Quickshell.Wayland
 import QtQuick
 
-import qs.utils
-import qs.auth
+import qs.services
 
 Scope {
     id: root

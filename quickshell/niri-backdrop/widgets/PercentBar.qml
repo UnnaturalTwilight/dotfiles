@@ -1,7 +1,7 @@
 // PercentBar.qml
 import QtQuick
 
-import qs
+import qs.config
 
 Item {
     id: percentBar

@@ -36,8 +36,8 @@ Singleton {
     }
 
     IpcHandler {
-        id: systemIpc
-        target: "sys"
+        id: qsIPC
+        target: "qs"
 
         function reload() {
             Quickshell.reload(false);
