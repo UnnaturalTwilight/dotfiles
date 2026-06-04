@@ -11,10 +11,9 @@ Item {
     id: passwordField
 
     required property PamContext pam
-    property bool spinner: false
     property bool fingerprint: false
     property string placeholderText: "Password"
-    property string currentText: ""
+    readonly property alias currentText: keyboardInput.text
     property int iconSize: 32
 
     signal submit(string password)
@@ -26,12 +25,10 @@ Item {
         border.width: 4
         color: Colours.highlight
         border.color: {
-            if (passwordField.spinner) {
-                return Colours.aurora4;
-            } else if (passwordField.pam.messageIsError) {
+            if (passwordField.pam.messageIsError) {
                 return Colours.aurora0;
             } else if (passwordField.pam.active) {
-                return Colours.mana2;
+                return Colours.aurora4;
             } else {
                 return "transparent";
             }
@@ -56,14 +53,7 @@ Item {
 
         SvgIcon {
             id: passwordIcon
-            iconName: {
-                if (passwordField.fingerprint) {
-                    // The message requirement of the above check is to prevent it from flashing the fingerprint icon when PAM first starts
-                    return "fingerprint";
-                } else {
-                    return "password";
-                }
-            }
+            iconName: passwordField.fingerprint ? "fingerprint" : "password"
             size: passwordField.iconSize
             anchors.centerIn: parent
             opacity: (passwordField.pam.responseRequired || !passwordField.pam.active) ? 1 : 0.5
@@ -129,22 +119,6 @@ Item {
         echoMode: TextInput.Password
         focus: true
 
-        // Bidirectional sync — avoids a declarative binding which breaks on input
-        onTextChanged: {
-            if (passwordField.currentText !== text) {
-                passwordField.currentText = text;
-            }
-        }
-
-        Connections {
-            target: passwordField
-            function onCurrentTextChanged() {
-                if (keyboardInput.text !== passwordField.currentText) {
-                    keyboardInput.text = passwordField.currentText;
-                }
-            }
-        }
-
         onDisplayTextChanged: {
             if (!passwordField.pam.active) {
                 passwordField.pam.start();
@@ -160,7 +134,7 @@ Item {
 
         Keys.onPressed: function (event) {
             if (event.key === Qt.Key_Escape) {
-                passwordField.currentText = "";
+                keyboardInput.text = "";
                 event.accepted = true;
             } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                 passwordField.submit(passwordField.currentText);

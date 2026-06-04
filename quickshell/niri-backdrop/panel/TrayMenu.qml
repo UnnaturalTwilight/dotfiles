@@ -30,6 +30,8 @@ PopupWindow {
         active: false
     }
 
+    property bool menuOpen: false
+
     Rectangle {
         id: menuWindowBg
         anchors.fill: parent
@@ -39,16 +41,41 @@ PopupWindow {
         radius: 12
         opacity: 0
 
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 250
-                easing.type: Easing.InOutQuad
+        states: [
+            State {
+                name: "open"
+                when: menuWindow.menuOpen
+                PropertyChanges {
+                    menuWindowBg.opacity: 1
+                }
+            },
+            State {
+                name: "closed"
+                when: !menuWindow.menuOpen
+                PropertyChanges {
+                    menuWindowBg.opacity: 0
+                }
             }
-        }
+        ]
 
-        Component.onCompleted: {
-            opacity = 1;
-        }
+        transitions: [
+            Transition {
+                to: "closed"
+                NumberAnimation {
+                    properties: "opacity"
+                    easing.type: Easing.InQuad
+                    duration: 250
+                }
+            },
+            Transition {
+                to: "open"
+                NumberAnimation {
+                    properties: "opacity"
+                    easing.type: Easing.OutQuad
+                    duration: 250
+                }
+            }
+        ]
 
         QsMenuOpener {
             id: menuOpener
@@ -103,7 +130,7 @@ PopupWindow {
                     });
                     childMenuLoader.active = true;
                     menuWindow.childMenu = childMenuLoader.item;
-                    menuWindow.childMenu.visible = true;
+                    menuWindow.childMenu.open();
                 }
             }
 
@@ -230,7 +257,7 @@ PopupWindow {
         if (menuHover.hovered && !force) {
             return;
         } else {
-            menuWindowBg.opacity = 0;
+            menuOpen = false;
             fadeOutTimer.start();
         }
     }
@@ -256,7 +283,7 @@ PopupWindow {
 
     function open() {
         visible = true;
-        menuWindowBg.opacity = 1;
+        menuOpen = true;
     }
 
     function toggle() {

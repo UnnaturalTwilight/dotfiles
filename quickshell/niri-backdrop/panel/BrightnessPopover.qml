@@ -18,6 +18,8 @@ PopupWindow {
 
     color: "transparent"
 
+    property bool menuOpen: false
+
     implicitWidth: 350
     implicitHeight: 50
 
@@ -25,21 +27,44 @@ PopupWindow {
         id: windowBg
         anchors.fill: parent
         color: Colours.polar1
-        border.color: Colours.frost0
-        border.width: 2
         radius: 12
         opacity: 0
 
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 250
-                easing.type: Easing.InOutQuad
+        states: [
+            State {
+                name: "open"
+                when: brightnessPopover.menuOpen
+                PropertyChanges {
+                    windowBg.opacity: 1
+                }
+            },
+            State {
+                name: "closed"
+                when: !brightnessPopover.menuOpen
+                PropertyChanges {
+                    windowBg.opacity: 0
+                }
             }
-        }
+        ]
 
-        Component.onCompleted: {
-            opacity = 1;
-        }
+        transitions: [
+            Transition {
+                to: "closed"
+                NumberAnimation {
+                    properties: "opacity"
+                    easing.type: Easing.InQuad
+                    duration: 250
+                }
+            },
+            Transition {
+                to: "open"
+                NumberAnimation {
+                    properties: "opacity"
+                    easing.type: Easing.OutQuad
+                    duration: 250
+                }
+            }
+        ]
 
         BrightnessTile {
             id: brightnessTile
@@ -79,7 +104,7 @@ PopupWindow {
         if (menuHover.hovered && !force) {
             return;
         }
-        windowBg.opacity = 0;
+        menuOpen = false;
         fadeOutTimer.start();
     }
 
@@ -93,7 +118,7 @@ PopupWindow {
 
     function open() {
         visible = true;
-        windowBg.opacity = 1;
+        menuOpen = true;
     }
 
     function toggle() {

@@ -54,6 +54,6 @@ Singleton {
     final readonly property color frost4: "#8fbcbb"
 
     final readonly property color highlight: Qt.alpha(white, 0.15)
+    final readonly property color panel: Qt.alpha(black, 0.60)
     final readonly property color shadow: Qt.alpha(black, 0.40)
-
 }

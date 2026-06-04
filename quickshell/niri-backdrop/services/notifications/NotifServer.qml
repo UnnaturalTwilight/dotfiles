@@ -6,8 +6,6 @@ import Quickshell.Io
 import Quickshell.Services.Notifications
 import QtQuick
 
-import "rewrites.js" as Rewrites
-
 Singleton {
     id: root
 
@@ -83,8 +81,18 @@ Singleton {
         }
 
         function dump(): void {
+            console.log("\nNotification dump:");
             for (const notif of root.list) {
-                Rewrites.dumpNotif(notif);
+                console.log("ID:", notif.id);
+                console.log("App Name:", notif.appName);
+                console.log("Summary:", notif.summary);
+                console.log("Body:", notif.body);
+                console.log("Urgency:", NotificationUrgency.toString(notif.urgency));
+                console.log("App Icon:", notif.appIcon);
+                console.log("Image:", notif.image);
+                console.log("Actions:", JSON.stringify(notif.actions));
+                console.log("Hints:", JSON.stringify(notif.hints));
+                console.log("---");
             }
         }
     }

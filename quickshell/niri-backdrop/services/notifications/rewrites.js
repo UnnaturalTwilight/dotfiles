@@ -104,16 +104,3 @@ function openThunderbird(notif) {
   const cmd = "$HOME/.config/scripts/niri_spawnjump.py $HOME/Monolith/birdmanager/stop-headless-and-launch.sh org.mozilla.Thunderbird";
   Quickshell.execDetached(["sh", "-c", cmd]);
 }
-
-function dumpNotif(notif) {
-  console.log("Notification dump:", notif.id);
-  console.log("App Name:", notif.appName);
-  console.log("Summary:", notif.summary);
-  console.log("Body:", notif.body);
-  console.log("Urgency:", NotificationUrgency.toString(notif.urgency));
-  console.log("App Icon:", notif.appIcon);
-  console.log("Image:", notif.image);
-  console.log("Actions:", JSON.stringify(notif.actions));
-  console.log("Hints:", JSON.stringify(notif.hints));
-  console.log("---");
-}

@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Wayland
 import QtQuick
 
+import qs.services
 import qs.services.notifications
 
 PanelWindow {
@@ -101,5 +102,25 @@ PanelWindow {
             item: modelData
             radius: 20
         }
+    }
+
+    Loader {
+        id: osdLoader
+        x: (overlayPanel.modelData?.width - 400) / 2
+        y: overlayPanel.modelData?.height - 100
+
+        sourceComponent: OSD {
+            id: brightnessOsd
+            value: Brightness.screenValue
+            icon: "󰃟 "
+
+            Connections {
+                target: Brightness
+                function onShowBrightnessOsd(): void {
+                    brightnessOsd.showOsd();
+                }
+            }
+        }
+        active: (overlayPanel.modelData === System.primaryScreen)
     }
 }

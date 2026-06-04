@@ -205,7 +205,7 @@ Scope {
             onActivated: () => {
                 Qt.callLater(() => {
                     startScope.closePanel();
-                    Idle.suspend();
+                    Idle.sleep();
                 });
             }
             buttonSize: powerRow.buttonSize
@@ -216,7 +216,7 @@ Scope {
             onActivated: () => {
                 Qt.callLater(() => {
                     startScope.closePanel();
-                    Idle.hibernate();
+                    Quickshell.execDetached(["systemctl", "hibernate"]);
                 });
             }
             buttonSize: powerRow.buttonSize

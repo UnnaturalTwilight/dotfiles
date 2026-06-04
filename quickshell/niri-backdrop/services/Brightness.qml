@@ -5,9 +5,6 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
-import qs.overlay
-import qs.services
-
 Singleton {
     id: root
 
@@ -15,8 +12,7 @@ Singleton {
     readonly property alias screenMax: persist.screenMax
     readonly property real screenValue: screenRaw / screenMax
 
-    readonly property alias backlightSaved: persist.backlightSaved
-    readonly property alias kbdBacklightSaved: persist.kbdBacklightSaved
+    signal showBrightnessOsd
 
     // Valid values:
     //  specific value      Example: 500
@@ -28,7 +24,7 @@ Singleton {
         brightnessSetProc.exec(["brightnessctl", "--quiet", "--class=backlight", "set", value, "--min-value=4800"]);
         persist.backlightSaved = false;
         if (showOsd) {
-            brightnessOsd.showOsd();
+            showBrightnessOsd();
         }
     }
 
@@ -52,16 +48,6 @@ Singleton {
             persist.backlightSaved = false;
         } else {
             // console.log("restoreScreen was called without brightness being saved")
-        }
-    }
-
-    function keyboard(enabled: bool, force = false) {
-        if (enabled && (force || persist.kbdBacklightSaved)) {
-            Quickshell.execDetached(["brightnessctl", "--quiet", "--restore", "--device=chromeos::kbd_backlight"]);
-            persist.kbdBacklightSaved = false;
-        } else if (!enabled && (force || !persist.kbdBacklightSaved)) {
-            Quickshell.execDetached(["brightnessctl", "--quiet", "--save", "--device=chromeos::kbd_backlight", "set", "0"]);
-            persist.kbdBacklightSaved = true;
         }
     }
 
@@ -136,10 +122,4 @@ Singleton {
         }
     }
 
-    OSD {
-        id: brightnessOsd
-        screen: System.primaryScreen
-        value: root.screenValue
-        icon: "󰃟 "
-    }
 }

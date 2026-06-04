@@ -8,7 +8,6 @@ import QtQuick.Layouts
 
 import qs.config
 import qs.services.notifications
-import qs.overlay
 
 Rectangle {
     id: notifications

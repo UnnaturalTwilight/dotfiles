@@ -16,16 +16,10 @@ Item {
     required property ShellScreen screen
     required property PamContext pam
     property string message: ""
-    property bool spinner: false
     property bool fingerprint: false
 
     Connections {
         target: lockScreen.pam
-
-        function onCompleted() {
-            lockScreen.spinner = false;
-            lockScreen.message = "";
-        }
 
         function onPamMessage() {
             const msg = lockScreen.pam.message.trim();
@@ -49,7 +43,6 @@ Item {
         if (pam.responseRequired) {
             pam.respond(response);
         }
-        spinner = true;
     }
 
     MouseArea {
@@ -105,7 +98,6 @@ Item {
     PasswordField {
         id: passwordField
         pam: lockScreen.pam
-        spinner: lockScreen.spinner
         fingerprint: lockScreen.fingerprint
 
         anchors.horizontalCenter: parent.horizontalCenter

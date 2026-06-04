@@ -18,7 +18,7 @@ FloatingWindow {
     minimumSize: windowSize
     maximumSize: windowSize
     surfaceFormat.opaque: false
-    color: agent.isRegistered ? Colours.polar0 : Colours.power2
+    color: agent.isRegistered ? Colours.panel : Colours.power2
     visible: agent.isActive
 
     onClosed: {

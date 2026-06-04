@@ -14,19 +14,13 @@ Scope {
 
     property alias locked: sessionLock.secure
 
-    onLockedChanged: {
-        lockIPC.lockedChanged(locked);
-    }
-
     function lock(): void {
-        Idle.locked = true;
         sessionLock.locked = true;
         console.log("Session locked");
     }
 
     function unlock(): void {
         Idle.wake();
-        Idle.locked = false;
         sessionLock.locked = false;
     }
 
@@ -49,12 +43,6 @@ Scope {
         function unlock(): void {
             root.unlock();
         }
-
-        function status(): bool {
-            return root.locked;
-        }
-
-        signal lockedChanged(bool locked)
     }
 
     PamContext {
@@ -73,7 +61,6 @@ Scope {
 
     WlSessionLock {
         id: sessionLock
-
         locked: false
 
         WlSessionLockSurface {
