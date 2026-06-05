@@ -218,6 +218,12 @@ layout {
         urgent-color "#fca17dee"
     }
 
+    tab-indicator {
+        on
+        corner-radius 5
+        gaps-between-tabs 5
+    }
+
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
@@ -253,6 +259,11 @@ layout {
 
         // You can also change the shadow color and opacity.
         color "#00000066"
+    }
+
+    insert-hint {
+        // off
+        color "#33658a66"
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.

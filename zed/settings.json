@@ -7,6 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "code_lens": "menu",
   "extend_comment_on_newline": false,
   "cli_default_open_behavior": "existing_window",
   "diagnostics": {

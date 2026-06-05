@@ -13,5 +13,20 @@ use = "yazi-rs/plugins:git"
 [[plugin.deps]]
 use = "boydaihungst/mediainfo"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:mount"
+
+[[plugin.deps]]
+use = "AminurAlam/yazi-plugins:sort-by-location"
+
+[[plugin.deps]]
+use = "boydaihungst/fuse-archive"
+
+[[plugin.deps]]
+use = "simla33/ucp"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:types"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"

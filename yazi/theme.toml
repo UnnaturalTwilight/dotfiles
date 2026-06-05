@@ -9,9 +9,15 @@ sep_left = { open = "", close = "" }
 sep_right = { open = "", close = "" }
 
 [icon]
+prepend_dirs = [
+    { name = ".config", text = "", fg = "#89b4fa" },
+]
+
 append_dirs = [
     { name = "dotfiles", text = "", fg = "#89b4fa" },
     { name = "Images", text = "", fg = "#94e2d5" },
+    { name = "Projects", text = "", fg = "#94e2d5" },
+    { name = "Templates", text = "", fg = "#94e2d5" },
 ]
 
 prepend_conds = [

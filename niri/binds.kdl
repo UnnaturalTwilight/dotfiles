@@ -51,13 +51,13 @@ binds {
 
     // "start" menu
     XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call start toggle"; }
-    
+
     // Airplane mode key
     // This still causes wifi & bluetooth to restart
     XF86RFKill repeat=false allow-when-locked=true { spawn "rfkill" "unblock" "all"; }
 
     Mod+Q repeat=false { close-window; }
-    
+
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
@@ -104,7 +104,7 @@ binds {
     // Mod+Shift+Ctrl+Left  { move-workspace-to-monitor-left; }
     // ...
 
-    // 
+    //
     Mod+Page_Down       hotkey-overlay-title=null { focus-workspace-down; }
     Mod+Page_Up         hotkey-overlay-title=null { focus-workspace-up; }
     Mod+Shift+Page_Down hotkey-overlay-title=null { move-window-to-workspace-down; }
@@ -189,7 +189,7 @@ binds {
     Mod+Comma  { consume-window-into-column; }
     // Expel the bottom window from the focused column to the right.
     Mod+Period { expel-window-from-column; }
-    
+
     // Resize focused column / window
     Mod+D { switch-preset-column-width; }
     Mod+Shift+D { switch-preset-column-width-back; }
@@ -199,14 +199,14 @@ binds {
     // fullscreen / maximize
     Mod+F { maximize-column; }
     Mod+Shift+F { maximize-window-to-edges; }
-    Mod+Shift+Ctrl+F { fullscreen-window; }
+    Mod+Ctrl+F { fullscreen-window; }
     Mod+F11 { fullscreen-window; }
     // Fake fullscreen state
     Mod+Ctrl+F11 { toggle-windowed-fullscreen; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
-    Mod+Ctrl+F { expand-column-to-available-width; }
+    Mod+Shift+Ctrl+F { expand-column-to-available-width; }
 
     Mod+A { center-column; }
     // Center all fully visible columns on screen.
@@ -255,6 +255,11 @@ binds {
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
 
+    // Dynamic screencast target
+    Mod+S { set-dynamic-cast-window; }
+    Mod+Ctrl+S { clear-dynamic-cast-target; }
+    Mod+Alt+S { set-dynamic-cast-monitor; }
+
     // Set windows to be opaque even when out of focus
     Mod+T { toggle-window-rule-opacity; }
 
@@ -270,10 +275,10 @@ binds {
 
     // Taskmgr
     Ctrl+Shift+Escape repeat=false hotkey-overlay-title="Open Btop++" { spawn "kitty" "--app-id=btop" "btop"; }
-    
+
     // Copy window info
     Mod+Backslash hotkey-overlay-title=null { spawn "bash" "-c" "wl-copy \"$(niri msg --json focused-window | jq)\""; }
-    
+
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Ctrl+Alt+Delete { quit; }
 
@@ -281,7 +286,7 @@ binds {
     // moving the mouse or pressing any other key.
     // This does not lock the session
     Mod+Shift+P { power-off-monitors; }
-    
+
     // Lock screen
     Mod+L hotkey-overlay-title="Lock Screen" { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "lock" "lock"; }
 }
