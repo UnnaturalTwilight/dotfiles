@@ -1,5 +1,6 @@
 {
-    "files.associations": {
-        "*.desktop": "properties"
-    }
+  "files.associations": {
+    "*.desktop": "properties",
+    "*.toml": "properties"
+  }
 }

@@ -43,6 +43,7 @@ ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./hyfetch.json
 ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./fastfetch
 ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./kitty
 ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./msedit
+ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME ./fzf
 
 # Assets (images, etc.)
 ln -sfbr --suffix=.bak ./assets $XDG_CONFIG_HOME/assets
