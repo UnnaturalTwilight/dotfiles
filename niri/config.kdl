@@ -22,8 +22,8 @@ spawn-sh-at-startup "walker --gapplication-service"
 spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
 
 // clipboard history
-spawn-sh-at-startup "wl-paste --type=text --watch cliphist store"
-spawn-sh-at-startup "wl-paste --type=image --watch cliphist store"
+// spawn-sh-at-startup "wl-paste --type=text --watch cliphist store"
+// spawn-sh-at-startup "wl-paste --type=image --watch cliphist store"
 
 // bootstatechecker
 spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"

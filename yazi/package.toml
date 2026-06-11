@@ -23,9 +23,6 @@ use = "AminurAlam/yazi-plugins:sort-by-location"
 use = "boydaihungst/fuse-archive"
 
 [[plugin.deps]]
-use = "simla33/ucp"
-
-[[plugin.deps]]
 use = "yazi-rs/plugins:types"
 
 [[flavor.deps]]

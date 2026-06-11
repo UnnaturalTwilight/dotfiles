@@ -53,8 +53,8 @@ prepend_keymap = [
     # Visual mode
     { on = "v", run = "noop" },
     { on = "V", run = "noop" },
-    { on = [ "V", "i" ], run = "visual_mode",         desc = "Enter visual mode (selection mode)" },
-    { on = [ "V", "u" ], run = "visual_mode --unset", desc = "Enter visual mode (unset mode)" },
+    { on = [ "V", "i" ], run = "visual_mode",         desc = "Visual mode (selection mode)" },
+    { on = [ "V", "u" ], run = "visual_mode --unset", desc = "Visual mode (unset mode)" },
 
     # Seeking
     # { on = "K", run = "seek -5", desc = "Seek up 5 units in the preview" },
@@ -82,14 +82,14 @@ prepend_keymap = [
     { on = "Z",         run = "plugin fzf",                  desc = "Jump to a file/directory via fzf" },
 
     # Yanking
-    { on = "y",     run = "yank",               desc = "Yank selected files (copy)" },
-    { on = "C",     run = "plugin ucp copy",    desc = "Yank selected files (copy)" },
-    { on = "x",     run = "yank --cut",         desc = "Yank selected files (cut)" },
-    { on = "v",     run = "plugin ucp paste",   desc = "Paste yanked files" },
+    { on = "y",     run = "yank",                      desc = "Yank selected files (copy)" },
+    { on = "C",     run = [ "copy uri_list", "yank" ], desc = "Yank selected files (copy)" },
+    { on = "x",     run = "yank --cut",                desc = "Yank selected files (cut)" },
+    { on = "v",     run = "paste",                     desc = "Paste yanked files" },
     # chord acts a soft confirmation for overwrite
-    { on = [ "V", "f" ], run = "paste --force", desc = "Force paste yanked files (overwrite if the destination exists)" },
-    # { on = "p",     run = "paste",             desc = "Paste yanked files" },
-    # { on = "P",     run = "paste --force",     desc = "Paste yanked files (overwrite if the destination exists)" },
+    { on = [ "V", "f" ], run = "paste --force", desc = "Force paste yanked files (overwrite)" },
+    # { on = "p",     run = "paste",              desc = "Paste yanked files" },
+    # { on = "P",     run = "paste --force",      desc = "Paste yanked files (overwrite if the destination exists)" },
     { on = "-",     run = "link",               desc = "Symlink the absolute path of yanked files" },
     { on = "_",     run = "link --relative",    desc = "Symlink the relative path of yanked files" },
     { on = "<C-->", run = "hardlink",           desc = "Hardlink yanked files" },
@@ -100,10 +100,12 @@ prepend_keymap = [
     # Using default chords on "m" for linemode
 
     # Copy
-    # { on = [ "c", "c" ], run = "copy path",             desc = "Copy file URL" },
-    # { on = [ "c", "d" ], run = "copy dirname",          desc = "Copy directory URL" },
-    # { on = [ "c", "f" ], run = "copy filename",         desc = "Copy filename" },
-    # { on = [ "c", "n" ], run = "copy name_without_ext", desc = "Copy filename without extension" },
+    { on = [ "c", "c" ], run = "copy path",             desc = "Copy file path" },
+    { on = [ "c", "d" ], run = "copy dirname",          desc = "Copy directory path" },
+    { on = [ "c", "f" ], run = "copy filename",         desc = "Copy filename" },
+    { on = [ "c", "a" ], run = "copy uri_list",         desc = "Copy URI list" },
+    { on = [ "c", "n" ], run = "copy name_without_ext", desc = "Copy filename without extension" },
+    { on = [ "c", "l" ], run = "noop" },
 
     # Filter
     { on = "f", run = "filter --smart", desc = "Filter files" },

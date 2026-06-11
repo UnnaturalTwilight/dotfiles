@@ -10,7 +10,8 @@ path=($path ~/.local/bin/windowsapps ~/.local/bin/winget)
 
 # Check if interop is working, since I rely on more than I should.
 # This is a far from foolproof check but it does catch the case that provides the least helpful error message
-cat /proc/sys/fs/binfmt_misc/WSLInterop &>/dev/null || echo "\e[91mWSL interop is not working! Windows programs will not work\e[0m" 
+cat /proc/sys/fs/binfmt_misc/WSLInterop &>/dev/null ||
+  echo "\e[91mWSL interop is not working! Windows programs will not work\e[0m" 
 
 # Kitty-specific aliases and functions, dependent shell integration // kittens
 # Making the assumption that if we're in kitty, the shell integration is loaded

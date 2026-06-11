@@ -1,0 +1,11 @@
+--bind "esc:transform:[[ $FZF_SELECT_COUNT -eq 0 ]] && echo abort || echo clear-multi"
+--bind "ctrl-a:select-all"
+--bind "ctrl-left:backward-word,ctrl-right:forward-word"
+--bind "ctrl-up:preview-up,ctrl-down:preview-down"
+--bind "shift-up:toggle+up,shift-down:toggle+down"
+--color=dark,hl:#a3be8c,bg+:#1e1e1e,info:#8fbcbb,pointer:#c47eba,prompt:#06969a
+--color=marker:#ebcb8b,spinner:#917bc6,border:#525252,gutter:#393939
+--marker=▋
+--marker-multi-line=▋▋▋
+--prompt="▶ "
+--tabstop=4

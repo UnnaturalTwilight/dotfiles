@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global
 
-require("session"):setup({ sync_yanked = true })
+-- require("session"):setup({ sync_yanked = true })
 require("starship"):setup()
 require("fuse-archive"):setup()
 require("git"):setup({ order = 500 })

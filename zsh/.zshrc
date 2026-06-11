@@ -39,6 +39,7 @@ TRAPUSR1() {
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
+export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/defaults"
 
 # WHY does fzf unset this??
 KEYBOARD_HACK=\\

@@ -23,6 +23,9 @@ alias compose='docker compose'
 
 alias vlc='env -u DISPLAY vlc' # run vlc in wayland
 alias fzf-view='fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" --bind "focus:transform-header:file --brief {}" -m'
+alias screen-record='gpu-screen-recorder -w portal -a default_output \
+  -restore-portal-session yes -df yes \
+  -o "$HOME/Videos/Screencapture/Video_$(date +%Y-%m-%d_%H-%M-%S).mp4"'
 
 # Suffix Alias to auto bat .md files with just the filename
 alias -s md='bat --italic-text=always'
