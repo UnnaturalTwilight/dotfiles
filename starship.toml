@@ -38,11 +38,21 @@ $scala )](bg:three)\
 [](fg:three bg:four)\
 $docker_context\
 $package\
-[ ](fg:four)$all\
+[ ](fg:four)\
+$all\
+"""
+
+right_format = """
+([](fg:five)\
+$cmd_duration\
+$status\
+[](fg:five))\
 """
 
 # Disable the blank line at the start of the prompt
 # add_newline = false
+
+follow_symlinks = false
 
 # colours, why isn't this a part of the preset
 palette = 'power'
@@ -56,6 +66,8 @@ four      = '#33658A'
 five      = '#38384d'
 bright    = 'white'
 dark      = 'bright-black'
+red       = '#bf616a'
+yellow    = '#ebcb8b'
 
 # You can also replace your username with a neat symbol like   or disable this
 # and use the os module below
@@ -163,8 +175,8 @@ cherry_pick = "CHERRY-PICKING"
 bisect = "BISECTING"
 am = "AM"
 am_or_rebase = "AM/REBASE"
-style = "bold yellow"
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bold fg:yellow bg:five"
+format = '[](fg:five)[$state( $progress_current/$progress_total)]($style)[](fg:five) '
 disabled = false
 
 [c]
@@ -268,8 +280,24 @@ style = "bg:four"
 format = '([ $symbol $version ]($style))'
 
 [cmd_duration]
-format = "[$duration]($style) "
-style = "bold yellow"
+format = "([󰔛 $duration]($style))"
+style = "fg:yellow bg:five"
+
+[status]
+disabled = true
+pipestatus = false
+recognize_signal_code = true
+map_symbol = true
+symbol = ""
+success_symbol = ""
+not_executable_symbol = ""
+not_found_symbol = "󰮗"
+sigint_symbol = ""
+signal_symbol = ""
+style = "fg:red bg:five"
+format = '([ $symbol $status ]($style))'
+pipestatus_segment_format = '([$status]($style))'
+pipestatus_format = '([\[$pipestatus\]]($style))([ => $symbol $common_meaning$signal_name$maybe_int]($style))'
 
 [time]
 disabled = true

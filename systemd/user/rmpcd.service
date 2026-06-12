@@ -4,7 +4,7 @@ Requires=mpd.service
 After=mpd.service
 
 [Service]
-ExecStart=%h/.local/bin/rmpcd
+ExecStart=/usr/bin/rmpcd
 Restart=on-failure
 Type=dbus
 BusName=org.mpris.MediaPlayer2.mpd

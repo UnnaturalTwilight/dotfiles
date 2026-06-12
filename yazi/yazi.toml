@@ -19,10 +19,6 @@ url = "*/"
 run  = "git"
 
 [opener]
-bulk-rename = [
-    { run = "kitty kitten edit-in-kitty %s", block = true, for = "linux" },
-    { run = "edit.exe %s", block = true, for = "windows" },
-]
 edit = [
     { run = "${EDITOR:-nano} %s", desc = "Edit", block = true, for = "unix" },
     { run = "%EDITOR% %s", desc = "Edit", block = true, for = "windows" },
@@ -40,7 +36,8 @@ view-image = [
 
 [open]
 prepend_rules = [
-    { url = "bulk-rename.txt", use = "bulk-rename" },
+    { url = "bulk-rename.txt", use = "edit" },
+    { url = "bulk-create.txt", use = "edit" },
     { url = "*/", use = [ "reveal", "code" ] },
     { mime = "image/*", use = [ "view-image", "open", "reveal" ] },
     { mime = "text/*", use = [ "edit", "view-bat", "reveal" ] },
