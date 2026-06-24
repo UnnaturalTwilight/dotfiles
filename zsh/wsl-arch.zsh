@@ -13,19 +13,21 @@ path=($path ~/.local/bin/windowsapps ~/.local/bin/winget)
 cat /proc/sys/fs/binfmt_misc/WSLInterop &>/dev/null ||
   echo "\e[91mWSL interop is not working! Windows programs will not work\e[0m" 
 
-# Kitty-specific aliases and functions, dependent shell integration // kittens
-# Making the assumption that if we're in kitty, the shell integration is loaded
 if [[ "$TERM" == "xterm-kitty" ]]; then
   source $ZDOTDIR/kitty.zsh
 elif [[ "$TERM_PROGRAM" == "vscode" ]]; then
   source "$(code --locate-shell-integration-path zsh)"
-else
-  # It should be safe to assume that the terminal is Windows Terminal if neither of the above are true for WSL
+elif [[ -n "$WT_SESSION" ]]; then
+  # Windows Terminal
+
   # Alt-Shift-C
   bindkey '^[C' copy-buffer-to-clipboard
   bindkey -M shift-select '^[C' shift-select::copy-region
   # Ctrl X
   bindkey '^X' cut-buffer-to-clipboard
+
+  # Nerd fonts in less (For Kitty this is done in kitty.conf)
+  export LESSUTFCHARDEF=E000-F8FF:p,F0000-FFFFD:p,100000-10FFFD:p
 
   function _windows-terminal-integration() {
     # Exit code of last command
@@ -46,11 +48,12 @@ else
   }
 
   # Because of how starship works on zsh this is valid
+  # But it is prone to breaking compleatly with right prompt
   # PROMPT="${PROMPT}"$'\e]133;B\e\\'
 
   precmd_functions+=(_windows-terminal-integration)
   preexec_functions+=(_windows-terminal-integration-prexec)
-  
+
   # Windows Terminal's bg colour makes the default fg=8 almost invisable
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
 fi
@@ -72,6 +75,7 @@ function where-win() {
     wslpath $dir
   done
 }
+
 # Make where search linux then fallback to windows
 function where() {
   builtin where $@ || where-win $@
