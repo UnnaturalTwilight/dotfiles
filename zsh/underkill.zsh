@@ -1,12 +1,19 @@
-# local zsh configurations
+#
+# $ZDOTDIR/underkill.zsh
+#
 
-export EDITOR=edit
+## local zsh configurations
+
+export EDITOR=${EDITOR:="edit"}
 
 # Kitty-specific aliases and functions, dependent shell integration // kittens
 # Making the assumption that if we're in kitty, the shell integration is loaded
 if [[ "$TERM" == "xterm-kitty" ]]; then
   source $ZDOTDIR/kitty.zsh
   alias uni-copy='kitten unicode-input | tee >(wl-copy -n)'
+
+  # This assumes that kitty is set up as the difftool in git
+  alias kdiff-git='git difftool --no-symlinks --dir-diff'
 fi
 
 source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
@@ -20,9 +27,11 @@ alias fetch='fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
 alias clf='clear; fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
 
 alias compose='docker compose'
-
 alias vlc='env -u DISPLAY vlc' # run vlc in wayland
-alias fzf-view='fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" --bind "focus:transform-header:file --brief {}" -m'
+
+alias fzf-view='fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" \
+  --bind "focus:transform-header:file --brief {}" -m'
+
 alias screen-record='gpu-screen-recorder -w portal -a default_output \
   -restore-portal-session yes -df yes \
   -o "$HOME/Videos/Screencapture/Video_$(date +%Y-%m-%d_%H-%M-%S).mp4"'

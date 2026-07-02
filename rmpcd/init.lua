@@ -12,6 +12,10 @@ config.mpris = true
 -- Automatically increment play count on song change
 rmpcd.install("#builtin.playcount")
 
+-- Tracking when a song was last played
+-- https://github.com/rmpc-org/rmpcd-lastplayed/tree/master
+rmpcd.install("plugins.lastplayed")
+
 -- Install notification on song change builtin
 -- rmpcd.install("#builtin.notify")
 

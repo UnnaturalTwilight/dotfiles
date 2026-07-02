@@ -1,3 +1,3 @@
-# 
+#
 # $ZDOTDIR/.zprofile
-# 
+#

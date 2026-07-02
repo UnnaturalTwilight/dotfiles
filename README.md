@@ -5,7 +5,8 @@ This repo is liable to be restructured on a whim.
 
 ## Other Relevent Repos & Notes
 - [UnnaturalSDDM](https://github.com/UnnaturalTwilight/UnnaturalSDDM) - My SDDM theme
-- These configs require the git vertion of: quickshell, rmpc
+- [Yazi-Plugins](https://github.com/UnnaturalTwilight/yazi-plugins) - My custom yazi plugins
+- These configs require the git version / my fork of: quickshell, rmpc, yazi
 
 ## Acknowledgements
  - SVG Icons are from: [iconify.design](https://iconify.design/)

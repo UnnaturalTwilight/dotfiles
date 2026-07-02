@@ -1,4 +1,6 @@
-# .zshrc
+#
+# $ZDOTDIR/.zshrc
+#
 
 HISTFILE=$XDG_STATE_HOME/zsh/histfile
 HISTSIZE=100000

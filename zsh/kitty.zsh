@@ -1,3 +1,6 @@
+#
+# $ZDOTDIR/kitty.zsh
+#
 
 # kitty shell integration
 if test -n "$KITTY_INSTALLATION_DIR"; then
@@ -23,4 +26,3 @@ cleartoscrollback-widget() {
 }
 
 zle -N clear-screen cleartoscrollback-widget
-

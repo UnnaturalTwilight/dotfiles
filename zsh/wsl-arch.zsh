@@ -1,4 +1,8 @@
-# local zsh configurations for WSL
+#
+# $ZDOTDIR/wsl-arch.zsh
+#
+
+## local zsh configurations for WSL
 
 # Clean up the mess WSL makes
 path=( ${path[@]:#/bin} )

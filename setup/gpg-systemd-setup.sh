@@ -1,5 +1,5 @@
 #! /usr/bin/bash
-# Scrip to produce the custom user socket files needed to not have ~/.gnugp
+# Script to produce the custom user socket files needed to not have ~/.gnugp
 
 if [ -z "$GNUPGHOME" ]; then
   echo "\$GNUPGHOME is not set. Please set it to $HOME/.local/share/gnupg"

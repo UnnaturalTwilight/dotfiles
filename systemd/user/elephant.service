@@ -1,4 +1,3 @@
-
 [Unit]
 Description=Elephant
 PartOf=graphical-session.target

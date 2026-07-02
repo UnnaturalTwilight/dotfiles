@@ -66,7 +66,8 @@
             "3":       SwitchToTab("Folders"),
             "4":       SwitchToTab("Playlists"),
             "5":       SwitchToTab("Search"),
-            "6":       SwitchToTab("Lyrics"),
+            "6":       SwitchToTab("Recent"),
+            "7":       SwitchToTab("Lyrics"),
             "u":       Update,
             "U":       Rescan,
         },
@@ -202,6 +203,12 @@
         (
             name: "Search",
             pane: Pane(Search)
+        ),
+        (
+            name: "Recent",
+            pane: Pane(RecentlyPlayed(
+                column_widths: [0, 60, 40]
+            ))
         ),
         (
             name: "Lyrics",

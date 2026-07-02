@@ -1,4 +1,6 @@
-# keybinds.zsh
+#
+# $ZDOTDIR/keybinds.zsh
+#
 
 ## Zsh Keybindings and editing configurations
 

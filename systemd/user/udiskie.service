@@ -1,4 +1,3 @@
-
 # from: https://github.com/coldfix/udiskie/blob/master/example/udiskie.service
 [Unit]
 Description=Automounter for removable media

@@ -25,5 +25,8 @@ use = "boydaihungst/fuse-archive"
 [[plugin.deps]]
 use = "yazi-rs/plugins:types"
 
+[[plugin.deps]]
+use = "UnnaturalTwilight/yazi-plugins:osc5522"
+
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"

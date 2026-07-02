@@ -2,12 +2,15 @@
 Description=rmpcd: MPRIS, lyrics, and more for mpd
 Requires=mpd.service
 After=mpd.service
+StartLimitIntervalSec=60
+StartLimitBurst=3
 
 [Service]
 ExecStart=/usr/bin/rmpcd
 Restart=on-failure
 Type=dbus
 BusName=org.mpris.MediaPlayer2.mpd
+RestartSec=10s
 
 [Install]
 WantedBy=default.target

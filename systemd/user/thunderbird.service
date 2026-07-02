@@ -1,8 +1,7 @@
-
 [Unit]
 Description=Thunderbird
 After=network.target graphical-session.target
-StartLimitIntervalSec=300
+StartLimitIntervalSec=500
 StartLimitBurst=5
 
 [Service]
@@ -10,7 +9,7 @@ Type=idle
 ExecStart=thunderbird --headless
 StandardError=null
 Restart=always
-RestartSec=30s
+RestartSec=90s
 
 [Install]
 WantedBy=graphical-session.target
