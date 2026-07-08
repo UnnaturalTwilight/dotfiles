@@ -1,3 +1,4 @@
+// https://niri-wm.github.io/niri/Configuration:-Key-Bindings.html
 
 // Disable the hot corners.
 gestures {
@@ -5,7 +6,6 @@ gestures {
         off
     }
 }
-
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -289,4 +289,13 @@ binds {
 
     // Lock screen
     Mod+L hotkey-overlay-title="Lock Screen" { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "lock" "lock"; }
+}
+
+recent-windows {
+    binds {
+        Alt+Tab             { next-window; }
+        Alt+Shift+Tab       { previous-window; }
+        Alt+Ctrl+Tab        { next-window     filter="app-id"; }
+        Alt+Shift+Ctrl+Tab  { previous-window filter="app-id"; }
+    }
 }

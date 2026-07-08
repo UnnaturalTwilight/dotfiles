@@ -7,7 +7,7 @@ function rewriteNotif(root, notif) {
   root.body = rewriteBody(notif.body, notif);
   root.image = rewriteImage(notif.image, notif);
   root.urgency = notif.urgency;
-  root.temporary = notif.transient;
+  root.temporary = rewriteTemporary(notif.transient, notif);
   root.desktopEntry = notif.desktopEntry;
   root.hints = notif.hints;
   root.resident = notif.resident;
@@ -65,6 +65,14 @@ function rewriteAppIcon(appIcon, notif) {
     resolvedIcon = "file:///home/cal/.config/assets/Icons/niri_icon.svg";
   }
   return resolvedIcon;
+}
+
+function rewriteTemporary(transient, notif) {
+  if (notif.appName == "udiskie" || notif.appName == "calibre") {
+    return true;
+  }
+
+  return transient;
 }
 
 function rewriteActions(actions, notif) {

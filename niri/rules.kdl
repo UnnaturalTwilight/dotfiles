@@ -1,4 +1,3 @@
-
 // request clients use server-side decorations
 prefer-no-csd
 
@@ -22,7 +21,7 @@ window-rule {
 
 // Dynamic rules
 // -------------
-// https://yalter.github.io/niri/Configuration:-Window-Rules#dynamic-properties
+// https://niri-wm.github.io/niri/Configuration:-Window-Rules#dynamic-properties
 
 // Make inactive windows semitransparent.
 window-rule {
@@ -80,7 +79,18 @@ window-rule {
 
 // Static rules
 // ------------
-// https://yalter.github.io/niri/Configuration:-Window-Rules#window-opening-properties
+// https://niri-wm.github.io/niri/Configuration:-Window-Rules#window-opening-properties
+
+// Apps I trust to open at a reasonable size
+window-rule {
+    match app-id="^kitty$"
+    match app-id="^Thunar$"
+    match app-id="^xdg-desktop-portal"
+
+    // freedp dose some funky things if it doesn't have control over its size
+    match app-id="^xfreerdp$"
+    default-column-width { };
+}
 
 // Make some app allways open full width
 window-rule {
@@ -107,18 +117,8 @@ window-rule {
 }
 
 window-rule {
-    match app-id=r#"^btop$"#
+    match app-id="^btop$"
     min-width 825 // roughly 80 columns in kitty on my laptop
-}
-
-// Windows trust to open at a reasonable size
-window-rule {
-    match app-id="^kitty$"
-    match app-id="^Thunar$"
-    match app-id="^xdg-desktop-portal"
-
-    // freedp dose some funky things if it doesn't have control over its size
-    match app-id="^xfreerdp$"
     default-column-width { };
 }
 
@@ -147,7 +147,7 @@ window-rule {
 
 // Layer rules
 // -----------
-// https://yalter.github.io/niri/Configuration:-Layer-Rules
+// https://niri-wm.github.io/niri/Configuration:-Layer-Rules
 
 // Make the wallpaper stationary, rather than moving with workspaces.
 layer-rule {
@@ -157,4 +157,12 @@ layer-rule {
     match namespace="^backdrop"
 
     place-within-backdrop true
+}
+
+layer-rule {
+    match namespace="^unicode$"
+    
+    shadow {
+        on
+    }
 }

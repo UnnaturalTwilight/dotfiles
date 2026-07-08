@@ -34,7 +34,8 @@ $nodejs\
 $nim\
 $rust\
 $perl\
-$scala )](bg:three)\
+$scala\
+$zig )](bg:three)\
 [](fg:three bg:four)\
 $docker_context\
 $package\
@@ -266,6 +267,11 @@ format = '[ $symbol( $version)]($style)'
 
 [perl]
 symbol = ""
+style = "bg:three"
+format = '[ $symbol( $version)]($style)'
+
+[zig]
+symbol = ""
 style = "bg:three"
 format = '[ $symbol( $version)]($style)'
 

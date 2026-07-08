@@ -1,7 +1,7 @@
 // This config is in the KDL format: https://kdl.dev
 // "/-" comments out the following node.
 // Check the wiki for a full description of the configuration:
-// https://yalter.github.io/niri/Configuration:-Introduction
+// https://niri-wm.github.io/niri/Configuration:-Introduction
 
 // Env
 environment {
@@ -19,7 +19,7 @@ environment {
 
 spawn-sh-at-startup "walker --gapplication-service"
 
-spawn-sh-at-startup "kitty --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
+spawn-sh-at-startup "kitty -o initial_window_width=1305 --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
 
 // clipboard history
 // spawn-sh-at-startup "wl-paste --type=text --watch cliphist store"
@@ -30,6 +30,12 @@ spawn-sh-at-startup "$HOME/.config/scripts/bootstatechecker.sh"
 
 // custom script to auto unlock keyring
 spawn-sh-at-startup "systemd-run --user keyring-unlock"
+
+// You can change the path where screenshots are saved.
+// A ~ at the front will be expanded to the home directory.
+// The path is formatted with strftime(3) to give you the screenshot date and time.
+// You can also set this to null to disable saving screenshots to disk.
+screenshot-path "~/Images/Screenshots/Screenshot %Y-%m-%d %H-%M-%S.png"
 
 xwayland-satellite {
     // off
@@ -45,13 +51,18 @@ clipboard {
     disable-primary
 }
 
+hotkey-overlay {
+    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
+    skip-at-startup
+}
+
 debug {
     honor-xdg-activation-with-invalid-serial
 }
 
 // Input device configuration.
 // Find the full list of options on the wiki:
-// https://yalter.github.io/niri/Configuration:-Input
+// https://niri-wm.github.io/niri/Configuration:-Input
 input {
     keyboard {
         xkb {
@@ -157,7 +168,7 @@ output "ASUSTek COMPUTER INC XG27ACG T6LMQS029175" {
 
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
-// https://yalter.github.io/niri/Configuration:-Layout
+// https://niri-wm.github.io/niri/Configuration:-Layout
 layout {
     // Set gaps around windows in logical pixels.
     gaps 20
@@ -279,20 +290,9 @@ layout {
     }
 }
 
-hotkey-overlay {
-    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-    skip-at-startup
-}
-
-// You can change the path where screenshots are saved.
-// A ~ at the front will be expanded to the home directory.
-// The path is formatted with strftime(3) to give you the screenshot date and time.
-// You can also set this to null to disable saving screenshots to disk.
-screenshot-path "~/Images/Screenshots/Screenshot %Y-%m-%d %H-%M-%S.png"
-
 // Animation settings.
 // The wiki explains how to configure individual animations:
-// https://yalter.github.io/niri/Configuration:-Animations
+// https://niri-wm.github.io/niri/Configuration:-Animations
 animations {
     // Uncomment to turn off all animations.
     // You can also put "off" into each individual animation to disable it.
@@ -374,8 +374,6 @@ overview {
     }
 }
 
-include "binds.kdl"
-
 recent-windows {
     // off
     debounce-ms 750
@@ -393,11 +391,6 @@ recent-windows {
         max-height 480
         max-scale 0.5
     }
-
-    binds {
-        Alt+Tab             { next-window; }
-        Alt+Shift+Tab       { previous-window; }
-        Alt+Ctrl+Tab        { next-window     filter="app-id"; }
-        Alt+Shift+Ctrl+Tab  { previous-window filter="app-id"; }
-    }
 }
+
+include "binds.kdl"

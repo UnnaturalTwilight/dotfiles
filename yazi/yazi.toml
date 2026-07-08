@@ -33,6 +33,9 @@ view-bat = [
 view-image = [
     { run = "kitty kitten icat --hold -- %s", desc = "Preview (icat)", block = false, for = "linux" },
 ]
+diff-kitty = [
+    { run = "kitty kitten diff -- %s1 %s2; echo %d", desc = "Diff (Kitty)", block = false, for = "linux", orphan = true },
+]
 
 [open]
 prepend_rules = [
@@ -40,8 +43,8 @@ prepend_rules = [
     { url = "bulk-create.txt", use = "edit" },
     { url = "*/", use = [ "reveal", "code" ] },
     { mime = "image/*", use = [ "view-image", "open", "reveal" ] },
-    { mime = "text/*", use = [ "edit", "view-bat", "reveal" ] },
-    { mime = "application/{json,ndjson,javascript,wine-extension-ini}", use = [ "edit", "view-bat", "reveal" ] },
+    { mime = "text/*", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
+    { mime = "application/{json,ndjson,javascript,wine-extension-ini}", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
 ]
 append_rules = [
     { url = "*", use = [ "open", "edit", "code", "reveal" ] },
