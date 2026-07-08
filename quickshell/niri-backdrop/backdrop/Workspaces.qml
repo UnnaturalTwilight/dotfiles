@@ -147,12 +147,12 @@ Item {
                 return Colours.power2;
             } else if (floating) {
                 if (active) {
-                    return focused ? Colours.frost3 : Colours.frost1;
+                    return focused ? Colours.frost2 : Colours.frost1;
                 } else {
                     return Colours.frost0;
                 }
             } else if (active) {
-                return focused ? Colours.mana4 : Colours.mana1;
+                return focused ? Colours.mana2 : Colours.mana1;
             } else {
                 return Colours.gray;
             }

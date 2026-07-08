@@ -59,16 +59,16 @@ follow_symlinks = false
 palette = 'power'
 
 [palettes.power]
-zero      = '#9A348E'
-one       = '#DA627D'
-two       = '#FCA17D'
-three     = '#06969A'
-four      = '#33658A'
-five      = '#38384d'
+zero      = '#9A348E' # Purple
+one       = '#DA627D' # Pinkish
+two       = '#FCA17D' # Orange
+three     = '#06969A' # Teal
+four      = '#33658A' # Blue
+five      = '#38384d' # Navy
 bright    = 'white'
 dark      = 'bright-black'
-red       = '#bf616a'
-yellow    = '#ebcb8b'
+red       = '#bf616a' # Aurora Red
+yellow    = '#ebcb8b' # Aurora Yellow
 
 # You can also replace your username with a neat symbol like   or disable this
 # and use the os module below

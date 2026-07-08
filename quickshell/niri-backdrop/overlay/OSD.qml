@@ -74,7 +74,7 @@ Item {
         implicitWidth: root.popupWidth
         implicitHeight: root.popupHeight
         radius: height / 2
-        color: Colours.panel
+        color: Colours.window
         border.color: Colours.frost0
         border.width: 2
 
@@ -98,7 +98,7 @@ Item {
                 value: root.value
                 implicitHeight: 12
                 bgColor: Colours.polar1
-                fgColor: Colours.snow5
+                fgColor: Colours.snow0
             }
 
             Text {

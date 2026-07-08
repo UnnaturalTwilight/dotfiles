@@ -172,7 +172,7 @@ PopupWindow {
                     return "...";
                 }
             }
-            color: parent.enabled ? Colours.text : Colours.snow5
+            color: parent.enabled ? Colours.text : Colours.snow0
             width: parent.width - 10 - (arrow.visible ? 26 : 0) - (checkbox.visible ? 26 : 0)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.family: Fonts.sans

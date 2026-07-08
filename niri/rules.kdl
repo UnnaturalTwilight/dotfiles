@@ -40,25 +40,23 @@ window-rule {
     tiled-state false
 
     border {
-        active-color "#88c0d0ee"
-        inactive-color "#5e81acaa"
+        active-color "#88c0d0ee" // Frost Bright
+        inactive-color "#5e81acaa" // Frost Dark
     }
 }
 
 window-rule {
     match is-window-cast-target=true
-    tiled-state false
 
     border {
-        active-color "#da627dee"
-        inactive-color "#da627daa"
+        active-color "#da627dee" // Power Pinkish
+        inactive-color "#da627daa" // Power Pinkish
     }
 
     shadow {
-        color "#da627d66"
+        color "#da627d66" // Power Pinkish
     }
 }
-
 
 window-rule {
     match title="^Picture-in-Picture$"

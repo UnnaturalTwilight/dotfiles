@@ -11,19 +11,19 @@
     header_background_color: None,
     modal_background_color: None,
     modal_backdrop: false,
-    preview_label_style: (fg: "#81a1c1", modifiers: "Italic"),
-    preview_metadata_group_style: (fg: "#a3be8c", modifiers: "Bold"),
-    current_item_style: (bg: "#38384d", modifiers: "Bold"),
-    highlighted_item_style: (fg: "#8fbcbb", bg: "black"),
+    preview_label_style: (fg: "#81a1c1", modifiers: "Italic"), // Aurora Blue / Frost
+    preview_metadata_group_style: (fg: "#a3be8c", modifiers: "Bold"), // Aurora Green
+    current_item_style: (bg: "#38384d", modifiers: "Bold"), // Power Navy
+    highlighted_item_style: (fg: "#88c0d0", bg: "black"), // Frost Bright
     borders_style: (fg: "dark_gray", modifiers: "Bold"),
     highlight_border_style: None,
 
     symbols: (
         song: "󰝚", dir: "", playlist: "󰲸", marker: "▋", ellipsis: "...",
-        song_style: (fg: "#b0b4bc"),
-        dir_style: (fg: "#86bbd8"),
-        playlist_style: (fg: "#a3be8c"),
-        marker_style: (fg: "#c47eba"),
+        song_style: (fg: "#b0b4bc"), // Gray
+        dir_style: (fg: "#81a1c1"), // Aurora Blue / Frost
+        playlist_style: (fg: "#a3be8c"), // Aurora Green
+        marker_style: (fg: "#c47eba"), // Aurora Pink
         song_highlighted_style: None,
         dir_highlighted_style: None,
         playlist_highlighted_style: None,
@@ -37,8 +37,8 @@
     progress_bar: (
         symbols: ["▐", "█", "┃", "█", "▌"],
         track_style: (fg: "black"),
-        elapsed_style: (fg: "#5e81ac"),
-        thumb_style: (fg: "#81a1c1"),
+        elapsed_style: (fg: "#5e81ac"), // Frost Dark
+        thumb_style: (fg: "#81a1c1"), // Aurora Blue / Frost
         use_track_when_empty: false,
     ),
 
@@ -46,20 +46,20 @@
         symbols: ["│", "┃", "▲", "▼"],
         track_style: (fg: "dark_gray"),
         ends_style: (fg: "gray"),
-        thumb_style: (fg: "#b0b4bc", modifiers: "Bold"),
+        thumb_style: (fg: "#b0b4bc", modifiers: "Bold"), // Gray
     ),
 
     tab_bar: (
-        active_style: (fg: "white", bg: "#38384d", modifiers: "Bold | Italic"),
+        active_style: (fg: "white", bg: "#38384d", modifiers: "Bold | Italic"), // Power Navy
         inactive_style: (fg: "default"),
     ),
 
     level_styles: (
-        info: (fg: "#81a1c1", bg: "black"),
-        warn: (fg: "#ebcb8b", bg: "black"),
-        error: (fg: "#bf616a", bg: "black"),
-        debug: (fg: "#a3be8c", bg: "black"),
-        trace: (fg: "#c47eba", bg: "black"),
+        info: (fg: "#81a1c1", bg: "black"), // Aurora Blue / Frost
+        warn: (fg: "#ebcb8b", bg: "black"),  // Aurora Yellow
+        error: (fg: "#bf616a", bg: "black"), // Aurora Red
+        debug: (fg: "#a3be8c", bg: "black"), // Aurora Green
+        trace: (fg: "#c47eba", bg: "black"), // Aurora Pink
     ),
 
     browser_song_format: [
@@ -129,10 +129,10 @@
                 border_title_alignment: Right,
                 border_title: [
                     (kind: Text(" ")),
-                    (kind: Property(Status(QueueLength())),style: (fg: "#6a6a6a")),
-                    (kind: Text(" songs"),style: (fg: "#6a6a6a")),
+                    (kind: Property(Status(QueueLength())),style: (fg: "#6a6a6a")), // Polar 5
+                    (kind: Text(" songs"),style: (fg: "#6a6a6a")), // Polar 5
                     (kind: Text(" ── "),style: (fg: "dark_gray")),
-                    (kind: Property(Status(QueueTimeTotal())),style: (fg: "#6a6a6a")),
+                    (kind: Property(Status(QueueTimeTotal())),style: (fg: "#6a6a6a")), // Polar 5
                     (kind: Text(" ─"),style: (fg: "dark_gray"))
                 ]
             ),
@@ -142,9 +142,9 @@
                 border_symbols: Rounded,
                 border_title: [
                     (kind: Text(" ")),
-                    (kind: Property(Status(Elapsed)),style: (fg: "#6a6a6a")),
-                    (kind: Text("/"),style: (fg: "#6a6a6a")),
-                    (kind: Property(Status(Duration)),style: (fg: "#6a6a6a")),
+                    (kind: Property(Status(Elapsed)),style: (fg: "#6a6a6a")), // Polar 5
+                    (kind: Text("/"),style: (fg: "#6a6a6a")), // Polar 5
+                    (kind: Property(Status(Duration)),style: (fg: "#6a6a6a")), // Polar 5
                     (kind: Text(" ─"),style: (fg: "dark_gray")),
                 ],
                 border_title_alignment: Right,
@@ -159,7 +159,7 @@
                 (kind: Property(Status(StateV2(
                     playing_label: " 🬦🬓🬦🬓 ", paused_label: "  🭑🬽  ", stopped_label: " 🬦🬹🬹🬓 ",
                 ))),
-                style: (fg: "#7654a8", modifiers: "Bold")),
+                style: (fg: "#7654a8", modifiers: "Bold")), // Mana Dark
             ], align: Left,
         )),
         "_playpause2": Pane(Property(
@@ -167,20 +167,20 @@
                 (kind: Property(Status(StateV2(
                     playing_label: " 🬉🬄🬉🬄 ", paused_label: "  🭜🭘  ", stopped_label: " 🬉🬎🬎🬄 ",
                 ))),
-                style: (fg: "#7654a8", modifiers: "Bold")),
+                style: (fg: "#7654a8", modifiers: "Bold")), // Mana Dark
             ], align: Left,
         )),
         "_mode1" : Pane(Property(
             content: [
                 (kind: Property(Status(RepeatV2(
                     on_label: "  ", off_label: "  ",
-                    on_style: (fg: "#7654a8", modifiers: "Bold"),
-                    off_style: (fg: "#6a6a6a", modifiers: "Bold")))
+                    on_style: (fg: "#7654a8", modifiers: "Bold"), // Mana Dark
+                    off_style: (fg: "#6a6a6a", modifiers: "Bold"))) // Polar 5
                 )),
                 (kind: Property(Status(RandomV2(
                     on_label: "  ", off_label: "  ",
-                    on_style: (fg: "#7654a8", modifiers: "Bold"),
-                    off_style: (fg: "#6a6a6a", modifiers: "Bold")))
+                    on_style: (fg: "#7654a8", modifiers: "Bold"), // Mana Dark
+                    off_style: (fg: "#6a6a6a", modifiers: "Bold"))) // Polar 5
                 )),
             ], align: Left,
         )),
@@ -188,15 +188,15 @@
             content: [
                 (kind: Property(Status(ConsumeV2(
                     on_label: " 󰅗 ", off_label: " 󱟃 ", oneshot_label: " 󰍵 ",
-                    on_style: (fg: "#7654a8", modifiers: "Bold"),
-                    off_style: (fg: "#6a6a6a", modifiers: "Bold"),
-                    oneshot_style: (fg: "#5e81ac", modifiers: "Bold")))
+                    on_style: (fg: "#7654a8", modifiers: "Bold"), // Mana Dark
+                    off_style: (fg: "#6a6a6a", modifiers: "Bold"), // Polar 5
+                    oneshot_style: (fg: "#5e81ac", modifiers: "Bold"))) // Frost Dark
                 )),
                 (kind: Property(Status(SingleV2(
                     on_label: "  ", off_label: " 󰒉 ", oneshot_label: " 󰎤 ",
-                    on_style: (fg: "#7654a8", modifiers: "Bold"),
-                    off_style: (fg: "#6a6a6a", modifiers: "Bold"),
-                    oneshot_style: (fg: "#5e81ac", modifiers: "Bold")))
+                    on_style: (fg: "#7654a8", modifiers: "Bold"), // Mana Dark
+                    off_style: (fg: "#6a6a6a", modifiers: "Bold"), // Polar 5
+                    oneshot_style: (fg: "#5e81ac", modifiers: "Bold"))) // Frost Dark
                 )),
             ], align: Left,
         )),
@@ -246,7 +246,7 @@
                 (size: "11", pane: Pane(Volume(
                     kind: Slider(
                         symbols: (start: "╺", filled: "━", thumb: "●", track: "━", end: "╸",),
-                        track_style: (fg: "dark_gray"), filled_style: (fg: "#7654a8"), thumb_style: (fg: "gray"),
+                        track_style: (fg: "dark_gray"), filled_style: (fg: "#7654a8"), thumb_style: (fg: "gray"), // Mana Dark
                 )))),
             ],
         ),
@@ -300,8 +300,8 @@
         // value will be used as 0 and 100. Only hex and RGB colors are supported here and your terminal
         // must support them as well!
         bar_color: Gradient({
-            100: "#c47eba",
-            000: "#917bc6"
+            100: "#c47eba", // Aurora Pink
+            000: "#917bc6" // Aurora Purple / Mana
         })
     ),
 )

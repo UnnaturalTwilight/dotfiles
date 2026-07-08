@@ -21,39 +21,32 @@ Singleton {
     final readonly property color polar4: "#5e5e5e"
     final readonly property color polar5: "#6a6a6a"
 
-    final readonly property color snow0: "#f2f4f7"
-    final readonly property color snow1: "#e5e9f0"
-    final readonly property color snow2: "#d8dee9"
-    final readonly property color snow3: "#cad2e1"
-    final readonly property color snow4: "#bdc7da"
-    final readonly property color snow5: "#b0bcd3"
+    final readonly property color power0: "#9a348e" // Purple
+    final readonly property color power1: "#da627d" // Pinkish
+    final readonly property color power2: "#fca17d" // Orange
+    final readonly property color power3: "#06969a" // Teal
+    final readonly property color power4: "#33658a" // Blue
+    final readonly property color power5: "#38384d" // Navy
 
-    final readonly property color aurora0: "#bf616a"
-    final readonly property color aurora1: "#d08770"
-    final readonly property color aurora2: "#ebcb8b"
-    final readonly property color aurora3: "#a3be8c"
-    final readonly property color aurora4: "#c47eba"
+    final readonly property color aurora0: "#bf616a" // Red
+    final readonly property color aurora1: "#d08770" // Orange
+    final readonly property color aurora2: "#ebcb8b" // Yellow
+    final readonly property color aurora3: "#a3be8c" // Green
+    final readonly property color aurora4: "#c47eba" // Pink
 
-    final readonly property color power0: "#9a348e"
-    final readonly property color power1: "#da627d"
-    final readonly property color power2: "#fca17d"
-    final readonly property color power3: "#06969a"
-    final readonly property color power4: "#33658a"
-    final readonly property color power5: "#38384d"
+    final readonly property color mana0: "#7654a8" // Mana Dark
+    final readonly property color mana1: "#917bc6" // Aurora Purple / Mana Medium
+    final readonly property color mana2: "#aa8ddf" // Mana Bright
 
-    final readonly property color mana0: "#7654a8"
-    final readonly property color mana1: "#8866bb"
-    final readonly property color mana2: "#917bc6"
-    final readonly property color mana3: "#aa8ddf"
-    final readonly property color mana4: "#af7ccd"
+    final readonly property color frost0: "#5e81ac" // Frost Dark
+    final readonly property color frost1: "#81a1c1" // Aurora Blue / Frost Medium
+    final readonly property color frost2: "#88c0d0" // Frost Bright
 
-    final readonly property color frost0: "#5e81ac"
-    final readonly property color frost1: "#81a1c1"
-    final readonly property color frost2: "#86bbd8"
-    final readonly property color frost3: "#88c0d0"
-    final readonly property color frost4: "#8fbcbb"
+    final readonly property color snow0: "#b0bcd3" // Snow Dark
+    final readonly property color snow1: "#cad2e1" // Snow Medium
+    final readonly property color snow2: "#e5e9f0" // Snow Bright
 
     final readonly property color highlight: Qt.alpha(white, 0.15)
-    final readonly property color panel: Qt.alpha(black, 0.60)
+    final readonly property color window: Qt.alpha(black, 0.60)
     final readonly property color shadow: Qt.alpha(black, 0.40)
 }

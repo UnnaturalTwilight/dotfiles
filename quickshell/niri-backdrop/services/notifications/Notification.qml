@@ -171,7 +171,7 @@ Rectangle {
                     anchors.fill: parent
                     background: null
                     color: Colours.text
-                    placeholderTextColor: Colours.snow5
+                    placeholderTextColor: Colours.snow0
                     font.family: Fonts.sans
                     Layout.fillWidth: true
                     placeholderText: root.modelData?.inlineReplyPlaceholder ?? "Reply..."

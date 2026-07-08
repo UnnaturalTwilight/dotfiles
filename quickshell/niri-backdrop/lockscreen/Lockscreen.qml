@@ -130,9 +130,9 @@ Item {
         screen: lockScreen.screen
     }
 
-    MediaBar {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 50
-    }
+    //MediaBar {
+    //    anchors.horizontalCenter: parent.horizontalCenter
+    //    anchors.bottom: parent.bottom
+    //    anchors.bottomMargin: 50
+    //}
 }

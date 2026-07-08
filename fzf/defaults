@@ -3,8 +3,17 @@
 --bind "ctrl-left:backward-word,ctrl-right:forward-word"
 --bind "ctrl-up:preview-up,ctrl-down:preview-down"
 --bind "shift-up:toggle+up,shift-down:toggle+down"
---color=dark,hl:#a3be8c,bg+:#1e1e1e,info:#8fbcbb,pointer:#c47eba,prompt:#06969a
---color=marker:#ebcb8b,spinner:#917bc6,border:#525252,gutter:#393939
+--color=dark
+--color=hl:#a3be8c # Aurora Green
+--color=bg+:#1e1e1e # Polar 1
+--color=info:#81a1c1 # Frost Light
+--color=pointer:#c47eba # Aurora Pink
+--color=prompt:#06969a # Power Teal
+--color=marker:#ebcb8b # Aurora Yellow
+--color=spinner:#917bc6 # Aurora Purple / Mana
+--color=border:#525252 # Polar 3
+--color=gutter:#393939 # Polar 2
+--color=header:#cad2e1 # Snow
 --marker=▋
 --marker-multi-line=▋▋▋
 --prompt="▶ "

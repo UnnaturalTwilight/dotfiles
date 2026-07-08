@@ -225,8 +225,8 @@ layout {
 
         // Gradients can use a few different interpolation color spaces.
         active-gradient from="#ffccddee" to="#9900ffee" angle=120 relative-to="workspace-view" in="oklch shorter hue"
-        inactive-color "#525252aa"
-        urgent-color "#fca17dee"
+        inactive-color "#525252aa" // Polar 3
+        urgent-color "#fca17dee" // Power Orange
     }
 
     tab-indicator {
@@ -274,7 +274,7 @@ layout {
 
     insert-hint {
         // off
-        color "#33658a66"
+        color "#33658a66" // Power Blue
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
@@ -363,7 +363,7 @@ include "rules.kdl"
 
 overview {
     zoom 0.5
-    backdrop-color "#1e1e1e"
+    backdrop-color "#1e1e1e" // Polar 2
 
     workspace-shadow {
         // off
@@ -381,8 +381,8 @@ recent-windows {
     open-delay-ms 150
 
     highlight {
-        active-color "#b0b4bcaa"
-        urgent-color "#fca17dee"
+        active-color "#b0b4bcaa" // Gray
+        urgent-color "#fca17dee" // Power Orange
         padding 20
         corner-radius 10
     }
