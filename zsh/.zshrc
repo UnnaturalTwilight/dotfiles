@@ -58,10 +58,10 @@ alias yazi='yazi-cwd'
 
 ## Aliases
 alias cd='z'
-alias ls='eza -x --hyperlink --group-directories-first --icons=auto'
-alias ll='eza -l --hyperlink --group-directories-first --icons=auto'
-alias la='eza -la --hyperlink --group-directories-first --icons=auto'
-alias tree='eza -lT --hyperlink --group-directories-first --icons=auto'
+alias ls='eza -x --hyperlink=auto --group-directories-first --icons=auto'
+alias ll='eza -l --hyperlink=auto --group-directories-first --icons=auto'
+alias la='eza -la --hyperlink=auto --group-directories-first --icons=auto'
+alias tree='eza -lT --hyperlink=auto --group-directories-first --icons=auto'
 alias grep='grep --color=auto'
 
 alias shutdown='shutdown now'
