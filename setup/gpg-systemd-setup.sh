@@ -8,6 +8,7 @@ fi
 
 echo "Setting up GPG systemd user socket files..."
 echo "GNUPGHOME: $GNUPGHOME"
+mkdir -m 700 "$GNUPGHOME"
 
 socketdir=$(gpgconf --list-dirs socketdir | sed s/'\/run\/user\/.*\/gnupg'/'%t\/gnupg'/)
 echo "Socket directory: $socketdir"

@@ -2,7 +2,7 @@
 Name=OrcaSlicer
 GenericName=3D Printing Slicer
 Icon=OrcaSlicer
-Exec=/opt/orca-slicer-unstable/bin/orca-slicer %U
+Exec=/opt/orca-slicer/bin/orca-slicer %U
 Terminal=false
 Type=Application
 PrefersNonDefaultGPU=true
