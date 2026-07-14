@@ -13,10 +13,10 @@
             "type": "custom",
             "format": "{#35}┄╼━━━━━━━━━╾┄{#}"
         },
-        "os",  
+        "os",
         {
             "type": "host",
-            "format": "{5} {/2}{-}{/}{2}"
+            "format": "{vendor} {/name}{-}{/}{name}"
         },
         {
             "type": "kernel",
@@ -42,22 +42,22 @@
         },
         {
             "type": "cpu",
-            "format": "{1}",
+            "format": "{name}",
             "key": "CPU"
         },
         {
             "type": "gpu",
-            "format": "{2} {3} [{6}]",
+            "format": "{name} {driver} [{type}]",
             "key": "GPU"
         },
         {
             "type": "memory",
-            "format": "{} / {} {3}",
+            "format": "{used} / {total} {percentage}",
             "key": "RAM"
         },
         {
             "type": "battery",
-            "format": "{/4}{-}{/}{4}{?5} [{5}]{?}",
+            "format": "{/capacity}{-}{/}{capacity}{?status} [{status}]{?}",
             "key": "Battery"
         },
         "break",

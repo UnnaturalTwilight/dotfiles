@@ -36,7 +36,7 @@
             "type": "host",
             "key": "󰌢 ",
             "keyColor": "blue",
-            "format": "{5} {/2}{-}{/}{2}"
+            "format": "{vendor} {name}"
         },
         {
             "type": "uptime",
@@ -79,19 +79,19 @@
             "type": "cpu",
             "key": " ",
             "keyColor": "blue",
-            "format": "{1}"
+            "format": "{name}"
         },
         {
             "type": "gpu",
             "key": " ",
             "keyColor": "blue",
-            "format": "{2} {3} [{6}]"
+            "format": "{name} {driver} [{type}]"
         },
         {
             "type": "memory",
             "key": " ",
             "keyColor": "blue",
-            "format": "{} / {} {3}"
+            "format": "{used} / {total} {percentage}"
         },
         {
             "type": "display",
@@ -103,7 +103,7 @@
             "type": "battery",
             "key": " ",
             "keyColor": "blue",
-            "format": "{/4}{-}{/}{4}{?5} [{5}]{?}"
+            "format": "{/capacity}{-}{/}{capacity}{?status} [{status}]{?}"
         },
         "break",
         {

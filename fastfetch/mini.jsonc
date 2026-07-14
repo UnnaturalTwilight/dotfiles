@@ -17,13 +17,13 @@
             "type": "os",
             "key": " ",
             "keyColor": "blue",
-            "format": "{3} {12}"
+            "format": "{pretty-name}"
         },
         {
             "type": "host",
             "key": "󰌢 ",
             "keyColor": "blue",
-            "format": "{5} Laptop 13"
+            "format": "{vendor} {name:9}"
         },
         {
             "type": "uptime",
@@ -39,7 +39,7 @@
             "type": "wm",
             "key": " ",
             "keyColor": "blue",
-            "format": "{2} {5}"
+            "format": "{pretty-name} {version}"
         },
         {
             "type": "custom",
