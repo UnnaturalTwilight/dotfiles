@@ -65,7 +65,7 @@ fi
 export GALLIUM_DRIVER=d3d12
 export LIBVA_DRIVER_NAME=d3d12
 
-export EDITOR=edit
+export EDITOR=${EDITOR:="edit"}
 
 alias fetch='fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
 alias clf='clear; fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
