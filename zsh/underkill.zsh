@@ -16,6 +16,7 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
   alias kdiff-git='git difftool --no-symlinks --dir-diff'
 fi
 
+# Extra completions
 source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
 
 # local aliases

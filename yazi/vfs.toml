@@ -1,0 +1,13 @@
+#:schema https://yazi-rs.github.io/schemas/vfs.json
+
+[sftp.violence]
+host = "violence"
+user = "sky"
+port = 22
+key_file = "~/.ssh/id_ed25519"
+
+[sftp.archives]
+host = "archives"
+user = "sky"
+port = 22
+key_file = "~/.ssh/id_ed25519"

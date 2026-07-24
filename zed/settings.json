@@ -66,6 +66,8 @@
   },
   "git": {
     "inline_blame": {
+      "show_commit_summary": true,
+      "location": "status_bar",
       "enabled": true,
     },
   },

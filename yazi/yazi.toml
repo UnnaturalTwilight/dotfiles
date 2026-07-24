@@ -36,16 +36,32 @@ view-image = [
 diff-kitty = [
     { run = "kitty kitten diff -- %s1 %s2; echo %d", desc = "Diff (Kitty)", block = false, for = "linux", orphan = true },
 ]
+orcaslicer = [
+    { run = "orca-slicer %s1", desc = "OrcaSlicer", block = false, for = "linux", orphan = true },
+]
 
 [open]
 prepend_rules = [
+    # Bulk operations
     { url = "bulk-rename.txt", use = "edit" },
     { url = "bulk-create.txt", use = "edit" },
-    { url = "*/", use = [ "reveal", "code" ] },
+    # Trash
+    { url = "trash://*", use = [ "trash", "open" ] },
+    { url = "trash://*/", use = [ "trash", "reveal" ] },
+    # 3D models
+    { url = "*.{stl,3mf,step}", use = [ "orcaslicer", "reveal"] },
+    # Images
     { mime = "image/*", use = [ "view-image", "open", "reveal" ] },
+    # Text files
     { mime = "text/*", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
     { mime = "application/{json,ndjson,javascript,wine-extension-ini}", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
 ]
 append_rules = [
+    # Folders
+    { url = "*/", use = [ "open", "code", "reveal" ] },
+    # Default
     { url = "*", use = [ "open", "edit", "code", "reveal" ] },
 ]
+
+[input]
+cursor_blink = true

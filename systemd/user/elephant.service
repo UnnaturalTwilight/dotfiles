@@ -8,3 +8,6 @@ Requisite=graphical-session.target
 Type=simple
 ExecStart=elephant
 Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

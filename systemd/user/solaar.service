@@ -5,5 +5,10 @@ After=graphical-session.target
 Requisite=graphical-session.target
 
 [Service]
+Type=dbus
+BusName=io.github.pwr_solaar.solaar
 ExecStart=solaar -b solaar -w hide
 Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

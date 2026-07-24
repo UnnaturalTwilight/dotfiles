@@ -6,10 +6,10 @@ StartLimitIntervalSec=60
 StartLimitBurst=3
 
 [Service]
-ExecStart=/usr/bin/rmpcd
-Restart=on-failure
 Type=dbus
 BusName=org.mpris.MediaPlayer2.mpd
+ExecStart=/usr/bin/rmpcd
+Restart=on-failure
 RestartSec=10s
 
 [Install]

@@ -249,16 +249,19 @@ binds {
     // rather than stacked on top of each other.
     Mod+W { toggle-column-tabbed-display; }
 
-    Print { screenshot; }
+    // Take Screenshots with Printscreen
+    Print       { screenshot; }
+    Shift+Print { screenshot-window; }
+    Ctrl+Print  { screenshot-screen; }
+    // Note: Alt+Print is SysRq
+
     // Win11 snipping tool shortcut
     Mod+Shift+S { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
 
     // Dynamic screencast target
-    Mod+S { set-dynamic-cast-window; }
-    Mod+Ctrl+S { clear-dynamic-cast-target; }
-    Mod+Alt+S { set-dynamic-cast-monitor; }
+    Mod+S       { set-dynamic-cast-window; }
+    Mod+Ctrl+S  { clear-dynamic-cast-target; }
+    Mod+Alt+S   { set-dynamic-cast-monitor; }
 
     // Set windows to be opaque even when out of focus
     Mod+T { toggle-window-rule-opacity; }
@@ -288,7 +291,7 @@ binds {
     Mod+Shift+P { power-off-monitors; }
 
     // Lock screen
-    Mod+L hotkey-overlay-title="Lock Screen" { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "lock" "lock"; }
+    Mod+L repeat=false allow-when-locked=true hotkey-overlay-title="Lock Screen" { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "lock" "lock"; }
 }
 
 recent-windows {

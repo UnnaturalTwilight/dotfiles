@@ -206,7 +206,10 @@
         ),
         (
             name: "Recent",
-            pane: Pane(RecentlyPlayed(
+            pane: Pane(Sticker(
+                sticker: "lastPlayed",
+                sort: ValueIntDesc,
+                limit: Some(100),
                 column_widths: [0, 60, 40]
             ))
         ),

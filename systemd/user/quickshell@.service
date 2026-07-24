@@ -10,3 +10,6 @@ Type=exec
 Environment="QT_QPA_PLATFORM=wayland" "QT_QPA_PLATFORMTHEME=gtk3"
 ExecStart=qs --no-duplicate --config %i
 Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target
