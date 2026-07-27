@@ -20,6 +20,7 @@ Scope {
     }
 
     function unlock(): void {
+        console.log("Session unlocked");
         Idle.wake();
         sessionLock.locked = false;
     }
@@ -52,7 +53,7 @@ Scope {
         active: false
 
         onCompleted: result => {
-            // console.log("PAM authentication completed with result: " + result.toString());
+            console.log("PAM authentication completed with result: " + PamResult.toString(result));
             if (result === PamResult.Success) {
                 root.unlock();
             }

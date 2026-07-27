@@ -28,12 +28,40 @@ PanelWindow {
     }
 
     mask: Region {
-        item: notificationStack.contentItem
+        item: System.panelVisible ? null : notificationStack.contentItem
         radius: 20
+        regions: System.panelVisible ? panels.maskZone : null
+    }
+
+    BackgroundEffect.blurRegion: System.panelVisible ? panels.blurZone : notifBlurZone
+
+    Region {
+        id: notifBlurZone
+        regions: notifBlurRegions.instances
+    }
+
+    Variants {
+        id: notifBlurRegions
+        model: {
+            notificationStack.contentItem.visibleChildren.filter(child => child instanceof Rectangle);
+        }
+
+        delegate: Region {
+            required property Item modelData
+            item: modelData
+            radius: 20
+        }
+    }
+
+    Panels {
+        id: panels
+        // screen: modelData
+        visible: System.panelVisible
     }
 
     ListView {
         id: notificationStack
+        visible: !System.panelVisible
 
         x: overlayPanel.modelData?.width - (40 + implicitWidth)
         y: 40
@@ -80,27 +108,6 @@ PanelWindow {
                 duration: 250
                 easing.type: Easing.InOutQuad
             }
-        }
-    }
-
-    BackgroundEffect.blurRegion: blurZone
-
-    Region {
-        id: blurZone
-        regions: blurRegions.instances
-    }
-
-    Variants {
-        id: blurRegions
-        model: {
-            const zones = notificationStack.contentItem.visibleChildren.filter(child => child instanceof Rectangle);
-            return zones;
-        }
-
-        delegate: Region {
-            required property Item modelData
-            item: modelData
-            radius: 20
         }
     }
 

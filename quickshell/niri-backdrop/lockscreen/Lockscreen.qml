@@ -7,7 +7,6 @@ import QtQuick
 
 import qs.config
 import qs.backdrop
-import qs.widgets
 
 Item {
     id: lockScreen
@@ -23,6 +22,7 @@ Item {
 
         function onPamMessage() {
             const msg = lockScreen.pam.message.trim();
+            console.log("PAM message: " + msg);
 
             if (lockScreen.pam.messageIsError) {
                 msg.endsWith(":") ? lockScreen.message = msg.slice(0, -1) : lockScreen.message = msg;
@@ -37,6 +37,7 @@ Item {
     }
 
     function tryUnlock(response: string) {
+        console.log("Try unlock called");
         if (!pam.active) {
             pam.start();
         }

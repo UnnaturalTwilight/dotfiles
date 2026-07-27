@@ -43,6 +43,7 @@ PanelWindow {
         }
         asynchronous: true
         visible: status === Loader.Ready
+        active: false
     }
 
     Loader {

@@ -38,7 +38,7 @@ DelayButton {
         implicitWidth: parent.width
         implicitHeight: parent.height
         radius: root.buttonSize / 4
-        color: root.hovered ? root.bgColorHover : root.bgColor
+        color: root.bgColor
         border.color: root.borderColor
         border.width: 2
     }
@@ -66,7 +66,7 @@ DelayButton {
                 bevel: false
             }
             capStyle: ShapePath.RoundCap
-            fillColor: "transparent"
+            fillColor: root.hovered ? root.bgColorHover : "transparent"
         }
     }
 }

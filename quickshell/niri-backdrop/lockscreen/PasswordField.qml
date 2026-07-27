@@ -25,10 +25,12 @@ Item {
         border.width: 4
         color: Colours.highlight
         border.color: {
-            if (passwordField.pam.messageIsError) {
-                return Colours.aurora0;
-            } else if (passwordField.pam.active) {
-                return Colours.aurora4;
+            if (passwordField.pam.active) {
+                if (passwordField.pam.messageIsError) {
+                    return Colours.aurora0;
+                } else {
+                    return Colours.aurora4;
+                }
             } else {
                 return "transparent";
             }

@@ -20,8 +20,8 @@ Singleton {
     //  specific delta      Example: 50- or +10
     //  percentage delta    Example: 50%- or +10%
     function setScreen(value: string, showOsd = false) {
-        // min-value is set to 4800 (5%)
-        brightnessSetProc.exec(["brightnessctl", "--quiet", "--class=backlight", "set", value, "--min-value=4800"]);
+        // min-value is set to 9600 (5%)
+        brightnessSetProc.exec(["brightnessctl", "--quiet", "--class=backlight", "set", value, "--min-value=9600"]);
         persist.backlightSaved = false;
         if (showOsd) {
             showBrightnessOsd();
@@ -65,7 +65,7 @@ Singleton {
         property bool backlightSaved: false
         property bool kbdBacklightSaved: false
         property int screenRaw: 0
-        property int screenMax: 96000
+        property int screenMax: 192000
     }
 
     IpcHandler {

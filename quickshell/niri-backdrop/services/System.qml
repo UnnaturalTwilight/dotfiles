@@ -11,11 +11,15 @@ Singleton {
     readonly property alias hostname: persist.hostname
     readonly property string username: Quickshell.env("USER")
 
+    property alias panelVisible: persist.panelVisible
+
     PersistentProperties {
         id: persist
         reloadableId: "System"
 
         property string hostname: hostnameFile.text().trim()
+
+        property bool panelVisible: false
     }
 
     FileView {
@@ -45,6 +49,19 @@ Singleton {
 
         function hardReload() {
             Quickshell.reload(true);
+        }
+    }
+
+    IpcHandler {
+        id: panelIPC
+        target: "panel"
+
+        function toggle() {
+            persist.panelVisible = !persist.panelVisible;
+        }
+
+        function setVisible(visible: bool) {
+            persist.panelVisible = visible;
         }
     }
 }
