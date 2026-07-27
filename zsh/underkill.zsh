@@ -14,6 +14,8 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
 
   # This assumes that kitty is set up as the difftool in git
   alias kdiff-git='git difftool --no-symlinks --dir-diff'
+  
+  alias pacdiff='DIFFPROG=${DIFFPROG:="kitten diff"} pacdiff'
 fi
 
 # Extra completions

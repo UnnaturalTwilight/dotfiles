@@ -1,0 +1,27 @@
+name = "quickshell"
+name_pretty = "Quickshell Commands"
+icon = "org.quickshell"
+global_search = true
+search_name = true
+hide_from_providerlist = false
+
+[[entries]]
+text = "Restart Quickshell"
+subtext = "systemctl --user restart quickshell@niri-backdrop.service"
+keywords = ["restart", "reload", "systemd"]
+icon = "reload"
+actions = { "restart" = "systemctl --user restart quickshell@niri-backdrop.service" }
+
+[[entries]]
+text = "Toggle Start Pane"
+subtext = "ipc call start toggle"
+keywords = ["menu"]
+icon = "org.xfce.panel.applicationsmenu"
+actions = { "toggle" = "qs -c niri-backdrop ipc call start toggle" }
+
+[[entries]]
+text = "Dump Notifications to log"
+subtext = "ipc call notifs dump"
+keywords = ["notifs", "debug"]
+icon = "logview"
+actions = { "dump" = "qs -c niri-backdrop ipc call notifs dump" }

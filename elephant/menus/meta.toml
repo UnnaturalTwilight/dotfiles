@@ -9,7 +9,7 @@ hide_from_providerlist = true
 text = "System Commands"
 icon = "laptop"
 submenu = "system"
-keywords = ["docker", "immich", "elephant", "quickshell"]
+keywords = ["docker", "elephant", "tools"]
 
 [[entries]]
 text = "Power Options"
@@ -17,3 +17,9 @@ subtext = "Shutdown, Reboot, Lock, Sleep"
 icon = "cs-power"
 submenu = "power"
 keywords = ["shutdown", "poweroff", "reboot", "restart", "lock", "sleep", "suspend", "hibernate"]
+
+[[entries]]
+text = "Quickshell Commands"
+icon = "org.quickshell"
+submenu = "quickshell"
+keywords = ["quickshell", "ipc"]

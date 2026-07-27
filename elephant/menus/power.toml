@@ -31,11 +31,11 @@ text = "Sleep"
 subtext = "suspend-then-hibernate"
 keywords = ["suspend", "power"]
 icon = "system-suspend"
-actions = { "suspend" = "qs -c niri-backdrop ipc call idle setState suspend" }
+actions = { "suspend" = "systemctl suspend-then-hibernate" }
 
 [[entries]]
 text = "Hibernate"
 subtext = "hibernate"
 keywords = ["power"]
 icon = "system-suspend-hibernate"
-actions = { "hibernate" = "qs -c niri-backdrop ipc call idle setState hibernate" }
+actions = { "hibernate" = "systemctl hibernate" }

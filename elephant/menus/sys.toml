@@ -5,13 +5,6 @@ global_search = true
 search_name = true
 
 [[entries]]
-text = "Start Immich"
-subtext = "systemctl start immich-compose.service"
-keywords = ["docker", "immich"]
-icon = "photos"
-actions = { "start" = "systemctl start immich-compose.service" }
-
-[[entries]]
 text = "Start Docker"
 subtext = "systemctl start docker.service"
 keywords = ["docker"]
@@ -21,7 +14,7 @@ actions = { "start" = "systemctl start docker.service" }
 [[entries]]
 text = "Stop Docker"
 subtext = "systemctl stop docker.service docker.socket"
-keywords = ["docker", "immich"]
+keywords = ["docker"]
 icon = "stop"
 actions = { "stop" = "systemctl stop docker.service docker.socket" }
 
@@ -31,13 +24,6 @@ subtext = "systemctl --user restart elephant.service"
 keywords = ["elephant"]
 icon = "reload"
 actions = { "restart" = "systemctl --user restart elephant.service" }
-
-[[entries]]
-text = "Restart Quickshell"
-subtext = "systemctl --user restart quickshell@niri-backdrop.service"
-keywords = ["quickshell"]
-icon = "org.quickshell"
-actions = { "restart" = "systemctl --user restart quickshell@niri-backdrop.service" }
 
 [[entries]]
 text = "Color Picker"
