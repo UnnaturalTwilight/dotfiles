@@ -28,66 +28,8 @@ Item {
         anchors.centerIn: parent
 
         Rectangle {
-            Layout.preferredWidth: systray.iconSize + 8
-            Layout.preferredHeight: systray.iconSize + 8
-            color: Colours.black
-            border.color: brightnessTileMouseArea.containsMouse ? Colours.power1 : Colours.polar2
-            border.width: 2
-            radius: 8
-            MouseArea {
-                id: brightnessTileMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                acceptedButtons: Qt.AllButtons
-                onClicked: mouse => {
-                    Brightness.fetch();
-                    if (mouse.button !== Qt.MiddleButton) {
-                        systray.activeMenu = null;
-                        systray.menuSwaped();
-                        brightnessPopover.toggle();
-                    }
-                }
-                onWheel: wheel => {
-                    const step = Math.abs(wheel.angleDelta.y) / 15;
-                    if (wheel.angleDelta.y > 0) {
-                        Brightness.setScreen("+" + step + "%");
-                    } else if (wheel.angleDelta.y < 0) {
-                        Brightness.setScreen(step + "%-");
-                    }
-                    wheel.accepted = true;
-                }
-                onExited: {
-                    brightnessPopover.startSelfCloseTimer();
-                }
-            }
-            Text {
-                anchors.centerIn: parent
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                text: "󰃟"
-                font.pixelSize: 48
-                font.family: Fonts.nerdMono
-                color: Colours.gray
-            }
-            BrightnessPopover {
-                id: brightnessPopover
-                anchorX: (startPanel.width / 2) - (width / 2)
-                anchorY: systray.implicitHeight + systray.y + 30
-            }
-            Connections {
-                target: systray
-
-                function onMenuSwaped() {
-                    if (systray.activeMenu !== null) {
-                        brightnessPopover.closeSelf();
-                    }
-                }
-            }
-        }
-
-        Rectangle {
             // space for 8 icons including the brightness tile
-            Layout.preferredWidth: (7 - trayRepeater.count) * (systray.iconSize + 8)
+            Layout.preferredWidth: (10 - trayRepeater.count) * (systray.iconSize + 8)
         }
 
         Repeater {
@@ -129,8 +71,8 @@ Item {
             sourceComponent: TrayMenu {
                 id: trayMenu
                 menuHandle: trayIcon.modelData.menu
-                anchorX: (startPanel.width / 2) - (systray.menuWidth / 2)
-                anchorY: systray.implicitHeight + systray.y + 30
+                anchorX: screen.width - (30 + systray.menuWidth)
+                anchorY: screen.height - (320 + implicitHeight)
                 implicitWidth: systray.menuWidth
             }
 

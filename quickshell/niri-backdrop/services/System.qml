@@ -12,6 +12,9 @@ Singleton {
     readonly property string username: Quickshell.env("USER")
 
     property alias panelVisible: persist.panelVisible
+    property alias panelTab: persist.panelTab
+
+    property alias debugMode: persist.debugMode
 
     PersistentProperties {
         id: persist
@@ -20,6 +23,9 @@ Singleton {
         property string hostname: hostnameFile.text().trim()
 
         property bool panelVisible: false
+        property int panelTab: 0
+
+        property bool debugMode: false
     }
 
     FileView {
@@ -50,6 +56,10 @@ Singleton {
         function hardReload() {
             Quickshell.reload(true);
         }
+
+        function setDebugMode(mode: bool) {
+            persist.debugMode = mode;
+        }
     }
 
     IpcHandler {
@@ -62,6 +72,10 @@ Singleton {
 
         function setVisible(visible: bool) {
             persist.panelVisible = visible;
+        }
+
+        function setTab(tab: int) {
+            persist.panelTab = tab;
         }
     }
 }

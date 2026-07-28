@@ -5,7 +5,6 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.config
-import qs.elements
 import qs.services
 import qs.panel
 
@@ -27,57 +26,44 @@ Item {
     implicitWidth: 550 - (2 * margin)
 
     property Region blurZone: Region {
-        // Region {
-        //     item: statusZone
-        //     radius: panels.radius
-        // }
         Region {
-            item: mainZone
+            item: tabContentZone
             radius: panels.radius
         }
-        // Region {
-        //     regions: buttons.blurZone
-        // }
+        Region {
+            item: tileZone
+            radius: panels.radius
+        }
     }
 
     property Region maskZone: Region {
         Region {
             item: statusZone
-            // radius: panels.radius
         }
         Region {
             x: panels.x + panels.buttonWidth
             y: panels.y - panels.margin
-            width: mainZone.width + (3 * panels.margin)
+            width: tileZone.width + (3 * panels.margin)
             height: panels.height + (2 * panels.margin)
-            // radius: panels.radius
         }
         Region {
-            x: panels.x - (panels.margin /2)
-            y: buttons.y
+            x: panels.x - (panels.margin / 2)
+            y: tabButtons.y - (panels.margin)
             width: panels.buttonWidth + (2 * panels.margin)
-            height: buttons.implicitHeight + (2 * panels.margin)
-            // radius: panels.radius
+            height: tabButtons.implicitHeight + (3 * panels.margin)
         }
         Region {
-            // intersection: Intersection.Subtract
-            // x: panels.x
-            // y: panels.y
-            // width: panels.buttonWidth
-            // height: parent.height
-            // radius: panels.radius
+            x: panels.x - (panels.margin / 2)
+            y: powerButtons.y
+            width: panels.buttonWidth + (2 * panels.margin)
+            height: powerButtons.implicitHeight + (2 * panels.margin)
         }
     }
 
-    Rectangle {
+    Statusline {
         id: statusZone
-
-        implicitHeight: 30
+        margin: panels.margin
         radius: panels.radius
-
-        color: Colours.power5 //Qt.alpha(Colours.power5, 0.6)
-        border.color: Colours.frost0
-        border.width: 2
 
         anchors {
             top: parent.top
@@ -86,58 +72,59 @@ Item {
             leftMargin: -40 //panels.margin
             // rightMargin: panels.margin
         }
+    }
 
-        Text {
-            id: timeText
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: panels.margin
-            text: Time.time
-            color: Colours.gray
-            font.pixelSize: 20
-            font.family: Fonts.mono
-        }
+    TabButtons {
+        id: tabButtons
+        buttonSize: panels.buttonWidth
+        bgColour: Colours.power5
 
-        Text {
-            id: dateText
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: timeText.left
-            anchors.rightMargin: panels.margin
-            text: Time.isoDate
-            color: Colours.gray
-            font.pixelSize: 20
-            font.family: Fonts.mono
-        }
-
-        Text {
-            id: networkIcon
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: dateText.left
-            anchors.rightMargin: panels.margin
-            text: Network?.connectionIcon ?? ""
-            color: Colours.gray
-            font.pixelSize: 20
-            font.family: Fonts.mono
-        }
-
-        Text {
-            id: userText
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: statusZone.left
-            anchors.leftMargin: panels.margin
-            text: "󰣇 " + System.username + "@" + System.hostname
-            color: Colours.gray
-            font.pixelSize: 20
-            font.family: Fonts.mono
+        anchors {
+            top: statusZone.bottom
+            topMargin: panels.margin * 2
+            left: parent.left
         }
     }
 
-    Rectangle {
-        id: mainZone
+    StackLayout {
+        id: tabContentZone
         anchors {
             top: statusZone.bottom
             topMargin: panels.margin
-            left: buttons.right
+            left: powerButtons.right
+            leftMargin: panels.margin
+            right: statusZone.right
+            // rightMargin: panels.margin
+            bottom: tileZone.top
+            bottomMargin: panels.margin
+        }
+
+        currentIndex: System.panelTab
+
+        NotifPane {
+            radius: panels.radius
+        }
+
+        Rectangle {
+            color: Colours.aurora2
+            implicitWidth: 300
+            implicitHeight: 200
+            radius: panels.radius
+        }
+        Rectangle {
+            color: Colours.aurora3
+            implicitWidth: 200
+            implicitHeight: 200
+            radius: panels.radius
+        }
+
+        DebugPane {}
+    }
+
+    Rectangle {
+        id: tileZone
+        anchors {
+            left: powerButtons.right
             leftMargin: panels.margin
             right: statusZone.right
             // rightMargin: panels.margin
@@ -145,39 +132,39 @@ Item {
             // bottomMargin: panels.margin
         }
         radius: panels.radius
+        implicitHeight: 320
 
         color: Qt.alpha(Colours.power5, 0.6)
         border.color: Colours.power5
         border.width: 2
 
-        NotificationList {
-            id: notifications
-            anchors {
-                top: mainZone.top
-                topMargin: panels.margin
-                left: mainZone.left
-                leftMargin: panels.margin
-                right: mainZone.right
-                rightMargin: panels.margin
-                bottom: tiles.top
-                bottomMargin: panels.margin
-                margins: 20
-            }
-            color: Qt.alpha(Colours.polar0, 0.4)
-        }
-
         ColumnLayout {
             id: tiles
             anchors {
-                left: mainZone.left
+                left: tileZone.left
                 leftMargin: panels.margin
-                right: mainZone.right
+                right: tileZone.right
                 rightMargin: panels.margin
-                bottom: mainZone.bottom
+                top: tileZone.top
+                topMargin: panels.margin
+                bottom: tileZone.bottom
                 bottomMargin: panels.margin
                 margins: 20
             }
             spacing: 12
+
+            SysTray {
+                id: systray
+                menuWidth: 400
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: "transparent"
+            }
 
             AudioTile {}
 
@@ -186,7 +173,7 @@ Item {
     }
 
     PowerButtons {
-        id: buttons
+        id: powerButtons
         buttonSize: panels.buttonWidth
         colour: Colours.power5 //Qt.alpha(Colours.power5, 0.6)
         borderColour: Colours.frost0
@@ -195,7 +182,6 @@ Item {
             bottom: parent.bottom
             bottomMargin: panels.margin * 1.5
             left: parent.left
-            // leftMargin: panels.margin / 2
         }
     }
 }

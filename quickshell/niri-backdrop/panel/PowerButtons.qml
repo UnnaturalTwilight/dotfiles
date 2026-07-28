@@ -13,7 +13,7 @@ ColumnLayout {
     id: powerRow
     spacing: 10
     Layout.alignment: Qt.AlignCenter
-    property int buttonSize: 64
+    property int buttonSize: 60
 
     property var colour: "transparent"
     property var borderColour
@@ -36,7 +36,7 @@ ColumnLayout {
     }
 
     HoldButton {
-        symbol: ""
+        symbol: "power/poweroff"
         onActivated: () => {
             Quickshell.execDetached(["systemctl", "poweroff"]);
         }
@@ -46,7 +46,7 @@ ColumnLayout {
     }
 
     HoldButton {
-        symbol: ""
+        symbol: "power/restart"
         onActivated: () => {
             Quickshell.execDetached(["systemctl", "reboot"]);
         }
@@ -56,11 +56,12 @@ ColumnLayout {
     }
 
     HoldButton {
-        symbol: "󰤄"
+        symbol: "power/sleep"
         onActivated: () => {
+            Niri.sleepDisplay();
             Qt.callLater(() => {
                 System.panelVisible = false;
-                Idle.sleep();
+                Quickshell.execDetached(["systemctl", "sleep"]);
             });
         }
         buttonSize: powerRow.buttonSize
@@ -68,21 +69,8 @@ ColumnLayout {
         borderColor: powerRow.borderColour
     }
 
-    // HoldButton {
-    //     symbol: "󰜗"
-    //     onActivated: () => {
-    //         Qt.callLater(() => {
-    //             System.panelVisible = false;
-    //             Quickshell.execDetached(["systemctl", "hibernate"]);
-    //         });
-    //     }
-    //     buttonSize: powerRow.buttonSize
-    //     bgColor: powerRow.colour
-    //     borderColor: powerRow.borderColour
-    // }
-
     HoldButton {
-        symbol: ""
+        symbol: "power/lock"
         onActivated: () => {
             Idle.lock();
             Qt.callLater(() => {
@@ -93,17 +81,4 @@ ColumnLayout {
         bgColor: powerRow.colour
         borderColor: powerRow.borderColour
     }
-
-    // HoldButton {
-    //     symbol: ""
-    //     onActivated: () => {
-    //         Niri.quitNiri(true);
-    //         Qt.callLater(() => {
-    //             System.panelVisible = false;
-    //         });
-    //     }
-    //     buttonSize: powerRow.buttonSize
-    //     bgColor: powerRow.colour
-    //     borderColor: powerRow.borderColour
-    // }
 }

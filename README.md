@@ -9,7 +9,7 @@ This repo is liable to be restructured on a whim.
 - These configs require the git version / my fork of: quickshell, rmpc, yazi
 
 ## Acknowledgements
- - SVG Icons are from: [iconify.design](https://iconify.design/)
+ - SVG Icons are from: [iconify.design](https://iconify.design/), [Google Fonts](https://fonts.google.com/icons), and [Font Awesome](https://fontawesome.com/)
  - Niri IPC handling for quickshell is based on: [github.com/tpaau/dots/](https://github.com/tpaau/dots/blob/main/private_dot_config/quickshell/services/niri/Niri.qml)
  - Lockscreen background [TwilightClouds.jpg](assets/Images/TwilightClouds.jpg) is from [Pixel Community Lens wallpapers](https://9to5google.com/2023/11/21/pixel-community-lens-wallpapers-2023/)
 
@@ -17,4 +17,4 @@ Where I have drawn from other's configs and examples I have tried to place a lin
 
 ***
 
-See [colour-scheme.md](assets/Colours/colour-scheme.md) for details regarding my custom theames
+See [colour-scheme.md](assets/Colours/colour-scheme.md) for details regarding my custom themes

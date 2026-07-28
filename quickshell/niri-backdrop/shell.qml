@@ -25,17 +25,6 @@ ShellRoot {
         Overlay {}
     }
 
-    // Variants {
-
-    //     model: Quickshell.screens
-    //     Debug {}
-    // }
-
-    Start {
-        id: startPanel
-        screen: System.primaryScreen
-    }
-
     Polkit {
         id: polkitAgent
     }

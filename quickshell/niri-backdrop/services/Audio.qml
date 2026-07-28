@@ -46,14 +46,14 @@ Singleton {
 
     readonly property string icon: {
         if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.8C")) {
-            return "headphones"; // Skulcandy HESH 540 ANC Headphones
+            return "devices/headphones"; // Skulcandy HESH 540 ANC Headphones
         } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.88")) {
             // matches boath LE and normal mode at the risk of false positives
-            return "earbuds"; // Skulcandy Sesh ANC Earbuds
+            return "devices/earbuds"; // Skulcandy Sesh ANC Earbuds
         } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.D4")) {
-            return "earbuds";
+            return "devices/earbuds";
         } else if (Pipewire.defaultAudioSink?.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
-            return "speaker"; // Built in speakers or headphone jack
+            return "devices/speaker"; // Built in speakers or headphone jack
         } else {
             console.log("Unknown audio sink:", Pipewire.defaultAudioSink?.name ?? "null");
             return "unknown"; // Fallback icon for unknown audio sink

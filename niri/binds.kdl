@@ -50,8 +50,7 @@ binds {
     XF86AudioPrev   allow-when-locked=true { spawn "playerctl" "previous"; }
 
     // "start" menu
-    XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call start toggle"; }
-    Mod+XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call panel toggle"; }
+    XF86AudioMedia repeat=false { spawn-sh "qs --config niri-backdrop ipc call panel toggle"; }
 
     // Airplane mode key
     // This still causes wifi & bluetooth to restart

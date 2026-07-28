@@ -87,16 +87,16 @@ Rectangle {
         id: label
         text: "Notifications"
         color: Colours.text
-        horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         anchors {
             verticalCenter: dismissAll.verticalCenter
             left: parent.left
+            leftMargin: 20
             right: dismissAll.left
             margins: notifications.gap
         }
         font.family: Fonts.mono
-        font.pixelSize: 16
+        font.pixelSize: 20
     }
 
     Rectangle {

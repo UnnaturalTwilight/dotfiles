@@ -14,10 +14,10 @@ PopupWindow {
     property TrayMenu parentMenu: null
     property TrayMenu childMenu: null
 
-    property real anchorX: 0
-    property real anchorY: 0
+    property int anchorX: 0
+    property int anchorY: 0
 
-    anchor.window: startPanel
+    anchor.window: overlayPanel
     anchor.rect.x: anchorX
     anchor.rect.y: anchorY
 

@@ -23,24 +23,25 @@ DelayButton {
     implicitHeight: buttonSize
     implicitWidth: buttonSize
 
-    contentItem: Text {
+    contentItem: SvgIcon {
         anchors.centerIn: parent
-        text: root.text
-        font: root.font
-        color: root.hovered ? root.activeColor : root.fgColor
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+        iconName: root.symbol
+        size: root.buttonSize * 0.8
+        colour: root.hovered ? root.activeColor : root.fgColor
     }
 
     background: Rectangle {
-        anchors.centerIn: parent
-        implicitWidth: parent.width
-        implicitHeight: parent.height
+        anchors.fill: parent
         radius: root.buttonSize / 4
         color: root.bgColor
         border.color: root.borderColor
         border.width: 2
+
+        Rectangle {
+            anchors.fill: parent
+            color: root.hovered ? root.bgColorHover : "transparent"
+            radius: root.buttonSize / 4
+        }
     }
 
     Shape {
@@ -66,7 +67,7 @@ DelayButton {
                 bevel: false
             }
             capStyle: ShapePath.RoundCap
-            fillColor: root.hovered ? root.bgColorHover : "transparent"
+            fillColor: "transparent"
         }
     }
 }
