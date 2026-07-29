@@ -15,7 +15,7 @@ path=($path ~/.local/bin/windowsapps ~/.local/bin/winget)
 # Check if interop is working, since I rely on more than I should.
 # This is a far from foolproof check but it does catch the case that provides the least helpful error message
 cat /proc/sys/fs/binfmt_misc/WSLInterop &>/dev/null ||
-  echo "\e[91mWSL interop is not working! Windows programs will not work\e[0m" 
+  echo "\e[91mWSL interop is not working! Windows programs will not work\e[0m"
 
 if [[ "$TERM" == "xterm-kitty" ]]; then
   source $ZDOTDIR/kitty.zsh
@@ -60,6 +60,7 @@ elif [[ -n "$WT_SESSION" ]]; then
 
   # Windows Terminal's bg colour makes the default fg=8 almost invisable
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
+  DEJA_HIGHLIGHT_STYLE="fg=244"
 fi
 
 export GALLIUM_DRIVER=d3d12

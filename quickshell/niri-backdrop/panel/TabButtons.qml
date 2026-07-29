@@ -97,7 +97,9 @@ Item {
         implicitHeight: tabs.buttonSize
         implicitWidth: tabs.buttonSize
 
-        contentItem: SvgIcon {
+        contentItem: null
+        SvgIcon {
+            anchors.centerIn: parent
             iconName: radioButton.iconName
             size: tabs.buttonSize * 0.8
             colour: radioButton.hovered ? tabs.activeColour : tabs.fgColour

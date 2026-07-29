@@ -19,9 +19,7 @@ Item {
         top: parent.top
         right: parent.right
         bottom: parent.bottom
-        rightMargin: margin
-        topMargin: margin
-        bottomMargin: margin
+        margins: margin
     }
     implicitWidth: 550 - (2 * margin)
 
@@ -90,13 +88,11 @@ Item {
         id: tabContentZone
         anchors {
             top: statusZone.bottom
-            topMargin: panels.margin
             left: powerButtons.right
-            leftMargin: panels.margin
             right: statusZone.right
-            // rightMargin: panels.margin
             bottom: tileZone.top
-            bottomMargin: panels.margin
+            margins: panels.margin
+            rightMargin: 0
         }
 
         currentIndex: System.panelTab
@@ -105,12 +101,10 @@ Item {
             radius: panels.radius
         }
 
-        Rectangle {
-            color: Colours.aurora2
-            implicitWidth: 300
-            implicitHeight: 200
+        NetworkPane {
             radius: panels.radius
         }
+
         Rectangle {
             color: Colours.aurora3
             implicitWidth: 200
@@ -121,7 +115,7 @@ Item {
         DebugPane {}
     }
 
-    Rectangle {
+    TilePane {
         id: tileZone
         anchors {
             left: powerButtons.right
@@ -132,50 +126,13 @@ Item {
             // bottomMargin: panels.margin
         }
         radius: panels.radius
-        implicitHeight: 320
-
-        color: Qt.alpha(Colours.power5, 0.6)
-        border.color: Colours.power5
-        border.width: 2
-
-        ColumnLayout {
-            id: tiles
-            anchors {
-                left: tileZone.left
-                leftMargin: panels.margin
-                right: tileZone.right
-                rightMargin: panels.margin
-                top: tileZone.top
-                topMargin: panels.margin
-                bottom: tileZone.bottom
-                bottomMargin: panels.margin
-                margins: 20
-            }
-            spacing: 12
-
-            SysTray {
-                id: systray
-                menuWidth: 400
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignTop
-            }
-
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                color: "transparent"
-            }
-
-            AudioTile {}
-
-            BatteryTile {}
-        }
+        margin: panels.margin
     }
 
     PowerButtons {
         id: powerButtons
         buttonSize: panels.buttonWidth
-        colour: Colours.power5 //Qt.alpha(Colours.power5, 0.6)
+        colour: Colours.power5
         borderColour: Colours.frost0
 
         anchors {

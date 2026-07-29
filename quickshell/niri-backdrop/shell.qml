@@ -5,8 +5,6 @@ import QtQuick
 
 import qs.polkit
 import qs.backdrop
-import qs.panel
-import qs.services
 import qs.overlay
 import qs.lockscreen
 
@@ -14,13 +12,11 @@ ShellRoot {
     id: root
 
     Variants {
-
         model: Quickshell.screens
         Backdrop {}
     }
 
     Variants {
-
         model: Quickshell.screens
         Overlay {}
     }

@@ -40,8 +40,8 @@ TRAPUSR1() {
 }
 
 # Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
 export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/defaults"
+source <(fzf --zsh)
 
 # WHY does fzf unset this??
 KEYBOARD_HACK=\\
@@ -115,9 +115,8 @@ source $ZDOTDIR/$HOST.zsh
 ## Load plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# plugin: zsh-autosuggestions, causes issues if loaded on remote hosts
-if [[ ! -v SSH_TTY && -v COLORTERM ]]; then
-  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ -v COLORTERM ]]; then
+  eval "$(deja init zsh)"
 fi
 
 ## zoxide initialization

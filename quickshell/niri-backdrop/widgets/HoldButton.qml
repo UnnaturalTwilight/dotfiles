@@ -17,16 +17,15 @@ DelayButton {
     property color activeColor: Colours.power1
 
     text: root.symbol
-    font.pixelSize: root.buttonSize * 0.8
-    font.family: Fonts.nerdMono
     delay: 1000
     implicitHeight: buttonSize
     implicitWidth: buttonSize
 
-    contentItem: SvgIcon {
+    contentItem: null
+    SvgIcon {
         anchors.centerIn: parent
         iconName: root.symbol
-        size: root.buttonSize * 0.8
+        size: root.buttonSize * 0.7
         colour: root.hovered ? root.activeColor : root.fgColor
     }
 

@@ -47,6 +47,8 @@ Singleton {
     final readonly property color snow2: "#e5e9f0" // Snow Bright
 
     final readonly property color highlight: Qt.alpha(white, 0.15)
-    final readonly property color window: Qt.alpha(black, 0.60)
     final readonly property color shadow: Qt.alpha(black, 0.40)
+
+    // Derived Colours
+    final readonly property color blurPane: Qt.alpha(power5, 0.60)
 }

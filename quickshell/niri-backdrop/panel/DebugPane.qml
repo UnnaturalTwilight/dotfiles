@@ -3,13 +3,17 @@
 import QtQuick
 
 import qs.config
+import qs.services
 
 Rectangle {
     Text {
         anchors.fill: parent
-        horizontalAlignment: Text.AlignHCenter
+        anchors.margins: 10
+        // horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        text: "?"
+        text: JSON.stringify("DEBUG", null, 1)
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        width: 400
     }
     radius: 12
     color: Qt.alpha(Colours.snow0, 0.6)

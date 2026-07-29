@@ -12,6 +12,7 @@ PanelWindow {
     id: overlayPanel
     screen: modelData
     property var modelData
+    property bool panelVisible: System.panelVisible && (overlayPanel.modelData === System.primaryScreen)
 
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
@@ -28,12 +29,12 @@ PanelWindow {
     }
 
     mask: Region {
-        item: System.panelVisible ? null : notificationStack.contentItem
+        item: overlayPanel.panelVisible ? null : notificationStack.contentItem
         radius: 20
-        regions: System.panelVisible ? panels.maskZone : null
+        regions: overlayPanel.panelVisible ? panels.maskZone : null
     }
 
-    BackgroundEffect.blurRegion: System.panelVisible ? panels.blurZone : notifBlurZone
+    BackgroundEffect.blurRegion: panelVisible ? panels.blurZone : notifBlurZone
 
     Region {
         id: notifBlurZone
@@ -56,12 +57,12 @@ PanelWindow {
     Panels {
         id: panels
         // screen: modelData
-        visible: System.panelVisible
+        visible: overlayPanel.panelVisible
     }
 
     ListView {
         id: notificationStack
-        visible: !System.panelVisible
+        visible: !overlayPanel.panelVisible
 
         x: overlayPanel.modelData?.width - (40 + implicitWidth)
         y: 40

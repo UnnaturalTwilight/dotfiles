@@ -84,7 +84,7 @@ Singleton {
             props.iconDisplaySize = 70;
             if (props.data["api.bluez5.address"]) {
                 props.batteryLevel = Bluetooth.batteryLevelByMAC(props.data["api.bluez5.address"]);
-                props.batteryIcon = Battery.fontIcons[Math.round(10 - (props.batteryLevel * 10))];
+                props.batteryIcon = Battery.icons[Math.round(10 - (props.batteryLevel * 10))];
             }
         }
         return props;

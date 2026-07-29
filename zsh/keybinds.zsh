@@ -159,3 +159,10 @@ for kcap    seq         widget (                        # key name
 ); do
     bindkey -M shift-select ${terminfo[$kcap]:-$seq} $widget
 done
+
+# Binds for deja
+DEJA_TOGGLE_KEY=''
+DEJA_CYCLE_FUZZY_KEY='^[.'
+DEJA_CYCLE_FUZZY_BACK_KEY=''
+DEJA_CYCLE_KEY='^N'
+DEJA_DISMISS_KEY='^[^['

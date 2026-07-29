@@ -1,4 +1,4 @@
-// NotifPane.qml
+// NetworkPane.qml
 pragma ComponentBehavior: Bound
 
 import Quickshell
@@ -6,7 +6,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.config
-import qs.services.notifications
+import qs.services
 
 Rectangle {
     id: notifications
@@ -19,9 +19,11 @@ Rectangle {
     border.width: 2
     radius: 12
 
-    NotificationList {
-        anchors.fill: parent
-        color: "transparent"
-        radius: parent.radius
+    Text {
+        text: Network.connectionString + "\t" + Network.signalStrength
+        color: Colours.text
+        font.family: Fonts.sans
+        font.pixelSize: 20
+        padding: 8
     }
 }

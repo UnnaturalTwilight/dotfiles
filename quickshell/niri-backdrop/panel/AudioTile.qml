@@ -146,8 +146,7 @@ InfoTile {
             horizontalAlignment: Text.AlignRight
             text: {
                 let status = "";
-                status += Music.playing ? " " : "";
-                status += Audio.extraProps.batteryIcon ? Audio.extraProps.batteryIcon + " " : "";
+                // status += Audio.extraProps.batteryIcon ? Audio.extraProps.batteryIcon + " " : "";
                 status += Audio.muted ? " " : "";
                 return status;
             }

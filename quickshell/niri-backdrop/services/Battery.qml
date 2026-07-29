@@ -14,19 +14,22 @@ Singleton {
 
     readonly property real value: UPower.displayDevice.percentage ?? 0.0;
     readonly property var state: UPower.displayDevice.state ?? UPowerDeviceState.Unknown
+    readonly property real watts: UPower.displayDevice.changeRate ?? 0.0
+
+    readonly property string powerProfile: PowerProfile.toString(PowerProfiles.profile)
 
     readonly property string approxTime: {
         if (state === UPowerDeviceState.FullyCharged || value >= 0.999) {
             return qsTr("Fully charged");
         } else if (state === UPowerDeviceState.Discharging) {
             if (UPower.displayDevice.timeToEmpty > 0) {
-                return qsTr("%1 remaining").arg(formatSeconds(UPower.displayDevice.timeToEmpty, "Discharging"));
+                return qsTr("%1 remaining").arg(formatSeconds(UPower.displayDevice.timeToEmpty));
             } else {
                 return qsTr("Discharging");
             }
         } else if (state === UPowerDeviceState.Charging) {
             if (UPower.displayDevice.timeToFull > 0) {
-                return qsTr("%1 until full").arg(formatSeconds(UPower.displayDevice.timeToFull, "Charging"));
+                return qsTr("%1 until full").arg(formatSeconds(UPower.displayDevice.timeToFull));
             } else {
                 return qsTr("Charging");
             }
@@ -35,7 +38,7 @@ Singleton {
         }
     }
 
-    function formatSeconds(s: int, fallback: string): string {
+    function formatSeconds(s: int): string {
         const hr = Math.floor(s / 3600);
         const min = Math.floor(s / 60) % 60;
 
@@ -47,7 +50,7 @@ Singleton {
             comps.push(`${min} mins`);
         }
 
-        return comps.join(", ") || fallback;
+        return comps.join(", ") || "Unknown time";
     }
 
     readonly property int iconIdx: {
