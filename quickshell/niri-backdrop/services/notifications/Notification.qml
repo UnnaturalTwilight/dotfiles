@@ -224,6 +224,7 @@ Rectangle {
 
         implicitHeight: root.fontSize + root.padding
         Layout.maximumWidth: actionContent.childrenRect.width + (root.padding * 6)
+        Layout.preferredWidth: actionContent.childrenRect.width + (root.padding * 2)
         Layout.fillWidth: true
         color: Colours.shadow
         radius: 8

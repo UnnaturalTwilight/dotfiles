@@ -99,14 +99,18 @@ Item {
 
         NotifPane {
             radius: panels.radius
+            margin: panels.margin
         }
 
         NetworkPane {
             radius: panels.radius
+            margin: panels.margin
         }
 
         Rectangle {
-            color: Colours.aurora3
+            color: Colours.blurPane
+            border.width: 2
+            border.color: Colours.power5
             implicitWidth: 200
             implicitHeight: 200
             radius: panels.radius

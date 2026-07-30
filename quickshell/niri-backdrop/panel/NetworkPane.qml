@@ -19,6 +19,8 @@ Rectangle {
     border.width: 2
     radius: 12
 
+    property int margin: 10
+
     Text {
         text: Network.connectionString + "\t" + Network.signalStrength
         color: Colours.text

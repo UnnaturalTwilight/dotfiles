@@ -91,7 +91,7 @@ QtObject {
         function onImageChanged(): void { root.image = Rewrites.rewriteImage(root.notification.image, root.notification); }
         function onUrgencyChanged(): void { root.urgency = root.notification.urgency; }
         function onExpireTimeoutChanged(): void { root.expireTimeout = root.notification.expireTimeout; }
-        function onTransientChanged(): void { root.temporary = root.notification.transient; }
+        function onTransientChanged(): void { root.temporary = Rewrites.rewriteTemporary(root.notification.transient, root.notification); }
         function onDesktopEntryChanged(): void { root.desktopEntry = root.notification.desktopEntry; }
         function onHintsChanged(): void { root.hints = root.notification.hints; }
         function onResidentChanged(): void { root.resident = root.notification.resident; }

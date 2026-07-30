@@ -2,11 +2,13 @@
 
 import Quickshell
 import Quickshell.Services.Polkit
+import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
 import qs.config
+import qs.widgets
 
 FloatingWindow {
     id: promptWindow
@@ -18,8 +20,13 @@ FloatingWindow {
     minimumSize: windowSize
     maximumSize: windowSize
     surfaceFormat.opaque: false
-    color: agent.isRegistered ? Colours.window : Colours.power2
+    color: agent.isRegistered ? Colours.blurPane : Colours.power2
     visible: agent.isActive
+
+    BackgroundEffect.blurRegion: Region {
+        width: promptWindow.windowSize.width
+        height: promptWindow.windowSize.height
+    }
 
     onClosed: {
         agent.flow.cancelAuthenticationRequest();
@@ -44,7 +51,7 @@ FloatingWindow {
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: 16
             font.family: Fonts.mono
-            color: Colours.text
+            color: Colours.snow2
         }
 
         Text {
@@ -72,17 +79,26 @@ FloatingWindow {
             Layout.row: 2
             Layout.columnSpan: 4
 
-            color: Colours.polar0
+            color: Colours.highlight
             border.width: 3
-            border.color: agent.flow?.failed ? Colours.aurora1 : Colours.frost1
+            border.color: agent.flow?.failed ? Colours.aurora1 : Colours.snow0
             radius: 12
 
             Image {
                 anchors.centerIn: parent
-                source: Quickshell.iconPath(agent.flow?.iconName, "dialog-password")
+                source: Quickshell.iconPath(agent.flow?.iconName)
                 width: parent.width * 0.6
                 height: width
                 sourceSize: Qt.size(width, height)
+                visible: agent.flow?.iconName
+            }
+
+            SvgIcon {
+                anchors.centerIn: parent
+                iconName: "fingerprint"
+                size: parent.width * 0.6
+                colour: Colours.aurora4
+                visible: !(agent.flow?.iconName)
             }
 
             Behavior on border.color {
@@ -116,6 +132,9 @@ FloatingWindow {
             focus: true
 
             echoMode: TextInput.Password
+            passwordCharacter: "⏺"
+            font.family: length ? Fonts.mono : Fonts.sans
+
             placeholderText: {
                 var message = agent.flow?.inputPrompt.trim() ?? "Password";
                 message.endsWith(":") ? message = message.slice(0, -1) : null;
@@ -130,6 +149,12 @@ FloatingWindow {
             Component.onCompleted: {
                 passwordField.forceActiveFocus();
             }
+
+            background: Rectangle {
+                color: parent.hovered ? Colours.highlight : Colours.shadow
+                border.color: parent.activeFocus ? Colours.power1 : Colours.snow0
+                radius: 4
+            }
         }
 
         ComboBox {
@@ -139,35 +164,97 @@ FloatingWindow {
             Layout.row: 5
             Layout.preferredHeight: 30
             Layout.preferredWidth: 65
-            // Layout.fillWidth: true
 
             model: agent.flow?.identities
             textRole: "displayName"
+            font.family: Fonts.mono
+
+            contentItem: Text {
+                text: userComboBox.currentText
+                font: userComboBox.font
+                color: parent.hovered ? Colours.white : Colours.snow2
+                leftPadding: 4
+                verticalAlignment: Text.AlignVCenter
+            }
+
             onActivated: {
                 const selectedIdentity = agent.flow?.identities[userComboBox.currentIndex];
                 agent.flow.selectedIdentity = selectedIdentity;
             }
+
+            background: Rectangle {
+                color: parent.hovered ? Colours.highlight : Colours.shadow
+                radius: 4
+            }
+
+            popup: Popup {
+                y: 0
+                width: userComboBox.width
+                height: contentItem.implicitHeight + 6
+                padding: 3
+
+                contentItem: ListView {
+                    clip: true
+                    implicitHeight: contentHeight
+                    model: userComboBox.popup.visible ? userComboBox.delegateModel : null
+                    currentIndex: userComboBox.highlightedIndex
+                    ScrollIndicator.vertical: ScrollIndicator {}
+                }
+
+                background: Rectangle {
+                    color: Colours.polar1
+                    border.color: Colours.frost0
+                    border.width: 2
+                    radius: 6
+                }
+            }
+
+            delegate: ItemDelegate {
+                id: delegate
+
+                required property var model
+                required property int index
+
+                width: userComboBox.width
+                contentItem: Text {
+                    text: delegate.model[userComboBox.textRole]
+                    color: Colours.white
+                    font: userComboBox.font
+                    elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                }
+                background: Rectangle {
+                    color: delegate.highlighted ? Colours.highlight : "transparent"
+                    width: parent.width - 6
+                    radius: 4
+                }
+                highlighted: userComboBox.highlightedIndex === index
+            }
         }
 
-        Button {
+        FlatButton {
             id: cancelButton
+            text: "Cancel"
+
             Layout.alignment: Qt.AlignLeft
             Layout.column: 0
             Layout.row: 5
             Layout.preferredHeight: 30
+            Layout.preferredWidth: 80
 
-            text: "Cancel"
             onClicked: agent.flow.cancelAuthenticationRequest()
         }
 
-        Button {
+        FlatButton {
             id: submitButton
+            text: "Submit"
+
             Layout.alignment: Qt.AlignRight
             Layout.column: 3
             Layout.row: 5
             Layout.preferredHeight: 30
+            Layout.preferredWidth: 80
 
-            text: "Submit"
             onClicked: {
                 agent.flow.submit(passwordField.text);
                 passwordField.text = "";
