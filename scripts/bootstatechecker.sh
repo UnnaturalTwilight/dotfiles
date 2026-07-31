@@ -10,18 +10,6 @@ else
     notify-send "C:/ is not mounted" "Apps that depend on data stored under windows will not work." --urgency=critical --app-name="Boot State Checker"
 fi
 
-if [[ "$1" == "debug-env" ]]; then
-    notify-send "Environment Debug Mode" "This is a test notification from bootstatechecker.sh" --urgency=normal --app-name="Boot State Checker"
-    systemctl --user show-environment > ${HOME}/bsc_debug_sysd-user-env
-    printenv > ${HOME}/bsc_debug_printenv
-    zsh -c printenv > ${HOME}/bsc_debug_zsh-env
-    sort ${HOME}/bsc_debug_sysd-user-env > ${HOME}/bsc_debug_sysd-user-env-sorted
-    sort ${HOME}/bsc_debug_printenv > ${HOME}/bsc_debug_printenv-sorted
-    sort ${HOME}/bsc_debug_zsh-env > ${HOME}/bsc_debug_zsh-env-sorted
-    kitty --execute --detach kitten diff ${HOME}/bsc_debug_sysd-user-env-sorted ${HOME}/bsc_debug_printenv-sorted
-    kitty --execute --detach kitten diff ${HOME}/bsc_debug_sysd-user-env-sorted ${HOME}/bsc_debug_zsh-env-sorted
-fi
-
 # bluez 5.86 is bugged and causes elephant bluetooth to not work.
 # this checks for the bugged behavior and notifies if it is detected.
 if bluetoothctl show | read -t 1; then

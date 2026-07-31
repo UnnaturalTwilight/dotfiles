@@ -33,6 +33,8 @@ Rectangle {
                 root.modelData?.close();
             } else if (mouse.button === Qt.LeftButton) {
                 root.modelData?.defaultAction();
+            } else if (mouse.button === Qt.RightButton) {
+                root.modelData?.dismiss();
             }
         }
     }

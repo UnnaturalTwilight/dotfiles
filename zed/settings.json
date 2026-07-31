@@ -7,21 +7,37 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "VSCode Modern Dark",
+  },
+  "base_keymap": "VSCode",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "buffer_font_fallbacks": ["JetBrains Mono", ".ZedMono"],
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+
+  "cli_default_open_behavior": "existing_window",
+
+  "use_system_prompts": false,
+  "use_system_path_prompts": false,
+
+  "colorize_brackets": true,
+
   "diff_view_style": "unified",
   "code_lens": "menu",
-  "extend_comment_on_newline": false,
-  "cli_default_open_behavior": "existing_window",
-  "diagnostics": {
-    "inline": {
-      "enabled": false,
-    },
-  },
-  "document_symbols": "on",
-  "document_folding_ranges": "on",
-  "semantic_tokens": "off",
+
   "toolbar": {
     "code_actions": true,
   },
+  "title_bar": {
+    "show_menus": false,
+    "button_layout": "",
+    "show_user_picture": false,
+    "show_branch_status_icon": false,
+  },
+
   "minimap": {
     "thumb_border": "left_open",
     "thumb": "always",
@@ -30,54 +46,13 @@
   "sticky_scroll": {
     "enabled": true,
   },
-  "colorize_brackets": true,
-  "languages": {
-    "RON": {
-      "colorize_brackets": true,
-    },
-    "Rust": {
-      "inlay_hints": {
-        "enabled": true,
-      },
-    },
-    "Lua": {
-      "inlay_hints": {
-        "enabled": true,
-      },
-    },
-    "QML": {
-      "show_completions_on_input": false,
-      "inlay_hints": {
-        "enabled": true,
-      },
-    },
-  },
+
   "use_smartcase_search": true,
-  "tabs": {
-    "file_icons": true,
-    "git_status": true,
+
+  "inlay_hints": {
+    "enabled": true,
   },
-  "format_on_save": "off",
-  "title_bar": {
-    "show_menus": false,
-    "button_layout": "",
-    "show_user_picture": false,
-    "show_branch_status_icon": false,
-  },
-  "git": {
-    "inline_blame": {
-      "show_commit_summary": true,
-      "location": "status_bar",
-      "enabled": true,
-    },
-  },
-  "use_system_prompts": false,
-  "use_system_path_prompts": false,
-  "proxy": "",
-  "edit_predictions": {
-    "mode": "subtle",
-    "provider": "zed",
-  },
+
   "project_panel": {
     "diagnostic_badges": true,
     "git_status_indicator": true,
@@ -90,7 +65,20 @@
     "dock": "left",
     "button": false,
   },
+  "git_panel": {
+    "tree_view": false,
+    "commit_title_max_length": 0,
+    "file_icons": false,
+    "dock": "left",
+  },
+
+  "edit_predictions": {
+    "mode": "subtle",
+    "provider": "zed",
+  },
   "agent": {
+    "show_merge_conflict_indicator": false,
+    "sidebar_side": "right",
     "default_model": {
       "provider": "copilot_chat",
       "model": "gpt-5-mini",
@@ -101,36 +89,89 @@
     "favorite_models": [],
     "model_parameters": [],
   },
-  "git_panel": {
-    "tree_view": false,
-    "commit_title_max_length": 0,
-    "file_icons": false,
-    "dock": "left",
-  },
-  "which_key": {
-    "delay_ms": 500,
-    "enabled": true,
-  },
-  "auto_update": false,
-  "terminal": {
-    "toolbar": {},
-    "bell": "system",
-    "cursor_shape": "bar",
-    "blinking": "on",
-  },
-  "base_keymap": "VSCode",
-  "buffer_font_fallbacks": ["JetBrains Mono", ".ZedMono"],
-  "buffer_font_family": "JetBrainsMono Nerd Font",
   "agent_servers": {
     "github-copilot-cli": {
       "type": "registry",
     },
   },
-  "ui_font_size": 16,
-  "buffer_font_size": 15,
-  "theme": {
-    "mode": "dark",
-    "light": "One Light",
-    "dark": "VSCode Modern Dark",
+
+  "semantic_tokens": "combined",
+  "document_folding_ranges": "on",
+  "document_symbols": "on",
+
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
   },
+
+  "extend_comment_on_newline": false,
+  "format_on_save": "off",
+
+  "diagnostics": {
+    "inline": {
+      "enabled": false,
+    },
+  },
+
+  "git": {
+    "inline_blame": {
+      "show_commit_summary": true,
+      "location": "status_bar",
+      "enabled": true,
+    },
+  },
+
+  "terminal": {
+    "bell": "system",
+    "cursor_shape": "bar",
+    "blinking": "on",
+  },
+
+  "languages": {
+    "QML": {
+      "show_completions_on_input": false,
+    },
+  },
+
+  "lsp": {
+    "rust-analyzer": {
+      "enable_lsp_tasks": true,
+      "initialization_options": {
+        "inlayHints": {
+          "maxLength": null,
+          "lifetimeElisionHints": {
+            "enable": "skip_trivial",
+            "useParameterNames": true,
+          },
+          "closureReturnTypeHints": {
+            "enable": "always",
+          },
+        },
+      },
+    },
+  },
+
+  "which_key": {
+    "delay_ms": 500,
+    "enabled": true,
+  },
+
+  // Linux only settings overides
+  "linux": {
+    "auto_update": false,
+  },
+
+  // Remote Workspaces
+  "ssh_connections": [
+    {
+      "host": "violence",
+      "username": "sky",
+      "args": [],
+      "projects": [
+        {
+          "paths": ["/home/sky/programs/copyparty"],
+        },
+      ],
+    },
+  ],
 }

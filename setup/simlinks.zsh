@@ -55,11 +55,11 @@ ln -sfbr --suffix=.bak --target-directory=$XDG_CONFIG_HOME/yazi ./yazi/*
 cp -fLT --remove-destination ./yazi/package.toml $XDG_CONFIG_HOME/yazi/package.toml
 if (command -pv ya); then
   echo
-  ya pkg upgrade --discard
+  ya pkg install --discard
   echo
 else
   echo
-  echo "run ya pkg upgrade to install yazi plugins"
+  print "run \e[96mya pkg install\e[0m to install yazi plugins"
   echo
 fi
 

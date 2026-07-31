@@ -7,9 +7,17 @@
 // from the command palette.
 [
   {
+    "unbind": {
+      "ctrl-q": "zed::Quit",
+    },
+  },
+  {
     "context": "Workspace",
     "bindings": {
       // "shift shift": "file_finder::Toggle"
+    },
+    "unbind": {
+      "ctrl-w": "workspace::CloseActiveDock",
     },
   },
   {
@@ -22,12 +30,34 @@
     "context": "Terminal",
     "bindings": {
       "ctrl-shift-enter": "pane::SplitRight",
+      "ctrl-shift-q": [
+        "pane::CloseActiveItem",
+        {
+          "close_pinned": false,
+        },
+      ],
+    },
+    "unbind": {
+      "ctrl-shift-5": "pane::SplitRight",
+      "ctrl-shift-space": "terminal::ToggleViMode",
+      "ctrl-shift-c": "collab_panel::ToggleFocus",
     },
   },
   {
-    "context": "Terminal",
+    "context": "Editor",
+    "bindings": {
+      "ctrl-shift-enter": "pane::SplitRight",
+      "ctrl-shift-c": "editor::Copy",
+      "ctrl-shift-v": "editor::Paste",
+      "ctrl-q": [
+        "pane::CloseActiveItem",
+        {
+          "close_pinned": false,
+        },
+      ],
+    },
     "unbind": {
-      "ctrl-shift-5": "pane::SplitRight",
+      "ctrl-\\": "pane::SplitRight",
     },
   },
   {
@@ -40,104 +70,6 @@
     "context": "Editor && mode == auto_height",
     "unbind": {
       "ctrl-shift-enter": "editor::NewlineBelow",
-    },
-  },
-  {
-    "context": "Editor",
-    "bindings": {
-      "ctrl-shift-enter": "pane::SplitRight",
-    },
-  },
-  {
-    "context": "Editor",
-    "unbind": {
-      "ctrl-\\": "pane::SplitRight",
-    },
-  },
-  {
-    "context": "!Terminal",
-    "unbind": {
-      "ctrl-shift-c": "collab_panel::ToggleFocus",
-    },
-  },
-  {
-    "context": "Editor",
-    "bindings": {
-      "ctrl-shift-c": "editor::Copy",
-    },
-  },
-  {
-    "unbind": {
-      "ctrl-q": "zed::Quit",
-    },
-  },
-  {
-    "context": "SettingsWindow",
-    "bindings": {
-      "ctrl-q": "workspace::CloseWindow",
-    },
-  },
-  {
-    "context": "SettingsWindow",
-    "unbind": {
-      "ctrl-w": "workspace::CloseWindow",
-    },
-  },
-  {
-    "context": "RulesLibrary",
-    "bindings": {
-      "ctrl-q": "workspace::CloseWindow",
-    },
-  },
-  {
-    "context": "RulesLibrary",
-    "unbind": {
-      "ctrl-w": "workspace::CloseWindow",
-    },
-  },
-  {
-    "context": "Workspace",
-    "unbind": {
-      "ctrl-w": "workspace::CloseActiveDock",
-    },
-  },
-  {
-    "context": "Editor",
-    "bindings": {
-      "ctrl-q": [
-        "pane::CloseActiveItem",
-        {
-          "close_pinned": false,
-        },
-      ],
-    },
-  },
-  {
-    "context": "Terminal",
-    "bindings": {
-      "ctrl-shift-q": [
-        "pane::CloseActiveItem",
-        {
-          "close_pinned": false,
-        },
-      ],
-    },
-  },
-  {
-    "context": "Pane",
-    "unbind": {
-      "ctrl-w": [
-        "pane::CloseActiveItem",
-        {
-          "close_pinned": false,
-        },
-      ],
-    },
-  },
-  {
-    "context": "Editor",
-    "bindings": {
-      "ctrl-shift-v": "editor::Paste",
     },
   },
   {
@@ -159,21 +91,41 @@
     },
   },
   {
-    "context": "Terminal",
+    "context": "Editor && edit_prediction",
+    "bindings": {
+      "alt-right": "editor::AcceptEditPrediction",
+    },
     "unbind": {
-      "ctrl-shift-space": "terminal::ToggleViMode",
+      "alt-l": "editor::AcceptEditPrediction",
     },
   },
   {
-    "context": "Editor && edit_prediction",
+    "context": "SettingsWindow",
     "bindings": {
-      "alt-right": "editor::AcceptEditPrediction"
-    }
+      "ctrl-q": "workspace::CloseWindow",
+    },
+    "unbind": {
+      "ctrl-w": "workspace::CloseWindow",
+    },
   },
   {
-    "context": "Editor && edit_prediction",
+    "context": "RulesLibrary",
+    "bindings": {
+      "ctrl-q": "workspace::CloseWindow",
+    },
     "unbind": {
-      "alt-l": "editor::AcceptEditPrediction"
-    }
-  }
+      "ctrl-w": "workspace::CloseWindow",
+    },
+  },
+  {
+    "context": "Pane",
+    "unbind": {
+      "ctrl-w": [
+        "pane::CloseActiveItem",
+        {
+          "close_pinned": false,
+        },
+      ],
+    },
+  },
 ]

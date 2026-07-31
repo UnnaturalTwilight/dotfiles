@@ -68,7 +68,7 @@ function rewriteAppIcon(appIcon, notif) {
 }
 
 function rewriteTemporary(transient, notif) {
-  if (notif.appName == "udiskie" || notif.appName == "calibre") {
+  if (notif.appName == "udiskie" || notif.appName == "calibre" || notif.appName == "thunar") {
     return true;
   }
 

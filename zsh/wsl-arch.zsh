@@ -4,6 +4,11 @@
 
 ## local zsh configurations for WSL
 
+export EDITOR=${EDITOR:="edit"}
+
+export GALLIUM_DRIVER=d3d12
+export LIBVA_DRIVER_NAME=d3d12
+
 # Clean up the mess WSL makes
 path=( ${path[@]:#/bin} )
 path=( ${path[@]:#/sbin} )
@@ -62,11 +67,6 @@ elif [[ -n "$WT_SESSION" ]]; then
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
   DEJA_HIGHLIGHT_STYLE="fg=244"
 fi
-
-export GALLIUM_DRIVER=d3d12
-export LIBVA_DRIVER_NAME=d3d12
-
-export EDITOR=${EDITOR:="edit"}
 
 alias fetch='fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
 alias clf='clear; fastfetch -c $HOME/.config/fastfetch/moon.jsonc'

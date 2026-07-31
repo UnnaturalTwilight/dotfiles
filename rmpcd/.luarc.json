@@ -1,6 +1,5 @@
 {
   "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
-  "workspace.library": [
-    "~/.local/share/rmpcd/lua"
-  ]
+  "workspace.library": ["~/.local/share/rmpcd/lua"],
+  "hint.enable": true
 }

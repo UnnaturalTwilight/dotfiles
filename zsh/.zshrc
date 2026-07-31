@@ -7,6 +7,8 @@ HISTSIZE=100000
 SAVEHIST=80000
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
 setopt AUTO_RESUME
 setopt AUTO_CD
 
@@ -106,6 +108,7 @@ PROMPT='%n@%m %~ %F{white}%B%#%b%f '
 RPROMPT='[%F{yellow}%?%f]'
 
 if [[ -v COLORTERM ]]; then
+  setopt TRANSIENT_RPROMPT
   eval "$(starship init zsh)"
 fi
 

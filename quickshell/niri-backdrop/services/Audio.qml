@@ -15,6 +15,7 @@ Singleton {
     }
 
     function setDefaultSink(sink: PwNode) {
+        console.log("Switched audio sink to:", sink.name);
         if (sink) {
             Pipewire.preferredDefaultAudioSink = sink;
         }
@@ -68,7 +69,7 @@ Singleton {
             "bluetooth": false,
             "iconDisplaySize": 80,
             "batteryLevel": null,
-            "batteryIcon": "",
+            "batteryIcon": null,
             "data": {}
         };
         // console.log(`ID: ${Pipewire.defaultAudioSink.id}`);
