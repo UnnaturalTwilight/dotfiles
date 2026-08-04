@@ -7,6 +7,9 @@ dark = "catppuccin-mocha"
 sep_left = { open = "", close = "" }
 sep_right = { open = "", close = "" }
 
+[which]
+border = { fg = "#313244" }
+
 [icon]
 prepend_dirs = [
     { name = ".config", text = "", fg = "#89b4fa" },

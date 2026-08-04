@@ -4,7 +4,7 @@
 
 ## local zsh configurations
 
-export EDITOR=${EDITOR:="edit --goto"}
+export EDITOR=${EDITOR:="edit"}
 
 # Kitty-specific aliases and functions, dependent shell integration // kittens
 # Making the assumption that if we're in kitty, the shell integration is loaded
