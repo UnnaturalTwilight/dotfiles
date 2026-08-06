@@ -125,6 +125,10 @@
     "bell": "system",
     "cursor_shape": "bar",
     "blinking": "on",
+    "env": {
+      "EDITOR": "zed --wait",
+      "VISUAL": "zed --wait"
+    }
   },
 
   "languages": {

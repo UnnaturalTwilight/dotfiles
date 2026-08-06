@@ -111,7 +111,7 @@ prepend_keymap = [
 
     # Copy
     { on = [ "c", "c" ], run = "copy path",                       desc = "Copy file path" },
-    { on = [ "c", "d" ], run = "copy dirname",                    desc = "Copy directory path" },
+    { on = [ "c", "d" ], run = "copy dirpath",                    desc = "Copy directory path" },
     { on = [ "c", "f" ], run = "copy filename",                   desc = "Copy filename" },
     { on = [ "c", "C" ], run = "copy url",                        desc = "Copy file URL" },
     { on = [ "c", "D" ], run = "copy dirurl",                     desc = "Copy directory URL" },
