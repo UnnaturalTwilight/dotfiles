@@ -23,10 +23,10 @@ use = "AminurAlam/yazi-plugins:sort-by-location"
 use = "boydaihungst/fuse-archive"
 
 [[plugin.deps]]
-use = "yazi-rs/plugins:types"
+use = "UnnaturalTwilight/yazi-plugins:osc5522"
 
 [[plugin.deps]]
-use = "UnnaturalTwilight/yazi-plugins:osc5522"
+use = "UnnaturalTwilight/yazi-plugins:unnatural-ui"
 
 [[flavor.deps]]
 use = "yazi-rs/flavors:catppuccin-mocha"

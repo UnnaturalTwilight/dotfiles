@@ -42,6 +42,9 @@ alias screen-record='gpu-screen-recorder -w portal -a default_output \
 # Suffix Alias to auto bat .md files with just the filename
 alias -s md='bat --italic-text=always'
 
+# View long help in bat
+alias -g -- --HELP='--help 2>&1 | bat --language=help --style=plain --color=always'
+
 case $XDG_CURRENT_DESKTOP in
   niri)
     alias logout='niri msg action quit --skip-confirmation'

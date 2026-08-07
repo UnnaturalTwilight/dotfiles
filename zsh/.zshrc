@@ -119,7 +119,11 @@ source $ZDOTDIR/$HOST.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 if [[ -v COLORTERM ]]; then
-  eval "$(deja init zsh)"
+  if [[ -r "$XDG_DATA_HOME/deja/init.zsh" ]]; then
+    source "$XDG_DATA_HOME/deja/init.zsh"
+  else
+    eval "$(deja init zsh)"
+  fi
 fi
 
 ## zoxide initialization
