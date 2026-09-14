@@ -1,7 +1,7 @@
 [Unit]
 Description=Quickshell daemon with config dir $XDG_CONFIG_HOME/quickshell/%i/
 PartOf=graphical-session.target
-After=graphical-session.target pipewire.service pipewire-session-manager.service
+After=graphical-session.target
 Requisite=graphical-session.target
 AssertPathExists=%E/quickshell/%i/shell.qml
 
@@ -9,6 +9,7 @@ AssertPathExists=%E/quickshell/%i/shell.qml
 Type=exec
 Environment="QT_QPA_PLATFORM=wayland" "QT_QPA_PLATFORMTHEME=gtk3"
 ExecStart=qs --no-duplicate --config %i
+Slice=session.slice
 Restart=on-failure
 
 [Install]
