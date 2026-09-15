@@ -8,13 +8,13 @@ import QtQuick.Layouts
 
 import qs.config
 import qs.services
+import qs.widgets
 
 Item {
     id: systray
 
-    visible: SystemTray.items.values.length !== 0
     property int iconSize: 32
-    property var menuWidth: 350
+    property var menuWidth: 360
 
     property var activeMenu: null
 
@@ -23,14 +23,22 @@ Item {
 
     signal menuSwaped
 
+    Loader {
+        id: menuLoader
+        active: false
+        sourceComponent: ContextMenu {
+            id: trayMenu
+            menuHandle: systray.activeMenu
+            anchorX: screen.width - (10 + systray.menuWidth)
+            anchorY: screen.height - (320 + implicitHeight)
+            implicitWidth: systray.menuWidth
+        }
+    }
+
     RowLayout {
         id: trayLayout
-        anchors.centerIn: parent
-
-        Rectangle {
-            // space for 8 icons including the brightness tile
-            Layout.preferredWidth: (10 - trayRepeater.count) * (systray.iconSize + 8)
-        }
+        anchors.right: parent.right
+        anchors.rightMargin: 16
 
         Repeater {
             id: trayRepeater
@@ -48,7 +56,7 @@ Item {
 
         width: systray.iconSize + 8
         height: systray.iconSize + 8
-        color: Colours.black // This is mostly to hide the sharp corners of the tailscale icon
+        color: Colours.shadow
         border.color: trayIconMouseArea.containsMouse ? Colours.power1 : Colours.polar2
         border.width: 2
         radius: 8
@@ -64,61 +72,25 @@ Item {
             fillMode: Image.PreserveAspectFit
         }
 
-        Loader {
-            id: trayMenuLoader
-            anchors.fill: parent
-            active: false
-            sourceComponent: TrayMenu {
-                id: trayMenu
-                menuHandle: trayIcon.modelData.menu
-                anchorX: screen.width - (30 + systray.menuWidth)
-                anchorY: screen.height - (320 + implicitHeight)
-                implicitWidth: systray.menuWidth
-            }
-
-            function reloadTrayMenu() {
-                active = !active;
-                active = !active;
-            }
-
-            Connections {
-                target: systray
-
-                function onMenuSwaped() {
-                    if (systray.activeMenu === trayIcon.modelData) {
-                        trayMenuLoader.active = true;
-                    } else {
-                        trayMenuLoader.item?.closeSelf();
-                    }
-                }
-            }
-
-            onVisibleChanged: {
-                if (!visible) {
-                    trayMenuLoader.item?.closeSelf();
-                }
-            }
-        }
-
         MouseArea {
             id: trayIconMouseArea
             anchors.fill: parent
             hoverEnabled: true
             acceptedButtons: Qt.AllButtons
             onPressed: event => {
-                systray.activeMenu = trayIcon.modelData;
-                trayMenuLoader.active = true;
+                systray.activeMenu = trayIcon.modelData.menu;
+                menuLoader.active = true;
                 systray.menuSwaped();
                 if (event.buttons & Qt.LeftButton) {
                     if (trayIcon.modelData.onlyMenu) {
-                        trayMenuLoader.item?.toggle();
+                        menuLoader.item?.open();
                     } else {
                         trayIcon.modelData.activate();
                     }
                 }
                 if (event.buttons & Qt.RightButton) {
                     if (trayIcon.modelData.hasMenu) {
-                        trayMenuLoader.item?.toggle();
+                        menuLoader.item?.open();
                     } else {
                         trayIcon.modelData.activate();
                     }
@@ -127,30 +99,21 @@ Item {
                     trayIcon.modelData.secondaryActivate();
                 }
             }
-            onExited: {
-                trayMenuLoader.item?.startSelfCloseTimer();
-            }
+
+            onExited: menuLoader.item?.closeSelf();
         }
     }
 
     function overrideAppIcon(app) {
         // console.log(app.id, app.title || app.tooltipTitle, app.icon);
 
-        // This is the only field that discord populates with identifying info
-        if (app.tooltipTitle === "Discord") {
+        if (app.id.includes("discord")) {
             return Quickshell.iconPath("discord", app.icon);
         }
 
-        // if (app.id === "blueman") {
-        // return Quickshell.iconPath("bluetooth", app.icon);
-        // }
-
-        // This matches tailscale which doesn't have ANY static identifying info
-        // if (app.id.startsWith("systray_")) {
-        // Tailscale uses a dynamic icon that both isn't symbolic and doesn't have rounded corners
-        // making it not match anything else
-        // my icon theme doesn't have icon for it tho so I just live with it for now
-        // }
+        if (app.id == "steam") {
+            return Quickshell.iconPath("steam", app.icon);
+        }
 
         return app.icon;
     }

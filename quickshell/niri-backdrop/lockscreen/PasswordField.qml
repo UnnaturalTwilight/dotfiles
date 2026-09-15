@@ -77,6 +77,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         color: Colours.white
+        clip: true
         font.pixelSize: 24
         font.family: Fonts.mono
         font.italic: passwordField.currentText.length === 0

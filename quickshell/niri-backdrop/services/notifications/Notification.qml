@@ -37,6 +37,7 @@ Rectangle {
                 root.modelData?.dismiss();
             }
         }
+        cursorShape: bodyText.hoveredLink != "" ? Qt.PointingHandCursor : Qt.ArrowCursor
     }
 
     SvgIcon {
@@ -99,6 +100,7 @@ Rectangle {
                     bold: true
                 }
                 wrapMode: Text.Wrap
+                textFormat: Text.PlainText
                 color: Colours.snow2
             }
 
@@ -113,10 +115,12 @@ Rectangle {
                     pixelSize: root.fontSize
                 }
                 wrapMode: Text.Wrap
+                textFormat: Text.StyledText
                 color: Colours.snow2
             }
 
             Text {
+                id: bodyText
                 text: root.modelData?.body ?? ""
                 visible: root.modelData?.body !== ""
 
@@ -127,7 +131,11 @@ Rectangle {
                     pixelSize: root.fontSize
                 }
                 wrapMode: Text.Wrap
+                textFormat: root.modelData?.appName == "discord" ? Text.MarkdownText : Text.StyledText
                 color: Colours.snow2
+                linkColor: Colours.frost2
+
+                onLinkActivated: (link)=> Quickshell.execDetached(["xdg-open", link])
             }
 
             PercentBar {

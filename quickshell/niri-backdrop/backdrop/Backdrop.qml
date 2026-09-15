@@ -37,16 +37,6 @@ PanelWindow {
     }
 
     Loader {
-        id: workspacesLoader
-        sourceComponent: Workspaces {
-            screen: bgPanel.modelData
-        }
-        asynchronous: true
-        visible: status === Loader.Ready
-        active: false
-    }
-
-    Loader {
         id: symbolsLoader
         sourceComponent: Symbols {
             screen: bgPanel.modelData

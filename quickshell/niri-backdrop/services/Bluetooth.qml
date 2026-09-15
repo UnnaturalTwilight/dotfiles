@@ -16,13 +16,20 @@ Singleton {
         values: {
             // console.log("Indexing Bluetooth devices...");
             // Bluetooth.devices.values.forEach(d => console.log(`Device: ${d.name}, Address: ${d.address}`, `State: ${BluetoothDeviceState.toString(d.state)}`));
-            return [...Bluetooth.devices.values].sort(root.deviceSorting);
+            return [...Bluetooth.devices.values].map(d => ({
+                name: d.name,
+                address: d.address,
+                battery: d.batteryAvailable ? d.battery : null,
+                icon: d.icon,
+                connected: d.connected,
+                paired: d.paired,
+                trusted: d.trusted,
+            })).sort(root.deviceSorting);
         }
     }
-    readonly property string icon: adapter?.enabled ? "󰂯" : "󰂲";
 
     function batteryLevelByMAC(mac) {
-        const device = devicesModel.values.find(d => d.address === mac);
+        const device = Bluetooth.devices.values.find(d => d.address === mac);
         if (device?.batteryAvailable) {
             return device.battery;
         }

@@ -40,7 +40,10 @@ function rewriteSummary(summary, notif) {
 
 function rewriteBody(body, notif) {
   if (notif.appName == "rewrite-test") {
-    return "Rewritten body";
+    return "Rewritten body <br> <a href=\"https://klipy.com/gifs/loading-cat-2\">https://klipy.com/gifs/loading-cat-2</a>";
+  }
+
+  if (notif.appName == "discord") {
   }
   return body;
 }
@@ -109,6 +112,7 @@ function rewriteActions(actions, notif) {
 
 function openThunderbird(notif) {
   // this is nessary due to how I run thunderbird in the background
-  const cmd = "$HOME/.config/scripts/niri_spawnjump.py $HOME/Monolith/birdmanager/stop-headless-and-launch.sh org.mozilla.Thunderbird";
-  Quickshell.execDetached(["sh", "-c", cmd]);
+  // const cmd = "$HOME/.config/scripts/niri_spawnjump.py $HOME/Monolith/birdmanager/stop-headless-and-launch.sh org.mozilla.Thunderbird";
+  // Quickshell.execDetached(["sh", "-c", cmd]);
+  Quickshell.execDetached(["systemctl", "--user", "start", "thunderbird.service"]);
 }

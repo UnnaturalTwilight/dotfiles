@@ -4,8 +4,8 @@ qs --config niri-backdrop ipc call notifs clear
 sleep 0.1
 
 # Simple notification test
-notify-send -a test-notif -i info -n bash -c "test" 'Hello!!' \
-    'This is a test notification. It should appear on your screen with the title "Hello!!" and the message "This is a test notification."'
+notify-send -a test-notif -i info -n bash -c "test" '<b>Hello!!</b>' \
+    'This is a test notification. It should appear on your screen with the title <b>"Hello!!"</b> and the message "This is a test notification."'
 sleep 0.2
 
 # Test for the rewrite scripts

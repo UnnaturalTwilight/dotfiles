@@ -24,14 +24,14 @@ Singleton {
     NotificationServer {
         id: server
 
-        bodyHyperlinksSupported: false
+        bodyHyperlinksSupported: true
         bodyMarkupSupported: true
         inlineReplySupported: true
         keepOnReload: true
         persistenceSupported: true
         actionsSupported: true
         bodySupported: true
-        bodyImagesSupported: false
+        bodyImagesSupported: true
         imageSupported: true
         actionIconsSupported: true
 
