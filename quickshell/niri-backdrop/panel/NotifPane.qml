@@ -110,13 +110,6 @@ Rectangle {
             }
         }
 
-        addDisplaced: Transition {
-            NumberAnimation {
-                properties: "x,y"
-                duration: 250
-            }
-        }
-
         remove: Transition {
             ParallelAnimation {
                 NumberAnimation {
@@ -132,7 +125,7 @@ Rectangle {
             }
         }
 
-        removeDisplaced: Transition {
+        displaced: Transition {
             NumberAnimation {
                 properties: "x,y"
                 duration: 250

@@ -2,14 +2,16 @@
 pragma ComponentBehavior: Bound
 
 import Quickshell
+import Quickshell.Bluetooth
 import QtQuick
 import QtQuick.Layouts
 
 import qs.config
 import qs.services
+import qs.widgets
 
 Rectangle {
-    id: notifications
+    id: netPane
     Layout.fillHeight: true
     Layout.fillWidth: true
     Layout.preferredHeight: childrenRect.height
@@ -30,32 +32,100 @@ Rectangle {
         padding: 8
     }
 
-    Text {
-        id: bluetoothText
-        text: "\n----\nBluetooth:\n"
-        color: Colours.text
-        font.family: Fonts.sans
-        font.pixelSize: 20
-        padding: 8
-        anchors.top: netText.bottom
-    }
-
     ListView {
         id: bluetoothList
-        anchors.top: bluetoothText.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        height: parent.height - bluetoothText.height - netText.height - margin
-        model: Bluetooth.devices
+        anchors.bottom: parent.bottom
+        anchors.margins: margin
+        spacing: margin
+        implicitHeight: Math.min(contentHeight, 480)
+        model: ScriptModel {
+            values: Devices.bluetooth.sort(Devices.bluetoothDeviceSorting)
+        }
         delegate: DeviceListEntry {}
+
+        add: Transition {
+            NumberAnimation {
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: 250
+            }
+        }
+
+        remove: Transition {
+            ParallelAnimation {
+                NumberAnimation {
+                    property: "opacity"
+                    to: 0
+                    duration: 250
+                }
+            }
+        }
+
+        displaced: Transition {
+            NumberAnimation {
+                properties: "y"
+                duration: 250
+            }
+        }
+
+        move: Transition {
+            NumberAnimation {
+                properties: "y"
+                duration: 250
+            }
+        }
     }
 
-    component DeviceListEntry: Text {
+    component DeviceListEntry: Rectangle {
+        id: btDevice
         required property var modelData
-        text: modelData.name
-        color: modelData.connected ? Colours.text : Colours.gray
-        font.family: Fonts.sans
-        font.pixelSize: 20
-        leftPadding: 8
+        height: 50
+        width: bluetoothList.width
+        radius: netPane.radius
+        color: btDevice.working ? Colours.highlight : (deviceMouseArea.hovered ? Colours.highlight : Colours.shadow)
+
+        property bool working: modelData.state === BluetoothDeviceState.Connecting || modelData.state === BluetoothDeviceState.Disconnecting
+
+        SvgIcon {
+            id: deviceIcon
+            iconName: Devices.getIcon(modelData.name, modelData.icon || "bluetooth")
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.margins: netPane.margin
+            size: 32
+            colour: modelData.connected ? Colours.mana2 : Colours.gray
+        }
+
+        Text {
+            text: modelData.name
+            color: modelData.connected ? Colours.text : Colours.gray
+            font.family: Fonts.mono
+            font.pixelSize: 20
+            padding: 8
+            anchors.left: deviceIcon.right
+            anchors.verticalCenter: parent.verticalCenter
+            font.bold: btDevice.working ?? false
+        }
+
+        SvgIcon {
+            id: deviceBatteryIcon
+            iconName: Battery.icons[Math.round(10 - (modelData.battery * 10))]
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.margins: netPane.margin
+            size: 32
+            colour: modelData.battery > 0.2 ? Colours.snow0 : Colours.aurora0
+            visible: modelData.batteryAvailable
+        }
+
+        MouseArea {
+            id: deviceMouseArea
+            anchors.fill: parent
+            onClicked: modelData.connected ? modelData.disconnect() : modelData.connect()
+            hoverEnabled: true
+        }
     }
 }

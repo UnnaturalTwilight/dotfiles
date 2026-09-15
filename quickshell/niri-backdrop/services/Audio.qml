@@ -46,13 +46,8 @@ Singleton {
     }
 
     readonly property string icon: {
-        if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.8C")) {
-            return "devices/headphones"; // Skulcandy HESH 540 ANC Headphones
-        } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.88")) {
-            // matches boath LE and normal mode at the risk of false positives
-            return "devices/earbuds"; // Skulcandy Sesh ANC Earbuds
-        } else if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output.D4")) {
-            return "devices/earbuds";
+        if (Pipewire.defaultAudioSink?.name.startsWith("bluez_output")) {
+            return Devices.getIcon(Pipewire.defaultAudioSink?.description);
         } else if (Pipewire.defaultAudioSink?.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
             return "devices/speaker"; // Built in speakers or headphone jack
         } else {
@@ -84,7 +79,7 @@ Singleton {
             // These are dependent on the icon but happen to line up with bluetooth in my case
             props.iconDisplaySize = 70;
             if (props.data["api.bluez5.address"]) {
-                props.batteryLevel = Bluetooth.batteryLevelByMAC(props.data["api.bluez5.address"]);
+                props.batteryLevel = Devices.batteryLevelByMAC(props.data["api.bluez5.address"]);
                 props.batteryIcon = Battery.icons[Math.round(10 - (props.batteryLevel * 10))];
             }
         }
