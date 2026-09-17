@@ -37,8 +37,8 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.margins: margin
-        spacing: margin
+        anchors.margins: netPane.margin
+        spacing: netPane.margin
         implicitHeight: Math.min(contentHeight, 480)
         model: ScriptModel {
             values: Devices.bluetooth.sort(Devices.bluetoothDeviceSorting)
@@ -85,23 +85,25 @@ Rectangle {
         height: 50
         width: bluetoothList.width
         radius: netPane.radius
-        color: btDevice.working ? Colours.highlight : (deviceMouseArea.hovered ? Colours.highlight : Colours.shadow)
+        color: deviceMouseArea.containsMouse ? Colours.highlight : Colours.shadow
+        border.color: btDevice.working ? Colours.aurora4 : "transparent"
+        border.width: 2
 
         property bool working: modelData.state === BluetoothDeviceState.Connecting || modelData.state === BluetoothDeviceState.Disconnecting
 
         SvgIcon {
             id: deviceIcon
-            iconName: Devices.getIcon(modelData.name, modelData.icon || "bluetooth")
+            iconName: Devices.getIcon(btDevice.modelData.name, btDevice.modelData.icon || "bluetooth")
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: netPane.margin
             size: 32
-            colour: modelData.connected ? Colours.mana2 : Colours.gray
+            colour: btDevice.modelData.connected ? Colours.mana2 : Colours.gray
         }
 
         Text {
-            text: modelData.name
-            color: modelData.connected ? Colours.text : Colours.gray
+            text: btDevice.modelData.name
+            color: btDevice.modelData.connected ? Colours.text : Colours.gray
             font.family: Fonts.mono
             font.pixelSize: 20
             padding: 8
@@ -112,19 +114,19 @@ Rectangle {
 
         SvgIcon {
             id: deviceBatteryIcon
-            iconName: Battery.icons[Math.round(10 - (modelData.battery * 10))]
+            iconName: Battery.icons[Math.round(10 - (btDevice.modelData.battery * 10))]
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: netPane.margin
             size: 32
-            colour: modelData.battery > 0.2 ? Colours.snow0 : Colours.aurora0
-            visible: modelData.batteryAvailable
+            colour: btDevice.modelData.battery > 0.2 ? Colours.snow0 : Colours.aurora0
+            visible: btDevice.modelData.batteryAvailable
         }
 
         MouseArea {
             id: deviceMouseArea
             anchors.fill: parent
-            onClicked: modelData.connected ? modelData.disconnect() : modelData.connect()
+            onClicked: btDevice.modelData.connected ? btDevice.modelData.disconnect() : btDevice.modelData.connect()
             hoverEnabled: true
         }
     }

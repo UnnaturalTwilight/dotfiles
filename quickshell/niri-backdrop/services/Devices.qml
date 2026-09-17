@@ -46,9 +46,9 @@ Singleton {
 
     function bluetoothDeviceSorting(a, b) {
         // Connected > Paired > Other
-        let aScore, bScore;
-        if (a.connected) aScore += 5;
-        if (b.connected) bScore += 5;
+        let aScore = 0, bScore = 0;
+        if (a.connected) aScore += 10;
+        if (b.connected) bScore += 10;
         if (a.paired) aScore += 3;
         if (b.paired) bScore += 3;
         if (a.deviceName) aScore += 1;

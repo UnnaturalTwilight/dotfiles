@@ -292,6 +292,9 @@ binds {
 
     // Lock screen
     Mod+L repeat=false allow-when-locked=true hotkey-overlay-title="Lock Screen" { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "lock" "lock"; }
+
+    // Attempt to recover from Quickshell crashing on the lock screen
+    Mod+Ctrl+Alt+Shift+R repeat=false allow-when-locked=true hotkey-overlay-title=null { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "qs" "hardReload"; }
 }
 
 recent-windows {
