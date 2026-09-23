@@ -4,6 +4,7 @@ icon = "org.quickshell"
 global_search = true
 search_name = true
 hide_from_providerlist = false
+fixed_order = true
 
 [[entries]]
 text = "Restart Quickshell"
@@ -17,7 +18,7 @@ text = "Toggle Start Pane"
 subtext = "ipc call start toggle"
 keywords = ["menu"]
 icon = "org.xfce.panel.applicationsmenu"
-actions = { "toggle" = "qs -c niri-backdrop ipc call start toggle" }
+actions = { "toggle" = "qs -c niri-backdrop ipc call panel toggle" }
 
 [[entries]]
 text = "Dump Notifications to log"
@@ -25,3 +26,10 @@ subtext = "ipc call notifs dump"
 keywords = ["notifs", "debug"]
 icon = "logview"
 actions = { "dump" = "qs -c niri-backdrop ipc call notifs dump" }
+
+[[entries]]
+text = "Enable Debug Mode"
+subtext = "ipc call qs setDebugMode true"
+keywords = ["debug"]
+icon = "debug-run"
+actions = { "enable" = "qs -c niri-backdrop ipc call qs setDebugMode true" }

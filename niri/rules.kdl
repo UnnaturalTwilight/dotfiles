@@ -145,6 +145,7 @@ window-rule {
 
 window-rule {
     match title="^Polkit Agent$"
+    match app-id="com.system76.CosmicFilesDialog"
 
     open-floating true
     open-focused true
