@@ -14,8 +14,6 @@ environment {
 
 // Add lines like this to spawn processes at startup.
 
-spawn-at-startup "walker" "--gapplication-service"
-
 spawn-sh-at-startup "kitty -o initial_window_width=1305 --hold fastfetch -c $HOME/.config/fastfetch/moon.jsonc"
 
 spawn-at-startup "bluetoothctl" "connect" "8C:0D:D9:BE:C1:74"
@@ -118,11 +116,12 @@ input {
         // scroll-button-lock
         // middle-emulation
     }
-    
+
     tablet {
-        map-to-output "PNP(HAT) Kamvas 12 0x01010101"
-        calibration-matrix 1.333333 0.0 0.0 0.0 1.333333 0.0 // Art Mode
+        //map-to-output "PNP(HAT) Kamvas 12 0x01010101"
         //calibration-matrix 1.0 0.0 0.0 0.0 0.9 0.0 // Abs Mode
+        //calibration-matrix 1.333333 0.0 0.0 0.0 1.333333 0.0 // Art Mode
+        //calibration-matrix 1.1875 0.0 0.0 0.0 1.18 0.0 // Art Mode 2
     }
 
     // Uncomment this to make the mouse warp to the center of newly focused windows.
@@ -172,8 +171,9 @@ output "ASUSTek COMPUTER INC XG27ACG T6LMQS029175" {
 output "PNP(HAT) Kamvas 12 0x01010101" {
     mode "1920x1080"
     scale 1.25
-    position x=-1536 y=0
-    
+    position x=-1536 y=-80 // Left of Laptop
+    // position x=0 y=-864 // Above Laptop
+
     layout {
         default-column-width { proportion 1.0; }
     }

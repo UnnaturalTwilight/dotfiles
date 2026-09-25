@@ -1,12 +1,12 @@
 [Unit]
-Description=Elephant Application Menu Provider
+Description=Walker Application Menu
 PartOf=graphical-session.target
 After=graphical-session.target
 Requisite=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=elephant
+ExecStart=walker --gapplication-service
 Restart=on-failure
 
 [Install]

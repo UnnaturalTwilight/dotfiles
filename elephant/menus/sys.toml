@@ -5,18 +5,11 @@ global_search = true
 search_name = true
 
 [[entries]]
-text = "Start Docker"
-subtext = "systemctl start docker.service"
-keywords = ["docker"]
-icon = "docker"
-actions = { "start" = "systemctl start docker.service" }
-
-[[entries]]
-text = "Stop Docker"
-subtext = "systemctl stop docker.service docker.socket"
-keywords = ["docker"]
-icon = "stop"
-actions = { "stop" = "systemctl stop docker.service docker.socket" }
+text = "Restart Open Tablet Driver"
+subtext = "systemctl --user restart opentabletdriver.service"
+keywords = ["tablet", "driver"]
+icon = "/usr/share/pixmaps/otd.png"
+actions = { "restart" = "systemctl --user restart opentabletdriver.service" }
 
 [[entries]]
 text = "Restart Elephant"

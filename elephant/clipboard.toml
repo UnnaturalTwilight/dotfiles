@@ -4,6 +4,8 @@ command = 'wl-copy'
 ignore_symbols = false
 image_editor_cmd = ''
 max_items = 1000
+ocr = false
+pinned_on_top = false
 text_editor_cmd = ''
 
 [Config]

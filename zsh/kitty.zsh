@@ -10,6 +10,8 @@ if test -n "$KITTY_INSTALLATION_DIR"; then
   unfunction kitty-integration
 fi
 
+setopt COMBINING_CHARS
+
 alias ssh='kitten ssh'
 alias copycat='kitten clipboard'
 alias kdiff='kitten diff'

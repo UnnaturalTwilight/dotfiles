@@ -1,5 +1,4 @@
 auto_detect_launch_prefix = true
-before_load = []
 git_on_demand = true
 ignored_providers = ['runner']
 launch_prefix = ''

@@ -13,6 +13,7 @@ PanelWindow {
     screen: modelData
     property var modelData
     property bool panelVisible: System.panelVisible && (overlayPanel.modelData === System.primaryScreen)
+    property bool drawingTablet: overlayPanel.modelData.model === "Kamvas 12"
 
     exclusionMode: ExclusionMode.Ignore
     WlrLayershell.layer: WlrLayer.Overlay
@@ -28,10 +29,16 @@ PanelWindow {
         bottom: true
     }
 
-    mask: Region {
+    mask: maskRegion
+
+    Region {
+        id: maskRegion
         item: overlayPanel.panelVisible ? null : notificationStack.contentItem
         radius: 20
-        regions: overlayPanel.panelVisible ? panels.maskZone : null
+        regions: [
+            overviewButtonsLoader.item?.shown ? overviewButtonsLoader.item?.maskZone : null,
+            overlayPanel.panelVisible ? panels.maskZone : null
+        ]
     }
 
     BackgroundEffect.blurRegion: panelVisible ? panels.blurZone : notifBlurZone
@@ -130,5 +137,20 @@ PanelWindow {
             }
         }
         active: (overlayPanel.modelData === System.primaryScreen)
+    }
+
+    Loader {
+        id: overviewButtonsLoader
+        x: 20
+        y: 20
+
+        sourceComponent: OverviewButtons {
+            id: overviewButtons
+            drawingTablet: overlayPanel.drawingTablet
+        }
+
+        active: overlayPanel.drawingTablet
+        asynchronous: true
+        visible: overlayPanel.drawingTablet && (status == Loader.Ready)
     }
 }

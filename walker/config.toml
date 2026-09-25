@@ -39,8 +39,8 @@ up = ["Up"]
 toggle_exact = ["ctrl e"]
 resume_last_query = ["ctrl r"]
 quick_activate = ["F1", "F2", "F3", "F4"]
-page_down = ["Page_Down"]
-page_up = ["Page_Up"]
+page_down = ["Page_Down", "ctrl minus"]
+page_up = ["Page_Up", "ctrl equal"]
 show_actions = ["alt Return"]
 
 [providers]
@@ -50,7 +50,7 @@ default = [
   "calc",
   "websearch",
   "menus:meta"
-] 
+]
 empty = ["desktopapplications"] # providers to be queried when query is empty
 max_results = 50 # global max results
 
