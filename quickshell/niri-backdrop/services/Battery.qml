@@ -18,6 +18,24 @@ Singleton {
 
     readonly property string powerProfile: PowerProfile.toString(PowerProfiles.profile)
 
+    function setPowerProfile(profile: string): void {
+        console.log("Setting power profile:", profile);
+        switch (profile) {
+            case "PowerSaver":
+                PowerProfiles.profile = PowerProfile.PowerSaver;
+                break;
+            case "Balanced":
+                PowerProfiles.profile = PowerProfile.Balanced;
+                break;
+            case "Performance":
+                PowerProfiles.profile = PowerProfile.Performance;
+                break;
+            default:
+                console.warn("Unknown power profile: " + profile);
+                PowerProfiles.profile = PowerProfile.Balanced;
+        }
+    }
+
     readonly property string approxTime: {
         if (state === UPowerDeviceState.FullyCharged || value >= 0.999) {
             return qsTr("Fully charged");

@@ -40,10 +40,7 @@ function rewriteSummary(summary, notif) {
 
 function rewriteBody(body, notif) {
   if (notif.appName == "rewrite-test") {
-    return "Rewritten body <br> <a href=\"https://klipy.com/gifs/loading-cat-2\">https://klipy.com/gifs/loading-cat-2</a>";
-  }
-
-  if (notif.appName == "discord") {
+    return "Rewritten body";
   }
   return body;
 }
@@ -56,23 +53,28 @@ function rewriteImage(image, notif) {
 }
 
 function rewriteAppIcon(appIcon, notif) {
+  // rewrite app icon based on app name
+  switch (notif.appName) {
+    case "niri":
+      return "file://" + Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/niri_icon.svg";
+  }
+
   let resolvedIcon = Quickshell.iconPath(appIcon, true);
   if (appIcon.startsWith("file://")) {
     resolvedIcon = appIcon;
-  }
-  if (notif.desktopEntry == "org.mozilla.Thunderbird" && !appIcon) {
-    // Thunderbird doesn't always set an app icon so if it's missing set it to the Thunderbird logo
-    resolvedIcon = Quickshell.iconPath("thunderbird", true);
-  } else if (notif.appName == "niri") {
-    // add niri's logo as the image
-    resolvedIcon = "file:///home/cal/.config/assets/Icons/niri_icon.svg";
+  } else if (notif.desktopEntry && !resolvedIcon) {
+    // Thunderbird doesn't always set an app icon so this catches that case
+    resolvedIcon = Quickshell.iconPath(notif.desktopEntry, true);
   }
   return resolvedIcon;
 }
 
 function rewriteTemporary(transient, notif) {
-  if (notif.appName == "udiskie" || notif.appName == "calibre" || notif.appName == "thunar") {
-    return true;
+  switch (notif.appName) {
+    case "udiskie":
+    case "calibre":
+    case "thunar":
+      return true;
   }
 
   return transient;
@@ -83,15 +85,15 @@ function rewriteActions(actions, notif) {
     identifier: a.identifier,
     text: a.text,
     default: a.identifier == "default",
-    display: true,
+    display: a.identifier != "default" || a.text.trim().length > 0,
     invoke: () => a.invoke()
   }));
 
   if (notif.appName == "rewrite-test") {
     rewrittenActions = [
-      { text: "Icon", identifier: "help", default: false, invoke: () => console.log("Icon Action clicked") },
-      { text: "Action 2", default: false, invoke: () => console.log("Action 2 clicked") },
-      { text: "Default", identifier: "default", default: true, invoke: () => console.log("Default Action clicked") },
+      { text: "Icon", identifier: "help", default: false, display: true, invoke: () => console.log("Icon Action clicked") },
+      { text: "Dismiss", default: false, display: true, invoke: () => { console.log("Dismiss Action clicked"); notif?.dismiss(); } },
+      { text: "Default", default: true, display: true, invoke: () => console.log("Default Action clicked") },
     ];
   }
 

@@ -32,6 +32,7 @@ Item {
             iconName: Battery.icons[Battery.iconIdx]
             iconSize: 96
             barValue: Battery.value
+            barColour: Battery.powerProfile == "PowerSaver" ? Colours.power3 : Colours.power1
         }
     }
 
@@ -46,6 +47,7 @@ Item {
 
         property alias barValue: symbolBar.value
         property alias barActive: symbolBar.active
+        property alias barColour: symbolBar.fgColor
 
         SvgIcon {
             id: symbolIcon

@@ -160,8 +160,8 @@ PopupWindow {
         Rectangle {
             anchors.fill: parent
             anchors.margins: !entry.modelData?.isSeparator ? -3 : 0
-            anchors.leftMargin: !entry.modelData?.isSeparator ? label.anchors.leftMargin - 5 : 10
-            anchors.rightMargin: !entry.modelData?.isSeparator ? 0 : 10
+            anchors.leftMargin: !entry.modelData?.isSeparator ? label.anchors.leftMargin - 5 : -2
+            anchors.rightMargin: !entry.modelData?.isSeparator ? 0 : -2
             radius: 8
             color: !entry.modelData?.isSeparator ? entry.hovered ? Colours.highlight : "transparent" : Colours.polar2
         }
@@ -184,7 +184,7 @@ PopupWindow {
                 }
             }
             color: parent.enabled ? Colours.text : Colours.snow0
-            width: parent.width - 10 - (arrow.visible ? 26 : 0)
+            width: parent.width - 10 - (arrow.visible || entryIcon.visible ? 20 : 0)
             wrapMode: entryIcon.visible ? Text.NoWrap : Text.WrapAtWordBoundaryOrAnywhere
             elide: Text.ElideRight
             font.family: Fonts.sans
@@ -194,20 +194,21 @@ PopupWindow {
 
         Image {
             id: entryIcon
-            visible: menuWindow.icons && (entry.modelData?.icon ?? false)
+            visible: menuWindow.icons && (entry.modelData?.icon ?? false) && !arrow.visible
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: 10
-            height: label.contentWidth < parent.width * 0.7 ? label.lineCount * 20 : 20
+            anchors.rightMargin: 5
+            height: label.lineCount * 20
             width: height
             source: entry.modelData?.icon ?? ""
         }
+
 
         SvgIcon {
             id: arrow
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.rightMargin: 5
             iconName: {
                 if (entry.modelData?.hasChildren) {
                     return "more_horiz";

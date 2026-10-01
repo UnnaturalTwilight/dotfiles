@@ -8,7 +8,6 @@ environment {
     XDG_CURRENT_DESKTOP "niri"
     QT_QPA_PLATFORM "wayland"
     QT_QPA_PLATFORMTHEME "gtk3"
-    MOZ_ENABLE_WAYLAND "1"
     _JAVA_AWT_WM_NONREPARENTING "1"
 }
 
@@ -173,6 +172,16 @@ output "PNP(HAT) Kamvas 12 0x01010101" {
     scale 1.25
     position x=-1536 y=-80 // Left of Laptop
     // position x=0 y=-864 // Above Laptop
+
+    layout {
+        default-column-width { proportion 1.0; }
+    }
+}
+
+output "PNP(HAT) Kamvas 12 L56051794302" {
+    mode "1920x1080"
+    scale 1.25
+    position x=-1536 y=-80 // Left of Laptop
 
     layout {
         default-column-width { proportion 1.0; }

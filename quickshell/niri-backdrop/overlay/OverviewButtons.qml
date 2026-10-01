@@ -90,39 +90,42 @@ Item {
             }
 
             FlatButton {
-                text: ""
-                font.family: Fonts.nerdMono
-                font.pixelSize: 24
+                text: "Apps"
                 implicitWidth: 32
                 implicitHeight: 32
 
-                onClicked: {
-                    Quickshell.execDetached(["walker", "--height", "400",]);
+                contentItem: SvgIcon {
+                    iconName: "apps"
+                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
                 }
+
+                onClicked: Quickshell.execDetached(["walker", "--height", "400",])
             }
 
             FlatButton {
-                text: "󰊓"
-                font.family: Fonts.nerdMono
-                font.pixelSize: 24
+                text: "Fullscreen"
                 implicitWidth: 32
                 implicitHeight: 32
 
-                onClicked: {
-                    Niri.send({"Action":{"FullscreenWindow":{"id":null}}})
+                contentItem: SvgIcon {
+                    iconName: "fullscreen"
+                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
                 }
+
+                onClicked: Niri.send({"Action":{"FullscreenWindow":{"id":null}}})
             }
 
             FlatButton {
-                text: "󰖭"
-                font.family: Fonts.nerdMono
-                font.pixelSize: 24
+                text: "Close"
                 implicitWidth: 32
                 implicitHeight: 32
 
-                onClicked: {
-                    Niri.send({"Action":{"CloseWindow":{"id":null}}})
+                contentItem: SvgIcon {
+                    iconName: "close"
+                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
                 }
+
+                onClicked: Niri.send({"Action":{"CloseWindow":{"id":null}}})
             }
         }
     }

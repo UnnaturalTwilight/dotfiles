@@ -27,17 +27,41 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
+        cursorShape: bodyText.hoveredLink != "" ? Qt.PointingHandCursor : Qt.ArrowCursor
         acceptedButtons: Qt.AllButtons
         onClicked: mouse => {
-            if (mouse.button === Qt.MiddleButton) {
-                root.modelData?.close();
-            } else if (mouse.button === Qt.LeftButton) {
-                root.modelData?.defaultAction();
-            } else if (mouse.button === Qt.RightButton) {
-                root.modelData?.dismiss();
+            switch (mouse.button) {
+                case Qt.MiddleButton:
+                    root.modelData?.close();
+                    break;
+                case Qt.LeftButton:
+                    root.modelData?.defaultAction();
+                    break;
+                case Qt.RightButton:
+                    root.modelData?.dismiss();
+                    break;
             }
         }
-        cursorShape: bodyText.hoveredLink != "" ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+
+    Text {
+        id: timestampText
+        text: Qt.formatDateTime(root.modelData?.timestamp, "hh:mm");
+
+        anchors {
+            right: closeButton.left
+            rightMargin: root.padding
+            verticalCenter: closeButton.verticalCenter
+        }
+
+        horizontalAlignment: Qt.AlignHCenter
+        verticalAlignment: Qt.AlignBottom
+        font {
+            family: Fonts.mono
+            pixelSize: root.fontSize - 4
+        }
+        textFormat: Text.PlainText
+        color: Colours.gray
     }
 
     SvgIcon {
@@ -84,6 +108,22 @@ Rectangle {
                 Layout.maximumHeight: root.iconSize
                 visible: root.modelData?.image !== ""
             }
+
+            // Text {
+            //     id: timestampText
+            //     text: Qt.formatDateTime(root.modelData?.timestamp, "hh:mm");
+            //     Layout.fillWidth: true
+            //     Layout.fillHeight: true
+            //     Layout.maximumWidth: root.iconSize
+            //     horizontalAlignment: Qt.AlignHCenter
+            //     verticalAlignment: Qt.AlignBottom
+            //     font {
+            //         family: Fonts.mono
+            //         pixelSize: root.fontSize - 4
+            //     }
+            //     textFormat: Text.PlainText
+            //     color: Colours.gray
+            // }
         }
 
         ColumnLayout {
@@ -135,7 +175,7 @@ Rectangle {
                 color: Colours.snow2
                 linkColor: Colours.frost2
 
-                onLinkActivated: (link)=> Quickshell.execDetached(["xdg-open", link])
+                onLinkActivated: link => Quickshell.execDetached(["xdg-open", link])
             }
 
             PercentBar {
@@ -161,114 +201,109 @@ Rectangle {
                 visible: root.modelData?.actions.length > 0
 
                 Repeater {
-                    model: root.modelData?.actions
+                    model: root.modelData?.actions.filter(a => a.display)
 
-                    delegate: Action {}
+                    delegate: FlatButton {
+                        id: actionRoot
+                        required property var modelData
+                        text: actionRoot.modelData.text.trim() || "Action"
+                        implicitHeight: root.fontSize + root.padding
+                        Layout.maximumWidth: implicitWidth + (root.padding * 6)
+                        Layout.preferredWidth: implicitWidth + (root.padding * 2)
+                        Layout.fillWidth: true
+                        radius: 8
+
+                        font {
+                            family: Fonts.sans
+                            pixelSize: root.fontSize
+                            italic: actionRoot.modelData.text.trim() == ""
+                            bold: actionRoot.modelData?.default ?? false
+                        }
+
+                        leftPadding: actionIcon.visible ? actionIcon.width : 0
+
+                        Image {
+                            id: actionIcon
+                            source: Quickshell.iconPath(actionRoot.modelData.identifier, true)
+                            sourceSize.width: root.iconSize / 2
+                            sourceSize.height: root.iconSize / 2
+                            height: root.iconSize / 2
+                            width: root.iconSize / 2
+
+                            anchors {
+                                verticalCenter: parent.verticalCenter
+                                left: parent.left
+                                leftMargin: root.padding / 2
+                                rightMargin: root.padding / 2
+                            }
+
+                            visible: root.modelData.hasActionIcons && source.toString() !== ""
+                        }
+
+                        onClicked: actionRoot.modelData.invoke()
+                    }
                 }
             }
 
-            Rectangle {
-                Layout.fillWidth: true
-                // Layout.maximumWidth: 400
-                Layout.preferredHeight: root.fontSize + root.padding
+            TextField {
+                id: notifInlineReplyTextField
                 visible: root.modelData?.hasInlineReply === true
-                color: Colours.shadow
-                border.color: notificationInlineReplyTextField.activeFocus ? Colours.power1 : Colours.polar2
-                border.width: 2
-                radius: 8
-                TextField {
-                    id: notificationInlineReplyTextField
-                    anchors.fill: parent
-                    background: null
-                    color: Colours.text
-                    placeholderTextColor: Colours.snow0
-                    font.family: Fonts.sans
-                    Layout.fillWidth: true
-                    placeholderText: root.modelData?.inlineReplyPlaceholder ?? "Reply..."
-                    verticalAlignment: Text.AlignVCenter
-                    wrapMode: Text.Wrap
 
-                    Keys.onPressed: function (event) {
-                        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                            root.modelData?.notification?.sendInlineReply(notificationInlineReplyTextField.text)
-                            event.accepted = true;
-                        }
+                Layout.preferredHeight: (contentHeight) + root.padding
+                Layout.fillWidth: true
+                verticalAlignment: Text.AlignVCenter
+                color: Colours.text
+                placeholderTextColor: Colours.snow0
+                placeholderText: root.modelData?.inlineReplyPlaceholder ?? "Reply..."
+                font.family: Fonts.sans
+                wrapMode: Text.Wrap
+
+                leftPadding: root.padding
+                rightPadding: notifInlineReplySend.width + (root.padding / 2)
+
+                onPressed: root.modelData?.timer.stop()
+                Keys.onPressed: function (event) {
+                    if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                        root.modelData?.notification?.sendInlineReply(notifInlineReplyTextField.text);
+                        event.accepted = true;
                     }
                 }
-                Item {
+
+                background: Rectangle {
+                    color: notifInlineReplyTextField.hovered ? Colours.highlight : Colours.shadow
+                    border.color: parent.activeFocus ? Colours.power1 : (notifInlineReplyTextField.hovered ? Colours.snow0 : "transparent")
+                    border.width: 2
+                    radius: 8
+                }
+
+                SvgIcon {
+                    id: notifInlineReplySend
+                    iconName: "send"
+                    size: root.iconSize / 2
+                    colour: Colours.white
+                    opacity: notifInlineReplyMouseArea.containsMouse ? 1 : 0.7
+
                     anchors {
                         right: parent.right
+                        rightMargin: root.padding / 2
                         verticalCenter: parent.verticalCenter
                     }
-                    implicitWidth: root.fontSize + root.padding
-                    implicitHeight: root.fontSize + root.padding
-                    Text {
-                        anchors.centerIn: parent
-                        text: "󰒊"
-                        color: Colours.white
-                        opacity: notificationInlineReplyMouseArea.containsMouse ? 1 : 0.7
-                        font.family: Fonts.nerdMono
-                        font.pixelSize: root.fontSize * 1.25
 
-                        Behavior on opacity {
-                            NumberAnimation {
-                                duration: 250
-                                easing.type: Easing.Linear
-                            }
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 250
+                            easing.type: Easing.Linear
                         }
                     }
+
                     MouseArea {
-                        id: notificationInlineReplyMouseArea
+                        id: notifInlineReplyMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: root.modelData?.notification?.sendInlineReply(notificationInlineReplyTextField.text)
+                        onClicked: root.modelData?.notification?.sendInlineReply(notifInlineReplyTextField.text)
                     }
                 }
             }
-        }
-    }
-
-    component Action: Rectangle {
-        id: actionRoot
-        required property var modelData
-
-        implicitHeight: root.fontSize + root.padding
-        Layout.maximumWidth: actionContent.childrenRect.width + (root.padding * 6)
-        Layout.preferredWidth: actionContent.childrenRect.width + (root.padding * 2)
-        Layout.fillWidth: true
-        color: Colours.shadow
-        radius: 8
-        border.color: notificationActionMouseArea.containsMouse ? Colours.power1 : Colours.polar2
-        border.width: 2
-        RowLayout {
-            id: actionContent
-            anchors.centerIn: parent
-            spacing: root.padding
-            Image {
-                source: Quickshell.iconPath(actionRoot.modelData.identifier, true)
-                sourceSize.width: root.iconSize / 2
-                sourceSize.height: root.iconSize / 2
-                Layout.maximumWidth: root.iconSize / 2
-                Layout.maximumHeight: root.iconSize / 2
-                visible: root.modelData.hasActionIcons && source.toString() !== ""
-            }
-            Text {
-                Layout.fillWidth: true
-                text: actionRoot.modelData.text.trim() != "" ? actionRoot.modelData.text : "Action"
-                color: notificationActionMouseArea.containsMouse ? Colours.white : Colours.text
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                wrapMode: Text.Wrap
-                font.family: Fonts.sans
-                font.italic: actionRoot.modelData.text.trim() == ""
-                font.bold: actionRoot.modelData?.default ?? false
-            }
-        }
-        MouseArea {
-            id: notificationActionMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-            onClicked: actionRoot.modelData.invoke()
         }
     }
 }

@@ -18,6 +18,14 @@ ComboBox {
     font.bold: hovered
     hoverEnabled: true
 
+    property color bgColour: Colours.shadow
+    property color bgHoverColour: Colours.highlight
+
+    rightPadding: 0
+    property alias popupWidth: popup.width
+    property alias popupX: popup.x
+
+
     contentItem: Text {
         text: control.displayText
         font: control.font
@@ -27,28 +35,25 @@ ComboBox {
         elide: Text.ElideRight
     }
 
-    // TODO: SVG/Canvas/Shape
-    indicator: Text {
-        id: indicatorText
-        text: "󰕏"
-        font.pixelSize: 16
-        font.bold: true
-        x: control.width - width - control.rightPadding
+    indicator: SvgIcon {
+        id: indicator
+        iconName: "unfold-more"
+        size: 20
+        x: control.width - size
         anchors.verticalCenter: parent.verticalCenter
-        verticalAlignment: Text.AlignVCenter
-        color: control.hovered ? Colours.white : Colours.gray
-        width: 12
+        colour: control.hovered ? Colours.white : Colours.gray
     }
-    rightPadding: 2
 
     background: Rectangle {
-        color: control.hovered ? Colours.highlight : Colours.shadow
+        color: control.hovered ? control.bgHoverColour : control.bgColour
         radius: control.radius
     }
 
     popup: Popup {
+        id: popup
         y: 0
-        width: parent.width
+        x: 0
+        width: control.width
         height: contentItem.implicitHeight + 6
         padding: 3
 
@@ -72,22 +77,25 @@ ComboBox {
         required property var model
         required property int index
         highlighted: control.highlightedIndex === index
-        width: control.width
+        width: popup.width
 
         contentItem: Text {
-            text: delegate.model[control.textRole]
+            text: delegate.model[control.textRole] ?? ""
             color: Colours.white
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+            rightPadding: entryIcon.visible ? (entryIcon.width / 2) : 0
         }
 
         background: Rectangle {
-            color: delegate.highlighted ? Colours.highlight : "transparent"
+            color: delegate.highlighted? Colours.highlight : "transparent"
             width: parent.width - 6
             radius: control.radius
 
             SvgIcon {
+                id: entryIcon
                 anchors.right: parent.right
                 anchors.rightMargin: -12
                 anchors.verticalCenter: parent.verticalCenter

@@ -47,31 +47,31 @@ Rectangle {
             right: dnd.left
             margins: notifications.margin
         }
+
         implicitWidth: 120
         implicitHeight: 30
+        radius: parent.radius / 2
 
         enabled: NotifServer.list.length > 0
-        radius: parent.radius / 2
 
         onClicked: NotifServer.clearAll();
     }
 
     FlatButton {
         id: dnd
-        text: ""
+        text: "Do Not Disturb"
 
         anchors {
             verticalCenter: label.verticalCenter
             right: parent.right
             margins: notifications.margin
         }
+
         implicitWidth: 30
         implicitHeight: 30
-
         radius: parent.radius / 2
 
         contentItem: SvgIcon {
-            anchors.centerIn: parent
             iconName: "notifications" + (NotifServer.doNotDisturb ? "_off" : "")
             colour: parent.hovered ? Colours.snow2 : Colours.snow0
         }
@@ -95,7 +95,7 @@ Rectangle {
         spacing: notifications.margin
 
         model: ScriptModel {
-            values: NotifServer.list.filter(n => !n.closed)
+            values: NotifServer.list.filter(n => !n?.closed)
         }
 
         delegate: Notification {

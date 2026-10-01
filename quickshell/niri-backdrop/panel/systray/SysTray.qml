@@ -7,7 +7,6 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.config
-import qs.services
 import qs.widgets
 
 Item {
@@ -84,6 +83,8 @@ Item {
                 if (event.buttons & Qt.LeftButton) {
                     if (trayIcon.modelData.onlyMenu) {
                         menuLoader.item?.open();
+                    } else if (trayIcon.modelData.id === "Thunderbird") {
+                        Quickshell.execDetached(["systemctl", "--user", "start", "thunderbird.service"]);
                     } else {
                         trayIcon.modelData.activate();
                     }
@@ -107,28 +108,27 @@ Item {
     function overrideAppIcon(app) {
         // console.log(app.id, app.title || app.tooltipTitle, app.icon);
 
-        if (app.id.includes("discord")) {
-            return Quickshell.iconPath("discord", app.icon);
-        }
-
-        if (app.id == "steam") {
+        if (app.id == "Thunderbird") {
+            return Quickshell.iconPath("thunderbird", true) || app.icon;
+        } else if (app.id == "steam") {
+            // IDK what is going on here but this causes
+            // `~/.local/share/Steam/public/steam_tray_mono` to be used as the icon
+            // its a better tray icon than what my theme provides so I'm not complaining
             return Quickshell.iconPath("steam", app.icon);
+        } else if (app.id.includes("discord")) {
+            return Quickshell.iconPath("discord", true) || app.icon;
         }
 
         return app.icon;
     }
 
     function sortingFunction(a, b) {
-        // Put pinned items first, then sort by title
-        const idxA = sysTrayOrder(a);
-        const idxB = sysTrayOrder(b);
-        return idxA - idxB;
-    }
-
-    function sysTrayOrder(a) {
         // This is the order I want certain known apps to appear in the tray
-        const order = ["nm-applet", "blueman", "tailscale", "systray_", "Windscribe", "indicator-solaar"];
-        const index = order.findIndex(id => a.id.includes(id));
-        return index === -1 ? Number.POSITIVE_INFINITY : index;
+        const order = ["nm-applet", "blueman", "tailscale", "Windscribe", "indicator-solaar", "Thunderbird", "discord", "steam"];
+        const idxA = order.findIndex(id => a.id.includes(id));
+        if (idxA === -1) return 1;
+        const idxB = order.findIndex(id => b.id.includes(id));
+        if (idxB === -1) return -1;
+        return idxA - idxB;
     }
 }

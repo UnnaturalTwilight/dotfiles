@@ -74,7 +74,7 @@ Item {
         implicitWidth: root.popupWidth
         implicitHeight: root.popupHeight
         radius: height / 2
-        color: Colours.blurPane
+        color: Colours.power5
         border.color: Colours.frost0
         border.width: 2
 

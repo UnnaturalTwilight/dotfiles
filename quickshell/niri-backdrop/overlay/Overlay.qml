@@ -80,7 +80,7 @@ PanelWindow {
         interactive: false
 
         model: ScriptModel {
-            values: NotifServer.list.filter(notif => notif.onscreen)
+            values: NotifServer.list.filter(notif => notif?.onscreen)
         }
         delegate: Notification {}
 

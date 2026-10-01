@@ -43,148 +43,146 @@ Rectangle {
             rightMargin: 85
         }
         implicitHeight: 90
-        color: audioMouseArea.containsMouse ? Colours.highlight : "transparent"
+        color: audioHoverArea.hovered ? Colours.highlight : "transparent"
         radius: tilePane.radius / 2
 
-        MouseArea {
-            id: audioMouseArea
-            anchors.fill: parent
+        HoverHandler {
+            id: audioHoverArea
+            cursorShape: Qt.PointingHandCursor
+        }
+
+        Button {
+            id: audioIcon
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            implicitWidth: 70
+            implicitHeight: 70
 
             hoverEnabled: true
+            onClicked: Audio.toggleMute()
 
-            Button {
-                id: audioIcon
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                implicitWidth: 70
-                implicitHeight: 70
+            contentItem: SvgIcon {
+                iconName: Audio.icon
+                scale: 1.0 * (Audio.extraProps.iconDisplaySize / 80.0)
+                colour: audioIcon.hovered ? Colours.power1 : Colours.gray
+                opacity: Audio.muted ? 0.5 : 1.0
+                anchors.centerIn: parent
+            }
+            background: null
+        }
 
-                hoverEnabled: true
-                onClicked: Audio.toggleMute()
+        GridLayout {
+            id: audioInfoGrid
+            anchors {
+                left: parent.left
+                leftMargin: 70
+                right: parent.right
+                bottom: parent.bottom
+                margins: tilePane.margin * 1.5
+            }
+            rows: 2
 
-                contentItem: SvgIcon {
-                    iconName: Audio.icon
-                    scale: 1.0 * (Audio.extraProps.iconDisplaySize / 80.0)
-                    colour: audioIcon.hovered ? Colours.power1 : Colours.gray
-                    opacity: Audio.muted ? 0.5 : 1.0
-                    anchors.centerIn: parent
+            Dropdown {
+                id: dropdown
+                Layout.row: 0
+                Layout.fillWidth: true
+                // This filters out sinks with empty descriptions, In my case this is just a 'sink-input' for mpd
+                // If legit sinks have empty descriptions this will cause them to not show up in the dropdown
+                // Decriptions can be overridden in wireplumber config anyways
+                model: Audio.ready ? Audio.sinks?.map(s => ({
+                            value: s.name,
+                            text: s.description,
+                            icon: s.name.startsWith("bluez_output") ? "network/bluetooth" : null
+                        })).filter(m => m.text != "") : [Audio.description]
+                currentValue: Audio.name
+
+                onActivated: {
+                    const sink = Audio.sinks.find(s => s.name === dropdown.currentValue);
+                    if (sink) {
+                        Audio.setDefaultSink(sink);
+                    } else {
+                        console.warn("Selected audio sink not found:", dropdown.currentValue);
+                    }
                 }
+
                 background: null
             }
 
-            GridLayout {
-                id: audioInfoGrid
-                anchors {
-                    left: parent.left
-                    leftMargin: 70
-                    right: parent.right
-                    bottom: parent.bottom
-                    margins: tilePane.margin * 1.5
-                }
-                rows: 2
+            RowLayout {
+                Layout.row: 0
+                Layout.column: 1
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignRight
 
-                Dropdown {
-                    id: dropdown
-                    Layout.row: 0
-                    Layout.fillWidth: true
-                    // This filters out sinks with empty descriptions, In my case this is just a 'sink-input' for mpd
-                    // If legit sinks have empty descriptions this will cause them to not show up in the dropdown
-                    // Decriptions can be overridden in wireplumber config anyways
-                    model: Audio.ready ? Audio.sinks?.map(s => ({
-                                value: s.name,
-                                text: s.description,
-                                icon: s.name.startsWith("bluez_output") ? "network/bluetooth" : null
-                            })).filter(m => m.text != "") : [Audio.description]
-                    currentValue: Audio.name
-
-                    onActivated: {
-                        const sink = Audio.sinks.find(s => s.name === dropdown.currentValue);
-                        if (sink) {
-                            Audio.setDefaultSink(sink);
-                        } else {
-                            console.warn("Selected audio sink not found:", dropdown.currentValue);
-                        }
-                    }
-
-                    background: null
-                }
-
-                RowLayout {
-                    Layout.row: 0
-                    Layout.column: 1
-                    Layout.fillWidth: true
+                SvgIcon {
+                    iconName: Audio.extraProps.batteryIcon ?? "battery/unknown"
+                    colour: Colours.snow0
+                    size: 40
+                    scale: 0.5
+                    Layout.preferredWidth: size
+                    Layout.preferredHeight: size
+                    Layout.margins: -15
                     Layout.alignment: Qt.AlignRight
-
-                    SvgIcon {
-                        iconName: Audio.extraProps.batteryIcon ?? "battery/unknown"
-                        colour: Colours.snow0
-                        size: 40
-                        scale: 0.5
-                        Layout.preferredWidth: size
-                        Layout.preferredHeight: size
-                        Layout.margins: -15
-                        Layout.alignment: Qt.AlignRight
-                        visible: Audio.extraProps.batteryIcon
-                    }
-
-                    SvgIcon {
-                        iconName: "network/bluetooth"
-                        colour: Colours.snow0
-                        size: 40
-                        scale: 0.5
-                        Layout.preferredWidth: size
-                        Layout.preferredHeight: size
-                        Layout.margins: -15
-                        Layout.alignment: Qt.AlignRight
-                        visible: Audio.extraProps.bluetooth
-                    }
+                    visible: Audio.extraProps.batteryIcon
                 }
 
-                Slider {
-                    id: volumeControl
-                    value: Audio.volume
-                    stepSize: 0.02
-                    wheelEnabled: true
-
-                    Layout.row: 1
-                    Layout.column: 0
-                    Layout.fillWidth: true
-
-                    background: PercentBar {
-                        id: volumeBar
-                        Layout.row: 1
-                        Layout.fillWidth: true
-                        implicitHeight: 12
-                        value: volumeControl.visualPosition
-                        active: !Audio.muted
-                    }
-                    handle: null
-
-                    onMoved: {
-                        Audio.setVolume(volumeControl.position);
-                    }
-                }
-
-                Text {
-                    Layout.row: 1
-                    Layout.column: 1
+                SvgIcon {
+                    iconName: "network/bluetooth"
+                    colour: Colours.snow0
+                    size: 40
+                    scale: 0.5
+                    Layout.preferredWidth: size
+                    Layout.preferredHeight: size
+                    Layout.margins: -15
                     Layout.alignment: Qt.AlignRight
-                    text: (Audio.muted ? "" : Math.round(Audio.volume * 100) + "%").padStart(5, " ")
-                    font.pixelSize: 16
-                    font.family: Fonts.mono
-                    color: Colours.text
+                    visible: Audio.extraProps.bluetooth
+                }
+            }
 
-                    SvgIcon {
-                        id: volumeMuteIcon
-                        anchors.right: parent.right
-                        anchors.rightMargin: -15
-                        anchors.verticalCenter: parent.verticalCenter
-                        iconName: "audio/volume_mute"
-                        colour: Colours.snow0
-                        size: 60
-                        scale: 0.5
-                        visible: Audio.muted
-                    }
+            Slider {
+                id: volumeControl
+                value: Audio.volume
+                stepSize: 0.02
+                wheelEnabled: true
+
+                Layout.row: 1
+                Layout.column: 0
+                Layout.fillWidth: true
+
+                background: PercentBar {
+                    id: volumeBar
+                    Layout.row: 1
+                    Layout.fillWidth: true
+                    implicitHeight: 12
+                    value: volumeControl.visualPosition
+                    active: !Audio.muted
+                }
+                handle: null
+
+                onMoved: {
+                    Audio.setVolume(volumeControl.position);
+                }
+            }
+
+            Text {
+                Layout.row: 1
+                Layout.column: 1
+                Layout.alignment: Qt.AlignRight
+                text: (Audio.muted ? "" : Math.round(Audio.volume * 100) + "%").padStart(5, " ")
+                font.pixelSize: 16
+                font.family: Fonts.mono
+                color: Colours.text
+
+                SvgIcon {
+                    id: volumeMuteIcon
+                    anchors.right: parent.right
+                    anchors.rightMargin: -15
+                    anchors.verticalCenter: parent.verticalCenter
+                    iconName: "audio/volume_mute"
+                    colour: Colours.snow0
+                    size: 60
+                    scale: 0.5
+                    visible: Audio.muted
                 }
             }
         }
@@ -249,42 +247,53 @@ Rectangle {
                     color: Colours.snow2
                 }
 
-                RowLayout {
+                Dropdown {
+                    id: batteryMode
                     Layout.row: 0
                     Layout.column: 2
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: 75
                     Layout.alignment: Qt.AlignRight
-                    spacing: tilePane.margin
 
-                    SvgIcon {
-                        iconName: "power/sleep_off"
-                        colour: Colours.snow0
-                        size: 40
-                        scale: 0.5
-                        Layout.preferredWidth: size
-                        Layout.preferredHeight: size
-                        Layout.margins: -10
-                        Layout.alignment: Qt.AlignRight
-                        visible: !Idle.enabled
-                    }
+                    model: [
+                        {text: "Power Saver", value: "PowerSaver", icon: "power/power-efficiency-mode"},
+                        {text: "Balanced", value: "Balanced", icon: "power/balanced-mode"},
+                        {text: "Performance", value: "Performance", icon: "power/performance-mode"},
+                    ]
+                    currentValue: Battery.powerProfile
+                    onActivated: Battery.setPowerProfile(batteryMode.currentValue);
 
-                    SvgIcon {
-                        iconName: {
-                            if (Battery.powerProfile === "Performance") {
-                                return "power/performance-mode";
-                            } else if (Battery.powerProfile === "PowerSaver") {
-                                return "power/power-efficiency-mode";
+                    popupWidth: 160
+                    popupX: -75
+
+                    bgColour: "transparent"
+
+                    contentItem: Item {
+                        SvgIcon {
+                            iconName: "power/sleep_off"
+                            colour: Colours.snow0
+                            size: 40
+                            scale: 0.5
+                            visible: !Idle.enabled
+
+                            anchors {
+                                right: parent.right
+                                verticalCenter: parent.verticalCenter
+                                rightMargin: 36
                             }
-                            return "unknown";
                         }
-                        colour: Colours.snow0
-                        size: 40
-                        scale: 0.5
-                        Layout.preferredWidth: size
-                        Layout.preferredHeight: size
-                        Layout.margins: -10
-                        Layout.alignment: Qt.AlignRight
-                        visible: Battery.powerProfile !== "Balanced"
+
+                        SvgIcon {
+                            iconName: batteryMode.model[batteryMode.currentIndex].icon
+                            colour: Colours.snow0
+                            size: 40
+                            scale: 0.5
+
+                            anchors {
+                                right: parent.right
+                                verticalCenter: parent.verticalCenter
+                                rightMargin: 10
+                            }
+                        }
                     }
                 }
 
@@ -294,6 +303,7 @@ Rectangle {
                     Layout.fillWidth: true
                     implicitHeight: 12
                     value: Battery.value
+                    fgColor: Battery.powerProfile == "PowerSaver" ? Colours.power3 : Colours.power1
                 }
 
                 Text {
