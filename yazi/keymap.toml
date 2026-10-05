@@ -4,8 +4,8 @@
 [mgr]
 # This contains some keybinding that are the same as the default ones
 prepend_keymap = [
-    { on = "<Esc>", run = [ "escape", "unyank" ],   desc = "Exit visual mode, clear selection, or cancel search" },
-    { on = "<C-[>", run = "escape",                 desc = "Exit visual mode, clear selection, or cancel search" },
+    { on = "<Esc>", run = [ "escape", "unyank" ],   desc = "Exit visual mode, clear selection, or exit view" },
+    { on = "<C-[>", run = "escape",                 desc = "Exit visual mode, clear selection, or exit view" },
     { on = "q",     run = "quit",                   desc = "Quit the process" },
     { on = "Q",     run = "quit --no-cwd-file",     desc = "Quit without outputting cwd-file" },
     { on = "<C-q>", run = "quit --no-cwd-file",     desc = "Quit without outputting cwd-file" },
@@ -15,7 +15,7 @@ prepend_keymap = [
     # Hopping
     { on = "<Up>",   run = "arrow prev", desc = "Previous file" },
     { on = "<Down>", run = "arrow next", desc = "Next file" },
-    
+
     { on = "<Home>", run = "arrow top", desc = "Go to top" },
     { on = "<End>",  run = "arrow bot", desc = "Go to bottom" },
 
@@ -38,9 +38,6 @@ prepend_keymap = [
     # Navigation
     { on = "<Left>",  run = "leave", desc = "Back to the parent directory" },
     { on = "<Right>", run = "enter", desc = "Enter the child directory" },
-
-    # { on = "<Left>",  run = "plugin fuse-archive -- leave", desc = "Back to the parent directory" },
-    # { on = "<Right>", run = "plugin fuse-archive -- mount", desc = "Enter the child directory" },
 
     { on = "<A-Left>",  run = "back",    desc = "Back to previous directory" },
     { on = "<A-Right>", run = "forward", desc = "Forward to next directory" },
@@ -85,8 +82,8 @@ prepend_keymap = [
     { on = ";",         run = "shell --interactive",         desc = "Run a shell command" },
     { on = ":",         run = "shell --block --interactive", desc = "Run a shell command (block until finishes)" },
     { on = ".",         run = "hidden toggle",               desc = "Toggle the visibility of hidden files" },
-    { on = "s",         run = "search --via=fd",             desc = "Search files by name via fd" },
-    { on = "S",         run = "search --via=rg",             desc = "Search files by content via ripgrep" },
+    { on = "s",         run = "plugin fd",                   desc = "Search files by name via fd" },
+    { on = "S",         run = "plugin rg",                   desc = "Search files by content via ripgrep" },
     { on = "<C-s>",     run = "escape --search",             desc = "Cancel the ongoing search" },
     { on = "z",         run = "plugin zoxide",               desc = "Jump to a directory via zoxide" },
     { on = "Z",         run = "plugin fzf",                  desc = "Jump to a file/directory via fzf" },

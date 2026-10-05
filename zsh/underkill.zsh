@@ -15,7 +15,7 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
   # This assumes that kitty is set up as the difftool in git
   alias kdiff-git='git difftool --no-symlinks --dir-diff'
 
-  alias pacdiff='DIFFPROG=${DIFFPROG:="kitten diff"} pacdiff'
+  alias pacdiff='sudo DIFFPROG=${DIFFPROG:="kitten diff"} pacdiff'
 fi
 
 # Extra completions
@@ -29,7 +29,6 @@ alias mini-fetch='hyfetch --distro arch_small --args="-c $XDG_CONFIG_HOME/fastfe
 alias fetch='fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
 alias clf='clear; fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
 
-alias compose='docker compose'
 alias vlc='env -u DISPLAY vlc' # run vlc in wayland
 
 alias fzf-view='fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" \
@@ -44,6 +43,12 @@ alias -s md='bat --italic-text=always'
 
 # View long help in bat
 alias -g -- --HELP='--help 2>&1 | bat --language=help --style=plain --color=always'
+
+print-script() {
+  local file="$(which $1)"
+  [[ -e $file ]] && bat $file || echo $file
+}
+compdef _command_names print-script
 
 case $XDG_CURRENT_DESKTOP in
   niri)

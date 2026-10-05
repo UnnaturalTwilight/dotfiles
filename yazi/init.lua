@@ -2,7 +2,6 @@
 
 -- require("session"):setup({ sync_yanked = true })
 require("starship"):setup()
--- require("fuse-archive"):setup()
 require("git"):setup({ order = 500 })
 require("full-border"):setup({ type = ui.Border.ROUNDED })
 

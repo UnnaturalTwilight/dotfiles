@@ -20,9 +20,6 @@ use = "yazi-rs/plugins:mount"
 use = "AminurAlam/yazi-plugins:sort-by-location"
 
 [[plugin.deps]]
-use = "boydaihungst/fuse-archive"
-
-[[plugin.deps]]
 use = "UnnaturalTwilight/yazi-plugins:osc5522"
 
 [[plugin.deps]]

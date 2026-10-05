@@ -55,12 +55,10 @@ Rectangle {
         }
 
         remove: Transition {
-            ParallelAnimation {
-                NumberAnimation {
-                    property: "opacity"
-                    to: 0
-                    duration: 250
-                }
+            NumberAnimation {
+                property: "opacity"
+                to: 0
+                duration: 250
             }
         }
 
