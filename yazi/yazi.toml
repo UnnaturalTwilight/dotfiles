@@ -39,6 +39,10 @@ diff-kitty = [
 orcaslicer = [
     { run = "orca-slicer %s1", desc = "OrcaSlicer", block = false, for = "linux", orphan = true },
 ]
+xournal = [
+    { run = "xournalpp %s1", desc = "Xournal++", block = false, for = "linux", orphan = true },
+    { run = "xournalpp.exe %s1", desc = "Xournal++", block = false, for = "windows", orphan = true },
+]
 
 [open]
 prepend_rules = [
@@ -55,6 +59,8 @@ prepend_rules = [
     # Text files
     { mime = "text/*", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
     { mime = "application/{json,ndjson,javascript,wine-extension-ini}", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
+    # PDF
+    { mime = "application/pdf", use = [ "open", "xournal", "reveal"] },
 ]
 append_rules = [
     # Folders

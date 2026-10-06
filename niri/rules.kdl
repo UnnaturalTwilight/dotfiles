@@ -111,6 +111,7 @@ window-rule {
 
 window-rule {
     match app-id="^wev$"
+    match app-id="gp_saml_gui.py"
     default-column-width { proportion 0.3; }
 }
 
@@ -121,6 +122,7 @@ window-rule {
 
 window-rule {
     match app-id=r#"^org\.mozilla\.Thunderbird$"# title="Instant messaging status"
+    match app-id="^Thunar$" title="^Rename"
     open-floating true
 }
 
