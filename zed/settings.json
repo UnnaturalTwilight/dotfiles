@@ -77,8 +77,10 @@
     "provider": "zed",
   },
   "agent": {
+    "threads_sidebar": {
+      "position": "right"
+    },
     "show_merge_conflict_indicator": false,
-    "sidebar_side": "right",
     "default_model": {
       "provider": "copilot_chat",
       "model": "gpt-5-mini",
@@ -120,6 +122,14 @@
       "enabled": true,
     },
   },
+
+  "git_hosting_providers": [
+    {
+      "provider": "forgejo",
+      "name": "Forgejo",
+      "base_url": "https://forgejo.shrew-gray.ts.net"
+    }
+  ],
 
   "terminal": {
     "bell": "system",
