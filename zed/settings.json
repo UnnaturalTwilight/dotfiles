@@ -82,10 +82,10 @@
     },
     "show_merge_conflict_indicator": false,
     "default_model": {
-      "provider": "copilot_chat",
-      "model": "gpt-5-mini",
+      "provider": "zed.dev",
+      "model": "gpt-6.1-sol",
       "enable_thinking": true,
-      "effort": "high",
+      "effort": "medium",
     },
     "dock": "right",
     "favorite_models": [],

@@ -37,7 +37,6 @@ Item {
     RowLayout {
         id: trayLayout
         anchors.right: parent.right
-        anchors.rightMargin: 16
 
         Repeater {
             id: trayRepeater
@@ -55,9 +54,7 @@ Item {
 
         width: systray.iconSize + 8
         height: systray.iconSize + 8
-        color: Colours.shadow
-        border.color: trayIconMouseArea.containsMouse ? Colours.power1 : Colours.polar2
-        border.width: 2
+        color: trayIconMouseArea.containsMouse ? Colours.highlight : Colours.shadow
         radius: 8
 
         Image {
@@ -109,7 +106,7 @@ Item {
         // console.log(app.id, app.title || app.tooltipTitle, app.icon);
 
         if (app.id == "Thunderbird") {
-            return Quickshell.iconPath("thunderbird", true) || app.icon;
+            // return Quickshell.iconPath("thunderbird", true) || app.icon;
         } else if (app.id == "steam") {
             // IDK what is going on here but this causes
             // `~/.local/share/Steam/public/steam_tray_mono` to be used as the icon

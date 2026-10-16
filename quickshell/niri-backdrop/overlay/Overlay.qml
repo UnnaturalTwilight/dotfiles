@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Wayland
 import QtQuick
 
+import qs.launcher
 import qs.services
 import qs.services.notifications
 
@@ -59,6 +60,19 @@ PanelWindow {
             item: modelData
             radius: 20
         }
+    }
+
+    Launcher {
+        id: launcher
+        implicitHeight: System.primaryScreen.height
+        initialHeight: 50
+        implicitWidth: 800
+        fontSize: 20
+        // anchor {
+        //     window: overlayPanel
+        //     rect.x: System.primaryScreen.width / 2 - launcher.implicitWidth / 2
+        //     rect.y: 200
+        // }
     }
 
     Panels {

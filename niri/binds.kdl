@@ -28,6 +28,7 @@ binds {
     Mod+E     repeat=false hotkey-overlay-title="Open Thunar"  { spawn "thunar"; }
     // Laucher
     Mod+Space repeat=false hotkey-overlay-title="Open Launcher"          { spawn "walker"; }
+    Mod+Shift+Space repeat=false hotkey-overlay-title="Open Launcher"    { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "launcher" "toggle"; }
     Mod+V     repeat=false hotkey-overlay-title="Open Clipboard History" { spawn "walker" "-m" "clipboard"; }
     Mod+C     repeat=false hotkey-overlay-title="Launch Colour Picker"   { spawn "hyprpicker" "-a"; }
 
