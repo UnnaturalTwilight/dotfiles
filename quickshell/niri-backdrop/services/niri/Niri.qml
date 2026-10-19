@@ -74,10 +74,19 @@ Singleton {
         });
     }
 
-    // Kills all windows registered by Niri.
-    function closeAllWindows() {
-        for (const window of windows) {
-            Quickshell.execDetached(["kill", window.pid.toString()]);
+    onOverviewOpenedChanged: {
+        if (overviewOpened) {
+            send({
+                Action: {
+                    OpenOverview: {}
+                }
+            });
+        } else {
+            send({
+                Action: {
+                    CloseOverview: {}
+                }
+            });
         }
     }
 

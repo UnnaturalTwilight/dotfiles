@@ -66,7 +66,7 @@ Rectangle {
 
     SvgIcon {
         id: closeButton
-        iconName: "close"
+        iconName: "actions/close"
         size: 24
 
         x: root.width - (root.padding + width)
@@ -278,7 +278,7 @@ Rectangle {
 
                 SvgIcon {
                     id: notifInlineReplySend
-                    iconName: "send"
+                    iconName: "actions/send"
                     size: root.iconSize / 2
                     colour: Colours.white
                     opacity: notifInlineReplyMouseArea.containsMouse ? 1 : 0.7

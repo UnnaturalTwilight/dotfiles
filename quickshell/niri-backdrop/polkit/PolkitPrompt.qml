@@ -95,7 +95,7 @@ FloatingWindow {
 
             SvgIcon {
                 anchors.centerIn: parent
-                iconName: "fingerprint"
+                iconName: "symbols/fingerprint"
                 size: parent.width * 0.6
                 colour: Colours.aurora4
                 visible: !(agent.flow?.iconName)

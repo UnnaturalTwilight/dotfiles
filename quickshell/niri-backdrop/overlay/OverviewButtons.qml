@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.config
+import qs.launcher
 import qs.services.niri
 import qs.widgets
 
@@ -94,12 +95,12 @@ Item {
                 implicitWidth: 32
                 implicitHeight: 32
 
-                contentItem: SvgIcon {
-                    iconName: "apps"
-                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
-                }
+                iconName: "symbols/apps"
+                iconSize: 32
 
-                onClicked: Quickshell.execDetached(["walker", "--height", "400",])
+                mode: "icon"
+
+                onClicked: LauncherController.toggle()
             }
 
             FlatButton {
@@ -107,10 +108,8 @@ Item {
                 implicitWidth: 32
                 implicitHeight: 32
 
-                contentItem: SvgIcon {
-                    iconName: "fullscreen"
-                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
-                }
+                iconName: "actions/fullscreen"
+                mode: "icon"
 
                 onClicked: Niri.send({"Action":{"FullscreenWindow":{"id":null}}})
             }
@@ -120,10 +119,8 @@ Item {
                 implicitWidth: 32
                 implicitHeight: 32
 
-                contentItem: SvgIcon {
-                    iconName: "close"
-                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
-                }
+                iconName: "actions/close"
+                mode: "icon"
 
                 onClicked: Niri.send({"Action":{"CloseWindow":{"id":null}}})
             }

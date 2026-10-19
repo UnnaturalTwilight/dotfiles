@@ -60,7 +60,7 @@ Rectangle {
 
         SvgIcon {
             id: musicIcon
-            iconName: "music"
+            iconName: "symbols/music"
             colour: Colours.gray
             size: 40
             scale: 0.5

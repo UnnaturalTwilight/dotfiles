@@ -9,10 +9,8 @@ import QtQuick.Effects
 VectorImage {
     id: root
 
-    property string iconName: "close"
-    source: {
-        return Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/" + iconName + ".svg";
-    }
+    property string iconName: "unknown"
+    source: Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/" + iconName + ".svg"
 
     property int size: 24
     property color colour: "white"

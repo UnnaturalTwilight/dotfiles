@@ -71,10 +71,8 @@ Rectangle {
         implicitHeight: 30
         radius: parent.radius / 2
 
-        contentItem: SvgIcon {
-            iconName: "notifications" + (NotifServer.doNotDisturb ? "_off" : "")
-            colour: parent.hovered ? Colours.snow2 : Colours.snow0
-        }
+        iconName: "symbols/notifications" + (NotifServer.doNotDisturb ? "_off" : "")
+        mode: "icon"
 
         onClicked: NotifServer.doNotDisturb = !NotifServer.doNotDisturb;
     }

@@ -298,7 +298,7 @@ PanelWindow {
                     verticalCenter: input.verticalCenter
                     margins: launcher.fontSize / 2
                 }
-                iconName: "search"
+                iconName: "symbols/search"
                 colour: Colours.gray
                 size: launcher.fontSize * 1.6
             }
