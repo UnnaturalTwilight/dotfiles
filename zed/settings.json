@@ -35,6 +35,7 @@
     "show_menus": false,
     "button_layout": "",
     "show_user_picture": false,
+    "show_worktree_name": false,
     "show_branch_status_icon": false,
   },
 
@@ -76,17 +77,12 @@
     "mode": "subtle",
     "provider": "zed",
   },
+
   "agent": {
     "threads_sidebar": {
       "position": "right"
     },
     "show_merge_conflict_indicator": false,
-    "default_model": {
-      "provider": "copilot_chat",
-      "model": "gpt-5-mini",
-      "enable_thinking": true,
-      "effort": "high",
-    },
     "dock": "right",
     "favorite_models": [],
     "model_parameters": [],
@@ -136,14 +132,14 @@
     "cursor_shape": "bar",
     "blinking": "on",
     "env": {
-      "EDITOR": "zed --wait",
-      "VISUAL": "zed --wait"
+      "EDITOR": "zeditor --wait",
+      "VISUAL": "zeditor --wait"
     }
   },
 
   "languages": {
     "QML": {
-      "show_completions_on_input": false,
+      "show_completions_on_input": true,
     },
   },
 
