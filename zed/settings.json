@@ -136,8 +136,8 @@
     "cursor_shape": "bar",
     "blinking": "on",
     "env": {
-      "EDITOR": "zed --wait",
-      "VISUAL": "zed --wait"
+      "EDITOR": "zeditor --wait",
+      "VISUAL": "zeditor --wait"
     }
   },
 
