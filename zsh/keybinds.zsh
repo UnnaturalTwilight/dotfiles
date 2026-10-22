@@ -165,5 +165,7 @@ DEJA_TOGGLE_KEY=''
 DEJA_CYCLE_FUZZY_KEY='^[.'
 DEJA_CYCLE_FUZZY_BACK_KEY=''
 DEJA_TOGGLE_EMPTY_KEY=''
+# TODO: It would be neat to somehow have this on the arrow keys without conflicting with other keybinds
+# TODO: Maybe figure out how to a context bind to put it on down arrow when not in history
 DEJA_CYCLE_KEY='^N'
 DEJA_DISMISS_KEY='^[^['

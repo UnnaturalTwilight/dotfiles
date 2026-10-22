@@ -45,6 +45,8 @@ TRAPUSR1() {
 # Set up fzf key bindings and fuzzy completion
 export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/defaults"
 source <(fzf --zsh)
+alias fzf-view='fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" \
+  --bind "focus:transform-header:file --brief {}" -m'
 
 # WHY does fzf unset this??
 KEYBOARD_HACK=\\
@@ -59,7 +61,7 @@ function yazi-cwd() {
 compdef _yazi yazi-cwd
 alias yazi='yazi-cwd'
 
-## Aliases
+## Aliases and Functions
 alias cd='z'
 alias ls='eza -x --hyperlink=auto --group-directories-first --icons=auto'
 alias ll='eza -l --hyperlink=auto --group-directories-first --icons=auto'
@@ -70,12 +72,24 @@ alias grep='grep --color=auto'
 alias shutdown='shutdown now'
 alias soft-reboot='systemctl soft-reboot'
 
+alias fetch='fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
+alias clf='clear; fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
+
+alias run='systemd-run --user --'
+
 alias makepkg="PACKAGER=${PACKAGER:=\"${(C)USER} <${USER}@${HOST}>\"} makepkg"
 
-# Windows terminal reports itself as xterm-256color and doesn't set COLORTERM despite supporting truecolor
-case "$TERM" in
-  xterm-color|*-256color) export COLORTERM=truecolor;;
-esac
+# Suffix Alias to auto bat .md files with just the filename
+alias -s md='bat --italic-text=always'
+
+# Global Alias to view long help in bat
+alias -g -- --HELP='--help 2>&1 | bat --language=help --style=plain --color=always'
+
+print-script() {
+  local file="$(which $1)"
+  [[ -e $file ]] && bat $file || echo $file
+}
+compdef _command_names print-script
 
 ## Builtin zle highlight styles
 # region is selected text and is set to be a little darker than kitty's highlight color

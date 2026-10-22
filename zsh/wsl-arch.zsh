@@ -29,6 +29,7 @@ elif [[ "$TERM_PROGRAM" == "vscode" ]]; then
 elif [[ -n "$WT_SESSION" ]]; then
   # Windows Terminal
 
+  #TODO: Windows Terminal now supports kitty keyboard protocol
   # Alt-Shift-C
   bindkey '^[C' copy-buffer-to-clipboard
   bindkey -M shift-select '^[C' shift-select::copy-region
@@ -67,9 +68,6 @@ elif [[ -n "$WT_SESSION" ]]; then
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
   DEJA_HIGHLIGHT_STYLE="fg=244"
 fi
-
-alias fetch='fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
-alias clf='clear; fastfetch -c $HOME/.config/fastfetch/moon.jsonc'
 
 # Copy to clipboard
 alias clip='/mnt/c/Windows/System32/clip.exe'
