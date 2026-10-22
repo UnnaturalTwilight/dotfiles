@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Check out $ZED_GIT_REF",
+    "command": "git",
+    "args": ["checkout", "$ZED_GIT_REF"],
+    "tags": ["git-command"],
+  },
+  {
+    "label": "Chery-pick commit",
+    "command": "git",
+    "args": ["cherry-pick", "$ZED_GIT_SHA"],
+    "tags": ["git-command"],
+  },
+]

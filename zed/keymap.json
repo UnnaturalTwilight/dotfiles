@@ -14,28 +14,18 @@
   {
     "context": "Workspace",
     "bindings": {
-      // "shift shift": "file_finder::Toggle"
+      "ctrl-shift-space": "command_palette::Toggle",
     },
     "unbind": {
       "ctrl-w": "workspace::CloseActiveDock",
-    },
-  },
-  {
-    "context": "Editor && vim_mode == insert",
-    "bindings": {
-      // "j k": "vim::NormalBefore"
+      "ctrl-shift-p": "command_palette::Toggle",
     },
   },
   {
     "context": "Terminal",
     "bindings": {
       "ctrl-shift-enter": "pane::SplitRight",
-      "ctrl-shift-q": [
-        "pane::CloseActiveItem",
-        {
-          "close_pinned": false,
-        },
-      ],
+      "ctrl-shift-q": ["pane::CloseActiveItem", { "close_pinned": false }],
     },
     "unbind": {
       "ctrl-shift-5": "pane::SplitRight",
@@ -49,15 +39,19 @@
       "ctrl-shift-enter": "pane::SplitRight",
       "ctrl-shift-c": "editor::Copy",
       "ctrl-shift-v": "editor::Paste",
-      "ctrl-q": [
-        "pane::CloseActiveItem",
-        {
-          "close_pinned": false,
-        },
-      ],
+      "ctrl-q": ["pane::CloseActiveItem", { "close_pinned": false }],
+      "alt-shift-space": "editor::ShowWordCompletions",
     },
     "unbind": {
       "ctrl-\\": "pane::SplitRight",
+      "ctrl-shift-space": "editor::ShowSignatureHelp",
+    },
+  },
+  {
+    // This is needed to facilitate unbinding multiple actions from the same key combo
+    "context": "Editor",
+    "unbind": {
+      "ctrl-shift-space": "editor::ShowWordCompletions",
     },
   },
   {
@@ -100,6 +94,29 @@
     },
   },
   {
+    "context": "Editor && showing_completions",
+    "bindings": {
+      "ctrl-space": "editor::Cancel",
+      "alt-shift-space": "editor::Cancel",
+    },
+  },
+  {
+    "context": "GitDiff > Editor",
+    "bindings": {
+      "ctrl-space": "git::StageAndNext",
+    },
+    "unbind": {
+      "ctrl-space": "git::StageAll",
+      "ctrl-shift-space": "git::UnstageAll",
+    },
+  },
+  {
+    "context": "GitPanel",
+    "unbind": {
+      "ctrl-shift-space": "git::UnstageAll",
+    },
+  },
+  {
     "context": "SettingsWindow",
     "bindings": {
       "ctrl-q": "workspace::CloseWindow",
@@ -120,12 +137,7 @@
   {
     "context": "Pane",
     "unbind": {
-      "ctrl-w": [
-        "pane::CloseActiveItem",
-        {
-          "close_pinned": false,
-        },
-      ],
+      "ctrl-w": ["pane::CloseActiveItem", { "close_pinned": false }],
     },
   },
 ]
