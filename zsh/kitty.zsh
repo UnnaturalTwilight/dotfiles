@@ -12,7 +12,11 @@ fi
 
 setopt COMBINING_CHARS
 
-alias ssh='kitten ssh'
+if [[ ! -v SSH_TTY ]]; then
+  # Only override on a local shell
+  alias ssh='kitten ssh'
+fi
+
 alias copycat='kitten clipboard'
 alias kdiff='kitten diff'
 alias icat='kitten icat'
