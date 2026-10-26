@@ -3,8 +3,8 @@ autosave = false
 command = "wl-copy -n '%VALUE%'"
 max_items = 30
 min_chars = 1
-placeholder = 'calculating...'
-require_number = true
+placeholder = 'Calculating...'
+require_number = false
 
 [Config]
 hide_from_providerlist = false

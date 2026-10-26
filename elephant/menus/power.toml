@@ -23,7 +23,7 @@ actions = { "reboot" = "systemctl reboot" }
 text = "Lock"
 subtext = "Quickshell Lockscreen"
 keywords = ["power"]
-icon = "system-lock-screen"
+icon = "system-lock-screen-symbolic"
 actions = { "lock" = "qs -c niri-backdrop ipc call lock lock" }
 
 [[entries]]

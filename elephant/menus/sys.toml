@@ -7,7 +7,7 @@ search_name = true
 [[entries]]
 text = "Restart Open Tablet Driver"
 subtext = "systemctl --user restart opentabletdriver.service"
-keywords = ["tablet", "driver"]
+keywords = ["otd", "tablet", "driver"]
 icon = "/usr/share/pixmaps/otd.png"
 actions = { "restart" = "systemctl --user restart opentabletdriver.service" }
 

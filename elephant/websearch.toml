@@ -22,7 +22,7 @@ url = 'https://www.google.com/search?q=%TERM%'
 default = false
 icon = 'stock_addressbook'
 name = 'Arch Wiki'
-prefix = 'a '
+prefix = 'arch '
 url = 'https://wiki.archlinux.org/index.php?search=%TERM%'
 
 [[entries]]
@@ -36,5 +36,5 @@ url = 'https://github.com/search?q=%TERM%&type=repositories'
 default = false
 icon = 'preferences-desktop-search'
 name = 'Wikipedia'
-prefix = 'w '
+prefix = 'wiki '
 url = 'https://en.wikipedia.org/w/index.php?search=%TERM%'

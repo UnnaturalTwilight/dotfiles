@@ -6,7 +6,7 @@ image_editor_cmd = ''
 max_items = 1000
 ocr = false
 pinned_on_top = false
-text_editor_cmd = ''
+text_editor_cmd = 'kitty -- edit %FILE%'
 
 [Config]
 hide_from_providerlist = false
