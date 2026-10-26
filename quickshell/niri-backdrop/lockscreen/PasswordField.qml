@@ -55,7 +55,7 @@ Item {
 
         SvgIcon {
             id: passwordIcon
-            iconName: passwordField.fingerprint ? "fingerprint" : "password"
+            iconName: passwordField.fingerprint ? "symbols/fingerprint" : "symbols/password"
             size: passwordField.iconSize
             anchors.centerIn: parent
             opacity: (passwordField.pam.responseRequired || !passwordField.pam.active) ? 1 : 0.5
@@ -106,7 +106,7 @@ Item {
 
         SvgIcon {
             id: sendButton
-            iconName: "arrow-right"
+            iconName: "arrows/right"
             size: passwordField.iconSize
             anchors.centerIn: parent
             opacity: passwordField.pam.responseRequired ? 1 : 0.5

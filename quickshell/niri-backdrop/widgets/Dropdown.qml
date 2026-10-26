@@ -37,7 +37,7 @@ ComboBox {
 
     indicator: SvgIcon {
         id: indicator
-        iconName: "unfold-more"
+        iconName: "arrows/unfold-more"
         size: 20
         x: control.width - size
         anchors.verticalCenter: parent.verticalCenter

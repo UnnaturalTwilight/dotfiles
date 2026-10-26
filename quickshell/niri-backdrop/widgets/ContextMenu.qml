@@ -211,7 +211,7 @@ PopupWindow {
             anchors.rightMargin: 5
             iconName: {
                 if (entry.modelData?.hasChildren) {
-                    return "more_horiz";
+                    return "symbols/more_horiz";
                 }
                 let base = entry.modelData?.buttonType === QsMenuButtonType.CheckBox ? "states/check-box_" : "states/radio-button_";
                 return base + (entry.checked ? "checked" : "unchecked");

@@ -25,6 +25,7 @@ Rectangle {
     }
 
     FlatButton {
+        id: reloadButton
         text: "Reload"
         anchors.margins: 10
         anchors.bottom: parent.bottom

@@ -70,7 +70,7 @@ Item {
 
         Tab {
             text: "notifications"
-            iconName: "notifications"
+            iconName: "symbols/notifications"
         }
 
         Tab {
@@ -80,13 +80,13 @@ Item {
 
         Tab {
             text: "apps"
-            iconName: "apps"
+            iconName: "symbols/apps"
         }
 
         Tab {
             visible: System.debugMode
             text: "debug"
-            iconName: "bug"
+            iconName: "symbols/bug"
         }
     }
 

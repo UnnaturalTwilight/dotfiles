@@ -94,10 +94,9 @@ Item {
                 implicitWidth: 32
                 implicitHeight: 32
 
-                contentItem: SvgIcon {
-                    iconName: "apps"
-                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
-                }
+                mode: "icon"
+                iconName: "symbols/apps"
+                iconSize: 32
 
                 onClicked: Quickshell.execDetached(["walker", "--height", "400",])
             }
@@ -107,10 +106,8 @@ Item {
                 implicitWidth: 32
                 implicitHeight: 32
 
-                contentItem: SvgIcon {
-                    iconName: "fullscreen"
-                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
-                }
+                mode: "icon"
+                iconName: "actions/fullscreen"
 
                 onClicked: Niri.send({"Action":{"FullscreenWindow":{"id":null}}})
             }
@@ -120,10 +117,8 @@ Item {
                 implicitWidth: 32
                 implicitHeight: 32
 
-                contentItem: SvgIcon {
-                    iconName: "close"
-                    colour: parent.hovered ? Colours.snow2 : Colours.snow0
-                }
+                mode: "icon"
+                iconName: "actions/close"
 
                 onClicked: Niri.send({"Action":{"CloseWindow":{"id":null}}})
             }
