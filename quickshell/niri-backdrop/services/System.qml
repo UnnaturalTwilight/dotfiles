@@ -5,6 +5,8 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
+import qs.services.niri
+
 Singleton {
     id: root
 
@@ -15,6 +17,10 @@ Singleton {
     property alias panelTab: persist.panelTab
 
     property alias debugMode: persist.debugMode
+
+    onDebugModeChanged: {
+        console.log("[System] debugMode changed to", debugMode);
+    }
 
     PersistentProperties {
         id: persist
@@ -43,6 +49,13 @@ Singleton {
         // in case eDP-1 is not found, just return the first screen
         console.log("[System] eDP-1 not found, defaulting to first screen");
         return Quickshell.screens[0];
+    }
+
+    readonly property ShellScreen focusedScreen: {
+        if (typeof Niri !== "undefined" && Niri.focusedOutput) {
+            return Niri.focusedOutput.toShellScreen();
+        }
+        return primaryScreen;
     }
 
     IpcHandler {

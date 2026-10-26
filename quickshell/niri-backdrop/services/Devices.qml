@@ -12,6 +12,7 @@ Singleton {
 
     function getIcon(name, type = "unknown") {
         switch (name) {
+            case "JBL TUNE770NC":
             case "HESH 540 ANC":
                 return "devices/headphones";
             case "Hearing Aids":
@@ -31,9 +32,8 @@ Singleton {
                 return "devices/phone";
             case "bluetooth":
                 return "network/bluetooth";
-            default:
-                return "unknown"; // Last Resort
         }
+        return "unknown"; // Last Resort
     }
 
     function batteryLevelByMAC(mac) {

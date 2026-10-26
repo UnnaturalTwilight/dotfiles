@@ -116,7 +116,7 @@ Item {
             radius: panels.radius
         }
 
-        DebugPane {}
+        DebugPane {} // TODO: don't load when debug mode is disabled
     }
 
     TilePane {

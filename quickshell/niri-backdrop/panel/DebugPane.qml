@@ -52,5 +52,4 @@ Rectangle {
             System.panelTab = 0;
         }
     }
-
 }

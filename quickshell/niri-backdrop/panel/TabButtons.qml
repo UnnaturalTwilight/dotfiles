@@ -17,51 +17,11 @@ Item {
     property color bgColour: Colours.power5
     property color bgColourHover: Colours.highlight
     property color borderColour: Colours.frost0
+    property color borderColourChecked: Colours.frost2
     property color fgColour: Colours.gray
     property color activeColour: Colours.power1
 
     implicitHeight: tabList.height
-
-    property alias activeTab: tabButtonGroup.checkedButton
-    property Region blurZone: Region {
-        regions: blurRegions.instances
-    }
-
-    Variants {
-        id: blurRegions
-        model: {
-            tabList.visibleChildren;
-        }
-
-        delegate: Region {
-            required property Item modelData
-            item: modelData
-            radius: tabs.buttonSize / 4
-        }
-    }
-
-    ButtonGroup {
-        id: tabButtonGroup
-        buttons: tabList.children
-        exclusive: true
-        onClicked: button => {
-            console.log("[Panel] Tab:", button.text);
-            switch (button.text) {
-            case 'notifications':
-                System.panelTab = 0;
-                break;
-            case 'network':
-                System.panelTab = 1;
-                break;
-            case 'apps':
-                System.panelTab = 2;
-                break;
-            default:
-                System.panelTab = 3;
-                break;
-            }
-        }
-    }
 
     ColumnLayout {
         id: tabList
@@ -71,22 +31,30 @@ Item {
         Tab {
             text: "notifications"
             iconName: "symbols/notifications"
+            checked: System.panelTab === 0
+            onClicked: System.panelTab = 0
         }
 
         Tab {
             text: "network"
             iconName: "network/wifi_gear"
+            checked: System.panelTab === 1
+            onClicked: System.panelTab = 1
         }
 
         Tab {
             text: "apps"
             iconName: "symbols/apps"
+            checked: System.panelTab === 2
+            onClicked: System.panelTab = 2
         }
 
         Tab {
             visible: System.debugMode
             text: "debug"
             iconName: "symbols/bug"
+            checked: System.panelTab === 3
+            onClicked: System.panelTab = 3
         }
     }
 
@@ -96,10 +64,10 @@ Item {
 
         implicitHeight: tabs.buttonSize
         implicitWidth: tabs.buttonSize
+        //property bool attached: !checked
+        // Layout.leftMargin: attached ? 10 : 0
 
-        contentItem: null
-        SvgIcon {
-            anchors.centerIn: parent
+        contentItem: SvgIcon {
             iconName: radioButton.iconName
             size: tabs.buttonSize * 0.8
             colour: radioButton.hovered ? tabs.activeColour : tabs.fgColour
@@ -107,15 +75,50 @@ Item {
 
         background: Rectangle {
             anchors.fill: parent
+            //anchors.rightMargin: attached ? -12 : 0
             radius: tabs.buttonSize / 4
+            // topRightRadius: !attached ? radius : 0
+            // bottomRightRadius: !attached ? radius : 0
             color: tabs.bgColour
-            border.color: tabs.borderColour
-            border.width: 2
+            border.color: checked ? tabs.borderColourChecked : tabs.borderColour
+            border.width: checked ? 2.5 : 2
 
             Rectangle {
                 anchors.fill: parent
                 color: radioButton.hovered ? tabs.bgColourHover : "transparent"
-                radius: tabs.buttonSize / 4
+                radius: parent.radius
+                topRightRadius: parent.topRightRadius
+                bottomRightRadius: parent.bottomRightRadius
+            }
+
+            // Behavior on anchors.rightMargin {
+            //     NumberAnimation {
+            //         duration: 100
+            //     }
+            // }
+
+            // Behavior on topRightRadius {
+            //     NumberAnimation {
+            //         duration: 100
+            //     }
+            // }
+
+            // Behavior on bottomRightRadius {
+            //     NumberAnimation {
+            //         duration: 100
+            //     }
+            // }
+
+            Behavior on border.color {
+                ColorAnimation {
+                    duration: 50
+                }
+            }
+
+            Behavior on border.width {
+                NumberAnimation {
+                    duration: 100
+                }
             }
         }
 

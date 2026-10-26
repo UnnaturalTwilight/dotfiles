@@ -33,7 +33,7 @@ Singleton {
         return "Offline";
     }
 
-    readonly property real signalStrength: networks.values.find(n => n.connected)?.signalStrength ?? 0
+    readonly property real signalStrength: networks.values.find(n => n.connected)?.signalStrength ?? 0.0
 
     ScriptModel {
         id: devices
