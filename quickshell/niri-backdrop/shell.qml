@@ -7,6 +7,7 @@ import qs.polkit
 import qs.backdrop
 import qs.overlay
 import qs.lockscreen
+import qs.launcher
 
 ShellRoot {
     id: root
@@ -19,6 +20,11 @@ ShellRoot {
     Variants {
         model: Quickshell.screens
         Overlay {}
+    }
+
+    Launcher {
+        id: launcher
+        // screen: System.focusedScreen
     }
 
     Polkit {

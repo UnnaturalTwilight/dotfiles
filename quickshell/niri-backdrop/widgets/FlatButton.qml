@@ -10,6 +10,7 @@ import qs.config
 Button {
     id: control
 
+    // TODO! Tooltips
     text: "Action"
     font.family: Fonts.mono
     property int radius: 4
@@ -20,15 +21,27 @@ Button {
     // horizontalPadding: padding + 2
     // spacing: 6
 
-    property int iconSize: 24
+    /// svg icon name from the $XDG_CONFIG_HOME/assets/Icons/ directory
+    /// Ignored if `mode` is not "icon" or "both"
     property string iconName: "unknown"
+    property int iconSize: 24
 
-    /* Can be one of "icon", "text", or "both" */
+    /// Can be one of "icon", "text", "both", or "checkbox". Unknown values default to "text"
     property string mode: "text"
-    display: mode === "icon" ? AbstractButton.IconOnly : mode === "both" ? AbstractButton.IconOnly | AbstractButton.TextOnly : AbstractButton.TextOnly
+    display: {
+        control.mode === "icon" ? AbstractButton.IconOnly :
+        (control.mode === "both" || control.mode === "checkbox") ? AbstractButton.TextBesideIcon :
+        AbstractButton.TextOnly
+    }
+
+    /// Whether the button is checked. Ignored if `mode` is not "checkbox"
+    checked: false
 
     icon {
-        source: Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/" + iconName + ".svg"
+        source: {
+            const icon = control.mode === "checkbox" ? ("states/check-box_" + (control.checked ? "checked" : "unchecked")) : control.iconName
+            Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/" + icon + ".svg"
+        }
         height: iconSize
         width: iconSize
     }

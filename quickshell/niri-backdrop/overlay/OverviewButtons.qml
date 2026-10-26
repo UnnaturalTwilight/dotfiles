@@ -6,6 +6,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import qs.config
+import qs.services.launcher
 import qs.services.niri
 import qs.widgets
 
@@ -98,7 +99,7 @@ Item {
                 iconName: "symbols/apps"
                 iconSize: 32
 
-                onClicked: Quickshell.execDetached(["walker", "--height", "400",])
+                onClicked: LauncherState.toggle("desktopapplications")
             }
 
             FlatButton {

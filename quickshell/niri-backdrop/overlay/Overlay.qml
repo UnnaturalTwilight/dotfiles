@@ -8,7 +8,9 @@ import QtQuick
 import qs.services
 import qs.services.notifications
 
+// qmllint disable
 PanelWindow {
+// qmllint enable
     id: overlayPanel
     screen: modelData
     property var modelData

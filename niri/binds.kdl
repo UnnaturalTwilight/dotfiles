@@ -27,9 +27,12 @@ binds {
     Mod+Z     repeat=false hotkey-overlay-title="Open Browser" { spawn "zen-browser"; }
     Mod+E     repeat=false hotkey-overlay-title="Open Thunar"  { spawn "thunar"; }
     // Laucher
-    Mod+Space repeat=false hotkey-overlay-title="Open Launcher"          { spawn "walker"; }
-    Mod+V     repeat=false hotkey-overlay-title="Open Clipboard History" { spawn "walker" "-m" "clipboard"; }
+    Mod+Space repeat=false hotkey-overlay-title="Open Launcher"          { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "launcher" "toggle"; }
+    Mod+V     repeat=false hotkey-overlay-title="Open Clipboard History" { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "launcher" "toggleProvider" "clipboard"; }
     Mod+C     repeat=false hotkey-overlay-title="Launch Colour Picker"   { spawn "hyprpicker" "-a"; }
+
+    Mod+Shift+Space repeat=false hotkey-overlay-title="Open Launcher (Walker)"          { spawn "walker"; }
+    Mod+Shift+V     repeat=false hotkey-overlay-title="Open Clipboard History (Walker)" { spawn "walker" "-m" "clipboard"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.

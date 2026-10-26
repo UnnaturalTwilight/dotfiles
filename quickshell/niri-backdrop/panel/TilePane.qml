@@ -23,7 +23,7 @@ Rectangle {
 
     SysTray {
         id: systray
-        // TODO: Rewrite the systray
+        // TODO: Rewrite the systray (again, platform menu this time maybe?)
         menuWidth: 400
         anchors {
             left: tilePane.left

@@ -5,6 +5,7 @@ import QtQuick
 
 import qs.config
 import qs.services
+import qs.services.launcher
 import qs.widgets
 
 Rectangle {
@@ -18,7 +19,7 @@ Rectangle {
         id: debugText
         anchors.fill: parent
         anchors.margins: 10
-        text: JSON.stringify(System.primaryScreen, null, 1)
+        text: JSON.stringify(LauncherState.activeProviderData, null, 1)
         font.family: Fonts.mono
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         width: 400

@@ -37,7 +37,6 @@ Item {
     RowLayout {
         id: trayLayout
         anchors.right: parent.right
-        anchors.rightMargin: 16
 
         Repeater {
             id: trayRepeater
@@ -55,9 +54,7 @@ Item {
 
         width: systray.iconSize + 8
         height: systray.iconSize + 8
-        color: Colours.shadow
-        border.color: trayIconMouseArea.containsMouse ? Colours.power1 : Colours.polar2
-        border.width: 2
+        color: trayIconMouseArea.containsMouse ? Colours.highlight : Colours.shadow
         radius: 8
 
         Image {

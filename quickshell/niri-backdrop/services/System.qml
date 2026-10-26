@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
+import qs.services.launcher
 import qs.services.niri
 
 Singleton {
@@ -89,6 +90,27 @@ Singleton {
 
         function setTab(tab: int) {
             persist.panelTab = tab;
+        }
+    }
+
+    IpcHandler {
+        id: launcherIPC
+        target: "launcher"
+
+        function toggle() {
+            LauncherState.toggle();
+        }
+
+        function toggleProvider(provider: string) {
+            LauncherState.toggle(provider);
+        }
+
+        function open() {
+            LauncherState.openWindow();
+        }
+
+        function openProvider(provider: string) {
+            LauncherState.openProvider(provider);
         }
     }
 }

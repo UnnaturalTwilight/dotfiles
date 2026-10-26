@@ -7,7 +7,9 @@ import QtQuick
 
 import qs.services
 
+// qmllint disable
 PanelWindow {
+// qmllint enable
     id: bgPanel
     screen: modelData
     property var modelData
