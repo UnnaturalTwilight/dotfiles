@@ -45,7 +45,7 @@ Item {
         buttons: tabList.children
         exclusive: true
         onClicked: button => {
-            console.log("Panel Tab:", button.text);
+            console.log("[Panel] Tab:", button.text);
             switch (button.text) {
             case 'notifications':
                 System.panelTab = 0;

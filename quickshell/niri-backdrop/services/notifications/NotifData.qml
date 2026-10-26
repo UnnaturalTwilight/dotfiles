@@ -81,7 +81,7 @@ QtObject {
             } else {
                 root.close();
             }
-            // console.log("Notification closed:", root.id, "Reason:", NotificationCloseReason.toString(reason));
+            // console.log("[Notifications] Closed:", root.id, "Reason:", NotificationCloseReason.toString(reason));
         }
 
         function onAppNameChanged(): void { root.appName = root.notification.appName; }
@@ -104,7 +104,7 @@ QtObject {
     }
 
     Component.onCompleted: {
-        // console.log("New notification:", root.id);
+        // console.log("[Notifications] New:", root.id);
         if (root.notification) {
             Rewrites.rewriteNotif(root, root.notification);
         }

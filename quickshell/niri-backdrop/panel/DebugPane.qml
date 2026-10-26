@@ -46,7 +46,7 @@ Rectangle {
         anchors.right: parent.right
         onClicked: {
             const cmd = [Quickshell.env("HOME") + "/dotfiles/scripts/notif-test.sh"]
-            console.log("Running notif-test.sh")
+            console.log("[Debug] Running notif-test.sh")
             Quickshell.execDetached(cmd)
             System.panelTab = 0;
         }

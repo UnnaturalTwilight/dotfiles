@@ -16,11 +16,11 @@ Scope {
 
     function lock(): void {
         sessionLock.locked = true;
-        console.log("Session locked");
+        console.log("[Lock] Session locked");
     }
 
     function unlock(): void {
-        console.log("Session unlocked");
+        console.log("[Lock] Session unlocked");
         Idle.wake();
         sessionLock.locked = false;
     }
@@ -53,7 +53,7 @@ Scope {
         active: false
 
         onCompleted: result => {
-            console.log("PAM authentication completed with result: " + PamResult.toString(result));
+            console.log("[Lock][PAM] Authentication completed with result: " + PamResult.toString(result));
             if (result === PamResult.Success) {
                 root.unlock();
             }

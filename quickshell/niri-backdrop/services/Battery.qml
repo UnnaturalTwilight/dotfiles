@@ -19,7 +19,7 @@ Singleton {
     readonly property string powerProfile: PowerProfile.toString(PowerProfiles.profile)
 
     function setPowerProfile(profile: string): void {
-        console.log("Setting power profile:", profile);
+        console.log("[UPower] Setting power profile:", profile);
         switch (profile) {
             case "PowerSaver":
                 PowerProfiles.profile = PowerProfile.PowerSaver;

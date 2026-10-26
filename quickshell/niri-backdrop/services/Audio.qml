@@ -15,7 +15,7 @@ Singleton {
     }
 
     function setDefaultSink(sink: PwNode) {
-        console.log("Switched audio sink to:", sink.name);
+        console.log("[Audio] Switched sink to:", sink.name);
         if (sink) {
             Pipewire.preferredDefaultAudioSink = sink;
         }
@@ -51,7 +51,7 @@ Singleton {
         } else if (Pipewire.defaultAudioSink?.name == "alsa_output.pci-0000_00_1f.3.analog-stereo") {
             return "devices/speaker"; // Built in speakers or headphone jack
         } else {
-            console.log("Unknown audio sink:", Pipewire.defaultAudioSink?.name ?? "null");
+            console.log("[Audio] Unknown sink:", Pipewire.defaultAudioSink?.name ?? "null");
             return "unknown"; // Fallback icon for unknown audio sink
         }
     }

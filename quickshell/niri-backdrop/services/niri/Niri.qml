@@ -1,4 +1,4 @@
-// From: https://github.com/tpaau/dots/blob/main/private_dot_config/quickshell/services/niri/Niri.qml
+// Based on: https://github.com/tpaau/dots/blob/main/private_dot_config/quickshell/services/niri/Niri.qml
 
 // Since Quickshell doesn't have an API for Niri, only for I3 and Hyprland, I
 // had to create my own.
@@ -44,15 +44,8 @@ Singleton {
     // The output that contains the focused workspace.
     readonly property NiriOutput focusedOutput: outputs.find(o => o.name == focusedWorkspace.output) ?? null
 
-    // Whether the overview mode is currently active. Setting this value does
-    // nothing.
+    // Whether the overview mode is currently active.
     property bool overviewOpened: false
-
-    // Screenshots the current window. That one doesn't use the Quickshell
-    // socket, sorry.
-    function screenshotWindow() {
-        Quickshell.execDetached(["niri", "msg", "action", "screenshot-window"]);
-    }
 
     // The name of the current keyboard layout, or "" if unknown.
     readonly property string keyboardLayout: keyboardLayouts.length > keyboardLayoutIndex ? keyboardLayouts[keyboardLayoutIndex] : ""
@@ -64,6 +57,11 @@ Singleton {
     property int keyboardLayoutIndex: 0
 
     property bool configValid: true
+
+    // Screenshots the current window. This one doesn't use the Quickshell socket, sorry.
+    function screenshotWindow() {
+        Quickshell.execDetached(["niri", "msg", "action", "screenshot-window"]);
+    }
 
     // Toggles the overview mode.
     function toggleOverview() {
@@ -168,7 +166,7 @@ Singleton {
                             isPreferred: parsedMode.is_preferred
                         }));
                     }
-                    // console.log("NiriService: Output detected: " + output.name + " with mode: " + JSON.stringify(output.current_mode));
+                    // console.log("[Niri] Output detected: " + output.name + " with mode: " + JSON.stringify(output.current_mode));
                     outputs.push(niriOutput.createObject(root, {
                         name: output.name,
                         make: output.make,
@@ -203,17 +201,6 @@ Singleton {
         connected: true
     }
 
-    // This timer is to force refreshing the data from niri as a pach for the ghost windows
-    // Timer {
-    //     interval: 10000
-    //     running: true
-    //     repeat: true
-    //     onTriggered: {
-    //         eventSocket.connected = false
-    //         eventSocket.connected = true
-    //     }
-    // }
-
     // And this one is for receiving events from Niri.
     Socket {
         id: eventSocket
@@ -228,7 +215,7 @@ Singleton {
         parser: SplitParser {
             function createWindow(data: var): NiriWindow {
                 if (!data) {
-                    console.warn("[Window] Data is not truthy!");
+                    console.warn("[Niri][Window] Data is not truthy!");
                 }
                 return windowComp.createObject(root, {
                     windowId: data.id,
@@ -246,7 +233,7 @@ Singleton {
 
             function createLayout(data: var): WindowLayout {
                 if (!data) {
-                    console.warn("[Layout] Data is not truthy!");
+                    console.warn("[Niri][Layout] Data is not truthy!");
                 }
                 return layoutComp.createObject(root, {
                     tileIndexInScrollingLayout: data.pos_in_scrolling_layout ? data.pos_in_scrolling_layout[0] : -1,
@@ -283,16 +270,16 @@ Singleton {
 
             onRead: line => {
                 const event = JSON.parse(line);
-                // console.log("NiriService: Event received: " + JSON.stringify(event));
+                // console.log("[Niri] Event received: " + JSON.stringify(event));
 
                 if (event.OverviewOpenedOrClosed) {
-                    // {"OverviewOpenedOrClosed":{"is_open": BOOL }}
+                    // {"OverviewOpenedOrClosed":{"is_open": BOOL}}
                     root.overviewOpened = event.OverviewOpenedOrClosed.is_open;
                 } else if (event.WorkspacesChanged) {
-                    // {"WorkspacesChanged":{"workspaces":[ { WORKSPACE DATA }, ... ]}}
-                    // Contains full workspace config, overrides all workspaces.
+                    // {"WorkspacesChanged":{"workspaces":[{WORKSPACE DATA}, ...]}}
+                    // Contains full workspace config, overrides all workspaces
                     let newWorkspaces = [];
-                    // console.log("NiriService: WorkspacesChanged: " + JSON.stringify(event.WorkspacesChanged.workspaces));
+                    // console.log("[Niri] WorkspacesChanged: " + JSON.stringify(event.WorkspacesChanged.workspaces));
                     for (const workspace of event.WorkspacesChanged.workspaces) {
                         const ws = workspaceComp.createObject(root, {
                             workspaceId: workspace.id,
@@ -312,8 +299,8 @@ Singleton {
                     newWorkspaces = newWorkspaces.sort((a, b) => a.idx - b.idx);
                     root.workspaces = newWorkspaces;
                 } else if (event.WorkspaceActivated) {
-                    // {"WorkspaceActivated":{"id": INT ,"focused": BOOL }}
-                    // workspace with id is activated. Focused is true if it on the currently focused output.
+                    // {"WorkspaceActivated":{"id": INT, "focused": BOOL}}
+                    // Workspace with id is activated. Focused is true if it is on the currently focused output
                     const ws = event.WorkspaceActivated;
                     if (root.focusedWorkspace) {
                         root.focusedWorkspace.isFocused = false;
@@ -325,10 +312,10 @@ Singleton {
                             return;
                         }
                     }
-                    console.warn("NiriService: New focused workspace not found. This likely a bug in the IPC implementation.");
+                    console.warn("[Niri] New focused workspace not found. This likely a bug in the IPC implementation.");
                 } else if (event.WindowsChanged) {
-                    // {"WindowsChanged":{"windows":[ { WINDOW DATA }, ... ]}}
-                    // Contains full window config, overrides all windows.
+                    // {"WindowsChanged":{"windows":[{WINDOW DATA}, ...]}}
+                    // Contains full window config, overrides all windows
                     let windows = [];
                     for (const win of event.WindowsChanged.windows) {
                         windows.push(createWindow(win));
@@ -336,8 +323,8 @@ Singleton {
                     root.windows = windows;
                     focusWindow(root.windows.find(w => w.isFocused)?.windowId ?? -1);
                 } else if (event.WindowOpenedOrChanged) {
-                    // {"WindowOpenedOrChanged":{"window":{ WINDOW DATA }}
-                    // Contains single modified or new window, should be merged with existing windows.
+                    // {"WindowOpenedOrChanged":{"window":{WINDOW DATA}}}
+                    // Contains single modified or new window, should be merged with existing windows
                     const win = createWindow(event.WindowOpenedOrChanged.window);
                     const foundWindow = root.windows.find(w => w.windowId === win.windowId);
                     if (foundWindow) {
@@ -350,16 +337,16 @@ Singleton {
                         root.windows.push(win);
                     }
                 } else if (event.WindowClosed) {
-                    // {"WindowClosed":{"id": INT }}
-                    // window with id is closed.
-                    // console.log("NiriService: WindowClosed: " + event.WindowClosed.id);
+                    // {"WindowClosed":{"id": INT}}
+                    // Window with id is closed
+                    // console.log("[Niri] WindowClosed: " + event.WindowClosed.id);
                     root.windows = root.windows.filter(w => w.windowId !== event.WindowClosed.id);
                 } else if (event.WindowFocusChanged) {
-                    // {"WindowFocusChanged":{"id": INT }}
-                    // window with id is focused. id is null if no window is focused
+                    // {"WindowFocusChanged":{"id": INT}}
+                    // Window with id is focused. Id is null if no window is focused
                     focusWindow(event.WindowFocusChanged.id == null ? -1 : event.WindowFocusChanged.id);
                 } else if (event.WorkspaceActiveWindowChanged) {
-                    // {"WorkspaceActiveWindowChanged":{"workspace_id": INT,"active_window_id": INT }}
+                    // {"WorkspaceActiveWindowChanged":{"workspace_id": INT, "active_window_id": INT}}
                     // The active window in the workspace with workspace_id changed to active_window_id
                     const someEvent = event.WorkspaceActiveWindowChanged;
                     const workspace = root.workspaces.find(w => w.workspaceId == someEvent.workspace_id);
@@ -369,7 +356,7 @@ Singleton {
                         console.warn(`Workspace with id ${someEvent.workspace_id} not found. This is likely a bug in the IPC implementation.`);
                     }
                 } else if (event.WindowFocusTimestampChanged) {
-                    // {"WindowFocusTimestampChanged":{"id": INT,"focus_timestamp": { "secs": INT, "nanos": INT }}}
+                    // {"WindowFocusTimestampChanged":{"id": INT, "focus_timestamp":{"secs": INT, "nanos": INT}}}
                     // The focus timestamp of the window with id changed to focus_timestamp
                     const someEvent = event.WindowFocusTimestampChanged;
                     const win = root.windows.find(w => w.windowId === someEvent.id);
@@ -379,36 +366,36 @@ Singleton {
                         console.warn(`Could not find window with id ${someEvent.id}. This is likely a bug in the IPC implementation.`);
                     }
                 } else if (event.WindowUrgencyChanged) {
-                    // {"WindowUrgencyChanged":{"id": INT,"urgent": BOOL }}
+                    // {"WindowUrgencyChanged":{"id": INT, "urgent": BOOL}}
                     // The urgency of the window with id changed
                     const id = event.WindowUrgencyChanged.id;
                     const urgent = event.WindowUrgencyChanged.urgent;
                     for (let win of root.windows) {
                         if (win.windowId === id) {
                             win.isUrgent = urgent;
-                            // console.log("NiriService: WindowUrgencyChanged: " + id + " urgent: " + urgent);
+                            // console.log("[Niri] WindowUrgencyChanged: " + id + " urgent: " + urgent);
                             return;
                         }
                     }
                 } else if (event.WorkspaceUrgencyChanged) {
-                    // {"WorkspaceUrgencyChanged":{"id": INT,"urgent": BOOL }}
+                    // {"WorkspaceUrgencyChanged":{"id": INT, "urgent": BOOL}}
                     // The urgency of the workspace with id changed
                     const id = event.WorkspaceUrgencyChanged.id;
                     const urgent = event.WorkspaceUrgencyChanged.urgent;
                     for (let ws of root.workspaces) {
                         if (ws.workspaceId === id) {
                             ws.isUrgent = urgent;
-                            // console.log("NiriService: WorkspaceUrgencyChanged: " + id + " urgent: " + urgent);
+                            // console.log("[Niri] WorkspaceUrgencyChanged: " + id + " urgent: " + urgent);
                             return;
                         }
                     }
                 } else if (event.WindowLayoutsChanged) {
-                    // {"WindowLayoutsChanged":{"changes":[ [id, layout], ... ]}}
+                    // {"WindowLayoutsChanged":{"changes":[[id, layout], ...]}}
                     // An array of window IDs and their new layouts
                     const changes = event.WindowLayoutsChanged.changes;
                     for (const change of changes) {
                         const win = root.windows.find(w => w.windowId == change[0]);
-                        // console.log("NiriService: WindowLayoutsChanged: " + change[0] + " layout: " + JSON.stringify(change[1]));
+                        // console.log("[Niri] WindowLayoutsChanged: " + change[0] + " layout: " + JSON.stringify(change[1]));
                         if (win) {
                             win.layout = createLayout(change[1]);
                         }
@@ -417,20 +404,25 @@ Singleton {
                     root.keyboardLayoutIndex = event.KeyboardLayoutsChanged.keyboard_layouts.current_idx;
                     root.keyboardLayouts = event.KeyboardLayoutsChanged.keyboard_layouts.names;
                 } else if (event.CastsChanged) {
-                    // {"CastsChanged": { "casts": [ DATA ]}}
+                    // {"CastsChanged":{"casts":[DATA]}}
                     // Ignored for now
                     return;
                 } else if (event.ScreenshotCaptured) {
-                    // {"ScreenshotCaptured": { "path": PATH or null }}
+                    // {"ScreenshotCaptured":{"path": PATH or null}}
                     // Ignored for now
                     return;
-                } else if (event.Ok) {
-                    // Confirmation response of eventstream
+                } else if (event.TouchpadToggled) {
+                    // {"TouchpadToggled":{"on": BOOL}}
+                    // Ignored for now
                     return;
                 } else if (event.ConfigLoaded) {
+                    // {"ConfigLoaded":{"failed": BOOL}}
                     root.configValid = !event.ConfigLoaded.failed;
+                } else if (event.Ok) {
+                    // Confirmation response of the event stream
+                    return;
                 } else {
-                    console.log("NiriService: Unhandled event received: " + JSON.stringify(event));
+                    console.log("[Niri] Unhandled event received: " + JSON.stringify(event));
                 }
             }
         }

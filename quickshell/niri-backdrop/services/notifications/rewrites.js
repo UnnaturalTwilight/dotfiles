@@ -91,9 +91,9 @@ function rewriteActions(actions, notif) {
 
   if (notif.appName == "rewrite-test") {
     rewrittenActions = [
-      { text: "Icon", identifier: "help", default: false, display: true, invoke: () => console.log("Icon Action clicked") },
-      { text: "Dismiss", default: false, display: true, invoke: () => { console.log("Dismiss Action clicked"); notif?.dismiss(); } },
-      { text: "Default", default: true, display: true, invoke: () => console.log("Default Action clicked") },
+      { text: "Icon", identifier: "help", default: false, display: true, invoke: () => console.log("[Notification][TEST] Icon Action clicked") },
+      { text: "Dismiss", default: false, display: true, invoke: () => { console.log("[Notification][TEST] Dismiss Action clicked"); notif?.dismiss(); } },
+      { text: "Default", default: true, display: true, invoke: () => console.log("[Notification][TEST] Default Action clicked") },
     ];
   }
 

@@ -22,7 +22,7 @@ Item {
 
         function onPamMessage() {
             const msg = lockScreen.pam.message.trim();
-            console.log("PAM message: " + msg);
+            console.log("[Lock][PAM]", msg);
 
             if (lockScreen.pam.messageIsError) {
                 msg.endsWith(":") ? lockScreen.message = msg.slice(0, -1) : lockScreen.message = msg;
@@ -37,7 +37,7 @@ Item {
     }
 
     function tryUnlock(response: string) {
-        console.log("Try unlock called");
+        console.log("[Lock] Try unlock called");
         if (!pam.active) {
             pam.start();
         }

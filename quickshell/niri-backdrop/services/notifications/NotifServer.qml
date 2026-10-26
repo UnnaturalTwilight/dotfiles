@@ -45,7 +45,7 @@ Singleton {
                 expireTimeout: notif.expireTimeout === -1 ? 10000 : notif.expireTimeout
             });
 
-            // console.log("Notification received:");
+            // console.log("[Notifications] Received:");
             // root.logNotif(notif);
 
             root.list = [comp, ...root.list];
@@ -98,7 +98,7 @@ Singleton {
         }
 
         function dump(): void {
-            console.log("\nNotification dump:");
+            console.log("\n[Notifications] Dump:");
             for (const notif of root.list) {
                 root.logNotif(notif);
             }

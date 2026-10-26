@@ -16,13 +16,13 @@ Singleton {
     property alias inhibitSuspend: persist.inhibitSuspend
 
     function idle(): void {
-        console.log("Session Idle");
+        console.log("[Idle] Session Idle");
         Brightness.dimScreen();
         lockTimer.start();
     }
 
     function wake(): void {
-        console.log("Wake");
+        console.log("[Idle] Wake");
         lockTimer.stop();
         suspendTimer.stop();
         Brightness.restoreScreen();
@@ -82,7 +82,7 @@ Singleton {
 
         onTriggered: {
             if (idleMonitor.isIdle && !persist.inhibitSuspend && !Music.playing) {
-                console.log("Suspend");
+                console.log("[Idle] Suspend");
                 Quickshell.execDetached(["systemctl", "sleep"]);
             }
         }

@@ -38,7 +38,7 @@ Singleton {
             Quickshell.execDetached(["brightnessctl", "--quiet", "--save", "--class=backlight"]);
             persist.backlightSaved = true;
         } else {
-            // console.log("saveScreen was called with brightness already saved")
+            // console.log("[Brightness] saveScreen was called with brightness already saved")
         }
     }
 
@@ -47,7 +47,7 @@ Singleton {
             brightnessSetProc.exec(["brightnessctl", "--quiet", "--restore", "--class=backlight"]);
             persist.backlightSaved = false;
         } else {
-            // console.log("restoreScreen was called without brightness being saved")
+            // console.log("[Brightness] restoreScreen was called without brightness being saved")
         }
     }
 
