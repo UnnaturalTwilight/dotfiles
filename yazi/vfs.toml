@@ -1,4 +1,4 @@
-#:schema https://yazi-rs.github.io/schemas/vfs.json
+##:schema https://yazi-rs.github.io/schemas/vfs.json # the schema is broken
 
 [sftp.violence]
 host = "violence"

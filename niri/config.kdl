@@ -199,6 +199,7 @@ layout {
 
     // tints the background of workspaces to make them visible on the overview when the wallpaper is in the backdrop
     background-color "#00000066"
+    fullscreen-backdrop-color "transparent"
 
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left

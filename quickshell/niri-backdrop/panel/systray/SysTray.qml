@@ -109,7 +109,7 @@ Item {
         // console.log(app.id, app.title || app.tooltipTitle, app.icon);
 
         if (app.id == "Thunderbird") {
-            return Quickshell.iconPath("thunderbird", true) || app.icon;
+            // return Quickshell.iconPath("thunderbird", true) || app.icon;
         } else if (app.id == "steam") {
             // IDK what is going on here but this causes
             // `~/.local/share/Steam/public/steam_tray_mono` to be used as the icon

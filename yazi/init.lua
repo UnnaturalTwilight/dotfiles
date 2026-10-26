@@ -3,12 +3,14 @@
 -- require("session"):setup({ sync_yanked = true })
 require("starship"):setup()
 require("git"):setup({ order = 500 })
-require("full-border"):setup({ type = ui.Border.ROUNDED })
+require("full-border"):setup({ set = "rounded" })
 
 require("sort-by-location"):setup {
     default = { by = 'natural', reverse = false }, -- required
-    { pattern = '.*/Images/.*',  sort = { by = 'mtime', reverse = true } },
-    { pattern = '.*/Downloads$', sort = { by = 'mtime', reverse = true } },
+    { pattern = '.*/Downloads',             sort = { by = 'mtime', reverse = true } },
+    { pattern = '.*/Videos/Screencapture',  sort = { by = 'mtime', reverse = true } },
+    { pattern = '.*/Images/Screenshots',    sort = { by = 'mtime', reverse = true } },
+    { pattern = '.*/Images/Camera Roll',    sort = { by = 'mtime', reverse = true } },
 }
 
 require("osc5522"):setup()
