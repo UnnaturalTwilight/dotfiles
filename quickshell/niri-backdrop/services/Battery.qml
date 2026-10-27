@@ -9,12 +9,12 @@ Singleton {
     id: root
 
     readonly property var displayDevice: UPower.displayDevice
-    readonly property bool ready: UPower.displayDevice.ready
+    readonly property bool ready: UPower.displayDevice?.ready ?? false
     readonly property var devices: UPower.devices
 
-    readonly property real value: UPower.displayDevice.percentage ?? 0.0;
-    readonly property var state: UPower.displayDevice.state ?? UPowerDeviceState.Unknown
-    readonly property real watts: UPower.displayDevice.changeRate ?? 0.0
+    readonly property real value: UPower.displayDevice?.percentage ?? 0.0;
+    readonly property var state: UPower.displayDevice?.state ?? UPowerDeviceState.Unknown
+    readonly property real watts: UPower.displayDevice?.changeRate ?? 0.0
 
     readonly property string powerProfile: PowerProfile.toString(PowerProfiles.profile)
 
@@ -31,7 +31,7 @@ Singleton {
                 PowerProfiles.profile = PowerProfile.Performance;
                 break;
             default:
-                console.warn("Unknown power profile: " + profile);
+                console.warn("[UPower] Unknown power profile: " + profile);
                 PowerProfiles.profile = PowerProfile.Balanced;
         }
     }
@@ -40,13 +40,13 @@ Singleton {
         if (state === UPowerDeviceState.FullyCharged || value >= 0.999) {
             return qsTr("Fully charged");
         } else if (state === UPowerDeviceState.Discharging) {
-            if (UPower.displayDevice.timeToEmpty > 0) {
+            if (UPower.displayDevice?.timeToEmpty > 0) {
                 return qsTr("%1 remaining").arg(formatSeconds(UPower.displayDevice.timeToEmpty));
             } else {
                 return qsTr("Discharging");
             }
         } else if (state === UPowerDeviceState.Charging) {
-            if (UPower.displayDevice.timeToFull > 0) {
+            if (UPower.displayDevice?.timeToFull > 0) {
                 return qsTr("%1 until full").arg(formatSeconds(UPower.displayDevice.timeToFull));
             } else {
                 return qsTr("Charging");

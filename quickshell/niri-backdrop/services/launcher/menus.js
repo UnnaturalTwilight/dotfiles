@@ -188,6 +188,7 @@ function queryQuickshell(provider, query) {
       subtext: System.debugMode ? "Debug mode is currently enabled" : "Debug mode is currently disabled",
       icon: "debug",
       provider: provider,
+      hints: { active: true },
       actions: {
         default: "toggle-debug",
         ctrl: "debugRendering",
@@ -212,16 +213,15 @@ function activateQuickshell(provider, entry, action, query) {
   }
 
   if (entry.identifier === "qs-toggle-debug") {
-    // DOCS: update = entry; doesn't work so use instead to preserve all the buttons without re-defining them this needs to be done
-    // DOCS: Same technique would also need to be used to individually modify hints
-    var update = {actions: entry.actions};
+    // DOCS: update = entry; doesn't work so to preserve all the hints and actions without re-defining them this needs to be done
+    var update = {hints: entry.hints, actions: entry.actions};
     switch (action) {
       case "toggle-debug":
         System.debugMode = !System.debugMode;
         update.subtext = System.debugMode ? "Debug mode is currently enabled" : "Debug mode is currently disabled";
         break;
       case "toggle-active":
-        update.active = !entry.active;
+        update.hints.active = !entry?.hints?.active ?? false;
         break;
       case "toggle-loading":
         LauncherState.working = !LauncherState.working;
@@ -230,7 +230,7 @@ function activateQuickshell(provider, entry, action, query) {
         LauncherState.debugRendering = !LauncherState.debugRendering;
         break;
     }
-    update.actions.buttons.row[0].checked = update?.active ?? entry.active;
+    update.actions.buttons.row[0].checked = update?.hints?.active ?? true;
     update.actions.buttons.row[1].checked = LauncherState.working;
     update.actions.buttons.row[2].checked = LauncherState.debugRendering;
     return { close: false, refresh: false, update };

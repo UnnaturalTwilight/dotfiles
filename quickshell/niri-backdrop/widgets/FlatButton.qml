@@ -37,6 +37,9 @@ Button {
     /// Whether the button is checked. Ignored if `mode` is not "checkbox"
     checked: false
 
+    /// Whether the action is destructive (e.g. a delete button)
+    property bool destructive: false
+
     icon {
         source: {
             const icon = control.mode === "checkbox" ? ("states/check-box_" + (control.checked ? "checked" : "unchecked")) : control.iconName
@@ -52,7 +55,7 @@ Button {
         display: control.display
 
         icon: control.icon
-        defaultIconColor: control.hovered ? Colours.snow2 : Colours.snow0
+        defaultIconColor: control.hovered ? (control.destructive ? Colours.aurora0 : Colours.snow2) : Colours.snow0
         opacity: control.enabled ? 1 : 0.6
         text: control.text
         font: control.font

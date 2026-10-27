@@ -36,7 +36,7 @@ function activate(provider, entry, action, query) {
   } else {
     return null;
   }
-  console.log("[Launcher][runner]", cmd);
+  // console.log("[Launcher][runner]", cmd);
   Quickshell.execDetached(cmd);
   return { close: true };
 }

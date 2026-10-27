@@ -19,10 +19,6 @@ Singleton {
 
     property alias debugMode: persist.debugMode
 
-    onDebugModeChanged: {
-        console.log("[System] debugMode changed to", debugMode);
-    }
-
     PersistentProperties {
         id: persist
         reloadableId: "System"
@@ -48,16 +44,11 @@ Singleton {
             }
         }
         // in case eDP-1 is not found, just return the first screen
-        console.log("[System] eDP-1 not found, defaulting to first screen");
+        if (debugMode) { console.log("[System] eDP-1 not found, defaulting to first screen"); }
         return Quickshell.screens[0];
     }
 
-    readonly property ShellScreen focusedScreen: {
-        if (typeof Niri !== "undefined" && Niri.focusedOutput) {
-            return Niri.focusedOutput.toShellScreen();
-        }
-        return primaryScreen;
-    }
+    readonly property ShellScreen focusedScreen: Niri.focusedOutput?.toShellScreen() ?? primaryScreen
 
     IpcHandler {
         id: qsIPC

@@ -110,7 +110,7 @@ Item {
                 mode: "icon"
                 iconName: "actions/fullscreen"
 
-                onClicked: Niri.send({"Action":{"FullscreenWindow":{"id":null}}})
+                onClicked: Niri.fullscreenWindow()
             }
 
             FlatButton {
@@ -121,7 +121,7 @@ Item {
                 mode: "icon"
                 iconName: "actions/close"
 
-                onClicked: Niri.send({"Action":{"CloseWindow":{"id":null}}})
+                onClicked: Niri.closeWindow()
             }
         }
     }

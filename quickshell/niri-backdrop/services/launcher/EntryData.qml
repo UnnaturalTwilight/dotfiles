@@ -22,9 +22,6 @@ QtObject {
     // Type of the entry
     property string type: "item"
 
-    // Whether the entry is enabled
-    property bool active: true
-
     // Misc hints for the entry
     // DOCS: what hints?
     property var hints: ({})

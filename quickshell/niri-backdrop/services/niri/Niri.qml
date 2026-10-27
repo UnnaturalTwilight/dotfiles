@@ -22,107 +22,75 @@ Singleton {
 
     readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
 
-    // All the Niri workspaces.
+    // All the Niri workspaces
     property list<NiriWorkspace> workspaces: []
 
     // Every monitor has at least one workspace, so we poll for outputs every
-    // time workspaces change.
+    // time workspaces change
     onWorkspacesChanged: outputProc.running = true
 
-    // The currently focused workspace.
+    // The currently focused workspace
     property NiriWorkspace focusedWorkspace: null
 
-    // All the windows registered in Niri.
+    // All the windows registered in Niri
     property list<NiriWindow> windows: []
 
-    // The currently focused window.
+    // The currently focused window
     property NiriWindow focusedWindow: null
 
-    // Monitor outputs recognized by Niri.
+    // Monitor outputs recognized by Niri
     property list<NiriOutput> outputs: []
 
-    // The output that contains the focused workspace.
+    // The output that contains the focused workspace
     readonly property NiriOutput focusedOutput: outputs.find(o => o.name == focusedWorkspace.output) ?? null
 
-    // Whether the overview mode is currently active.
+    // Whether the overview mode is currently active
     property bool overviewOpened: false
 
-    // The name of the current keyboard layout, or "" if unknown.
+    // The name of the current keyboard layout, or "" if unknown
     readonly property string keyboardLayout: keyboardLayouts.length > keyboardLayoutIndex ? keyboardLayouts[keyboardLayoutIndex] : ""
 
     // XKB names of the configured keyboard layouts.
     property list<string> keyboardLayouts: []
 
-    // Index of the currently active layout in `keyboardLayouts`.
+    // Index of the currently active layout in `keyboardLayouts`
     property int keyboardLayoutIndex: 0
+
+    // Dynamic cast target
+    property var dynamicCastTarget: ({ nothing: true, window: null, output: null })
 
     property bool configValid: true
 
-    // Screenshots the current window. This one doesn't use the Quickshell socket, sorry.
-    function screenshotWindow() {
-        Quickshell.execDetached(["niri", "msg", "action", "screenshot-window"]);
-    }
-
-    // Toggles the overview mode.
-    function toggleOverview() {
-        send({
-            Action: {
-                ToggleOverview: {}
-            }
-        });
-    }
+    // Toggles the overview mode
+    function toggleOverview() { send({ Action: { ToggleOverview: {} } }); }
 
     onOverviewOpenedChanged: {
         if (overviewOpened) {
-            send({
-                Action: {
-                    OpenOverview: {}
-                }
-            });
+            send({ Action: { OpenOverview: {} } });
         } else {
-            send({
-                Action: {
-                    CloseOverview: {}
-                }
-            });
+            send({ Action: { CloseOverview: {} } });
         }
     }
 
-    // Quit niri
-    function quitNiri(force = false) {
-        send({
-            Action: {
-                Quit: {
-                    skip_confirmation: force
-                }
-            }
-        });
-    }
+    // Quit Niri
+    function quitNiri(force = false) { send({ Action: { Quit: { skip_confirmation: force } } }); }
 
-    function sleepDisplay() {
-        send({
-            Action: {
-                PowerOffMonitors: {}
-            }
-        });
-    }
+    // Turn off all monitors
+    function sleepDisplay() { send({ Action: { PowerOffMonitors: {} } }); }
 
-    // Activates the workspace with the given ID.
-    function activateWorkspace(id: int) {
-        send({
-            Action: {
-                FocusWorkspace: {
-                    reference: {
-                        Id: id
-                    }
-                }
-            }
-        });
-    }
+    // Focuses the workspace with the given ID
+    function focusWorkspace(id: int) { send({ Action: { FocusWorkspace: { reference: { Id: id } } } }); }
 
-    function send(request) {
-        requestSocket.write(JSON.stringify(request) + "\n");
-    }
+    // Focuses the window with the given ID
+    function focusWindow(id: int) { send({ Action: { FocusWindow: { id: id } } }); }
+
+    // Closes the window with the given ID or null for the active window
+    function closeWindow(id = null) { send({ Action: { CloseWindow: { id: id } } }); }
+
+    // Toggles fullscreen for the window with the given ID or null for the active window
+    function fullscreenWindow(id = null) { send({ Action: { FullscreenWindow: { id: id } } }); }
+
+    function send(request) { requestSocket.write(JSON.stringify(request) + "\n"); }
 
     function outputFromShellScreen(screen: ShellScreen): NiriOutput {
         return outputs.find(o => o.name == screen.name);
@@ -362,7 +330,7 @@ Singleton {
                     if (workspace) {
                         workspace.activeWindowId = someEvent.active_window_id != null ? someEvent.active_window_id : -1;
                     } else {
-                        console.warn(`Workspace with id ${someEvent.workspace_id} not found. This is likely a bug in the IPC implementation.`);
+                        console.warn(`[Niri] Workspace with id ${someEvent.workspace_id} not found. This is likely a bug in the IPC implementation.`);
                     }
                 } else if (event.WindowFocusTimestampChanged) {
                     // {"WindowFocusTimestampChanged":{"id": INT, "focus_timestamp":{"secs": INT, "nanos": INT}}}
@@ -372,7 +340,7 @@ Singleton {
                     if (win) {
                         win.focusTimestamp = someEvent.focus_timestamp != null ? someEvent.focus_timestamp.secs + someEvent.focus_timestamp.nanos / 1000000000.0 : -1;
                     } else {
-                        console.warn(`Could not find window with id ${someEvent.id}. This is likely a bug in the IPC implementation.`);
+                        console.warn(`[Niri] Window with id ${someEvent.id} not found. This is likely a bug in the IPC implementation.`);
                     }
                 } else if (event.WindowUrgencyChanged) {
                     // {"WindowUrgencyChanged":{"id": INT, "urgent": BOOL}}
@@ -412,8 +380,52 @@ Singleton {
                 } else if (event.KeyboardLayoutsChanged) {
                     root.keyboardLayoutIndex = event.KeyboardLayoutsChanged.keyboard_layouts.current_idx;
                     root.keyboardLayouts = event.KeyboardLayoutsChanged.keyboard_layouts.names;
+                } else if (event.CastStartedOrChanged) {
+                    // {"CastStartedOrChanged":{"cast": DATA}}
+                    const cast = event.CastStartedOrChanged.cast;
+                    if (cast.is_dynamic_target) {
+                        if (cast.target?.Window) {
+                            root.dynamicCastTarget = {
+                                nothing: false,
+                                window: cast.target.Window,
+                                output: null,
+                            }
+                        } else if (cast.target?.Output) {
+                            root.dynamicCastTarget = {
+                                nothing: false,
+                                window: null,
+                                output: cast.target.Output,
+                            }
+                        } else {
+                            root.dynamicCastTarget = { nothing: true, window: null, output: null }
+                        }
+                    }
+                    return;
                 } else if (event.CastsChanged) {
                     // {"CastsChanged":{"casts":[DATA]}}
+                    for (const cast of event.CastsChanged.casts) {
+                        if (cast.is_dynamic_target) {
+                            if (cast.target?.Window) {
+                                root.dynamicCastTarget = {
+                                    nothing: false,
+                                    window: cast.target.Window,
+                                    output: null,
+                                }
+                            } else if (cast.target?.Output) {
+                                root.dynamicCastTarget = {
+                                    nothing: false,
+                                    window: null,
+                                    output: cast.target.Output,
+                                }
+                            } else {
+                                root.dynamicCastTarget = { nothing: true, window: null, output: null }
+                            }
+                            break;
+                        }
+                    }
+                    return;
+                } else if (event.CastStopped) {
+                    // {"CastStopped":{"stream_id":INT}}
                     // Ignored for now
                     return;
                 } else if (event.ScreenshotCaptured) {

@@ -143,7 +143,7 @@ Singleton {
         // DOCS: What is the full data structure of returnValue?
         const returnValue = Providers.activate(state.activeProviderId, entry, action, state.searchTerm);
 
-        if (returnValue === null) {
+        if (!returnValue) {
             // Activation was a no-op, nothing to do
             state.working = false;
             return;
@@ -156,6 +156,8 @@ Singleton {
 
         if (returnValue?.update) {
             state.results.set(idx, returnValue.update);
+        } else if (returnValue?.remove) {
+            state.results.remove(idx);
         } else if (returnValue?.refresh) {
             Qt.callLater(refreshResults);
         } else if (returnValue?.reset) {

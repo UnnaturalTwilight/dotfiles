@@ -53,7 +53,7 @@ Rectangle {
             visible: entry.icon !== "" || (entry.buttons?.icon ?? false)
             Layout.preferredHeight: entry.implicitHeight * 0.6
             Layout.preferredWidth: entry.implicitHeight * 0.6
-            opacity: entry.active ? 1 : 0.6
+            opacity: (entry.hints?.active ?? true) ? 1 : 0.6
 
             Behavior on opacity {
                 NumberAnimation {
@@ -93,7 +93,7 @@ Rectangle {
             Layout.fillWidth: entry.hints?.buttonRowAlign !== "left"
             Layout.minimumWidth: 0
             spacing: 0
-            opacity: entry.active ? 1 : 0.6
+            opacity: (entry.hints?.active ?? true) ? 1 : 0.6
 
             Behavior on opacity {
                 NumberAnimation {
@@ -158,9 +158,8 @@ Rectangle {
                     text: modelData?.text ?? modelData?.action ?? "Button"
                     iconName: modelData?.icon ?? "unknown"
                     checked: modelData?.checked ?? false
+                    destructive: modelData?.destructive ?? false
 
-                    // I think this lil bit of hardcoding is fine
-                    icon.color: hovered ? (iconName === "actions/delete" ? Colours.aurora0 : Colours.snow2) : Colours.snow0
                     iconSize: entry.fontSize * (modelData?.large ? 2.4 : (modelData?.type === "checkbox" ? 1.2 : 1.6))
 
                     onClicked: LauncherState.activate(entry.index, modelData, modelData?.action)
@@ -186,9 +185,7 @@ Rectangle {
                     mode: modelData?.type || "text"
                     text: modelData?.text ?? modelData?.action ?? "Button"
                     iconName: modelData?.icon ?? "unknown"
-
-                    // I think this lil bit of hardcoding is fine
-                    icon.color: hovered ? (iconName === "actions/delete" ? Colours.aurora0 : Colours.snow2) : Colours.snow0
+                    destructive: modelData?.destructive ?? false
 
                     onClicked: LauncherState.activate(entry.index, modelData, modelData?.action)
                 }
@@ -211,7 +208,7 @@ Rectangle {
             Text {
                 id: prefixLabel
                 anchors.centerIn: parent
-                text: entry.hints?.prefix.replace(/^ /, "󱁐") ?? ""
+                text: entry.hints?.prefix?.replace(/^ /, "󱁐") ?? ""
                 textFormat: Text.PlainText
                 color: Colours.text
                 font.family: Fonts.nerdMono

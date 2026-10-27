@@ -70,6 +70,10 @@ Defines actions to be displayed on the ProviderBar. Data Format TBD.
       // This only applys to buttons in the row of an entry
       // Entry Icon buttons are always large and providerBar buttons are always small
       large: boolean, // [icon] (optional) defaults false
+
+      // Whether the button is a destructive action
+      // This causes the button's icon to be red on hover instead of the default white
+      destructive: boolean, // [icon,both] (optional) defaults false
     },
     ...
   ],
@@ -81,7 +85,7 @@ Defines actions to be displayed on the ProviderBar. Data Format TBD.
     {
       // The action to perform when the dropdown item is activated
       action: "string",
-      
+
       // The text to display on the dropdown item
       text: "string", // [text] defaults to the action
     },
@@ -163,8 +167,14 @@ The data of the context parameter is not yet standardized and may be removed in 
   // Whether to close the launcher
   close: boolean, // (optional) defaults to true
 
-  // Whether to refresh the results, ignored if close is true
+  // Whether to refresh the results
   refresh: boolean, // (optional) defaults to false
+
+  // Whether to reset the launcher state
+  reset: boolean, // (optional) defaults to false
+
+  // Whether to remove the activated entry
+  remove: boolean, // (optional) defaults to false
 
   // The error message to display, if any
   errorMessage: string, // (optional) defaults to none
@@ -198,24 +208,20 @@ EntryData is defined in [`EntryData.qml`](./EntryData.qml)
   // This is subject to change in the future when alternative results views are implemented.
   property string type: "item" // (optional), defaults to "item"
 
-  // If the entry is enabled
-  // This does not hide the entry from the results or prevent it from being activated, it simply draws it faded out.
-  // It is up to the implementation to decide what to do with inactive entries.
-  property bool active: true // (optional), defaults to true
-
   // Hints for the entry
   // These are used to implement the entry's behavior and are not displayed to the user.
   // All hints are optional and will default to undefined.
   // Values listed below are examples or the non-default state.
   property var hints: ({
-      prefix: "#", // The char or string to display as a prefix hint box
-      monospace: true, // Whether the entry should be displayed in a monospace font
-      textWrap: true, // Wrap text insted of eliding it
-      maxLines: 5, // The maximum number of lines of text to display for the entry when
-      preview_type: "image", // Used with 'preview' to display an image insted of text
-      preview: "~/Images/example.png", // The path to the preview image to display
-      autoHeight: true, // Automatically adjust the entry's height to fit the content
-      buttonRowAlign: "left" // Left align the buttons for entries without text
+    active: false, // If the entry is visually enabled, if false the entry text will be drawn faded out
+    prefix: "#", // The char or string to display as a prefix hint box
+    monospace: true, // Whether the entry should be displayed in a monospace font
+    textWrap: true, // Wrap text insted of eliding it
+    maxLines: 5, // The maximum number of lines of text to display for the entry when
+    preview_type: "image", // Used with 'preview' to display an image insted of text
+    preview: "~/Images/example.png", // The path to the preview image to display
+    autoHeight: true, // Automatically adjust the entry's height to fit the content
+    buttonRowAlign: "left" // Left align the buttons for entries without text
   })
 
   // The actions and buttons to display for the entry
@@ -238,6 +244,7 @@ EntryData is defined in [`EntryData.qml`](./EntryData.qml)
           icon: "", // The svg icon to display for the button
           large: false, // Whether an icon button is displayed at a larger size
           checked: false, // If a checkbox button is checked or not
+          destructive: false, // If the button is a destructive action
         },
         ...
       ],
@@ -248,13 +255,11 @@ EntryData is defined in [`EntryData.qml`](./EntryData.qml)
           text: "", // The text to display on the button
           icon: "", // The svg icon to display for the button
           checked: false, // If a checkbox button is checked or not
+          destructive: false, // If the button is a destructive action
         },
         ...
-      ] 
+      ]
     }
   })
 }
 ```
-
-### Special Behaviors (aka hardcoded quirks)
-Using `symbols/delete` as the icon for a button will change the hover colour of the icon from white to aurora0 red

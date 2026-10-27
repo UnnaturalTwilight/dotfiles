@@ -85,10 +85,7 @@ RowLayout {
             text: modelData?.text ?? modelData?.action ?? "Button"
             iconName: modelData?.icon || "unknown"
             checked: modelData?.checked ?? false
-
-            // I think this lil bit of hardcoding is fine
-            icon.color: hovered ? (iconName === "actions/delete" ? Colours.aurora0 : Colours.snow2) : Colours.snow0
-            iconSize: providerBar.fontSize * (modelData?.type === "checkbox" ? 1.2 : 1.6)
+            destructive: modelData?.destructive ?? false
 
             onClicked: LauncherState.providerAction(LauncherState.activeProviderId, modelData, modelData?.action)
         }

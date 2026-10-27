@@ -49,12 +49,6 @@ Singleton {
         }
     }
 
-    // CLEANUP: Should I insted refrence Providers' instance of this
-    Component {
-        id: entryComp
-        EntryData {}
-    }
-
     property Process bridge: Process {
         // The Python side of this is purely vibecoded and I have no intention to change that for V2 of the launcher
         command: [Quickshell.shellDir + "/services/launcher/elephant-bridge.py"]
@@ -63,7 +57,7 @@ Singleton {
 
         onStarted: {
             elephant.bridgeReady = true;
-            resetProviderStates();
+            elephant.resetProviderStates();
             LauncherState.refreshResults();
         }
 
@@ -133,6 +127,9 @@ Singleton {
             if (msg.id === stateId && msg.provider === LauncherState.activeProviderId) {
                 elephant.providerStates = msg.states ?? [];
                 elephant.providerActions = msg.actions ?? [];
+            } else {
+                elephant.providerActions = [];
+                elephant.providerStates = [];
             }
             return;
         }
@@ -168,6 +165,13 @@ Singleton {
 
         if (msg.type === "item") {
             // FIXME: bluetooth sends double entries sometimes
+            if (pending.find(item => item.identifier === msg.item.identifier)) {
+                // Known issue with the bluetooth provider
+                if (msg.item.provider === "bluetooth") { return; }
+                console.warn(`[Elephant] Duplicate entry '${msg.item.identifier}' from provider '${msg.item.provider}'` +
+                    "\n[.] OLD:", JSON.stringify(pending.find(item => item.identifier === msg.item.identifier)),
+                    "\n[.] NEW:", JSON.stringify(msg.item));
+            }
             pending.push(msg.item);
         } else if (msg.type === "done") {
             showResults();
@@ -211,9 +215,14 @@ Singleton {
         if (
             (entry === null) || (provider === "bluetooth") ||
             (provider === "calc" && ["save", "delete", "delete_all"].includes(action)) ||
-            (provider === "clipboard" && ["remove_all", "show_combined", "show_images_only", "show_text_only", "show_pinned_only", "pause", "unpause", "remove", "pin", "unpin"].includes(action))
+            (provider === "clipboard" && ["remove_all", "show_combined", "show_images_only", "show_text_only", "show_pinned_only", "pause", "unpause", "pin", "unpin"].includes(action))
         ) {
             elephant.activationPolicy = "reload";
+        } else if (
+            (provider === "calc" && action === "delete") ||
+            (provider === "clipboard" && action === "remove")
+        ) {
+            elephant.activationPolicy = "remove";
         } else if (provider === "playerctl") {
             elephant.activationPolicy = "update";
         } else {
@@ -243,6 +252,8 @@ Singleton {
                 // TODO!
             case "reload":
                 return { close: false, refresh: true };
+            case "remove":
+                return { close: false, remove: true };
             case "close":
             default:
                 return { close: true };
@@ -257,8 +268,6 @@ Singleton {
         if (!elephant.bridgeReady || !provider || LauncherState.working) { return; }
 
         elephant.stateId = ++requestSerial;
-        elephant.providerActions = [];
-        elephant.providerStates = [];
 
         bridge.write(JSON.stringify({
             op: "state",
@@ -267,7 +276,9 @@ Singleton {
         }) + "\n");
     }
 
-    function updateResults(item) {}
+    function updateResults(item) {
+        // TODO!
+    }
 
     // CLEANUP: better name, this function handles updating the results list after
     // all the entries have been received from elephant
@@ -296,17 +307,16 @@ Singleton {
 
     // Converts an item from elephant's result format to a EntryData object
     function resultEntry(item) {
-        // REVIEW: should these objects have a parent set?
-        let entry = entryComp.createObject(null, {
+        let entry = {
             identifier: item.identifier,
             provider: item.provider,
             text: item?.text ?? "",
             subtext: item?.subtext ?? "",
             icon: item?.icon ?? "",
-            type: "item",
-            active: true,
+            type: item?.type ?? "item",
             hints: {
-                score: item?.score,
+                active: true,
+                score: item?.score, // TODO: move to toplevel of item so that it can be used for sorting global
                 state: item?.state,
                 preview: item?.preview,
                 preview_type: item?.preview_type,
@@ -316,7 +326,7 @@ Singleton {
                 default: "",
                 list: item?.actions,
             },
-        });
+        };
 
         // Provider specific conversion handling
         // Some of this can bound to provider definitions,
@@ -324,81 +334,87 @@ Singleton {
         // Perhaps something like impl.postProcessFn(item) => (EntryData {}) is the way to go
         // That would still entail a whole js file to define the functions for each provider but IDK
 
-        // qmllint disable
-        // every single assignment in here throws a warning
-        if (item.provider === "calc") {
-            entry.icon = "";
-            entry.actions.default = "copy";
-            entry.actions.ctrl = "save";
-            entry.hints.monospace = true;
+        switch (item.provider) {
+            case "calc": {
+                entry.icon = "";
+                entry.actions.default = "copy";
+                entry.actions.ctrl = "save";
+                entry.hints.monospace = true;
 
-            // Add actions as buttons
-            entry.actions.buttons = { column: [] };
-            if (item.actions.includes("edit")) { entry.actions.buttons.column.push({ type: "icon", icon: "actions/edit", action: "edit" }); }
-            if (item.actions.includes("delete")) { entry.actions.buttons.column.push({ type: "icon", icon: "actions/delete", action: "delete" }); }
-
-        } else if (item.provider === "clipboard") {
-            entry.icon = "";
-            entry.actions.default = "copy";
-            entry.hints.maxLines = 5;
-            entry.hints.textWrap = true;
-            entry.hints.autoHeight = true;
-
-            if (item?.preview_type === "file" && item?.preview.endsWith(".png")) {
-                entry.hints.preview_type = "image";
+                // Add actions as buttons
+                entry.actions.buttons = { column: [] };
+                if (item.actions.includes("edit")) { entry.actions.buttons.column.push({ action: "edit", type: "icon", icon: "actions/edit" }); }
+                if (item.actions.includes("delete")) { entry.actions.buttons.column.push({ action: "delete", type: "icon", icon: "actions/delete", destructive: true }); }
+                break;
             }
+            case "clipboard": {
+                entry.icon = "";
+                entry.actions.default = "copy";
+                entry.hints.maxLines = 5;
+                entry.hints.textWrap = true;
+                entry.hints.autoHeight = true;
 
-            // Add actions as buttons
-            entry.actions.buttons = { column: [] };
-            // if (item.actions.includes("pin")) { entry.actions.buttons.column.push({ type: "icon", icon: "states/pin", action: "pin" }); }
-            if (item.actions.includes("edit")) { entry.actions.buttons.column.push({ type: "icon", icon: "actions/edit", action: "edit" }); }
-            if (item.actions.includes("remove")) { entry.actions.buttons.column.push({ type: "icon", icon: "actions/delete", action: "remove" }); }
+                if (item?.preview_type === "file" && item?.preview.endsWith(".png")) { entry.hints.preview_type = "image"; }
 
-        } else if (item.provider === "bluetooth") {
-            if (item?.state.includes("disconnected")) {
-                entry.actions.default = "connect";
-                entry.active = false;
-            } else if (item?.state.includes("connected")) {
-                entry.actions.default = "disconnect";
+                // Add actions as buttons
+                entry.actions.buttons = { column: [] };
+                // TODO!
+                // if (item.actions.includes("pin")) { entry.actions.buttons.column.push({ type: "icon", icon: "states/pin", action: "pin" }); }
+                // if (item.actions.includes("unpin")) { entry.actions.buttons.column.push({ type: "icon", icon: "states/unpin", action: "unpin" }); }
+                if (item.actions.includes("edit")) { entry.actions.buttons.column.push({ action: "edit", type: "icon", icon: "actions/edit" }); }
+                if (item.actions.includes("remove")) { entry.actions.buttons.column.push({ action: "remove", type: "icon", icon: "actions/delete", destructive: true }); }
+                break;
             }
+            case "bluetooth": {
+                if (item?.state.includes("disconnected")) {
+                    entry.actions.default = "connect";
+                    entry.hints.active = false;
+                } else if (item?.state.includes("connected")) {
+                    entry.actions.default = "disconnect";
+                }
 
-            // Add actions as buttons
-            entry.actions.buttons = { row: [] };
-            for (const action of Array.from(new Set(item.actions)).reverse()) {
-                entry.actions.buttons.row.push({ type: "text", text: action, action: action });
+                // Add actions as buttons
+                entry.actions.buttons = { row: [] };
+                for (const action of Array.from(new Set(item.actions)).reverse()) {
+                    entry.actions.buttons.row.push({ type: "text", text: action, action: action });
+                }
+                break;
             }
+            case "desktopapplications": {
+                entry.actions.default = "start";
+                entry.actions.ctrl = "new_instance";
+                break;
+            }
+            case "playerctl": {
+                entry.type = "media-player";
+                // WHYYYYY? I can't believe that parsing the icon is the best way to do this
+                const paused = item.icon === "media-playback-start";
+                entry.hints.state = paused ? ["paused"] : ["playing"];
+                entry.actions.default = paused ? "play" : "pause";
+                entry.actions.ctrl = "next"; // TODO: Non-enter bind
+                entry.actions.alt = "prev"; // TODO: Non-enter bind
+                // This is even worse than parsing the icon IMO
+                // At least it's a char that isn't likely to appear in the fields
+                // TODO: Guard against `·` showing up in the artist/album field
+                const info = item.subtext.split(" · ");
+                entry.hints.media = { player: info[0], artist: info[1], volume: info[2] };
 
-        } else if (item.provider === "desktopapplications") {
-            entry.actions.default = "start";
-            entry.actions.ctrl = "new_instance";
-        } else if (item.provider === "playerctl") {
-            entry.type = "media-player";
-            // WHYYYYY? I can't believe that parsing the icon is the best way to do this
-            const paused = item.icon === "media-playback-start";
-            entry.hints.state = paused ? ["paused"] : ["playing"];
-            entry.actions.default = paused ? "play" : "pause";
-            entry.actions.ctrl = "next"; // TODO: Non-enter bind
-            entry.actions.alt = "prev"; // TODO: Non-enter bind
-            // This is even worse than parsing the icon IMO
-            // At least it's a char that isn't likely to appear in the fields
-            // TODO: Guard against `·` showing up in the artist/album field
-            const info = item.subtext.split(" · ");
-            entry.hints.media = { player: info[0], artist: info[1], volume: info[2] };
+                // Make the subtext look a little nicer
+                entry.subtext = `${info[1]}  ·  ${info[0]}  ·  󱄠 ${info[2]}%`;
 
-            // Make the subtext look a little nicer
-            entry.subtext = `${info[1]}  ·  ${info[0]}  ·  󱄠 ${info[2]}%`;
-
-            // Action button definitions
-            entry.actions.buttons = {
-                icon: { type: "icon", icon: paused ? "actions/play" : "actions/pause", action: paused ? "play" : "pause" },
-                row: [
-                    { type: "icon", large: true, icon: "actions/previous", action: "prev" },
-                    { type: "icon", large: true, icon: "actions/next", action: "next" },
-                ]
+                // Action button definitions
+                entry.actions.buttons = {
+                    icon: { type: "icon", icon: paused ? "actions/play" : "actions/pause", action: paused ? "play" : "pause" },
+                    row: [
+                        { type: "icon", large: true, icon: "actions/previous", action: "prev" },
+                        { type: "icon", large: true, icon: "actions/next", action: "next" },
+                    ]
+                }
+                break;
             }
         }
-        // qmllint enable
 
-        return entry;
+        // REVIEW: should these objects have a parent set?
+        return Providers.entryComp.createObject(null, entry);
     }
 }

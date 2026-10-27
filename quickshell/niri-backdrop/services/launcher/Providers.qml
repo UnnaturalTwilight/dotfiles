@@ -12,6 +12,7 @@ import qs.services.niri // qmllint disable unused-imports
 import "runner.js" as RunnerImpl
 import "menus.js" as MenusImpl
 import "websearch.js" as WebsearchImpl
+import "windows.js" as WindowsImpl
 
 Singleton {
     id: providers
@@ -90,7 +91,6 @@ Singleton {
             show: true,
             impl: {
                 type: "elephant",
-                // CLEANUP: would an autocomplete field on the entry be better?
                 autocompleteFn: (provider, entry, query, context) => {
                     if (context.ctrl) { return entry.subtext; }
                     if (context.shift) { return entry.text; }
@@ -99,7 +99,7 @@ Singleton {
             },
             actions: {
                 buttons: [
-                    { type: "text", text: "Clear History", action: "delete_all" },
+                    { action: "delete_all", text: "Clear History", icon: "actions/delete", type: "both", destructive: true },
                 ],
             },
         },
@@ -116,13 +116,13 @@ Singleton {
             },
             actions: {
                 buttons: [
-                    { type: "text", text: "Clear History", action: "remove_all" },
+                    { action: "remove_all", text: "Clear History", icon: "actions/delete", type: "both", destructive: true },
                 ],
                 dropdown: [
-                    { text: "Show All", action: "show_combined" },
-                    { text: "Text Only", action: "show_text_only" },
-                    { text: "Images Only", action: "show_images_only" },
-                    { text: "Pinned Only", action: "show_pinned_only" },
+                    { action: "show_combined", text: "Show All" },
+                    { action: "show_text_only", text: "Text Only" },
+                    { action: "show_images_only", text: "Images Only" },
+                    { action: "show_pinned_only", text: "Pinned Only" },
                 ],
             },
         },
@@ -169,6 +169,20 @@ Singleton {
                 fallbackFn: WebsearchImpl.fallback,
                 autocompleteFn: WebsearchImpl.autocomplete,
                 prefixes: "local",
+            },
+        },
+        windows: {
+            id: "windows",
+            name: "Windows & Workspaces",
+            icon: "cs-windows",
+            svg: "symbols/dashboard",
+            prefix: "!",
+            keywords: [],
+            show: true,
+            impl: {
+                type: "js",
+                queryFn: WindowsImpl.query,
+                activateFn: WindowsImpl.activate,
             },
         },
 
@@ -275,10 +289,7 @@ Singleton {
         }
     })
 
-    Component {
-        id: entryComp
-        EntryData {}
-    }
+    property Component entryComp: EntryData {}
 
     function resolvePrefix(provider, prefix, active, query) {
         // TODO: Multi-character prefix matching / prefix chaining
