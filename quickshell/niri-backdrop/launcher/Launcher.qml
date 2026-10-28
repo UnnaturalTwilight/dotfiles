@@ -359,12 +359,9 @@ PanelWindow {
             highlightFollowsCurrentItem: true
             keyNavigationWraps: true
 
-            // FIXME: IDK if this is a good idea
+            // REVIEW: IDK if this is a good idea
             // currently using this to autoscroll the view but handling the displayed highlight on the delegate
-            // highlight: Rectangle {
-            //     radius: 8
-            //     color: Colours.highlight
-            // }
+
             highlightMoveDuration: 250
             highlightMoveVelocity: 600
 

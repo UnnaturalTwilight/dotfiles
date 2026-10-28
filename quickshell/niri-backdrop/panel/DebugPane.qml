@@ -11,7 +11,7 @@ import qs.widgets
 Rectangle {
     id: debugPane
     radius: 12
-    color: Qt.alpha(Colours.snow0, 0.6)
+    color: Color.transparent(Colours.snow0, 0.6)
     border.color: Colours.snow0
     border.width: 2
 

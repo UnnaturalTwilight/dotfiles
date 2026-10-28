@@ -24,7 +24,6 @@ Rectangle {
     property string subtext: modelData?.subtext ?? ""
     property string icon: modelData?.icon ?? ""
     property string type: modelData?.type ?? ""
-    property bool active: modelData?.active ?? true
     property var hints: modelData?.hints ?? ({})
     property var buttons: modelData?.actions?.buttons ?? ({})
 
@@ -34,9 +33,16 @@ Rectangle {
     // Standard entry height is baseHeight * 1.5
     implicitHeight: (entry.hints?.autoHeight ?? false) ? (resultRow.implicitHeight + 8) : (entry.baseHeight * 1.5)
     radius: 8
-    color: ListView.isCurrentItem ? Colours.highlight : "transparent"
-    border.color: "transparent"
-    border.width: 2
+    color: ListView.isCurrentItem || hoverHandler.hovered ? Color.transparent(Colours.white, (ListView.isCurrentItem ? 0.15 : 0) + (hoverHandler.hovered ? 0.05 : 0)) : "transparent"
+
+    TapHandler {
+        enabled: entry.modelData.actions?.default !== undefined
+        onTapped: LauncherState.activate(entry.index, {type: 'mouse'}, entry.modelData.actions.default)
+    }
+
+    HoverHandler {
+        id: hoverHandler
+    }
 
     RowLayout {
         id: resultRow
@@ -92,6 +98,7 @@ Rectangle {
             visible: text.visible || subtext.visible || clipboardImage.visible
             Layout.fillWidth: entry.hints?.buttonRowAlign !== "left"
             Layout.minimumWidth: 0
+            Layout.minimumHeight: entry.fontSize
             spacing: 0
             opacity: (entry.hints?.active ?? true) ? 1 : 0.6
 

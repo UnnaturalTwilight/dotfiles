@@ -17,7 +17,7 @@ Rectangle {
     property int margin: 10
     implicitHeight: 320
 
-    color: Qt.alpha(Colours.power5, 0.6)
+    color: Color.transparent(Colours.power5, 0.6)
     border.color: Colours.power5
     border.width: 2
 

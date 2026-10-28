@@ -113,7 +113,6 @@ Singleton {
         search("");
     }
 
-    // TODO: implement preserveSelection -- or not idk it is that needed
     function refreshResults() {
         const entries = Providers.query(state.activeProviderId, state.searchTerm);
         if (entries === null) { return; }

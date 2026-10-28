@@ -113,7 +113,7 @@ Singleton {
             if (msg.id === elephant.queryId || msg.id === elephant.stateId || msg.id === elephant.activationId) {
                 console.warn("[Elephant]", msg.message);
                 // Ignore errors if a non-elephant provider is active
-                // FIXME: This will cause errors to not be reported on the 'global' provider despite it using elephant results
+                // NOTE: This will cause errors to not be reported on the 'global' provider despite it using elephant results
                 if (LauncherState.activeProviderData?.impl?.type !== "elephant") { return; }
                 // general error
                 LauncherState.errorMessage = "Elephant: " + msg.message;
@@ -141,7 +141,7 @@ Singleton {
                 LauncherState.working = false;
                 if (elephant.activationQueryId === elephant.queryId || elephant.activationPolicy === "async") {
                     if (elephant.activationPolicy === "refresh" || !elephant.activationUpdated) {
-                        LauncherState.refreshResults();
+                        LauncherState.refreshResults(true);
                     } else {
                         requestProviderState(msg.provider);
                     }
@@ -153,7 +153,7 @@ Singleton {
         if (msg.type === "item" && msg.op === "activate") {
             if (System.debugMode) { console.log(`[Elephant][msg: ${msg.id}][update] '${msg.item.identifier}' from provider '${msg.item.provider}'`); }
             if (msg.id === elephant.activationId && elephant.activationQueryId === elephant.queryId) {
-                LauncherState.refreshResults();
+                LauncherState.refreshResults(true);
                 elephant.activationUpdated = true;
             }
             return;
@@ -221,7 +221,7 @@ Singleton {
         if (
             (entry === null) || (provider === "bluetooth") ||
             (provider === "calc" && ["save", "delete", "delete_all"].includes(action)) ||
-            (provider === "clipboard" && ["remove_all", "show_combined", "show_images_only", "show_text_only", "show_pinned_only", "pause", "unpause", "pin", "unpin"].includes(action))
+            (provider === "clipboard" && ["remove_all", "show_combined", "show_images_only", "show_text_only", "show_pinned_only", "pause", "unpause"].includes(action))
         ) {
             elephant.activationPolicy = "async";
         } else if (
@@ -229,6 +229,8 @@ Singleton {
             (provider === "clipboard" && action === "remove")
         ) {
             elephant.activationPolicy = "remove";
+        } else if (provider === "clipboard" && ["pin", "unpin"].includes(action)) {
+            elephant.activationPolicy = "update";
         } else if (provider === "playerctl") {
             elephant.activationPolicy = "refresh";
         } else {
@@ -252,11 +254,12 @@ Singleton {
         }) + "\n");
 
         switch (elephant.activationPolicy) {
+            case "update":
+                return { close: false, update: updateEntry(provider, entry, action) };
             case "refresh":
                 return { close: false, refresh: true };
             case "remove":
                 return { close: false, remove: true };
-            case "update":
             case "async":
                 return { close: false, working: true };
             case "close":
@@ -267,6 +270,24 @@ Singleton {
 
     function providerAction(provider, context, action, query) {
         return activate(provider, null, action, query);
+    }
+
+    // Everything in this function is educated guesswork and not directly based on any info provided by elephant at runtime
+    function updateEntry(provider, entry, action) {
+        let update = { actions: entry.actions };
+
+        if (provider === "clipboard" ) {
+            if (action === "pin") {
+                update.actions.buttons.column[1] = { type: "icon", icon: "states/pin", action: "unpin" };
+                update.actions.alt = "unpin"
+            } else if (action === "unpin") {
+                update.actions.buttons.column[1] = { action: "delete", type: "icon", icon: "actions/delete", destructive: true };
+                update.actions.alt = "pin"
+            }
+        }
+
+        elephant.activationUpdated = true;
+        return update;
     }
 
     function requestProviderState(provider) {
@@ -365,10 +386,15 @@ Singleton {
 
                 // Add actions as buttons
                 entry.actions.buttons = { column: [] };
-                // TODO!
-                // if (item.actions.includes("pin")) { entry.actions.buttons.column.push({ type: "icon", icon: "states/pin", action: "pin" }); }
-                // if (item.actions.includes("unpin")) { entry.actions.buttons.column.push({ type: "icon", icon: "states/unpin", action: "unpin" }); }
                 if (item.actions.includes("edit")) { entry.actions.buttons.column.push({ action: "edit", type: "icon", icon: "actions/edit" }); }
+                if (item.actions.includes("pin")) {
+                    // entry.actions.buttons.column.push({ type: "icon", icon: "states/pin_hollow", action: "pin" });
+                    entry.actions.alt = "pin"
+                }
+                if (item.actions.includes("unpin")) {
+                    entry.actions.buttons.column.push({ type: "icon", icon: "states/pin", action: "unpin" });
+                    entry.actions.alt = "unpin"
+                }
                 if (item.actions.includes("remove")) { entry.actions.buttons.column.push({ action: "remove", type: "icon", icon: "actions/delete", destructive: true }); }
                 break;
             }
