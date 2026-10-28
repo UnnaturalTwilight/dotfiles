@@ -1,0 +1,13 @@
+[Unit]
+Description=Quickshell lock on sleep
+Before=sleep.target
+ConditionFileIsExecutable=/usr/bin/quickshell
+
+[Service]
+Type=oneshot
+User=%I
+ExecStart=/usr/bin/quickshell --config niri-backdrop ipc --any-display call lock lock
+ExecStartPost=/usr/bin/sleep 1
+
+[Install]
+WantedBy=sleep.target

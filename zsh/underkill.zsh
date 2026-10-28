@@ -27,8 +27,6 @@ alias reboot-win='systemctl reboot --boot-loader-entry=auto-windows'
 
 alias mini-fetch='hyfetch --distro arch_small --args="-c $XDG_CONFIG_HOME/fastfetch/mini.jsonc"'
 
-alias vlc='env -u DISPLAY vlc' # run vlc in wayland
-
 alias screen-record='gpu-screen-recorder -w portal -a default_output \
   -restore-portal-session yes -df yes \
   -o "$HOME/Videos/Screencapture/Video_$(date +%Y-%m-%d_%H-%M-%S).mp4"'

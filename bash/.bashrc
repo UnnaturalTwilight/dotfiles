@@ -38,19 +38,10 @@ if test -n "$KITTY_INSTALLATION_DIR"; then
     alias copycat='kitten clipboard'
     alias kdiff='kitten diff'
     alias icat='kitten icat'
-    alias ssh='kitten ssh'
 fi
 
-# Windows Terminal reports itself as xterm-256color and doesn't set COLORTERM despite supporting truecolor
-case "$TERM" in
-    xterm-color|*-256color) export COLORTERM=truecolor;;
-esac
-
-if [ "$TERM" = "xterm-kitty" ] && [ -n "$SSH_TTY" ]; then
-    alias edit='kitten edit-in-kitty'
-else
-    alias edit='nano'
-fi
+export EDITOR=${EDITOR:="nano"}
+alias edit="$EDITOR"
 
 # Alias definitions.
 alias ls='ls --color=auto --hyperlink=auto --group-directories-first --format=horizontal'

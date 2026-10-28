@@ -30,8 +30,7 @@ Rectangle {
     property string fontFamily: hints?.monospace ? Fonts.mono : Fonts.sans
     property string imageSource: hints?.preview_type === "image" ? (hints?.preview ?? "") : ""
 
-    // Standard entry height is baseHeight * 1.5
-    implicitHeight: (entry.hints?.autoHeight ?? false) ? (resultRow.implicitHeight + 8) : (entry.baseHeight * 1.5)
+    implicitHeight: resultRow.height + 8
     radius: 8
     color: ListView.isCurrentItem || hoverHandler.hovered ? Color.transparent(Colours.white, (ListView.isCurrentItem ? 0.15 : 0) + (hoverHandler.hovered ? 0.05 : 0)) : "transparent"
 
@@ -52,7 +51,8 @@ Rectangle {
             right: parent.right
             margins: 4
         }
-        height: (entry.hints?.autoHeight ?? false) ? implicitHeight : (entry.height - 8)
+        // Standard entry height is baseHeight * 1.5
+        height: (entry.hints?.autoHeight ?? false) ? implicitHeight : ((entry.baseHeight * 1.5) - 8)
 
         Item {
             id: providerIcon
