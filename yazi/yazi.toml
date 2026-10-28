@@ -58,7 +58,7 @@ prepend_rules = [
     { mime = "image/*", use = [ "view-image", "open", "reveal" ] },
     # Text files
     { mime = "text/*", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
-    { mime = "application/{json,ndjson,javascript,wine-extension-ini}", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
+    { mime = "application/{json,ndjson,javascript,mbox,wine-extension-ini}", use = [ "edit", "view-bat", "diff-kitty", "reveal" ] },
     # PDF
     { mime = "application/pdf", use = [ "open", "xournal", "reveal"] },
 ]
