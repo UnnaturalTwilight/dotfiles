@@ -83,14 +83,14 @@ def recv_frame(conn):
 def decode_object(payload):
     value = json.loads(payload)
     if not isinstance(value, dict):
-        raise ValueError("Elephant response must be a JSON object")
+        raise TypeError("Elephant response must be a JSON object")
     return value
 
 
 def require_string(cmd, key, default=None):
     value = cmd.get(key, default)
     if not isinstance(value, str):
-        raise ValueError(f"{key} must be a string")
+        raise TypeError(f"{key} must be a string")
     return value
 
 
@@ -128,9 +128,9 @@ def do_query(cmd):
                 resp = decode_object(payload)
                 item = resp.get("item", {})
                 if not isinstance(item, dict):
-                    raise ValueError("Elephant query item must be a JSON object")
+                    raise TypeError("Elephant query item must be a JSON object")
                 output(cmd, "item", item=item)
-    except (OSError, EOFError, ValueError) as e:
+    except (OSError, EOFError, ValueError, TypeError) as e:
         output(cmd, "error", message=str(e))
     output(cmd, "done")
 
@@ -143,7 +143,7 @@ def output_state(cmd, payload):
     states = resp.get("states") or []
     actions = resp.get("actions") or []
     if not isinstance(states, list) or not isinstance(actions, list):
-        raise ValueError("Elephant states and actions must be lists")
+        raise TypeError("Elephant states and actions must be lists")
     output(cmd, "state", states=states, actions=actions)
 
 
@@ -162,7 +162,7 @@ def do_state(cmd):
                 if kind != PROVIDER_STATE:
                     raise ValueError(f"Unexpected state response type: {kind}")
                 output_state(cmd, payload)
-    except (OSError, EOFError, ValueError) as e:
+    except (OSError, EOFError, ValueError, TypeError) as e:
         output(cmd, "error", message=str(e))
 
 
@@ -174,7 +174,7 @@ def do_activate(cmd):
                         for key in ("query", "arguments")})
         wait = cmd.get("wait", False)
         if not isinstance(wait, bool):
-            raise ValueError("wait must be a boolean")
+            raise TypeError("wait must be a boolean")
         with socket.socket(socket.AF_UNIX) as conn:
             connect(conn, ACTIVATION_TIMEOUT)
             send(conn, ACTIVATE, payload)
@@ -200,7 +200,7 @@ def do_activate(cmd):
                         output_state(cmd, body)
                         continue
                     raise ValueError(f"Unexpected activation response type: {kind}")
-    except (OSError, EOFError, ValueError) as e:
+    except (OSError, EOFError, ValueError, TypeError) as e:
         output(cmd, "error", message=str(e))
 
 
@@ -209,12 +209,12 @@ def handle_line(line):
     try:
         value = json.loads(line)
         if not isinstance(value, dict):
-            raise ValueError("Command must be a JSON object")
+            raise TypeError("Command must be a JSON object")
         cmd = value
         op = cmd.get("op")
         if not isinstance(op, str) or op not in ("query", "activate", "state"):
             raise ValueError("op must be query, activate or state")
-    except ValueError as e:
+    except (ValueError, TypeError) as e:
         output(cmd, "error", message=str(e))
         return
     target = {"query": do_query, "activate": do_activate, "state": do_state}[op]

@@ -57,6 +57,8 @@ function rewriteAppIcon(appIcon, notif) {
   switch (notif.appName) {
     case "niri":
       return "file://" + Quickshell.env("XDG_CONFIG_HOME") + "/assets/Icons/niri_icon.svg";
+    case "rquickshare":
+      return Quickshell.iconPath("rquickshare", true);
   }
 
   let resolvedIcon = Quickshell.iconPath(appIcon, true);

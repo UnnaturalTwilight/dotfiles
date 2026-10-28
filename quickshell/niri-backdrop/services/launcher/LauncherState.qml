@@ -18,6 +18,7 @@ Singleton {
     property var view: null
 
     property string activeProviderId: "global"
+    property string baseProviderId: "global"
     readonly property var activeProviderData: Providers.data?.[activeProviderId]
     property string cachedPrefix: ""
     property bool prefixActive: false
@@ -34,6 +35,7 @@ Singleton {
     function resetState() {
         state.results.clear();
         state.activeProviderId = "global";
+        state.baseProviderId = "global";
         view.input.text = "";
         state.searchTerm = "";
         state.cachedPrefix = "";
@@ -50,7 +52,6 @@ Singleton {
     function openWindow() {
         if (!state.view) {
             console.error("[Launcher] view is null");
-            // TODO: popup an error message
             state.open = false;
             return;
         }
@@ -75,6 +76,7 @@ Singleton {
     function openProvider(providerId = "global", clear = true) {
         if (!state.open) { openWindow(); }
         state.working = true;
+        state.baseProviderId = providerId;
         state.activeProviderId = providerId;
         state.cachedPrefix = "";
         state.prefixActive = false;
@@ -90,7 +92,7 @@ Singleton {
     }
 
     function search(query) {
-        const resolved = Providers.resolvePrefix(state.activeProviderId, state.cachedPrefix, state.prefixActive, query);
+        const resolved = Providers.resolvePrefix(state.activeProviderId, state.baseProviderId, state.cachedPrefix, state.prefixActive, query);
         // DOCS: resolved = { provider: "STRING", prefix: "STRING", active: BOOLEAN, query: "STRING" }
         state.activeProviderId = resolved.provider;
         state.cachedPrefix = resolved.prefix;
@@ -103,8 +105,10 @@ Singleton {
         // FIXME: Real implementation
         if (activeProviderId === "providerlist") {
             state.activeProviderId = "global";
+            state.baseProviderId = "global";
         } else {
             state.activeProviderId = "providerlist";
+            state.baseProviderId = "providerlist";
         }
         search("");
     }
@@ -149,19 +153,17 @@ Singleton {
             return;
         }
 
-        if (returnValue?.errorMessage) {
-            state.errorMessage = returnValue.errorMessage;
-            state.working = false;
+        state.errorMessage = returnValue?.errorMessage ?? "";
+        state.working = returnValue?.working ?? state.working;
+
+        if (returnValue?.remove) {
+            state.results.remove(idx);
+        } else if (returnValue?.update) {
+            state.results.set(idx, returnValue.update);
         }
 
-        if (returnValue?.update) {
-            state.results.set(idx, returnValue.update);
-        } else if (returnValue?.remove) {
-            state.results.remove(idx);
-        } else if (returnValue?.refresh) {
+        if (returnValue?.refresh) {
             Qt.callLater(refreshResults);
-        } else if (returnValue?.reset) {
-            resetState();
         } else if (returnValue?.close ?? true) {
             closeWindow();
         }
@@ -171,17 +173,21 @@ Singleton {
 
         const returnValue = Providers.providerAction(provider, context, action, state.searchTerm);
 
-        if (returnValue === null) {
+        if (!returnValue) {
+            // Activation was a no-op, nothing to do
             state.working = false;
-        } else if (returnValue?.errorMessage) {
-            state.errorMessage = returnValue.errorMessage;
-            state.working = false;
-        } else if (returnValue?.update) {
-            // TODO!
-            state.working = false;
-        } else if (returnValue?.refresh) {
+            return;
+        }
+
+        state.errorMessage = returnValue?.errorMessage ?? "";
+        state.working = returnValue?.working ?? state.working;
+
+        // TODO! IDK if this is actually applicable to providers
+        // if (returnValue?.update) {}
+
+        if (returnValue?.refresh) {
             Qt.callLater(refreshResults);
-        } else if (returnValue?.close ?? false) {
+        } else if (returnValue?.close ?? true) {
             closeWindow();
         }
     }
@@ -192,7 +198,7 @@ Singleton {
 
         const newText = Providers.autocomplete(state.activeProviderId, entry, state.searchTerm, context);
         if (newText === null) { return; }
-        if (state.activeProviderData?.impl?.prefixes !== "local") {
+        if (state.prefixActive && state.activeProviderData?.impl?.prefixes !== "local") {
             const prefix = state.cachedPrefix;
             state.view.input.text = prefix + newText;
         } else {

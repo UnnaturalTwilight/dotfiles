@@ -28,8 +28,6 @@ Singleton {
 
     property int desyncId: -1
 
-    property var excludeLogging: ["item"]
-
     Connections {
         target: LauncherState
 
@@ -102,10 +100,10 @@ Singleton {
     }
 
     function handleMessage(msg) {
-        if (System.debugMode && !elephant.excludeLogging.includes(msg.type)) { console.log("[Elephant][msg]", JSON.stringify(msg)); }
         if (!LauncherState.open) { return; }
 
         if (msg.type === "error") {
+            if (System.debugMode) { console.log(`[Elephant][msg: ${msg.id}][error]`, JSON.stringify(msg)); }
             if (msg.id === elephant.activationId) {
                 // activation error
                 LauncherState.working = false;
@@ -124,6 +122,9 @@ Singleton {
         }
 
         if (msg.type === "state") {
+            if (System.debugMode) {
+                console.log(`[Elephant][msg: ${msg.id}][state] ${msg.provider} States: ${JSON.stringify(msg.states)} Actions: ${JSON.stringify(msg.actions)}`);
+            }
             if (msg.id === stateId && msg.provider === LauncherState.activeProviderId) {
                 elephant.providerStates = msg.states ?? [];
                 elephant.providerActions = msg.actions ?? [];
@@ -135,13 +136,14 @@ Singleton {
         }
 
         if (msg.type === "activated") {
+            if (System.debugMode) { console.log(`[Elephant][msg: ${msg.id}][activated] ${msg.provider} entry '${msg.identifier}' with action '${msg.action}'`); }
             if (msg.id === elephant.activationId) {
                 LauncherState.working = false;
-                if (elephant.activationQueryId === elephant.queryId) {
-                    if (elephant.activationPolicy === "reload" || !elephant.activationUpdated) {
+                if (elephant.activationQueryId === elephant.queryId || elephant.activationPolicy === "async") {
+                    if (elephant.activationPolicy === "refresh" || !elephant.activationUpdated) {
                         LauncherState.refreshResults();
                     } else {
-                        requestProviderState(LauncherState.activeProviderId);
+                        requestProviderState(msg.provider);
                     }
                 }
             }
@@ -149,8 +151,10 @@ Singleton {
         }
 
         if (msg.type === "item" && msg.op === "activate") {
+            if (System.debugMode) { console.log(`[Elephant][msg: ${msg.id}][update] '${msg.item.identifier}' from provider '${msg.item.provider}'`); }
             if (msg.id === elephant.activationId && elephant.activationQueryId === elephant.queryId) {
-                elephant.activationUpdated = updateResults(msg.item) || elephant.activationUpdated;
+                LauncherState.refreshResults();
+                elephant.activationUpdated = true;
             }
             return;
         }
@@ -164,16 +168,18 @@ Singleton {
         }
 
         if (msg.type === "item") {
-            // FIXME: bluetooth sends double entries sometimes
             if (pending.find(item => item.identifier === msg.item.identifier)) {
                 // Known issue with the bluetooth provider
                 if (msg.item.provider === "bluetooth") { return; }
-                console.warn(`[Elephant] Duplicate entry '${msg.item.identifier}' from provider '${msg.item.provider}'` +
-                    "\n[.] OLD:", JSON.stringify(pending.find(item => item.identifier === msg.item.identifier)),
-                    "\n[.] NEW:", JSON.stringify(msg.item));
+                console.log(`[Elephant][msg: ${msg.id}][item] Duplicate '${msg.item.identifier}' from provider '${msg.item.provider}'`);
+            } else {
+                if (System.debugMode) { console.log(`[Elephant][msg: ${msg.id}][item] '${msg.item.identifier}' from provider '${msg.item.provider}'`); }
             }
             pending.push(msg.item);
-        } else if (msg.type === "done") {
+        }
+
+        if (msg.type === "done") {
+            if (System.debugMode) { console.log(`[Elephant][msg: ${msg.id}] Done ${msg.op} for ${JSON.stringify(msg.providers)}`); }
             showResults();
             requestProviderState(LauncherState.activeProviderId);
         }
@@ -217,21 +223,19 @@ Singleton {
             (provider === "calc" && ["save", "delete", "delete_all"].includes(action)) ||
             (provider === "clipboard" && ["remove_all", "show_combined", "show_images_only", "show_text_only", "show_pinned_only", "pause", "unpause", "pin", "unpin"].includes(action))
         ) {
-            elephant.activationPolicy = "reload";
+            elephant.activationPolicy = "async";
         } else if (
             (provider === "calc" && action === "delete") ||
             (provider === "clipboard" && action === "remove")
         ) {
             elephant.activationPolicy = "remove";
         } else if (provider === "playerctl") {
-            elephant.activationPolicy = "update";
+            elephant.activationPolicy = "refresh";
         } else {
             elephant.activationPolicy = "close";
         }
 
         elephant.activationUpdated = false;
-        LauncherState.errorMessage = "";
-        LauncherState.working = elephant.activationPolicy !== "close";
         if (elephant.activationPolicy !== "close") {
             elephant.stateId = ++requestSerial;
             elephant.providerActions = [];
@@ -244,16 +248,17 @@ Singleton {
             identifier: entry?.identifier ?? "",
             action: action,
             query: query,
-            wait: LauncherState.working
+            wait: elephant.activationPolicy !== "close"
         }) + "\n");
 
         switch (elephant.activationPolicy) {
-            case "update":
-                // TODO!
-            case "reload":
+            case "refresh":
                 return { close: false, refresh: true };
             case "remove":
                 return { close: false, remove: true };
+            case "update":
+            case "async":
+                return { close: false, working: true };
             case "close":
             default:
                 return { close: true };
@@ -265,7 +270,13 @@ Singleton {
     }
 
     function requestProviderState(provider) {
-        if (!elephant.bridgeReady || !provider || LauncherState.working) { return; }
+        if (!elephant.bridgeReady || !provider) { return; }
+        if (LauncherState.activeProviderData?.impl?.type !== "elephant") { return; }
+        // Split this off because I'm less confident it's needed
+        if (LauncherState.working) {
+            console.warn("[Elephant] Blocked requesting provider state due to working state");
+            return null;
+        }
 
         elephant.stateId = ++requestSerial;
 
@@ -274,10 +285,6 @@ Singleton {
             id: elephant.stateId,
             provider: provider
         }) + "\n");
-    }
-
-    function updateResults(item) {
-        // TODO!
     }
 
     // CLEANUP: better name, this function handles updating the results list after

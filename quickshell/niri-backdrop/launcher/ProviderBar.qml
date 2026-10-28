@@ -33,7 +33,7 @@ RowLayout {
     }
 
     FlatButton {
-        visible: !LauncherState.prefixActive && LauncherState.activeProviderId !== "providerlist"
+        visible: LauncherState.activeProviderId !== "providerlist" && (!LauncherState.prefixActive || LauncherState.baseProviderId === "providerlist")
         text: "Providers" // FIXME: don't hardcode
         font.family: Fonts.sans
         font.pixelSize: providerBar.fontSize * 0.8

@@ -9,10 +9,10 @@ import qs.services.launcher
 // qs.services.niri is needed so that js providers can access niri services
 import qs.services.niri // qmllint disable unused-imports
 
-import "runner.js" as RunnerImpl
-import "menus.js" as MenusImpl
-import "websearch.js" as WebsearchImpl
-import "windows.js" as WindowsImpl
+import "providers/menus.js" as MenusImpl
+import "providers/runner.js" as RunnerImpl
+import "providers/websearch.js" as WebsearchImpl
+import "providers/windows.js" as WindowsImpl
 
 Singleton {
     id: providers
@@ -291,17 +291,15 @@ Singleton {
 
     property Component entryComp: EntryData {}
 
-    function resolvePrefix(provider, prefix, active, query) {
+    function resolvePrefix(activeProvider, baseProvider, oldPrefix, prefixActive, query) {
         // TODO: Multi-character prefix matching / prefix chaining
-        let newState = { provider: provider, prefix: query.substring(0, 1), active: false, query: query };
+        let newState = { provider: activeProvider, prefix: query.substring(0, 1), active: false, query: query };
 
         // This is a little bit of optimization to avoid searching the entire provider list for a prefix match
-        if (prefix === newState.prefix) { newState.active = active; }
+        if (oldPrefix === newState.prefix) { newState.active = prefixActive; }
+        if (prefixActive && !newState.active) { newState.provider = baseProvider; }
 
-        // FIXME: this asumes that global is the only provider that resolves prefixes, which is not true
-        if (active && !newState.active) { newState.provider = "global"; }
-
-        if (data?.[newState.provider]?.impl?.prefixes === "global" && (prefix !== newState.prefix)) {
+        if ((oldPrefix !== newState.prefix) && data?.[newState.provider]?.impl?.prefixes === "global") {
             for (const [id, def] of Object.entries(data)) {
                 if (def?.prefix === undefined) { continue; }
                 if (def?.prefix == newState.prefix) {
@@ -488,7 +486,7 @@ Singleton {
     function activate(provider, entry, action, query) {
         // TODO! DOCS: Should this be how activation is done? Would a activate() function on the entry itself be better?
         if (System.debugMode) {
-            console.log("[Launcher][activate] Activating entry: \n[.]", JSON.stringify(entry), "\n[.] Active provider: '" + provider + "', action: '" + action + "', query: '" + query + "'");
+            console.log(`[Launcher][activate] Activating '${provider}' with action '${action}' on entry '${entry?.identifier}' and query '${query}'`);
         }
         const entryProvider = entry?.provider ?? provider; // DOCS: entry.provider should NEVER be undefined but I *REALLY* don't trust Elephant
         if (entryProvider.startsWith("#")) {
@@ -586,7 +584,7 @@ Singleton {
         if (data?.[entryProvider]?.impl?.autocompleteFn !== undefined) {
             return data[entryProvider].impl.autocompleteFn(provider, entry, query, context); // DOCS: I think passing the active provider is more helpful than the entry provider
         } else if (data[provider]?.impl?.autocompleteFn !== undefined) {
-            return data[provider].impl.autocompleteFn(provider, entry, query, context);
+            return data[provider].impl.autocompleteFn(provider, entry, query, context); // DOCS: does this actually make sense to fallback to?
         }
         return null;
     }

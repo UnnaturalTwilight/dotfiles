@@ -51,9 +51,8 @@ Singleton {
             } else {
                 return qsTr("Charging");
             }
-        } else {
-            return "Unknown";
         }
+        return qsTr("Unknown");
     }
 
     function formatSeconds(s: int): string {

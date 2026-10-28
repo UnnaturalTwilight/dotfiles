@@ -305,9 +305,9 @@ PanelWindow {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: JSON.stringify({
                     provider: LauncherState.activeProviderId,
+                    baseProvider: LauncherState.baseProviderId,
                     cachedPrefix: LauncherState.cachedPrefix,
                     prefixActive: LauncherState.prefixActive,
-                    debugRendering: LauncherState.debugRendering,
                     debugMode: System.debugMode,
                 }) + "\n" + JSON.stringify({ query: LauncherState.searchTerm })
             }

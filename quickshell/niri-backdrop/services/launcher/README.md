@@ -164,17 +164,23 @@ The data of the context parameter is not yet standardized and may be removed in 
 ### ActivateResult
 ```js
 {
-  // Whether to close the launcher
+  // Indicates if the launcher should close
   close: boolean, // (optional) defaults to true
 
-  // Whether to refresh the results
+  // Indicates if the results should be refreshed
   refresh: boolean, // (optional) defaults to false
 
-  // Whether to reset the launcher state
-  reset: boolean, // (optional) defaults to false
-
-  // Whether to remove the activated entry
+  // Indicates if the entry should be removed
   remove: boolean, // (optional) defaults to false
+
+  // Indicates if the entry is currently being processed
+  // If undefined the working state of the launcher will not be changed
+  working: boolean, // (optional) defaults to undefined
+
+  // Updates the entry with the provided data
+  // Any top-level fields not present in the update will be preserved
+  // Any changes to hints or actions needs to provide the full object of hints/actions
+  update: {EntryJSON}, // (optional)
 
   // The error message to display, if any
   errorMessage: string, // (optional) defaults to none

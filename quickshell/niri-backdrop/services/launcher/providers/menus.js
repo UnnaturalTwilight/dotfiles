@@ -192,7 +192,6 @@ function queryQuickshell(provider, query) {
       actions: {
         default: "toggle-debug",
         ctrl: "debugRendering",
-        alt: "reset-to-global",
         buttons: {
           icon: { type: "icon", icon: "symbols/bug", action: "toggle-debug" },
           row: [
@@ -208,10 +207,6 @@ function queryQuickshell(provider, query) {
 }
 
 function activateQuickshell(provider, entry, action, query) {
-  if (action === "reset-to-global") {
-    return { reset: true }
-  }
-
   if (entry.identifier === "qs-toggle-debug") {
     // DOCS: update = entry; doesn't work so to preserve all the hints and actions without re-defining them this needs to be done
     var update = {hints: entry.hints, actions: entry.actions};
@@ -233,7 +228,7 @@ function activateQuickshell(provider, entry, action, query) {
     update.actions.buttons.row[0].checked = update?.hints?.active ?? true;
     update.actions.buttons.row[1].checked = LauncherState.working;
     update.actions.buttons.row[2].checked = LauncherState.debugRendering;
-    return { close: false, refresh: false, update };
+    return { close: false, update };
   }
 
   if (action === "reload" || action === "hardreload") {
