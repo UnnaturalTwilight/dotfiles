@@ -15,10 +15,13 @@
     "context": "Workspace",
     "bindings": {
       "ctrl-shift-space": "command_palette::Toggle",
+      "ctrl-shift-r": "projects::OpenRecent"
     },
     "unbind": {
       "ctrl-w": "workspace::CloseActiveDock",
       "ctrl-shift-p": "command_palette::Toggle",
+      "ctrl-shift-r": ["task::Rerun", { "reevaluate_context": false }],
+      "ctrl-r": "projects::OpenRecent"
     },
   },
   {
@@ -56,9 +59,13 @@
   },
   {
     "context": "Editor && mode == full",
-    "unbind": {
-      "ctrl-shift-enter": "editor::NewlineAbove",
+    "bindings": {
+      "ctrl-r": "buffer_search::DeployReplace"
     },
+    "unbind": {
+      "ctrl-h": "buffer_search::DeployReplace",
+      "ctrl-shift-enter": "editor::NewlineAbove"
+    }
   },
   {
     "context": "Editor && mode == auto_height",
@@ -88,9 +95,11 @@
     "context": "Editor && edit_prediction",
     "bindings": {
       "alt-right": "editor::AcceptEditPrediction",
+      "ctrl-alt-right": "editor::AcceptNextWordEditPrediction"
     },
     "unbind": {
       "alt-l": "editor::AcceptEditPrediction",
+      "alt-k": "editor::AcceptNextWordEditPrediction"
     },
   },
   {
@@ -141,62 +150,12 @@
     },
   },
   {
-    "context": "Workspace",
-    "unbind": {
-      "ctrl-shift-r": [
-        "task::Rerun",
-        {
-          "reevaluate_context": false
-        }
-      ]
-    }
-  },
-  {
-    "context": "Workspace",
-    "bindings": {
-      "ctrl-shift-r": "projects::OpenRecent"
-    }
-  },
-  {
-    "context": "Workspace",
-    "unbind": {
-      "ctrl-r": "projects::OpenRecent"
-    }
-  },
-  {
-    "context": "Editor && mode == full",
-    "bindings": {
-      "ctrl-r": "buffer_search::DeployReplace"
-    }
-  },
-  {
-    "context": "Editor && mode == full",
-    "unbind": {
-      "ctrl-h": "buffer_search::DeployReplace"
-    }
-  },
-  {
     "context": "BufferSearchBar",
     "bindings": {
       "ctrl-r": "search::ToggleReplace"
-    }
-  },
-  {
-    "context": "BufferSearchBar",
+    },
     "unbind": {
       "ctrl-h": "search::ToggleReplace"
     }
   },
-  {
-    "context": "Editor && edit_prediction",
-    "bindings": {
-      "ctrl-alt-right": "editor::AcceptNextWordEditPrediction"
-    }
-  },
-  {
-    "context": "Editor && edit_prediction",
-    "unbind": {
-      "alt-k": "editor::AcceptNextWordEditPrediction"
-    }
-  }
 ]
