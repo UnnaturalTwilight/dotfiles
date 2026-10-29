@@ -2,15 +2,15 @@
 # $ZDOTDIR/kitty.zsh
 #
 
-# kitty shell integration
+setopt COMBINING_CHARS
+
+# Load kitty shell integration
 if test -n "$KITTY_INSTALLATION_DIR"; then
   export KITTY_SHELL_INTEGRATION=${KITTY_SHELL_INTEGRATION:="enabled"}
   autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
   kitty-integration
   unfunction kitty-integration
 fi
-
-setopt COMBINING_CHARS
 
 if [[ ! -v SSH_TTY ]]; then
   # Only override on a local shell

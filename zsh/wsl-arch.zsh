@@ -2,8 +2,6 @@
 # $ZDOTDIR/wsl-arch.zsh
 #
 
-## local zsh configurations for WSL
-
 export EDITOR=${EDITOR:="edit"}
 
 export GALLIUM_DRIVER=d3d12
@@ -20,13 +18,9 @@ path=($path ~/.local/bin/windowsapps ~/.local/bin/winget)
 # Check if interop is working, since I rely on more than I should.
 # This is a far from foolproof check but it does catch the case that provides the least helpful error message
 cat /proc/sys/fs/binfmt_misc/WSLInterop &>/dev/null ||
-  echo "\e[91mWSL interop is not working! Windows programs will not work\e[0m"
+  print "\e[91mWSL interop is not working! Windows programs will not work\e[0m"
 
-if [[ "$TERM" == "xterm-kitty" ]]; then
-  source $ZDOTDIR/kitty.zsh
-elif [[ "$TERM_PROGRAM" == "vscode" ]]; then
-  source "$(code --locate-shell-integration-path zsh)"
-elif [[ -n "$WT_SESSION" ]]; then
+if [[ -n "$WT_SESSION" ]] {
   # Windows Terminal
 
   #TODO: Windows Terminal now supports kitty keyboard protocol
@@ -39,7 +33,11 @@ elif [[ -n "$WT_SESSION" ]]; then
   # Nerd fonts in less (For Kitty this is done in kitty.conf)
   export LESSUTFCHARDEF=E000-F8FF:p,F0000-FFFFD:p,100000-10FFFD:p
 
-  function _windows-terminal-integration() {
+  # Shell integration is based on:
+  # https://learn.microsoft.com/en-us/windows/terminal/tutorials/shell-integration#bash
+  # https://sw.kovidgoyal.net/kitty/shell-integration/
+
+  function _wti_precmd() {
     # Exit code of last command
     if [[ -n "$STARSHIP_CMD_STATUS" ]]; then
       builtin echo -ne "\e]133;D;${STARSHIP_CMD_STATUS}\e\\"
@@ -52,7 +50,7 @@ elif [[ -n "$WT_SESSION" ]]; then
     builtin echo -ne "\e]133;A\e\\"
   }
 
-  function _windows-terminal-integration-prexec() {
+  function _wti_prexec() {
     # Start of command execution
     builtin echo -ne "\e]133;C\e\\"
   }
@@ -61,13 +59,15 @@ elif [[ -n "$WT_SESSION" ]]; then
   # But it is prone to breaking compleatly with right prompt
   # PROMPT="${PROMPT}"$'\e]133;B\e\\'
 
-  precmd_functions+=(_windows-terminal-integration)
-  preexec_functions+=(_windows-terminal-integration-prexec)
+  precmd_functions+=(_wti_precmd)
+  preexec_functions+=(_wti_prexec)
 
   # Windows Terminal's bg colour makes the default fg=8 almost invisable
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=244"
   DEJA_HIGHLIGHT_STYLE="fg=244"
-fi
+} elif [[ "$TERM_PROGRAM" == "vscode" ]] {
+  source "$(code --locate-shell-integration-path zsh)"
+}
 
 # Copy to clipboard
 alias clip='/mnt/c/Windows/System32/clip.exe'

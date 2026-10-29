@@ -31,42 +31,54 @@ compinit
 ## Binds
 source $ZDOTDIR/keybinds.zsh
 
-# help function
+# Load help function
 autoload -Uz run-help
 (( ${+aliases[run-help]} )) && unalias run-help
 autoload -Uz run-help-git run-help-ip run-help-openssl run-help-p4 run-help-sudo run-help-svk run-help-svn
 alias help=run-help
 
-# reload completions on pacman update
+# Reload completions on pacman update
 TRAPUSR1() {
   rehash
 }
 
-# Set up fzf key bindings and fuzzy completion
-export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/defaults"
-source <(fzf --zsh)
-alias fzf-view='fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" \
-  --bind "focus:transform-header:file --brief {}" -m'
+# Set up fzf key bindings and fuzzy completion if fzf is installed
+if (( $+commands[fzf] )) {
+  export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/defaults"
+  source <(fzf --zsh)
 
-# WHY does fzf unset this??
+  function fzf-view() {
+    fzf --style full --preview "/usr/share/fzf/fzf-preview.sh {}" --bind "focus:transform-header:file --brief {}" -m "$@"
+  }
+}
+
+# fzf's method for saving and restoring shell options resets this as a side effect
 KEYBOARD_HACK=\\
 
-function yazi-cwd() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  yazi "$@" --cwd-file="$tmp"
-  IFS= read -r -d '' cwd < "$tmp"
-  [ -d "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-  rm -f -- "$tmp"
+# Set up yazi if it is installed
+if (( $+commands[yazi] )) {
+  function yazi-cwd() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+    yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [ -d "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+    rm -f -- "$tmp"
+  }
+
+  compdef _yazi yazi-cwd
+  alias yazi='yazi-cwd'
 }
-compdef _yazi yazi-cwd
-alias yazi='yazi-cwd'
 
 ## Aliases and Functions
-alias cd='z'
-alias ls='eza -x --hyperlink=auto --group-directories-first --icons=auto'
-alias ll='eza -l --hyperlink=auto --group-directories-first --icons=auto'
-alias la='eza -la --hyperlink=auto --group-directories-first --icons=auto'
-alias tree='eza -lT --hyperlink=auto --group-directories-first --icons=auto'
+alias run='systemd-run --user --'
+
+if (( $+commands[eza] )) {
+  alias ls='eza -x --hyperlink=auto --group-directories-first --icons=auto'
+  alias ll='eza -l --hyperlink=auto --group-directories-first --icons=auto'
+  alias la='eza -la --hyperlink=auto --group-directories-first --icons=auto'
+  alias tree='eza -lT --hyperlink=auto --group-directories-first --icons=auto'
+}
+
 alias grep='grep --color=auto'
 
 alias shutdown='shutdown now'
@@ -74,8 +86,6 @@ alias soft-reboot='systemctl soft-reboot'
 
 alias fetch='fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
 alias clf='clear; fastfetch -c $XDG_CONFIG_HOME/fastfetch/moon.jsonc'
-
-alias run='systemd-run --user --'
 
 alias makepkg="PACKAGER=${PACKAGER:=\"${(C)USER} <${USER}@${HOST}>\"} makepkg"
 
@@ -115,17 +125,23 @@ ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]='fg=209'
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=209'
 ZSH_HIGHLIGHT_STYLES[comment]='fg=008,italic'
 
+## Terminal Setup
+case $TERM {
+  xterm-kitty)
+    source $ZDOTDIR/kitty.zsh
+    ;;
+  *)
+    ;;
+}
+
 ## Prompt setup
-autoload -Uz promptinit
-promptinit
-
-PROMPT='%n@%m %~ %F{white}%B%#%b%f '
-RPROMPT='[%F{yellow}%?%f]'
-
-if [[ -v COLORTERM ]]; then
+if (( $+commands[starship] )) {
   setopt TRANSIENT_RPROMPT
   eval "$(starship init zsh)"
-fi
+} else {
+  PROMPT='%n@%m %~ %F{white}%B%#%b%f '
+  RPROMPT='[%F{yellow}%?%f]'
+}
 
 ## Load local configs if they exist
 source $ZDOTDIR/$HOST.zsh
@@ -133,13 +149,17 @@ source $ZDOTDIR/$HOST.zsh
 ## Load plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-if [[ -v COLORTERM ]]; then
-  if [[ -r "$XDG_DATA_HOME/deja/init.zsh" ]]; then
+# deja initialization
+if (( $+commands[deja] )) {
+  if [[ -r "$XDG_DATA_HOME/deja/init.zsh" ]] {
     source "$XDG_DATA_HOME/deja/init.zsh"
-  else
+  } else {
     eval "$(deja init zsh)"
-  fi
-fi
+  }
+}
 
-## zoxide initialization
-eval "$(zoxide init zsh)"
+# zoxide initialization
+if (( $+commands[zoxide] )) {
+  eval "$(zoxide init zsh)"
+  alias cd='__zoxide_z'
+}
