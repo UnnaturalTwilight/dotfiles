@@ -16,9 +16,6 @@ if [[ "$TERM" == "xterm-kitty" ]] {
   alias pacdiff='sudo DIFFPROG=${DIFFPROG:="kitten diff"} pacdiff'
 }
 
-# Extra completions
-source <(niri completions zsh | sed "s/line\[2\]/line[1]/g; /'::command/d")
-
 # Local aliases
 alias mnt-win='sudo ntfs-3g -o windows_names,special_files=wsl /dev/nvme0n1p3 /mnt/c'
 alias reboot-win='systemctl reboot --boot-loader-entry=auto-windows'

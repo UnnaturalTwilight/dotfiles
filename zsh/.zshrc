@@ -18,15 +18,11 @@ bindkey -e
 WORDCHARS="*?_-[]~&!#$%^"
 
 # Disable freezing on Ctrl-S, because WHY?
-stty -ixon
+unsetopt flowcontrol
 
-# The following lines were added by compinstall
 zstyle :compinstall filename '$ZDOTDIR/.zshrc'
-
 autoload -Uz compinit
-
 compinit
-# End of lines added by compinstall
 
 ## Binds
 source $ZDOTDIR/keybinds.zsh
@@ -95,7 +91,7 @@ alias -s md='bat --italic-text=always'
 # Global Alias to view long help in bat
 alias -g -- --HELP='--help 2>&1 | bat --language=help --style=plain --color=always'
 
-print-script() {
+function print-script() {
   local file="$(which $1)"
   [[ -e $file ]] && bat $file || echo $file
 }
@@ -161,5 +157,5 @@ if (( $+commands[deja] )) {
 # zoxide initialization
 if (( $+commands[zoxide] )) {
   eval "$(zoxide init zsh)"
-  alias cd='__zoxide_z'
+  alias cd='z'
 }

@@ -114,7 +114,8 @@ for kcap    seq         widget (
     x       '^[[122;6u' redo                      # Ctrl + Shift + Z
     x       '^[[99;6u'  copy-buffer-to-clipboard  # Ctrl + Shift + C
     x       '^X'        cut-buffer-to-clipboard   # Ctrl + X
-    x       '^S'        undefined-key
+    x       '^S'        undefined-key             # Ctrl + S
+    x       '^Q'        push-line-or-edit         # Ctrl + Q
 ) {
   bindkey ${terminfo[$kcap]:-$seq} $widget
 }
