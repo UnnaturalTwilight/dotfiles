@@ -83,6 +83,7 @@ window-rule {
 window-rule {
     match app-id="^kitty$"
     match app-id="^Thunar$"
+    match app-id=r#"^dev\.duxlabs\.files"#
     match app-id="^xdg-desktop-portal"
 
     // freedp dose some funky things if it doesn't have control over its size
@@ -111,6 +112,7 @@ window-rule {
 
 window-rule {
     match app-id="^wev$"
+    match app-id=r#"^io\.github\.Qalculate\.qalculate-qt$"#
     match app-id="gp_saml_gui.py"
     default-column-width { proportion 0.3; }
 }
@@ -147,7 +149,7 @@ window-rule {
 
 window-rule {
     match title="^Polkit Agent$"
-    match app-id="com.system76.CosmicFilesDialog"
+    // match app-id=r#"^dev\.duxlabs\.files\.chooser$"#
 
     open-floating true
     open-focused true

@@ -25,7 +25,7 @@ binds {
     // Suggested binds for running programs
     Mod+Grave repeat=false hotkey-overlay-title="Open Kitty"   { spawn "kitty"; }
     Mod+Z     repeat=false hotkey-overlay-title="Open Browser" { spawn "zen-browser"; }
-    Mod+E     repeat=false hotkey-overlay-title="Open Thunar"  { spawn "thunar"; }
+    Mod+E     repeat=false hotkey-overlay-title="Open Files"   { spawn "dfiles" "open"; }
 
     // Laucher & Clipboard History
     Mod+Space repeat=false hotkey-overlay-title="Open Launcher"          { spawn "qs" "--config" "niri-backdrop" "ipc" "call" "launcher" "toggle"; }
@@ -254,7 +254,7 @@ binds {
     // Note: Alt+Print is SysRq
 
     // Win11 snipping tool shortcut
-    Mod+Shift+S { screenshot; }
+    Mod+Shift+S { screenshot show-pointer=false; }
 
     // Dynamic screencast target
     Mod+S       { set-dynamic-cast-window; }

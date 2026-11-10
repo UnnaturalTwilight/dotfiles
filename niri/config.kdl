@@ -7,7 +7,9 @@
 environment {
     XDG_CURRENT_DESKTOP "niri"
     QT_QPA_PLATFORM "wayland"
-    QT_QPA_PLATFORMTHEME "gtk3"
+    QT_QPA_PLATFORMTHEME "xdgdesktopportal"
+    GTK_USE_PORTAL "1"
+    GDK_DEBUG "portals"
     _JAVA_AWT_WM_NONREPARENTING "1"
 }
 
@@ -167,6 +169,7 @@ output "ASUSTek COMPUTER INC XG27ACG T6LMQS029175" {
     position x=1920 y=-80 // Right of Laptop
 }
 
+// Kamvas 12 connected via HDMI
 output "PNP(HAT) Kamvas 12 0x01010101" {
     mode "1920x1080"
     scale 1.25
@@ -178,6 +181,7 @@ output "PNP(HAT) Kamvas 12 0x01010101" {
     }
 }
 
+// Kamvas 12 connected via USB-C
 output "PNP(HAT) Kamvas 12 L56051794302" {
     mode "1920x1080"
     scale 1.25
