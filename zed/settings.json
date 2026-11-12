@@ -112,6 +112,10 @@
   },
 
   "git": {
+    "auto_fetch": {
+      "interval_secs": 300,
+      "enabled": true
+    },
     "inline_blame": {
       "show_commit_summary": true,
       "location": "status_bar",
@@ -132,8 +136,9 @@
     "cursor_shape": "bar",
     "blinking": "on",
     "env": {
-      "EDITOR": "zeditor --wait",
-      "VISUAL": "zeditor --wait"
+      // BROKEN: See https://github.com/zed-industries/zed/issues/59955
+      // "EDITOR": "zeditor --wait",
+      // "VISUAL": "zeditor --wait"
     }
   },
 
